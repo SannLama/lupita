@@ -155,7 +155,7 @@ function paginaCategoria(settings) {
     .lu-nav a { color: var(--lu-tinta); text-decoration: none; }
   </style>
 </head>
-<body>
+<body class="template-category">
 
   <div class="container">
     <header class="lu-cabecera">
@@ -261,7 +261,7 @@ function paginaHome() {
     .swiper-button-prev { left: 1.5rem; } .swiper-button-next { right: 1.5rem; }
   </style>
 </head>
-<body>
+<body class="template-home">
 
   <div class="container">
     <header class="lu-cabecera">
@@ -316,24 +316,57 @@ function paginaHome() {
  * responden a 390px de verdad — Chrome en Windows no deja achicar la ventana
  * lo suficiente como para probarlo de otra forma.
  */
-function paginaMobile() {
-  const marco = (ancho, alto, rotulo, pagina = 'categoria.html') => `
-    <figure style="margin:0">
-      <figcaption style="font:400 11px 'Roboto Mono',monospace;letter-spacing:.08em;
-                         text-transform:uppercase;margin-bottom:.5rem">${rotulo}</figcaption>
-      <iframe src="${pagina}" width="${ancho}" height="${alto}"
-              style="border:1px solid #0A0A0A"></iframe>
-    </figure>`
+/**
+ * Banco de dispositivos. Cada iframe tiene su propio viewport, asi que las
+ * media queries responden al ancho REAL declarado; el `scale` es solo para que
+ * entren todos en la pantalla. Un 1920 escalado a 0.32 sigue siendo un 1920
+ * para el CSS de adentro.
+ */
+
+const DISPOSITIVOS = [
+  { ancho: 320, alto: 800, escala: 1, rotulo: '320 · iPhone SE (el piso real)' },
+  { ancho: 390, alto: 800, escala: 1, rotulo: '390 · iPhone' },
+  { ancho: 430, alto: 800, escala: 1, rotulo: '430 · iPhone Pro Max' },
+  { ancho: 768, alto: 900, escala: 0.62, rotulo: '768 · iPad vertical' },
+  { ancho: 1024, alto: 900, escala: 0.52, rotulo: '1024 · iPad horizontal' },
+  { ancho: 1280, alto: 900, escala: 0.44, rotulo: '1280 · notebook' },
+  { ancho: 1920, alto: 1000, escala: 0.32, rotulo: '1920 · monitor grande' },
+]
+
+function paginaDispositivos() {
+  const marco = (pagina, d) => `
+      <figure style="margin:0">
+        <figcaption>${d.rotulo}</figcaption>
+        <div class="visor" style="width:${Math.round(d.ancho * d.escala)}px;
+                                  height:${Math.round(d.alto * d.escala)}px">
+          <iframe src="${pagina}" width="${d.ancho}" height="${d.alto}"
+                  style="transform:scale(${d.escala})"></iframe>
+        </div>
+      </figure>`
+
+  const fila = (titulo, pagina) => `
+    <h2>${titulo}</h2>
+    <div class="banco">${DISPOSITIVOS.map((d) => marco(pagina, d)).join('')}</div>`
 
   return `<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
-<title>Mobile — harness Ahi! Lupita</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
-<style>body{margin:0;padding:2rem;background:#dedbd4;display:flex;gap:2rem;flex-wrap:wrap}</style>
+<title>Dispositivos — harness Ahi! Lupita</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; padding:1.5rem; background:#cfccc5;
+         font:400 11px 'Roboto Mono', monospace; }
+  h2 { font:700 12px 'Roboto Mono', monospace; letter-spacing:.12em;
+       text-transform:uppercase; margin:1.5rem 0 .75rem; }
+  h2::before { content:'[ '; } h2::after { content:' ]'; }
+  .banco { display:flex; gap:1.25rem; align-items:flex-start; flex-wrap:wrap; }
+  figcaption { letter-spacing:.06em; text-transform:uppercase;
+               margin-bottom:.4rem; white-space:nowrap; }
+  .visor { overflow:hidden; border:1px solid #0A0A0A; background:#F4F4F0; }
+  .visor iframe { border:0; transform-origin:top left; display:block; }
+</style>
 </head><body>
-${marco(390, 844, 'Home 390 — iPhone', 'home.html')}
-${marco(390, 844, 'Categoria 390 — iPhone')}
-${marco(768, 844, 'Categoria 768 — limite del breakpoint')}
+${fila('Home', 'home.html')}
+${fila('Categoria', 'categoria.html')}
 </body></html>
 `
 }
@@ -343,7 +376,7 @@ mkdirSync(SALIDA, { recursive: true })
 writeFileSync(join(SALIDA, 'lupita.css'), compilarCss(settings))
 writeFileSync(join(SALIDA, 'categoria.html'), paginaCategoria(settings))
 writeFileSync(join(SALIDA, 'home.html'), paginaHome())
-writeFileSync(join(SALIDA, 'mobile.html'), paginaMobile())
+writeFileSync(join(SALIDA, 'dispositivos.html'), paginaDispositivos())
 
 console.log('OK ->', join(SALIDA, 'categoria.html'))
 console.log('   papel', settings.background_color, '| tinta', settings.text_color, '| acento', settings.accent_color)

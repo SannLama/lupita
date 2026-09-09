@@ -147,6 +147,24 @@ h5 {
     .js-masonry-grid.row {
         grid-template-columns: repeat({% if settings.grid_columns == 2 %}2{% else %}4{% endif %}, 1fr);
     }
+
+    /* En un monitor grande la grilla quedaba encajonada por el max-width del
+       container, con franjas muertas a los costados y las fotos chicas contra
+       la pantalla. El layout ya marca el body con template-<pagina>, asi que se
+       suelta el ancho solo donde manda la grilla — sin recurrir a 100vw, que
+       mete scroll horizontal cuando hay barra de desplazamiento. */
+    .template-category .container,
+    .template-search .container {
+        max-width: none;
+    }
+}
+
+/* Arriba de 1600 sobra lugar para una columna mas. */
+@media (min-width: 1600px) {
+    .js-product-table.row,
+    .js-masonry-grid.row {
+        grid-template-columns: repeat({% if settings.grid_columns == 2 %}3{% else %}5{% endif %}, 1fr);
+    }
 }
 
 /* Los items vienen con col-6/col-md-3 de Bootstrap: hay que neutralizar el
@@ -321,7 +339,17 @@ hr,
     display: flex;
     align-items: baseline;
     gap: 1rem;
+    flex-wrap: wrap;
     margin-bottom: clamp(1rem, 3vw, 2rem);
+}
+
+/* A 320px los dos rotulos mas la regla del medio no entran, y el segundo se
+   cortaba contra el borde. Abajo de 480 la regla se va y los rotulos envuelven
+   si hace falta. */
+@media (max-width: 480px) {
+    .lu-seccion-titulo .lu-regla {
+        display: none;
+    }
 }
 
 .lu-seccion-titulo .lu-rotulo {
