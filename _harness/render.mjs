@@ -199,17 +199,129 @@ function paginaCategoria(settings) {
    5. Escribir
    --------------------------------------------------------------------------- */
 
+/* ---------------------------------------------------------------------------
+   Home: el hero con las fotos que se pasan solas.
+   Replica el DOM de snipplets/home/home-slider.tpl con sus clases reales. En la
+   tienda esto lo mueve Swiper; aca lo mueve un setInterval de doce lineas, que
+   alcanza para ver el ritmo, el contraste y el contador.
+   --------------------------------------------------------------------------- */
+
+const SLIDES = [
+  { titulo: 'Nueva temporada', desc: 'Primavera 26 · Ya en los tres locales', boton: 'Ver lo nuevo', foto: '#8E9A93' },
+  { titulo: '20% off', desc: 'Abonando en efectivo', boton: 'Ver la tienda', foto: '#6E6A63' },
+  { titulo: '3 y 6 cuotas', desc: 'Sin interes con todas las tarjetas', boton: 'Comprar ahora', foto: '#A79C8C' },
+]
+
+function fotoAncha(color, texto) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900"><rect width="1600" height="900" fill="${color}"/><text x="800" y="450" font-family="monospace" font-size="26" fill="rgba(255,255,255,.5)" text-anchor="middle">${texto}</text></svg>`
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg)
+}
+
+function paginaHome() {
+  const slides = SLIDES.map(
+    (s, i) => `
+          <div class="swiper-slide slide-container${i === 0 ? ' activo' : ''}">
+            <div class="slider-slide">
+              <img class="slider-image" src="${fotoAncha(s.foto, 'CAMPANA ' + (i + 1))}" alt="">
+              <div class="swiper-text swiper-white">
+                <div class="swiper-title h1">${s.titulo}</div>
+                <div class="swiper-description h5 font-weight-normal mt-3">${s.desc}</div>
+                <div class="btn btn-small swiper-btn mt-4">${s.boton}</div>
+              </div>
+            </div>
+          </div>`
+  ).join('')
+
+  const bullets = SLIDES.map((_, i) =>
+    `<span class="swiper-pagination-bullet${i === 0 ? ' swiper-pagination-bullet-active' : ''}"></span>`
+  ).join('')
+
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home — Ahi! Lupita (harness)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="lupita.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    .container { max-width: 1600px; margin: 0 auto; padding: 0 1.5rem; }
+    .lu-cabecera { display: flex; justify-content: space-between; align-items: center;
+                   gap: .75rem; flex-wrap: wrap; padding: 1.25rem 0; }
+    .lu-nav { display: flex; gap: .9rem; }
+    .lu-nav a { color: var(--lu-tinta); text-decoration: none; }
+    /* Andamio: en la tienda esto lo hace Swiper. */
+    .swiper-wrapper { position: relative; height: 100%; }
+    .swiper-slide { position: absolute; inset: 0; opacity: 0; z-index: 0; }
+    .swiper-slide.activo { opacity: 1; z-index: 1; }
+    .swiper-button-prev, .swiper-button-next { position: absolute; top: 50%; transform: translateY(-50%);
+      color: #F4F4F0; font: 400 1.5rem 'Roboto Mono', monospace; mix-blend-mode: difference; }
+    .swiper-button-prev { left: 1.5rem; } .swiper-button-next { right: 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header class="lu-cabecera">
+      <span class="lu-marca lu-micro" style="padding:.45rem .7rem">AHI ! LUPITA</span>
+      <nav class="lu-nav lu-micro">
+        <a href="#">Buscar</a><a href="#">Carrito [0]</a><a href="#">Ingresar</a>
+      </nav>
+    </header>
+  </div>
+
+  <div class="js-home-main-slider-container">
+    <div class="js-home-main-slider-visibility section-slider">
+      <div class="js-home-slider nube-slider-home swiper-container swiper-container-horizontal">
+        <div class="swiper-wrapper">${slides}
+        </div>
+        <div class="js-swiper-home-control swiper-pagination swiper-pagination-bullets">${bullets}</div>
+        <div class="swiper-button-prev">&#8592;</div>
+        <div class="swiper-button-next">&#8594;</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="lu-seccion">
+      <div class="lu-seccion-titulo">
+        <span class="lu-rotulo">Destacados</span>
+        <hr class="lu-regla" style="flex:1">
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Solo para el harness: rota los slides al mismo ritmo que el theme (5 s).
+    const slides = [...document.querySelectorAll('.swiper-slide')]
+    const bullets = [...document.querySelectorAll('.swiper-pagination-bullet')]
+    let i = 0
+    setInterval(() => {
+      slides[i].classList.remove('activo')
+      bullets[i].classList.remove('swiper-pagination-bullet-active')
+      i = (i + 1) % slides.length
+      slides[i].classList.add('activo')
+      bullets[i].classList.add('swiper-pagination-bullet-active')
+    }, 5000)
+  </script>
+</body>
+</html>
+`
+}
+
 /**
  * Vista mobile. Un iframe genera su propio viewport, asi que las media queries
  * responden a 390px de verdad — Chrome en Windows no deja achicar la ventana
  * lo suficiente como para probarlo de otra forma.
  */
 function paginaMobile() {
-  const marco = (ancho, alto, rotulo) => `
+  const marco = (ancho, alto, rotulo, pagina = 'categoria.html') => `
     <figure style="margin:0">
       <figcaption style="font:400 11px 'Roboto Mono',monospace;letter-spacing:.08em;
                          text-transform:uppercase;margin-bottom:.5rem">${rotulo}</figcaption>
-      <iframe src="categoria.html" width="${ancho}" height="${alto}"
+      <iframe src="${pagina}" width="${ancho}" height="${alto}"
               style="border:1px solid #0A0A0A"></iframe>
     </figure>`
 
@@ -219,8 +331,9 @@ function paginaMobile() {
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
 <style>body{margin:0;padding:2rem;background:#dedbd4;display:flex;gap:2rem;flex-wrap:wrap}</style>
 </head><body>
-${marco(390, 844, '390 x 844 — iPhone')}
-${marco(768, 844, '768 — tablet, limite del breakpoint')}
+${marco(390, 844, 'Home 390 — iPhone', 'home.html')}
+${marco(390, 844, 'Categoria 390 — iPhone')}
+${marco(768, 844, 'Categoria 768 — limite del breakpoint')}
 </body></html>
 `
 }
@@ -229,6 +342,7 @@ const settings = leerDefaults()
 mkdirSync(SALIDA, { recursive: true })
 writeFileSync(join(SALIDA, 'lupita.css'), compilarCss(settings))
 writeFileSync(join(SALIDA, 'categoria.html'), paginaCategoria(settings))
+writeFileSync(join(SALIDA, 'home.html'), paginaHome())
 writeFileSync(join(SALIDA, 'mobile.html'), paginaMobile())
 
 console.log('OK ->', join(SALIDA, 'categoria.html'))

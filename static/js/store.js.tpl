@@ -506,9 +506,10 @@ DOMContentLoaded.addEventOrExecute(() => {
 
         var width = window.innerWidth;
         if (width > 767) {  
-            var slider_autoplay = {delay: 6000,};
+            var slider_autoplay = {delay: 5000,};
         } else {
-            var slider_autoplay = false;
+            {# Ahi! Lupita: el base apagaba el autoplay en mobile. El trafico de esta tienda viene de Instagram, o sea del telefono: ahi es donde mas importa que el hero rote. #}
+            var slider_autoplay = {delay: 6000,};
         }
 
         window.homeSlider = {
