@@ -29,10 +29,10 @@ Colores de tu marca
 	palettes
 		palettes
 			palette_1
-				primary_color = #000000
-				background_color = #FFFFFF
-				text_color = #000000
-				accent_color = #808E25
+				primary_color = #0A0A0A
+				background_color = #F4F4F0
+				text_color = #0A0A0A
+				accent_color = #6BB3B9
 			palette_2
 				primary_color = #F29466
 				background_color = #F9F9F9
