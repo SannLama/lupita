@@ -352,12 +352,19 @@ hr,
     }
 }
 
-.lu-seccion-titulo .lu-rotulo {
+/* Rotulo tecnico. Autonomo a proposito: tambien se usa suelto — el "TALLE" de
+   la ficha de producto, por ejemplo — y antes solo funcionaba dentro de
+   .lu-seccion-titulo, asi que en esos lugares salia en minusculas. */
+.lu-rotulo {
     font-family: var(--lu-micro);
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
     font-size: 0.68rem;
     color: var(--lu-gris);
+}
+
+/* Los corchetes solo cuando encabeza una seccion */
+.lu-seccion-titulo .lu-rotulo {
     white-space: nowrap;
 }
 
@@ -367,6 +374,65 @@ hr,
 
 .lu-seccion-titulo .lu-rotulo::after {
     content: " ]";
+}
+
+/*============================================================================
+  #Ficha de producto
+  Marcado del base: templates/product.tpl + snipplets/product/*.
+==============================================================================*/
+
+.section-single-product {
+    padding-top: clamp(1rem, 3vw, 2.5rem);
+    padding-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+/* El nombre del producto usa h1, y el h1 del sistema es tamaño portada
+   (hasta 9rem). Una prenda con ese cuerpo es absurda: se acota aca. */
+#single-product h1 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+}
+
+#single-product .js-price-display {
+    font-family: var(--lu-micro);
+    font-weight: 700;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    letter-spacing: 0.02em;
+    color: var(--lu-tinta);
+}
+
+#single-product .price-compare {
+    font-family: var(--lu-micro);
+    text-decoration: line-through;
+    color: var(--lu-gris);
+    font-size: 0.9rem;
+}
+
+/* El precio viejo y el nuevo son un solo bloque: sin el margen de parrafo que
+   arrastran, quedaban separados como si fueran dos datos distintos. */
+#single-product .price-container p {
+    margin: 0 0 0.2rem;
+}
+
+/* La descripcion es el unico texto largo del theme: va en minusculas y con
+   interlineado ancho. Mayusculas y tracking sirven para metadatos, no para
+   parrafos — un texto de venta en versales no lo lee nadie. */
+.product-description,
+.product-description p {
+    font-family: var(--lu-micro);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--lu-tinta);
+}
+
+/* Comprar: el bloque mas macizo de la pagina */
+#single-product .js-addtocart {
+    width: 100%;
+    padding: 1.15rem 1.5rem;
+    font-size: 0.78rem;
 }
 
 /*============================================================================
