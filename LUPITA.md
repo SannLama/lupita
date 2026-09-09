@@ -132,9 +132,29 @@ node _harness/render.mjs     # genera _harness/out/
 node _harness/servir.mjs     # http://localhost:5200/categoria.html
 ```
 
-`mobile.html` muestra la pagina dentro de iframes de 390 y 768px. Un iframe
-genera su propio viewport, asi que las media queries responden de verdad —
-Chrome en Windows no deja achicar la ventana por debajo de ~500px.
+`dispositivos.html` renderiza home y categoria en **siete anchos** — 320, 390,
+430, 768, 1024, 1280 y 1920 — dentro de iframes. Cada iframe genera su propio
+viewport, asi que las media queries responden al ancho real; el `scale` es solo
+para que entren todos en la pantalla, y un 1920 escalado a 0.32 **sigue siendo
+un 1920** para el CSS de adentro.
+
+Hace falta porque **Chrome en Windows no deja achicar la ventana por debajo de
+~500px**: `resize_window` a 390 contesta que funciono, pero el viewport nunca
+baja del breakpoint y se sigue mirando el layout de escritorio.
+
+### Escalera de la grilla
+
+| Ancho | Columnas |
+|---|---|
+| < 768 | 2 |
+| 768 – 1099 | 3 |
+| 1100 – 1599 | 4 |
+| ≥ 1600 | 5 |
+
+Arriba de 1100 la grilla **se suelta del `max-width` del container** apuntando a
+`.template-category` (clase que el layout ya pone en el `<body>`), porque si no
+queda encajonada al centro con franjas muertas a los costados. Se evita `100vw`
+a proposito: mete scroll horizontal cuando hay barra de desplazamiento.
 
 La hoja esta escrita como **CSS plano** a proposito (nada de anidado ni `$vars`
 de SCSS): Tiendanube la compila igual, y asi el harness la sirve cruda sin
@@ -144,9 +164,10 @@ tener que compilar nada.
 
 ## Verificado / no verificado
 
-**Visto en pantalla** a 390, 768 y 1500px: grilla de 2/3/4 columnas, divisiones
-de 1px, precios alineados por fila, cuotas en un renglon, logotipo y cifras sin
-partirse.
+**Visto en pantalla** en 320, 390, 430, 768, 1024, 1280 y 1920: la escalera de
+2/3/4/5 columnas, las divisiones de 1px, los precios alineados por fila, las
+cuotas en un renglon, el autoplay del hero corriendo y el contador avanzando, y
+el logotipo y las cifras sin partirse.
 
 **Sin verificar, y no se puede hasta que exista la tienda:** que las plantillas
 compilen en su servidor, que `google_fonts_url` sirva Archivo Black (que tiene
