@@ -87,6 +87,36 @@ La estructura que copiamos ya tenia el hueco hecho para su mejor dato.
 
 ---
 
+## El hero de la home
+
+Referencia: [tiendanapoli.com](https://www.tiendanapoli.com/) — slider a pantalla
+completa con las fotos pasando solas, texto encima, contador discreto y flechas
+finas. **El theme base ya traia la pieza** (`snipplets/home/home-slider.tpl`, con
+Swiper): esto es configurarla y restilarla, no escribirla.
+
+- `config/defaults.txt` → `slider_auto = 1`
+- `static/js/store.js.tpl` → delay 6000 a 5000, y **autoplay tambien en mobile**.
+  El base lo apagaba por debajo de 768px; el trafico de esta tienda viene de
+  Instagram, o sea del telefono, que es justo donde un hero quieto no se
+  entiende.
+
+Dos cosas se apartan de la referencia a proposito:
+
+1. **El texto no se apoya sobre la foto.** Napoli pone blanco directamente sobre
+   la imagen, lo que depende de que ahi haya una zona oscura — y las fotos de
+   Ahi! Lupita todavia no existen. Va dentro de un bloque macizo de tinta:
+   contraste garantizado con cualquier foto, y ademas es brutalismo suizo puro
+   (la skill prohibe los degradados con los que se suele tapar este problema).
+2. **Contador `01 / 03` en vez de los puntitos**, sin tocar la plantilla: cada
+   bullet incrementa un contador CSS, el activo muestra su numero, y el
+   `::after` del contenedor — que se renderiza despues de todos los hijos —
+   muestra el total.
+
+Las fotos del slider las carga la clienta desde el panel (Diseño → Carrusel),
+con titulo, descripcion, boton y link por slide.
+
+---
+
 ## El harness (`_harness/`, NO se sube por FTP)
 
 Tiendanube compila los `.tpl` en su servidor y no hay forma de correr eso
