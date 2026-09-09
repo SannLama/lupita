@@ -129,8 +129,13 @@ las plantillas ni las funciones propias de la plataforma.
 
 ```bash
 node _harness/render.mjs     # genera _harness/out/
-node _harness/servir.mjs     # http://localhost:5200/categoria.html
+node _harness/servir.mjs     # http://localhost:5200/home.html
 ```
+
+**Se puede recorrer**: la cabecera, el boton del hero y las tarjetas navegan
+entre `home.html`, `categoria.html` y `producto.html`, y las flechas y los
+puntos del slider funcionan (reinician el reloj del autoplay, como hace
+Swiper). La ficha de producto replica el DOM de `templates/product.tpl`.
 
 `dispositivos.html` renderiza home y categoria en **siete anchos** — 320, 390,
 430, 768, 1024, 1280 y 1920 — dentro de iframes. Cada iframe genera su propio
