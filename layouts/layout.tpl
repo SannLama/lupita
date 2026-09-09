@@ -46,6 +46,9 @@
         {# Load async styling not mandatory for first meaningfull paint #}
 
         <link rel="stylesheet" href="{{ 'css/style-async.scss.tpl' | static_url }}" media="print" onload="this.media='all'">
+       {# Sistema visual de Ahi! Lupita: va despues de style-async para ganar la cascada por orden de documento #}
+
+        <link rel="stylesheet" href="{{ 'css/lupita.scss.tpl' | static_url }}">
 
         {# Loads custom CSS added from Advanced Settings on the admin´s theme customization screen #}
 
