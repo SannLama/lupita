@@ -59,9 +59,11 @@ clienta puede cambiarlas sin tocar codigo y Google Fonts las sirve solo.
 
 Tres archivos del theme, nada mas:
 
-- **`config/defaults.txt`** — los cuatro colores, las dos fuentes y el orden de
+- **`config/defaults.txt`** — los cuatro colores, las dos fuentes, el orden de
   las secciones de la home (slider → destacados → categorias → modulos →
-  instafeed → informativos → bienvenida → video).
+  instafeed → informativos → bienvenida → video), la barra de aviso prendida
+  con el 20% y las cuotas, y la cabecera en `light` y opaca (el base la traia
+  `dark` y transparente sobre el hero).
 - **`config/settings.txt`** — la paleta de la marca como primera opcion, para
   que la clienta pueda volver a los colores originales si toca algo.
 - **`layouts/layout.tpl`** — carga `lupita.scss.tpl` **despues** de
@@ -71,7 +73,8 @@ Tres archivos del theme, nada mas:
 Y el sistema en si:
 
 - **`static/css/lupita.scss.tpl`** — tokens, reset, tipografia, grilla, tarjeta
-  de producto, botones y compartimentacion.
+  de producto, botones, compartimentacion, y el marco entero: barra de aviso,
+  cabecera, panel de navegacion, buscador y pie.
 
 **No reescribimos `snipplets/grid/item.tpl`.** El marcado del base ya trae
 quickshop, variantes, datos estructurados y lazy load; la hoja lo restila
@@ -117,6 +120,79 @@ con titulo, descripcion, boton y link por slide.
 
 ---
 
+## El marco: barra de aviso, cabecera, menu, buscador y pie
+
+Es lo que se ve en **todas** las paginas, y hasta ahora era el theme base sin
+tocar. Ninguna plantilla se reescribio: todo sale de las clases que ya emiten
+`header.tpl`, `navigation-panel.tpl`, `header-search.tpl` y `footer.tpl`.
+
+### La barra de aviso
+
+`ad_bar` prendida en `defaults.txt`, con **"20% OFF PAGANDO EN EFECTIVO — 3 Y 6
+CUOTAS SIN INTERES"**. Franja de tinta con papel encima: es el unico lugar donde
+el mejor dato de la marca aparece antes que cualquier foto. Los dos datos estan
+confirmados por Instagram; el resto de los renglones del pie, no (ver mas abajo).
+
+### La cabecera
+
+El base la arma en tres columnas — hamburguesa / logo / utilidades — y esa
+estructura se conserva, que es la de Zara. Lo que cambia es el peso: fondo papel
+con una regla de 2px al ras, y todo lo demas en micro.
+
+Cuatro cosas que no eran obvias:
+
+1. **La cabecera pasa a `light` y opaca.** El base la traia `dark` y
+   transparente sobre el hero. Transparente sobre foto es la misma apuesta que
+   ya habiamos descartado en el hero: depende de que la foto tenga una zona
+   oscura justo ahi.
+2. **El logotipo llega con `class="h1"`**, y el `h1` del sistema es tamaño
+   portada (`clamp` hasta 9rem). Sin acotarlo, la cabecera medía media pantalla.
+3. **En 320 se partia en dos renglones.** Las tres columnas del base son
+   tercios iguales y el del medio es mas angosto que la palabra. La columna del
+   logo pasa a medir lo que mide el logo (`flex: 0 1 auto`) y las de los
+   costados se reparten el resto.
+4. **Los rotulos MENÚ y BUSCAR** se inyectan por `::after` — un icono
+   hamburguesa sin palabra es la parte mas floja del base — pero con
+   `{{ 'Menú' | translate }}`, no hardcodeados, asi siguen el idioma de la
+   tienda. Solo arriba de 768, que es donde entran.
+   ⚠️ El espacio despues de `\00a0` **cierra el escape**: sin el, `"\00a0B"` se
+   lee como un solo codigo de seis digitos hexadecimales y BUSCAR salia como un
+   cuadrito seguido de USCAR.
+
+El contador de la bolsa va entre corchetes — `[0] `— que es la misma sintaxis
+tecnica que usan los rotulos del resto del theme.
+
+### El panel de navegacion
+
+Es la unica pantalla del theme sin fotos: puro texto, asi que se trata como
+tipografia macro. Cada rubro es un bloque con su division de 1px que cruza el
+panel entero, igual que las celdas de la grilla, y el hover invierte el bloque
+completo. Los subrubros bajan a micro para no competir con el rubro que los
+contiene. La unidad de cuenta queda abajo, separada por una regla de 2px.
+
+### El buscador
+
+Un renglon macro sobre una regla de 2px, sin caja: la unica forma de campo que
+no contradice el "sin bordes redondeados, sin sombras".
+
+### El pie
+
+El base lo centra todo, y centrado no hay grilla. Cada unidad pasa a la
+izquierda y el contenedor usa **el mismo recurso que la grilla de productos**:
+`gap: 1px` sobre fondo linea. Ademas de compartimentar, resuelve que el pie
+fuera una columna larga con medio ancho de pantalla vacio al lado.
+
+Va en **flex y no en grid** a proposito: con grid, las columnas que sobran
+quedan vacias y dejan ver el fondo de linea como un bloque gris. Y las filas
+anchas (newsletter, tira de logos, firma legal) se eligen **por clase, no por
+posicion**: social, menu y logos son opcionales y la clienta los prende y apaga
+desde el panel, asi que cualquier regla basada en `nth-child` se rompia sola.
+
+Los logos de medios de pago y envio van en escala de grises: vienen en los
+colores de cada marca y son una fuga de color en una paleta de tres.
+
+---
+
 ## El harness (`_harness/`, NO se sube por FTP)
 
 Tiendanube compila los `.tpl` en su servidor y no hay forma de correr eso
@@ -133,12 +209,27 @@ node _harness/servir.mjs     # http://localhost:5200/home.html
 ```
 
 **Se puede recorrer**: la cabecera, el boton del hero y las tarjetas navegan
-entre `home.html`, `categoria.html` y `producto.html`, y las flechas y los
-puntos del slider funcionan (reinician el reloj del autoplay, como hace
-Swiper). La ficha de producto replica el DOM de `templates/product.tpl`.
+entre `home.html`, `categoria.html` y `producto.html`; las flechas y los puntos
+del slider funcionan (reinician el reloj del autoplay, como hace Swiper); y
+**MENÚ y BUSCAR abren sus paneles**, con velo y cierre, como los modales del
+base. La ficha de producto replica el DOM de `templates/product.tpl`.
 
-`dispositivos.html` renderiza home y categoria en **siete anchos** — 320, 390,
-430, 768, 1024, 1280 y 1920 — dentro de iframes. Cada iframe genera su propio
+Ademas del CSS, ahora resuelve `{{ 'Texto' | translate }}`, que es como la hoja
+inyecta los rotulos de la cabecera.
+
+Dos numeros del andamio salen del Bootstrap que viene embebido en
+`style-critical.tpl`, no inventados: el `padding` del `.container` es **15px**
+(en 320, esos 18px de diferencia contra `1.5rem` deciden si la cabecera entra en
+un renglon) y los iconos de utilidades miden **15px fijos**, porque el base les
+pone `icon-w-14`/`icon-w-16` y no dependen del cuerpo del texto de al lado.
+
+⚠️ **Lo que el harness todavia no replica:** el `max-width` del `.container` del
+base es 1140px arriba de 1200, y aca son 1600. La home y la ficha de producto
+van a ser mas angostas en la tienda de lo que se ven aca. No rompe nada, pero
+las capturas de 1280 y 1920 son mas anchas que la realidad.
+
+`dispositivos.html` renderiza home, categoria y producto en **siete anchos** —
+320, 390, 430, 768, 1024, 1280 y 1920 — dentro de iframes. Cada iframe genera su propio
 viewport, asi que las media queries responden al ancho real; el `scale` es solo
 para que entren todos en la pantalla, y un 1920 escalado a 0.32 **sigue siendo
 un 1920** para el CSS de adentro.
@@ -174,10 +265,22 @@ tener que compilar nada.
 cuotas en un renglon, el autoplay del hero corriendo y el contador avanzando, y
 el logotipo y las cifras sin partirse.
 
+**Del marco, tambien visto en pantalla:** la barra de aviso, la cabecera en un
+solo renglon en los siete anchos (incluido 320), los rotulos MENÚ y BUSCAR
+apareciendo recien en 768, el panel de navegacion abriendo con sus divisiones al
+ancho completo y el hover invirtiendo el bloque, el buscador, y el pie
+repartiendose en tres columnas arriba de 768 y apilandose de a una abajo.
+
 **Sin verificar, y no se puede hasta que exista la tienda:** que las plantillas
 compilen en su servidor, que `google_fonts_url` sirva Archivo Black (que tiene
 un solo peso, y el layout pide `300, 400, 700`), que `color-mix()` sobreviva a
 su compilador de SCSS, y el comportamiento real de quickshop, filtros y carrito.
+
+Del marco en particular: **el logo como imagen** (el harness solo prueba el
+logotipo tipografico, que es el que usa el base cuando no hay imagen cargada),
+**los modales de verdad** — el harness los abre y los cierra, pero la
+animacion, el bloqueo del scroll y el acordeon de subrubros los maneja
+`store.js` en la tienda — y el **panel del carrito**, que todavia no se toco.
 
 ---
 
@@ -192,6 +295,17 @@ su compilador de SCSS, y el comportamiento real de quickshop, filtros y carrito.
 5. **Estandar de fotos.** La grilla aguanta fotos heterogeneas, pero mejora
    muchisimo si son verticales y a la misma distancia. Se logra con un celular
    y disciplina.
+
+6. **El menu.** Los rubros del panel (`Vestidos`, `Pantalones`, `Abrigos`…) son
+   de mentira, igual que las prendas del harness: sirven para ver el bloque, no
+   para decidir el menu. Eso sale del catalogo real.
+
+## Lo que sigue en el codigo
+
+Sin depender de la clienta: el **panel del carrito** (`cart-panel.tpl`), los
+**filtros y el orden** de la categoria, y los **formularios** (contacto, cuenta,
+checkout). Son las tres piezas del theme que todavia estan con el estilo del
+base.
 
 ## Etapa 2 (cuando haya tienda)
 

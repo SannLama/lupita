@@ -567,3 +567,450 @@ hr,
     z-index: 3;
     filter: none;
 }
+
+/*============================================================================
+  #Barra de aviso
+  La franja de tinta que corona la pagina. Es el unico lugar donde el mejor
+  dato de la marca — 20% en efectivo, 3 y 6 cuotas — esta antes que cualquier
+  foto. Va en negativo: papel sobre tinta.
+==============================================================================*/
+
+.section-advertising {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    padding: 0.55rem 0;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.6rem;
+    line-height: 1.3;
+}
+
+.section-advertising a,
+.section-advertising .link-contrast {
+    color: var(--lu-papel);
+    text-decoration: none;
+}
+
+.section-advertising a:hover {
+    color: var(--lu-acento);
+}
+
+/*============================================================================
+  #Cabecera
+  El base la arma en tres columnas: hamburguesa / logo / utilidades. Se
+  conserva esa estructura (es la de Zara) y se le cambia el peso: fondo papel,
+  una regla de 2px al ras que la ancla a la grilla, y todo lo demas en micro.
+==============================================================================*/
+
+.head-main {
+    background-color: var(--lu-papel);
+    border-bottom: 2px solid var(--lu-tinta);
+}
+
+/* La regla de abajo tiene que cruzar la pantalla entera, como las de la
+   grilla: si queda encajonada en el container, la cabecera flota. */
+.head-main > .container {
+    max-width: none;
+}
+
+/* El logotipo llega con class "h1", y el h1 del sistema es tamano portada
+   (clamp hasta 9rem). Sin esto la cabecera mide media pantalla.
+
+   Y no se parte nunca: "AHI ! LUPITA" cortado en dos renglones deja de ser un
+   logotipo. Si la clienta carga el logo como imagen esto no se usa, pero el
+   theme tiene que aguantar tambien sin ella. */
+.head-main .h1,
+.head-main .logo-text {
+    font-family: var(--lu-macro);
+    font-size: clamp(0.9rem, 2.4vw, 1.5rem);
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Las tres columnas del base son tercios iguales, y en 320 el tercio del medio
+   es mas angosto que la palabra. La del logo pasa a medir lo que mide el logo
+   y las de los costados se reparten lo que sobra. */
+.head-main .row > .col:nth-child(2) {
+    flex: 0 1 auto;
+}
+
+.head-main .row > .col:first-child,
+.head-main .row > .col:last-child {
+    flex: 1 1 0;
+}
+
+.logo-text-container,
+.logo-img-container {
+    max-width: none;
+    padding: 0;
+}
+
+.logo-img {
+    margin: 0;
+    max-height: 40px;
+}
+
+@media (min-width: 768px) {
+    .logo-img {
+        max-height: 52px;
+    }
+}
+
+/* Utilidades: los iconos del base pasan a ser rotulos tecnicos. */
+.utilities-item {
+    padding: 0.9rem 0;
+    font-size: 0.72rem;
+}
+
+.utilities-container > .utilities-item + .utilities-item {
+    margin-left: 0.9rem;
+}
+
+.utilities-link,
+.cart-summary a {
+    color: var(--lu-tinta);
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    text-decoration: none;
+}
+
+.utilities-link:hover,
+.cart-summary a:hover {
+    color: var(--lu-acento);
+}
+
+/* Corchetes alrededor del contador de la bolsa: la sintaxis tecnica que el
+   resto del theme usa en los rotulos, aplicada al unico numero que cambia. */
+.cart-widget-amount {
+    font-family: var(--lu-micro);
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+}
+
+.cart-widget-amount::before {
+    content: "\00a0[";
+}
+
+.cart-widget-amount::after {
+    content: "]";
+}
+
+/* Rotulos al lado de los iconos: un menu hamburguesa sin palabra es la parte
+   mas floja del base. El texto sale de translate, no hardcodeado, asi sigue
+   el idioma de la tienda. Solo arriba de 768, que es donde entra.
+
+   El espacio despues del \00a0 no es cosmetico: cierra el escape. Sin el,
+   "\00a0B" se lee como UN codigo de seis digitos hexadecimales y BUSCAR
+   aparecia como un cuadrito seguido de USCAR. */
+@media (min-width: 768px) {
+    .utilities-link[data-toggle="#nav-hamburger"]::after {
+        content: "\00a0 {{ 'Menú' | translate }}";
+    }
+
+    .utilities-link[data-toggle="#nav-search"]::after {
+        content: "\00a0 {{ 'Buscar' | translate }}";
+    }
+}
+
+/*============================================================================
+  #Panel de navegacion
+  El menu es la unica pantalla del theme sin fotos: es puro texto, asi que se
+  trata como tipografia macro. Cada rubro es un bloque con su division de 1px,
+  igual que las celdas de la grilla.
+==============================================================================*/
+
+.modal-nav-hamburger,
+.modal-nav-hamburger .modal-body,
+#nav-search,
+#nav-search .modal-body {
+    background-color: var(--lu-papel);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.modal-header,
+.modal-footer {
+    border-radius: 0;
+}
+
+.nav-primary {
+    padding-bottom: 2rem;
+}
+
+.nav-primary .nav-list,
+.nav-primary .nav-list ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+/* display:block explicito: la division de 1px de cada rubro tiene que cruzar
+   el panel entero, no terminar donde termina la palabra. */
+.nav-primary .nav-list .nav-list-link {
+    display: block;
+    font-family: var(--lu-macro);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-size: clamp(1.35rem, 5.5vw, 2rem);
+    font-weight: 400;
+    color: var(--lu-tinta);
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.nav-primary .nav-list .nav-list-link:hover {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+/* Los subrubros bajan a micro: no compiten con el rubro que los contiene. */
+.nav-primary .nav-list .list-subitems .nav-list-link {
+    font-family: var(--lu-micro);
+    font-size: 0.7rem;
+    letter-spacing: var(--lu-track);
+    padding-left: 2.5rem;
+}
+
+.nav-list-arrow {
+    top: 1.1rem;
+    right: 1.25rem;
+}
+
+/* Cuenta: la unidad de abajo del panel, separada por una regla maciza. */
+.nav-account {
+    background-color: var(--lu-papel);
+    border-top: 2px solid var(--lu-tinta);
+    margin: 0;
+    padding: 0.5rem 1.25rem;
+    list-style: none;
+}
+
+.nav-accounts-link {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    color: var(--lu-tinta);
+}
+
+/*============================================================================
+  #Buscador
+  Un renglon macro sobre una regla de 2px, sin caja: la unica forma de campo
+  que no contradice el "sin bordes redondeados, sin sombras".
+==============================================================================*/
+
+.search-input,
+.search-input.form-control {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px solid var(--lu-tinta);
+    padding: 0.5rem 2.25rem 0.5rem 0;
+    height: auto;
+    font-family: var(--lu-macro);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    font-size: clamp(1.25rem, 4.5vw, 1.75rem);
+    color: var(--lu-tinta);
+}
+
+.search-input:focus {
+    outline: none;
+    border-bottom-color: var(--lu-acento);
+}
+
+.search-input::placeholder {
+    color: var(--lu-gris);
+}
+
+.search-input-submit {
+    top: 0.75rem;
+    color: var(--lu-tinta);
+}
+
+.search-suggest-list {
+    padding: 1rem 0;
+    border-top: 1px solid var(--lu-linea);
+}
+
+/*============================================================================
+  #Pie
+  El base lo centra todo. Centrado no hay grilla: cada unidad pasa a la
+  izquierda, separada por reglas, con su rotulo tecnico.
+==============================================================================*/
+
+footer {
+    border-top: 2px solid var(--lu-tinta);
+    margin-top: clamp(3rem, 8vw, 6rem);
+}
+
+/* Las utilidades de Bootstrap traen !important: para ganarles hace falta
+   !important tambien, acotado al pie y nada mas. */
+footer .text-center,
+footer .text-md-left,
+footer .text-md-right {
+    text-align: left !important;
+}
+
+/* Mismo recurso que la grilla de productos: gap de 1px sobre fondo linea. Las
+   unidades del pie quedan compartimentadas en las dos direcciones, y de paso
+   dejan de ser una columna larga con medio ancho de pantalla vacio al lado.
+   El auto-fit no depende del ORDEN de las filas, que es lo unico prudente:
+   social, menu y logos son opcionales y la clienta los prende y apaga. */
+footer > .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    background-color: var(--lu-linea);
+    padding: 0;
+}
+
+/* Flex y no grid a proposito: con grid, las columnas que sobran quedan vacias
+   y dejan ver el fondo de linea como un bloque gris. En flex cada renglon se
+   reparte entre las unidades que hay, sean tres o una. */
+footer > .container > div {
+    flex: 1 1 240px;
+    min-width: 240px;
+    margin: 0;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background-color: var(--lu-papel);
+}
+
+footer .col,
+footer [class*="col-"] {
+    padding: 0;
+}
+
+/* Las unidades anchas ocupan la fila entera: el newsletter porque encabeza
+   (es la unica fila sin .element-footer), los logos porque son una tira, y la
+   firma legal porque cierra. */
+footer > .container > .row:not(.element-footer),
+footer > .container > .footer-payments-shipping-logos,
+footer > .container > div:last-of-type {
+    flex-basis: 100%;
+}
+
+footer .contact-item,
+footer .footer-menu-item,
+footer .copyright,
+footer .powered-by,
+footer .contact-link,
+footer .footer-menu-link {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    line-height: 1.6;
+    color: var(--lu-tinta);
+}
+
+footer .contact-info,
+footer .footer-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer .footer-menu-item {
+    margin: 0 0 0.4rem 0;
+}
+
+footer .contact-item {
+    margin-bottom: 0.4rem;
+}
+
+/* Iconos sociales: cuadrados de 1px, no circulos. */
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 1px solid var(--lu-tinta);
+    color: var(--lu-tinta);
+    margin: 0 0.4rem 0.4rem 0;
+}
+
+.social-icon:hover {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+/* Newsletter: el titulo es lo unico macro del pie. */
+.newsletter h3 {
+    font-size: clamp(1.35rem, 4vw, 2.25rem);
+    margin: 0 0 0.5rem;
+}
+
+.newsletter p {
+    font-family: var(--lu-micro);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
+    max-width: 46ch;
+    color: var(--lu-gris);
+    text-transform: none;
+}
+
+.newsletter .form-control {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px solid var(--lu-tinta);
+    border-radius: 0;
+    padding: 0.6rem 6rem 0.6rem 0;
+    height: auto;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.72rem;
+    color: var(--lu-tinta);
+}
+
+.newsletter .form-control:focus {
+    outline: none;
+    border-bottom-color: var(--lu-acento);
+}
+
+.newsletter form .newsletter-btn {
+    top: 0;
+    right: 0;
+    padding: 0.6rem 0.9rem;
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    border: 0;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+}
+
+.newsletter form .newsletter-btn:hover {
+    background-color: var(--lu-acento);
+}
+
+/* Los logos de pago y envio vienen en los colores de cada marca y son una
+   fuga de color en una paleta de tres. En gris se leen igual. */
+.footer-payments-shipping-logos img {
+    filter: grayscale(1);
+    opacity: 0.75;
+}
+
+/* La firma de Tiendanube es obligatoria por sus terminos: se la trata como
+   metadato, no se la esconde. */
+footer .copyright,
+footer .powered-by {
+    font-size: 0.58rem;
+    color: var(--lu-gris);
+}
+
+footer a:hover {
+    color: var(--lu-acento);
+}

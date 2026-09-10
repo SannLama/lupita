@@ -54,6 +54,11 @@ function compilarCss(settings) {
     (_, siDos, siNo) => (settings.grid_columns === '2' ? siDos : siNo)
   )
 
+  // {{ 'Texto' | translate }} — la hoja inyecta rotulos con content: en vez de
+  // hardcodearlos, para que sigan el idioma de la tienda. Aca alcanza con
+  // devolver el original, que ya viene en castellano.
+  css = css.replace(/\{\{\s*'([^']*)'\s*\|\s*translate\s*\}\}/g, (_, texto) => texto)
+
   // {{ settings.x }}
   const faltantes = new Set()
   css = css.replace(/\{\{\s*settings\.([a-z0-9_]+)\s*\}\}/gi, (_, clave) => {
@@ -93,33 +98,293 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; }
-    .container { max-width: 1600px; margin: 0 auto; padding: 0 1.5rem; }
+    /* El padding es el de Bootstrap, que viene embebido en style-critical:
+       15px, no 1.5rem. En 320 esos 18px de diferencia deciden si la cabecera
+       entra en un renglon o se parte. */
+    .container { max-width: 1600px; margin: 0 auto; padding: 0 15px; }
     .item-image { position: relative; margin-bottom: .5rem; }
     .item-image img { display: block; width: 100%; height: auto; }
     .item-label { position: absolute; top: .6rem; left: .6rem; z-index: 1; }
-    .item-link { text-decoration: none; }
-    .lu-cabecera { display: flex; justify-content: space-between; align-items: center;
-                   gap: .75rem; flex-wrap: wrap;
-                   padding: 1.25rem 0; border-bottom: 1px solid var(--lu-linea); }
-    .lu-marca { text-decoration: none; }
-    .lu-nav { display: flex; gap: .9rem; }
-    .lu-nav a { color: var(--lu-tinta); text-decoration: none; }
-    .lu-nav a:hover { color: var(--lu-acento); }
+    /* El base resetea esto para todo el sitio (style-critical: a{...}) */
+    a { text-decoration: none; }
     /* La tarjeta entera es clickeable, no solo el nombre */
     .item-product .item-image { cursor: pointer; }
     .item-product:hover .item-name { color: var(--lu-acento); }
+
+    /* Bootstrap 4, solo lo que la cabecera y el pie del base usan de verdad */
+    .row { display: flex; flex-wrap: wrap; margin: 0 -.75rem; }
+    .row.no-gutters { margin: 0; }
+    .col, [class^="col-"] { padding: 0 .75rem; }
+    .col { flex: 1 0 0%; }
+    .row.no-gutters > .col { padding: 0; }
+    .col-md-3 { flex: 0 0 100%; max-width: 100%; }
+    .col-md-9 { flex: 0 0 100%; max-width: 100%; }
+    @media (min-width: 768px) {
+      .col-md-3 { flex: 0 0 25%; max-width: 25%; }
+      .col-md-9 { flex: 0 0 75%; max-width: 75%; }
+    }
+    .align-items-center { align-items: center; }
+    .justify-content-md-center { justify-content: center; }
+    .col-md-8 { flex: 0 0 100%; max-width: 100%; padding: 0 .75rem; }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .position-relative { position: relative; }
+    .m-0 { margin: 0; }
+    .p-0 { padding: 0; }
+    .my-2 { margin: .5rem 0; }
+    .w-100 { width: 100%; }
+
+    /* Theme base: cabecera */
+    .head-fix { position: sticky; top: 0; z-index: 1040; }
+    .utilities-container { display: inline-block; }
+    .utilities-item { display: inline-block; }
+    .logo-text-container { max-width: 450px; margin: auto; padding: 5px; text-align: center; }
+    .icon-inline { display: inline-block; vertical-align: -.2em; fill: currentColor;
+                   width: 1em; height: 1em; }
+    /* El base les pone icon-w-14 / icon-w-16, o sea un tamano fijo que NO
+       depende del cuerpo del texto de al lado. */
+    .utilities-link .icon-inline, .cart-summary .icon-inline { width: 15px; height: 15px; }
+
+    /* Theme base: buscador, newsletter y pie */
+    .js-search-container { position: relative; }
+    .form-control { width: 100%; display: block; }
+    .search-input-submit { position: absolute; top: 5px; right: 0; background: none; border: 0; }
+    .newsletter form { position: relative; }
+    .newsletter-btn { position: absolute; top: 0; right: 0; }
+    .item-with-subitems { position: relative; }
+    .nav-list-arrow { position: absolute; }
+    .footer-payments-shipping-logos img { max-height: 35px; width: auto; margin: 2px; }
+
+    /* Los modales del base son off-canvas. Esto no replica su CSS entero: es
+       lo minimo para poder abrir el panel y el buscador y mirarlos. */
+    .modal { position: fixed; top: 0; bottom: 0; z-index: 1050; overflow-y: auto;
+             width: 100%; max-width: 380px; }
+    .modal-left { left: 0; }
+    .modal-right { right: 0; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(10,10,10,.45); z-index: 1045; }
+    .modal-header { display: flex; align-items: center; gap: .75rem; padding: 1rem 1.25rem; }
+    .modal-close { cursor: pointer; }
+    .modal-body { padding: 0; }
+    #nav-search .modal-body { padding: 1.25rem; }
+    .modal-with-fixed-footer { display: flex; flex-direction: column; min-height: 100%; }
+    .modal-scrollable-area { flex: 1; }
   </style>
 </head>`
 
-const CABECERA = `
-    <header class="lu-cabecera">
-      <a href="home.html" class="lu-marca lu-micro" style="padding:.45rem .7rem">AHI ! LUPITA</a>
-      <nav class="lu-nav lu-micro">
-        <a href="categoria.html">Nuevos ingresos</a>
-        <a href="#">Carrito [0]</a>
-        <a href="#">Ingresar</a>
-      </nav>
+/* Cabecera real del theme: snipplets/header/header.tpl mas la barra de aviso.
+   Las tres columnas (hamburguesa / logo / utilidades) son las del base. */
+const CABECERA = (settings) => `
+    ${settings.ad_bar === '1' && settings.ad_text_es ? `
+    <section class="section-advertising">
+      <div class="container">
+        <div class="row-fluid"><div class="col text-center">${settings.ad_text_es}</div></div>
+      </div>
+    </section>` : ''}
+    <header class="head-main head-${settings.head_background} head-fix">
+      <div class="container position-relative">
+        <div class="row no-gutters align-items-center">
+          <div class="col">
+            <div class="utilities-container">
+              <div class="utilities-item">
+                <a href="#" class="js-panel utilities-link" data-toggle="#nav-hamburger" aria-label="Menú">${ICONO.barras}</a>
+              </div>
+            </div>
+          </div>
+          <div class="col text-center">
+            <div class="logo-text-container">
+              <a href="home.html" class="logo-text h1 m-0" style="text-decoration:none;color:inherit">AHI ! LUPITA</a>
+            </div>
+          </div>
+          <div class="col text-right">
+            <div class="utilities-container">
+              <div class="utilities-item">
+                <a href="#" class="js-panel utilities-link" data-toggle="#nav-search" aria-label="Buscador">${ICONO.lupa}</a>
+              </div>
+              <div class="utilities-item">
+                <div id="ajax-cart" class="cart-summary">
+                  <a href="#">${ICONO.bolsa}<span class="cart-widget-amount">0</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>`
+
+/* Los iconos del base son snipplets SVG. Estos son equivalentes en trazo y
+   tamano: lo que importa para el CSS es que sean un SVG inline de 1em. */
+const ICONO = {
+  barras: '<svg class="icon-inline" viewBox="0 0 448 512" aria-hidden="true"><path d="M16 132h416a16 16 0 000-32H16a16 16 0 000 32zm0 124h416a16 16 0 000-32H16a16 16 0 000 32zm0 124h416a16 16 0 000-32H16a16 16 0 000 32z"/></svg>',
+  lupa: '<svg class="icon-inline" viewBox="0 0 512 512" aria-hidden="true"><path d="M208 48a160 160 0 10.1 320.1A160 160 0 00208 48zm0 288a128 128 0 110-256 128 128 0 010 256zm291 137L387 361a16 16 0 00-23 0l-3 3a16 16 0 000 23l112 112a16 16 0 0023 0l3-3a16 16 0 000-23z"/></svg>',
+  bolsa: '<svg class="icon-inline" viewBox="0 0 448 512" aria-hidden="true"><path d="M352 128h-32V96a96 96 0 00-192 0v32H96a32 32 0 00-32 32v288a32 32 0 0032 32h256a32 32 0 0032-32V160a32 32 0 00-32-32zM160 96a64 64 0 01128 0v32H160V96zm192 352H96V160h320v288z"/></svg>',
+  cerrar: '<svg class="icon-inline" viewBox="0 0 352 512" aria-hidden="true"><path d="M242 256l100-100a16 16 0 000-23l-23-23a16 16 0 00-23 0L196 210 96 110a16 16 0 00-23 0l-23 23a16 16 0 000 23l100 100-100 100a16 16 0 000 23l23 23a16 16 0 0023 0l100-100 100 100a16 16 0 0023 0l23-23a16 16 0 000-23L242 256z"/></svg>',
+}
+
+/* ---------------------------------------------------------------------------
+   3b. Panel de navegacion y buscador
+   Replican el DOM de snipplets/navigation/navigation-panel.tpl y
+   header/header-search.tpl, dentro del andamio de snipplets/modal.tpl.
+   Los rubros son de mentira, como las prendas: sirven para ver el bloque, no
+   para decidir el menu.
+   --------------------------------------------------------------------------- */
+
+const RUBROS = [
+  { nombre: 'Nuevos ingresos' },
+  { nombre: 'Vestidos' },
+  { nombre: 'Pantalones', subitems: ['Jeans', 'Sastreros', 'Calzas'] },
+  { nombre: 'Abrigos' },
+  { nombre: 'Remeras y tops' },
+  { nombre: 'Accesorios' },
+  { nombre: 'Sale' },
+]
+
+const PANELES = `
+  <div id="nav-hamburger" class="js-modal modal modal-nav-hamburger modal-docked-small modal-left transition-fade" style="display:none">
+    <div class="modal-with-fixed-footer">
+      <div class="modal-scrollable-area">
+        <div class="js-modal-close modal-header">
+          <span class="modal-close">${ICONO.cerrar}</span>
+        </div>
+        <div class="modal-body">
+          <div class="nav-primary">
+            <ul class="nav-list">
+${RUBROS.map((r) => (r.subitems
+  ? `              <li class="item-with-subitems">
+                <div><a class="nav-list-link" href="categoria.html">${r.nombre}<span class="nav-list-arrow">&#9662;</span></a></div>
+                <ul class="list-subitems nav-list-accordion">
+${r.subitems.map((s) => `                  <li><a class="nav-list-link" href="categoria.html">${s}</a></li>`).join('\n')}
+                </ul>
+              </li>`
+  : `              <li><a class="nav-list-link" href="categoria.html">${r.nombre}</a></li>`)).join('\n')}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer p-0">
+        <div class="nav-secondary">
+          <ul class="nav-account">
+            <li class="nav-accounts-item"><a href="#" class="nav-accounts-link">Crear cuenta</a></li>
+            <li class="nav-accounts-item"><a href="#" class="nav-accounts-link">Iniciar sesión</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="nav-search" class="js-modal modal modal-right transition-slide modal-docked-md" style="display:none">
+    <div class="js-modal-close modal-header">
+      <span class="modal-close">${ICONO.cerrar}</span>
+    </div>
+    <div class="modal-body">
+      <form class="js-search-container js-search-form" action="#" method="get">
+        <div class="form-group m-0">
+          <input class="js-search-input form-control search-input" autocomplete="off" type="search" name="q" placeholder="Buscar" aria-label="Buscador">
+          <button type="submit" class="btn search-input-submit" aria-label="Buscar">${ICONO.lupa}</button>
+        </div>
+      </form>
+      <div class="js-search-suggest search-suggest"></div>
+    </div>
+  </div>
+
+  <div class="js-modal-overlay modal-overlay" style="display:none"></div>
+
+  <script>
+    // En la tienda esto lo maneja store.js. Aca alcanza con mostrar y esconder.
+    const velo = document.querySelector('.modal-overlay')
+    function abrir(sel) {
+      document.querySelector(sel).style.display = 'block'
+      velo.style.display = 'block'
+    }
+    function cerrar() {
+      document.querySelectorAll('.js-modal').forEach(m => m.style.display = 'none')
+      velo.style.display = 'none'
+    }
+    document.querySelectorAll('.js-panel').forEach(b => b.addEventListener('click', (e) => {
+      e.preventDefault()
+      abrir(b.dataset.toggle)
+    }))
+    document.querySelectorAll('.js-modal-close').forEach(b => b.addEventListener('click', cerrar))
+    velo.addEventListener('click', cerrar)
+  </script>`
+
+/* ---------------------------------------------------------------------------
+   3c. Pie
+   Replica snipplets/footer.tpl con sus filas .element-footer. Los datos que la
+   clienta todavia no confirmo van marcados como tales A PROPOSITO: si aparecen
+   inventados en una captura, terminan en la tienda.
+   --------------------------------------------------------------------------- */
+
+const PIE = `
+  <footer class="js-footer">
+    <div class="container">
+
+      <div class="row justify-content-md-center">
+        <div class="col-md-8 text-center">
+          <div class="js-newsletter newsletter section-footer">
+            <h3>Recibí todas las ofertas</h3>
+            <p>¿Querés recibir nuestras ofertas? ¡Registrate ya mismo y comenzá a disfrutarlas!</p>
+            <form method="post" action="#">
+              <div class="input-append">
+                <input class="form-control" type="email" name="email" placeholder="Email" aria-label="Email">
+                <input type="submit" class="btn newsletter-btn" value="Enviar">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="row element-footer">
+        <div class="col text-center">
+          <a class="social-icon" href="#" aria-label="instagram">IG</a>
+          <a class="social-icon" href="#" aria-label="tiktok">TT</a>
+        </div>
+      </div>
+
+      <div class="row element-footer">
+        <div class="col text-center">
+          <ul class="footer-menu m-0 p-0">
+            <li class="footer-menu-item"><a class="footer-menu-link" href="#">Cómo comprar</a></li>
+            <li class="footer-menu-item"><a class="footer-menu-link" href="#">Medios de pago</a></li>
+            <li class="footer-menu-item"><a class="footer-menu-link" href="#">Envíos</a></li>
+            <li class="footer-menu-item"><a class="footer-menu-link" href="#">Cambios y devoluciones</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row element-footer">
+        <div class="col text-center">
+          <ul class="contact-info text-center">
+            <li class="contact-item"><a href="#" class="contact-link">[ WhatsApp a confirmar ]</a></li>
+            <li class="contact-item"><a href="#" class="contact-link">[ Mail a confirmar ]</a></li>
+            <li class="contact-item">España 137, Lomas de Zamora</li>
+            <li class="contact-item">Loria 198, Lomas de Zamora</li>
+            <li class="contact-item">[ Tercera dirección a confirmar ]</li>
+            <li class="contact-item">[ Horarios a confirmar ]</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="row element-footer footer-payments-shipping-logos">
+        <div class="col text-center">
+          ${['VISA', 'MASTER', 'AMEX', 'MERCADO PAGO'].map((m) => `<img src="${foto('#8A8A84', m, 120, 48)}" alt="${m}">`).join('')}
+        </div>
+        <div class="w-100 my-2"></div>
+        <div class="col text-center">
+          ${['ANDREANI', 'OCA', 'RETIRO EN LOCAL'].map((m) => `<img src="${foto('#8A8A84', m, 140, 48)}" alt="${m}">`).join('')}
+        </div>
+      </div>
+
+      <div class="row element-footer">
+        <div class="col-md-3 text-center text-md-left">
+          <span class="powered-by">Tienda creada con Tiendanube</span>
+        </div>
+        <div class="col-md-9 copyright text-center text-md-right">
+          Copyright Ahí! Lupita 2026. Todos los derechos reservados.
+        </div>
+      </div>
+
+    </div>
+  </footer>`
 
 /* ---------------------------------------------------------------------------
    4. Productos falsos
@@ -180,10 +445,9 @@ function tarjeta(p, i) {
 function paginaCategoria(settings) {
   return `${CABEZA('Nuevos ingresos')}
 <body class="template-category">
+${CABECERA(settings)}
 
   <div class="container">
-    ${CABECERA}
-
     <section class="lu-seccion" style="border-top:0">
       <div class="lu-seccion-titulo">
         <h1 class="lu-macro">Nuevos<br>ingresos</h1>
@@ -206,7 +470,8 @@ function paginaCategoria(settings) {
       <span class="lu-rotulo lu-micro">Harness local · papel ${settings.background_color} · tinta ${settings.text_color} · acento ${settings.accent_color}</span>
     </section>
   </div>
-
+${PIE}
+${PANELES}
 </body>
 </html>
 `
@@ -217,7 +482,7 @@ function paginaCategoria(settings) {
    Replica el DOM de templates/product.tpl + snipplets/product/*.
    --------------------------------------------------------------------------- */
 
-function paginaProducto() {
+function paginaProducto(settings) {
   const galeria = PRODUCTOS.map(
     (p, i) => `
     <div class="ficha" data-p="${i}" hidden>
@@ -281,8 +546,8 @@ function paginaProducto() {
     .volver { display: inline-block; margin: 1.25rem 0; }
   </style>
 
+${CABECERA(settings)}
   <div class="container">
-    ${CABECERA}
     <a href="categoria.html" class="lu-rotulo lu-micro volver" style="color:var(--lu-tinta);text-decoration:none">&#8592; Volver a nuevos ingresos</a>
     ${galeria}
   </div>
@@ -306,6 +571,8 @@ function paginaProducto() {
       b.classList.add('activo')
     }))
   </script>
+${PIE}
+${PANELES}
 </body>
 </html>
 `
@@ -324,7 +591,7 @@ const SLIDES = [
   { titulo: '3 y 6 cuotas', desc: 'Sin interes con todas las tarjetas', boton: 'Comprar ahora', foto: '#A79C8C' },
 ]
 
-function paginaHome() {
+function paginaHome(settings) {
   const slides = SLIDES.map(
     (s, i) => `
           <div class="swiper-slide slide-container${i === 0 ? ' activo' : ''}">
@@ -360,7 +627,7 @@ function paginaHome() {
     .swiper-pagination-bullet { cursor: pointer; }
   </style>
 
-  <div class="container">${CABECERA}</div>
+${CABECERA(settings)}
 
   <div class="js-home-main-slider-container">
     <div class="js-home-main-slider-visibility section-slider">
@@ -389,7 +656,8 @@ function paginaHome() {
     </div>
   </div>
 
-  <div class="container"><section class="lu-seccion"></section></div>
+${PIE}
+${PANELES}
 
   <script>
     const slides = [...document.querySelectorAll('.swiper-slide')]
@@ -485,8 +753,8 @@ const settings = leerDefaults()
 mkdirSync(SALIDA, { recursive: true })
 writeFileSync(join(SALIDA, 'lupita.css'), compilarCss(settings))
 writeFileSync(join(SALIDA, 'categoria.html'), paginaCategoria(settings))
-writeFileSync(join(SALIDA, 'producto.html'), paginaProducto())
-writeFileSync(join(SALIDA, 'home.html'), paginaHome())
+writeFileSync(join(SALIDA, 'producto.html'), paginaProducto(settings))
+writeFileSync(join(SALIDA, 'home.html'), paginaHome(settings))
 writeFileSync(join(SALIDA, 'dispositivos.html'), paginaDispositivos())
 
 console.log('OK ->', SALIDA)
