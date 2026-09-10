@@ -217,6 +217,33 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
                            border: solid var(--lu-tinta); border-width: 0 2px 2px 0; }
     .checkbox-color { display: inline-block; width: 10px; height: 10px; margin: 0 0 2px 5px;
                       vertical-align: middle; border-radius: 100%; }
+
+    /* Theme base: carrito. Los floats y los tamaños son los de style-async,
+       copiados tal cual — incluido el col-2 + col-10 + col-1 del marcado, que
+       son TRECE columnas de doce y por eso el tacho se caia a otra linea. */
+    .form-row { display: flex; flex-wrap: wrap; margin: 0 -5px; }
+    .cart-item { position: relative; margin-bottom: 25px; }
+    .cart-item-name { float: left; width: 100%; padding: 0 40px 10px 0; }
+    .cart-item-subtotal { float: right; margin: 10px 0; text-align: right; font-weight: normal; }
+    .cart-item-btn { padding: 6px; display: inline-block; background: transparent;
+                     font-size: 16px; opacity: .8; }
+    .cart-item-input { display: inline-block; width: 40px; height: 30px; font-size: 16px;
+                       text-align: center; }
+    .alert { clear: both; padding: 8px; border: 1px solid; text-align: center; }
+    .bar-progress { height: 6px; border-radius: 3px; }
+    .bar-progress-active { height: 6px; border-radius: 3px; }
+    .float-left { float: left; }
+    .clear-both { clear: both; }
+    .w-auto { width: auto; }
+    .mb-0 { margin-bottom: 0; }
+    .mb-1 { margin-bottom: .25rem; }
+    .mb-5 { margin-bottom: 3rem; }
+    .mt-1 { margin-top: .25rem; }
+    .mr-1 { margin-right: .25rem; }
+    .no-gutters { margin: 0; }
+    .no-gutters > .col { padding: 0; }
+    .container-fluid { width: 100%; padding: 0 15px; }
+    .img-fluid { max-width: 100%; height: auto; }
   </style>
   <link rel="stylesheet" href="lupita.css">
 </head>`
@@ -252,7 +279,7 @@ const CABECERA = (settings) => `
               </div>
               <div class="utilities-item">
                 <div id="ajax-cart" class="cart-summary">
-                  <a href="#">${ICONO.bolsa}<span class="cart-widget-amount">0</span></a>
+                  <a href="#" class="js-panel" data-toggle="#modal-cart">${ICONO.bolsa}<span class="cart-widget-amount">2</span></a>
                 </div>
               </div>
             </div>
@@ -269,6 +296,7 @@ const ICONO = {
   bolsa: '<svg class="icon-inline" viewBox="0 0 448 512" aria-hidden="true"><path d="M352 128h-32V96a96 96 0 00-192 0v32H96a32 32 0 00-32 32v288a32 32 0 0032 32h256a32 32 0 0032-32V160a32 32 0 00-32-32zM160 96a64 64 0 01128 0v32H160V96zm192 352H96V160h320v288z"/></svg>',
   cerrar: '<svg class="icon-inline" viewBox="0 0 352 512" aria-hidden="true"><path d="M242 256l100-100a16 16 0 000-23l-23-23a16 16 0 00-23 0L196 210 96 110a16 16 0 00-23 0l-23 23a16 16 0 000 23l100 100-100 100a16 16 0 000 23l23 23a16 16 0 0023 0l100-100 100 100a16 16 0 0023 0l23-23a16 16 0 000-23L242 256z"/></svg>',
   filtro: '<svg class="icon-inline" viewBox="0 0 512 512" aria-hidden="true"><path d="M487 24H25a24 24 0 00-17 41l180 180v163a24 24 0 0010 20l80 55a24 24 0 0038-20V245L496 65a24 24 0 00-9-41zM288 224v240l-64-44V224L32 56h448L288 224z"/></svg>',
+  tacho: '<svg class="icon-inline" viewBox="0 0 448 512" aria-hidden="true"><path d="M432 80h-98l-16-33a32 32 0 00-29-18H159a32 32 0 00-29 18l-16 33H16a16 16 0 000 32h16l21 359a48 48 0 0048 45h246a48 48 0 0048-45l21-359h16a16 16 0 000-32zM159 64h130l8 16H151l8-16zm188 416H101a16 16 0 01-16-15L64 112h320l-21 353a16 16 0 01-16 15z"/></svg>',
 }
 
 /* ---------------------------------------------------------------------------
@@ -353,6 +381,99 @@ const RUBROS = SECCIONES.map((nombre) =>
     : { nombre }
 )
 
+/* ---------------------------------------------------------------------------
+   3d. Panel del carrito
+   Replica el DOM de snipplets/cart-panel.tpl + cart-item-ajax.tpl +
+   cart-totals.tpl, en su version de panel (cart_page = false), dentro del
+   modal que arma header.tpl.
+   --------------------------------------------------------------------------- */
+
+const EN_CARRITO = [
+  { i: 1, nombre: 'Vestido midi satinado con tajo', variante: 'Talle M / Negro', cant: 1, sub: 74500, foto: '#8C9AA3' },
+  { i: 4, nombre: 'Blazer estructurado', variante: 'Talle S / Crudo', cant: 1, sub: 145000, foto: '#A8A093' },
+]
+
+const TOTAL_CARRITO = EN_CARRITO.reduce((a, p) => a + p.sub, 0)
+
+const rengloncarrito = (p) => `
+        <div class="js-cart-item cart-item js-cart-item-shippable form-row" data-item-id="${p.i}" data-component="cart.line-item">
+          <div class="col-2">
+            <a href="producto.html?p=${p.i}"><img src="${foto(p.foto, '', 200, 300)}" class="img-fluid" alt=""></a>
+          </div>
+          <div class="col-10">
+            <div class="w-100">
+              <h6 class="font-weight-normal cart-item-name mb-0" data-component="line-item.name">
+                <a href="producto.html?p=${p.i}">${p.nombre}</a>
+                <small>${p.variante}</small>
+              </h6>
+              <div class="cart-item-quantity" data-component="line-item.subtotal">
+                <div class="form-group float-left form-quantity w-auto mb-2">
+                  <div class="row m-0 justify-content-md-center">
+                    <span class="js-cart-quantity-btn cart-item-btn btn">&#8722;</span>
+                    <input class="js-cart-quantity-input cart-item-input form-control" type="number" value="${p.cant}" aria-label="Cantidad">
+                    <span class="js-cart-quantity-btn cart-item-btn btn">+</span>
+                  </div>
+                </div>
+              </div>
+              <h6 class="js-cart-item-subtotal cart-item-subtotal">${pesos(p.sub)}</h6>
+            </div>
+          </div>
+          <div class="col-1 cart-item-delete text-right">
+            <button type="button" class="btn h6 m-0" aria-label="Quitar">${ICONO.tacho}</button>
+          </div>
+        </div>`
+
+const CARRITO = `
+  <div id="modal-cart" class="js-modal js-fullscreen-modal modal modal-right transition-slide modal-docked-md" style="display:none">
+    <form action="#" method="post" class="js-ajax-cart-panel">
+      <div class="js-modal-close modal-header">
+        <span class="modal-close">${ICONO.cerrar}</span>
+        Carrito de Compras
+      </div>
+      <div class="modal-body">
+        <div class="js-ajax-cart-list cart-row">
+${EN_CARRITO.map(rengloncarrito).join('')}
+        </div>
+        <div class="js-empty-ajax-cart cart-row" style="display:none">
+          <div class="alert alert-info">El carrito de compras está vacío.</div>
+        </div>
+
+        <div class="js-fulfillment-info js-allows-non-shippable">
+          <div class="js-ship-free-rest">
+            <div class="js-bar-progress bar-progress">
+              <div class="js-bar-progress-active bar-progress-active" style="width:73%"></div>
+            </div>
+            <div class="js-ship-free-rest-message ship-free-rest-message">
+              <div class="ship-free-rest-text bar-progress-amount h6">¡Estás a <strong class="js-ship-free-dif h5">${pesos(80500)}</strong> de tener <strong class="text-accent">envío gratis</strong>!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-row">
+          <div class="js-visible-on-cart-filled h5 row no-gutters mb-1" data-store="cart-subtotal">
+            <span class="col">Subtotal<small class="js-subtotal-shipping-wording"> (sin envío)</small>:</span>
+            <strong class="js-ajax-cart-total js-cart-subtotal col text-right">${pesos(TOTAL_CARRITO)}</strong>
+          </div>
+
+          <div class="js-cart-total-container js-visible-on-cart-filled mb-3 clear-both" data-store="cart-total">
+            <div class="h2 row no-gutters text-primary mb-0">
+              <span class="col mr-1">Total:</span>
+              <span class="js-cart-total col text-right">${pesos(TOTAL_CARRITO)}</span>
+            </div>
+            <div class="total-price hidden">Total: ${pesos(TOTAL_CARRITO)}</div>
+            <div class="installments mt-1 font-weight-bold text-right">3 cuotas sin interes de ${pesos(Math.round(TOTAL_CARRITO / 3))}</div>
+          </div>
+
+          <div class="js-visible-on-cart-filled container-fluid">
+            <div class="js-ajax-cart-submit row mb-3">
+              <input class="btn btn-primary btn-block" type="submit" name="go_to_checkout" value="Iniciar Compra">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>`
+
 const PANELES = `
   <div id="nav-hamburger" class="js-modal modal modal-nav-hamburger modal-docked-small modal-left transition-fade" style="display:none">
     <div class="modal-with-fixed-footer">
@@ -400,6 +521,8 @@ ${r.subitems.map((s) => `                  <li><a class="nav-list-link" href="ca
       <div class="js-search-suggest search-suggest"></div>
     </div>
   </div>
+
+${CARRITO}
 
   <div class="js-modal-overlay modal-overlay" style="display:none"></div>
 
@@ -522,7 +645,11 @@ const PRODUCTOS = [
   { nombre: 'Trench largo', precio: 168000, foto: '#BDB4A4', etiqueta: 'NUEVO' },
 ]
 
-const pesos = (n) => '$ ' + n.toLocaleString('es-AR')
+/* Declaracion y no const: el panel del carrito se arma mas arriba en el
+   archivo y necesita esta funcion ya disponible. */
+function pesos(n) {
+  return '$ ' + n.toLocaleString('es-AR')
+}
 
 /** SVG plano como data URI: sin red, y proporcion 2:3 como una foto de catalogo. */
 function foto(color, texto, w = 400, h = 600) {

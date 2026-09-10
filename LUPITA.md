@@ -109,6 +109,33 @@ geometricas.
 **El turquesa esta sacado a ojo del avatar de Instagram (un JPEG comprimido).
 Hay que confirmarlo contra el logo original.**
 
+### ⚠️ El turquesa funciona con tinta, no con papel
+
+Medido el 2026-09-10, no estimado:
+
+| | Ratio | Sirve para |
+|---|---|---|
+| Turquesa sobre papel | **2.17:1** | nada |
+| Papel sobre turquesa | **2.17:1** | nada |
+| **Tinta sobre turquesa** | **8.27:1** | texto y graficos |
+| Tinta sobre papel | 17.96:1 | todo |
+
+WCAG pide 4.5:1 para texto chico y 3:1 para elementos graficos que transmiten
+informacion. `#6BB3B9` es un color de luminancia media: **no contrasta ni con el
+papel ni con el blanco**, en ninguna de las dos direcciones. Con la tinta, si.
+
+Lo que implica: el acento sirve como **fondo con letras oscuras encima**, y no
+como color de texto sobre papel ni con texto claro encima.
+
+**Corregido hasta ahora:** la barra de envio gratis del carrito, que pasa a
+tinta porque dice cuanto falta y eso es informacion.
+
+**Sin corregir todavia, y hay que decidirlo:** el boton del hero (turquesa con
+texto papel), la etiqueta OFERTA (idem), y los links chicos en turquesa —
+"borrar filtros", "ver todos", el `strong` de las cuotas. La salida mas
+sencilla para casi todos es **darles texto en tinta en vez de papel**, que no
+toca la paleta y sube a 8.27:1. Para los links sueltos, tinta con subrayado.
+
 Las dos fuentes salen del selector oficial del panel de Tiendanube, asi que la
 clienta puede cambiarlas sin tocar codigo y Google Fonts las sirve solo.
 
@@ -274,6 +301,43 @@ colores de cada marca y son una fuga de color en una paleta de tres.
 
 ---
 
+## El panel del carrito
+
+El ultimo lugar donde alguien duda antes de pagar, asi que todo lo que no sea
+la cifra o el boton se corre a un lado. Comparte snipplets con la pagina del
+carrito (`cart-item-ajax.tpl` y `cart-totals.tpl`), asi que casi todo esto
+sirve para las dos; lo que difiere va scopeado a `#modal-cart`.
+
+### El renglon de producto tenia trece columnas de doce
+
+`cart-item-ajax.tpl` arma cada renglon con `col-2` (foto) + `col-10`
+(contenido) + `col-1` (tacho). **Suman 13**, asi que el tacho se caia a una
+linea propia. En grilla explicita — `56px 1fr auto` — entra donde tiene que
+entrar, y de paso queda la division de 1px que usa el resto del theme.
+
+### Lo demas
+
+- **`[− 1 +]` es una sola pieza** encerrada en 1px, no tres controles sueltos.
+  Ojo: los signos vienen con class `btn`, y el `.btn` del sistema es un bloque
+  macizo con padding grande — sin neutralizarlo, cada signo mide como un boton
+  de comprar. Lo mismo con el tacho.
+- **El TOTAL es la unica cifra macro del panel.** Llega con `class="h2"`, que es
+  una clase de Bootstrap y **no** el elemento `h2`, asi que la escala macro no
+  lo agarraba sola.
+- ⚠️ **En 380px "TOTAL: $ 219.500" no entra en un renglon** y la cifra se partia
+  despues del signo — `$` / `219.500` —, que es exactamente el error que ya
+  habiamos corregido en la grilla de productos. En el panel se apilan: la
+  palabra baja a rotulo y la cifra se queda con el renglon entero.
+- **Los avisos** dejan de tener fondos de color. El que informa se queda en una
+  regla de 1px; el que **frena una compra** — sin stock, monto minimo — se pone
+  macizo en tinta. Son las dos unicas veces que el theme le corta el paso a
+  alguien, y se nota.
+- **La barra de envio gratis va en tinta**, no en el turquesa de la marca. Ver
+  la nota de contraste mas arriba: el acento da 2.17:1 contra el papel y esta
+  barra transmite informacion.
+
+---
+
 ## Buscar por secciones
 
 **Ahi! Lupita vende solo ropa de mujer.** No hay un nivel de genero que
@@ -410,6 +474,11 @@ su regla, y el hero sin bloque, en los siete anchos. Sobre las fotos falsas del
 harness — un gris medio — **el titulo se lee flojo**, que es exactamente el
 riesgo anotado arriba: lo decide la foto real, no el CSS.
 
+**Del panel del carrito:** abierto desde la bolsa de la cabecera, con dos
+prendas, en desktop y **en 320** — los renglones con su foto, el `[− 1 +]`, el
+tacho en su lugar y no en una linea propia, la barra de envio, el TOTAL entero
+en un renglon y el boton de comprar a lo ancho.
+
 **De las secciones y los filtros:** el riel ocupando el ancho completo en
 desktop y **recorriendose de costado en 320** (probado moviendolo, no deducido),
 el encabezado de categoria al ras de la izquierda, la fila de controles
@@ -457,9 +526,15 @@ animacion, el bloqueo del scroll y el acordeon de subrubros los maneja
 
 ## Lo que sigue en el codigo
 
-Sin depender de la clienta: el **panel del carrito** (`cart-panel.tpl`) y los
-**formularios** (contacto, cuenta, checkout). Son las dos piezas del theme que
-todavia estan con el estilo del base.
+Sin depender de la clienta:
+
+1. **Decidir el turquesa sobre papel** (ver la nota de contraste): el boton del
+   hero, la etiqueta OFERTA y los links chicos en acento estan en 2.17:1.
+2. **Los formularios** — contacto, cuenta, checkout — que son lo ultimo que
+   queda con el estilo del base.
+3. **La pagina del carrito** (`templates/cart.tpl`). Comparte los snipplets con
+   el panel, asi que ya hereda casi todo, pero su layout de dos columnas no se
+   miro todavia.
 
 ## Etapa 2 (cuando haya tienda)
 

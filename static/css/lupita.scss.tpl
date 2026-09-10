@@ -1324,3 +1324,344 @@ footer a:hover {
     color: var(--lu-gris);
     margin-bottom: 0;
 }
+
+/*============================================================================
+  #Avisos
+  El base los pinta con fondos de color y los centra. Aca son bloques planos:
+  el que informa se queda en una regla de 1px, y el que frena una compra se
+  pone macizo, que es como el theme dice "pare".
+==============================================================================*/
+
+.alert {
+    border: 1px solid var(--lu-linea);
+    border-radius: 0;
+    background-color: transparent;
+    color: var(--lu-tinta);
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    line-height: 1.6;
+}
+
+.alert-info {
+    color: var(--lu-gris);
+}
+
+.alert-success {
+    border-color: var(--lu-acento);
+}
+
+/* Falta stock, no llega al minimo de compra: son las unicas dos veces que el
+   theme le corta el paso a alguien, y se nota. */
+.alert-warning,
+.alert-danger {
+    background-color: var(--lu-tinta);
+    border-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+.alert-warning a,
+.alert-danger a {
+    color: var(--lu-papel);
+    text-decoration: underline;
+}
+
+/*============================================================================
+  #Carrito
+  El panel lateral (#modal-cart) y la pagina del carrito comparten estos
+  snipplets — cart-item-ajax.tpl y cart-totals.tpl —, asi que casi todo esto
+  sirve para los dos. Lo que difiere va scopeado.
+==============================================================================*/
+
+#modal-cart,
+#modal-cart .modal-body {
+    background-color: var(--lu-papel);
+}
+
+/* Renglon de producto. El base lo arma con col-2 + col-10 + col-1, o sea
+   TRECE columnas de doce: el tacho de basura se caia a una linea propia. En
+   grilla explicita entra donde tiene que entrar, y de paso queda la division
+   de 1px que usa el resto del theme. */
+.cart-item {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    align-items: start;
+    gap: 0.85rem;
+    margin: 0;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.cart-item > [class*="col"] {
+    flex: none;
+    width: auto;
+    max-width: none;
+    padding: 0;
+}
+
+@media (min-width: 768px) {
+    .template-cart .cart-item {
+        grid-template-columns: 96px 1fr auto;
+        gap: 1.25rem;
+    }
+}
+
+.cart-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* El nombre llega como h6 y el h6 no esta en la escala macro: se lo trata como
+   metadato, igual que el nombre en la grilla de productos. */
+.cart-item h6,
+.cart-item .cart-item-name {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0;
+    color: var(--lu-tinta);
+}
+
+.cart-item .cart-item-name a {
+    color: var(--lu-tinta);
+}
+
+/* La variante (talle, color) baja un escalon: es la aclaracion, no el nombre */
+.cart-item .cart-item-name small {
+    display: block;
+    color: var(--lu-gris);
+    font-size: 0.58rem;
+    letter-spacing: var(--lu-track);
+    margin-top: 0.25rem;
+}
+
+.cart-item-subtotal {
+    font-weight: 700;
+    font-size: 0.72rem;
+    margin: 0.6rem 0 0;
+}
+
+/* El +/- y la cantidad son una sola pieza encerrada en 1px, no tres controles
+   sueltos. El .btn del sistema es un bloque macizo con padding grande: aca hay
+   que sacarselo de encima o cada signo mide como un boton de comprar. */
+.cart-item-quantity .row {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--lu-linea);
+    margin: 0;
+}
+
+.cart-item-btn.btn {
+    border: 0;
+    padding: 0.35rem 0.55rem;
+    opacity: 1;
+    background-color: transparent;
+    color: var(--lu-tinta);
+    font-size: 0.7rem;
+    line-height: 1;
+}
+
+.cart-item-btn.btn:hover {
+    opacity: 1;
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+.cart-item-input.form-control {
+    width: 2.2rem;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 0.35rem 0;
+    font-family: var(--lu-micro);
+    font-size: 0.68rem;
+    letter-spacing: var(--lu-track);
+    text-align: center;
+    color: var(--lu-tinta);
+}
+
+.cart-item-input.form-control:focus {
+    outline: none;
+    color: var(--lu-acento);
+}
+
+/* El tacho tampoco es un boton macizo. */
+.cart-item-delete .btn {
+    border: 0;
+    padding: 0.2rem;
+    background-color: transparent;
+    color: var(--lu-gris);
+}
+
+.cart-item-delete .btn:hover {
+    color: var(--lu-acento);
+}
+
+/*============================================================================
+  #Totales del carrito
+  La unica cifra macro del panel es el TOTAL. Todo lo demas — subtotal,
+  descuentos, cuotas — es metadato alrededor.
+==============================================================================*/
+
+#modal-cart .cart-row {
+    padding: 1.25rem;
+}
+
+#modal-cart .js-ajax-cart-list.cart-row {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* La barra de envio gratis no viene adentro de ningun .cart-row, asi que se
+   quedaba sin margen y el mensaje salia contra el borde del panel. */
+#modal-cart .js-fulfillment-info {
+    padding: 1.25rem 1.25rem 0;
+}
+
+/* El .container-fluid del base agrega SUS 15px arriba del padding del panel, y
+   el boton de comprar quedaba mas adentro que todo lo demas. */
+#modal-cart .container-fluid {
+    padding: 0;
+}
+
+/* La unidad de totales se separa del resto con una regla maciza. Se la agarra
+   por ser el ultimo hijo y no por una clase, porque .cart-row la comparte con
+   la lista y con el mensaje de carrito vacio. */
+#modal-cart .modal-body > .cart-row:last-child {
+    border-top: 2px solid var(--lu-tinta);
+    margin-top: 1.25rem;
+}
+
+.cart-row .h5,
+.cart-row .h6,
+.js-total-promotions,
+.ship-free-rest-message {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    line-height: 1.6;
+}
+
+.js-cart-subtotal,
+.js-ajax-cart-total {
+    font-weight: 700;
+}
+
+/* TOTAL: llega con class="h2", que es una clase de Bootstrap y NO el elemento
+   h2, asi que la escala macro del sistema no lo agarraba sola. */
+.js-cart-total-container .h2 {
+    font-family: var(--lu-macro);
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-size: clamp(1.5rem, 5vw, 2.25rem);
+    align-items: baseline;
+}
+
+/* En el panel, "TOTAL:" y la cifra en el mismo renglon no entran: en 380px la
+   cifra se partia despues del signo — $ / 219.500 —, que es exactamente el
+   error que ya habiamos corregido en la grilla. Se apilan: la palabra pasa a
+   rotulo y la cifra se queda con el renglon entero. */
+#modal-cart .js-cart-total-container {
+    margin-top: 1.1rem;
+}
+
+#modal-cart .js-cart-total-container .h2 {
+    display: block;
+    font-size: 1.9rem;
+}
+
+#modal-cart .js-cart-total-container .h2 > span {
+    display: block;
+    max-width: none;
+    flex: none;
+    text-align: left;
+    padding: 0;
+}
+
+#modal-cart .js-cart-total-container .h2 > span:first-child {
+    font-family: var(--lu-micro);
+    font-size: 0.62rem;
+    letter-spacing: var(--lu-track);
+    color: var(--lu-gris);
+    margin: 0 0 0.35rem;
+}
+
+#modal-cart .js-cart-total {
+    white-space: nowrap;
+}
+
+#modal-cart .js-cart-total-container .installments,
+#modal-cart .js-cart-total-container [class*="installment"] {
+    text-align: left;
+}
+
+.js-cart-total-container .total-price {
+    display: none;
+}
+
+/* Las cuotas otra vez: el mejor argumento de venta de la marca, en el ultimo
+   lugar donde alguien duda antes de pagar. */
+.js-cart-total-container .installments,
+.js-cart-total-container [class*="installment"] {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 0.6rem;
+    color: var(--lu-gris);
+}
+
+/* Barra de envio gratis. Sin redondeo, como todo lo demas.
+
+   Y en TINTA, no en el turquesa de la marca: medido, el acento da 2.17:1
+   contra el papel — abajo del 3:1 que pide un elemento grafico que transmite
+   informacion, y esta barra dice cuanto falta. Contra tinta el turquesa da
+   8.27:1, asi que sirve como fondo con letras oscuras encima, no como color
+   sobre papel. Ver la nota de contraste en LUPITA.md. */
+.bar-progress {
+    height: 4px;
+    border-radius: 0;
+    background-color: var(--lu-linea);
+    overflow: hidden;
+}
+
+.bar-progress-active {
+    height: 4px;
+    border-radius: 0;
+    background-color: var(--lu-tinta);
+}
+
+.ship-free-rest-message {
+    margin-top: 0.6rem;
+    color: var(--lu-gris);
+}
+
+/* Mismo motivo: "envio gratis" en turquesa a 0.66rem sobre papel no se lee. */
+.ship-free-rest-message .text-accent {
+    color: var(--lu-tinta);
+    font-weight: 700;
+}
+
+/* Iniciar Compra: el bloque mas macizo del panel, igual que Comprar en la
+   ficha de producto. Es la misma accion. */
+.js-ajax-cart-submit .btn,
+#go-to-checkout {
+    display: block;
+    width: 100%;
+    padding: 1.1rem 1rem;
+    font-size: 0.72rem;
+}
+
+.js-ajax-cart-submit {
+    margin: 0;
+}
