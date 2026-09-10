@@ -57,7 +57,7 @@ clienta puede cambiarlas sin tocar codigo y Google Fonts las sirve solo.
 
 ## Que cambiamos del base
 
-Tres archivos del theme, nada mas:
+Tres archivos de configuracion:
 
 - **`config/defaults.txt`** — los cuatro colores, las dos fuentes, el orden de
   las secciones de la home (slider → destacados → categorias → modulos →
@@ -73,8 +73,18 @@ Tres archivos del theme, nada mas:
 Y el sistema en si:
 
 - **`static/css/lupita.scss.tpl`** — tokens, reset, tipografia, grilla, tarjeta
-  de producto, botones, compartimentacion, y el marco entero: barra de aviso,
-  cabecera, panel de navegacion, buscador y pie.
+  de producto, botones, compartimentacion, el marco entero (barra de aviso,
+  cabecera, panel de navegacion, buscador, pie) y las secciones y filtros.
+
+Y tres plantillas, con el cambio mas chico posible en cada una — todas por lo
+mismo, sacar las secciones a la vista (ver "Buscar por secciones"):
+
+- **`templates/category.tpl`** — el riel de secciones arriba de la grilla, y
+  las secciones fuera del modal de filtros.
+- **`snipplets/grid/categories.tpl`** — una rama `horizontal` que devuelve la
+  misma lista en linea, sin acordeon. La lista vertical del base queda intacta.
+- **`snipplets/grid/filters.tpl`** — **una palabra**: la clase `lu-aplicados`
+  en el contenedor de "Filtrado por:", que no tenia ningun gancho propio.
 
 **No reescribimos `snipplets/grid/item.tpl`.** El marcado del base ya trae
 quickshop, variantes, datos estructurados y lazy load; la hoja lo restila
@@ -193,6 +203,53 @@ colores de cada marca y son una fuga de color en una paleta de tres.
 
 ---
 
+## Buscar por secciones
+
+**Ahi! Lupita vende solo ropa de mujer.** No hay un nivel de genero que
+separar, asi que las secciones son directamente las prendas — vestidos,
+pantalones, abrigos — y eso cambia el diseno: caben todas en un renglon, sin
+menu de dos pisos.
+
+### El problema
+
+El base **ya trae** la lista de secciones (`filter_categories`), pero la mete
+**adentro del modal de filtros**: a un click de distancia, detras de un boton
+que dice "Filtrar", y sin ninguna pista de que ahi adentro haya secciones. En
+una tienda de ropa, recorrer secciones no es filtrar: es la forma normal de
+mirar.
+
+### El riel
+
+Las secciones salieron del modal y quedaron en un riel a la vista, arriba de la
+grilla. Misma mecanica que la grilla de productos — `gap: 1px` sobre fondo
+linea —, y el ancho se acomoda solo:
+
+- Cuando entran, las celdas crecen y el riel ocupa el ancho completo.
+- Cuando no, se recorre de costado, como en cualquier tienda de ropa. El nombre
+  cortado en el borde es la pista de que hay mas.
+
+Esto sale de `width: max-content` mas `min-width: 100%` en la lista: el primero
+la mide por su contenido, el segundo la estira hasta el container cuando sobra
+lugar, y ahi recien el `flex-grow` reparte.
+
+El **modal de "Filtrar" queda para lo que es un filtro de verdad**: talle,
+color, precio. Y como ya no tiene secciones adentro, el boton dejo de abrirse
+cuando lo unico que habia era una lista de categorias.
+
+### Lo que no se pudo hacer
+
+**La seccion activa no se marca.** `filter_categories` da `name` y `url` y nada
+mas — no hay un `selected` ni forma confiable de compararlo — asi que el riel no
+sabe en cual esta parado el visitante. El titulo de la pagina lo dice igual, en
+Archivo Black y a pantalla completa.
+
+**No hay contador de prendas.** Ninguna variable verificada del base devuelve
+el total de una categoria (`pages.amount` cuenta paginas, no productos). El
+rotulo "12 prendas" que el harness mostraba antes lo habia inventado yo: se
+saco.
+
+---
+
 ## El harness (`_harness/`, NO se sube por FTP)
 
 Tiendanube compila los `.tpl` en su servidor y no hay forma de correr eso
@@ -222,6 +279,12 @@ Dos numeros del andamio salen del Bootstrap que viene embebido en
 (en 320, esos 18px de diferencia contra `1.5rem` deciden si la cabecera entra en
 un renglon) y los iconos de utilidades miden **15px fijos**, porque el base les
 pone `icon-w-14`/`icon-w-16` y no dependen del cuerpo del texto de al lado.
+
+⚠️ **El andamio va ANTES de `lupita.css`**, que es como se cargan en la tienda
+(`layout.tpl` mete la nuestra despues de `style-async`). Estuvo al reves hasta
+que el andamio empezo a copiar reglas del base que nuestra hoja pisa — la
+casilla de filtro, el `.filter-link` —: cargado despues, le ganaba los empates
+de especificidad y el harness mostraba lo contrario de lo que va a pasar.
 
 ⚠️ **Lo que el harness todavia no replica:** el `max-width` del `.container` del
 base es 1140px arriba de 1200, y aca son 1600. La home y la ficha de producto
@@ -271,6 +334,12 @@ apareciendo recien en 768, el panel de navegacion abriendo con sus divisiones al
 ancho completo y el hover invirtiendo el bloque, el buscador, y el pie
 repartiendose en tres columnas arriba de 768 y apilandose de a una abajo.
 
+**De las secciones y los filtros:** el riel ocupando el ancho completo en
+desktop y **recorriendose de costado en 320** (probado moviendolo, no deducido),
+el encabezado de categoria al ras de la izquierda, la fila de controles
+alineada con el riel, las fichas de filtro aplicado, y el panel de filtros con
+las casillas cuadradas llenandose de tinta al marcarse.
+
 **Sin verificar, y no se puede hasta que exista la tienda:** que las plantillas
 compilen en su servidor, que `google_fonts_url` sirva Archivo Black (que tiene
 un solo peso, y el layout pide `300, 400, 700`), que `color-mix()` sobreviva a
@@ -296,16 +365,20 @@ animacion, el bloqueo del scroll y el acordeon de subrubros los maneja
    muchisimo si son verticales y a la misma distancia. Se logra con un celular
    y disciplina.
 
-6. **El menu.** Los rubros del panel (`Vestidos`, `Pantalones`, `Abrigos`…) son
-   de mentira, igual que las prendas del harness: sirven para ver el bloque, no
-   para decidir el menu. Eso sale del catalogo real.
+6. **Las secciones.** Las del menu y las del riel (`Vestidos`, `Pantalones`,
+   `Abrigos`…) son de mentira, igual que las prendas del harness: sirven para
+   ver el bloque, no para decidir el menu. Salen del catalogo real, y en
+   Tiendanube **son las categorias de la tienda** — o sea que el riel se arma
+   solo una vez que estan cargadas, sin tocar codigo.
+7. **Cuantas secciones van a ser.** El riel aguanta las que sean, pero cambia de
+   caracter: hasta ~10 entran de una en desktop; muchas mas y siempre hay que
+   recorrerlo de costado.
 
 ## Lo que sigue en el codigo
 
-Sin depender de la clienta: el **panel del carrito** (`cart-panel.tpl`), los
-**filtros y el orden** de la categoria, y los **formularios** (contacto, cuenta,
-checkout). Son las tres piezas del theme que todavia estan con el estilo del
-base.
+Sin depender de la clienta: el **panel del carrito** (`cart-panel.tpl`) y los
+**formularios** (contacto, cuenta, checkout). Son las dos piezas del theme que
+todavia estan con el estilo del base.
 
 ## Etapa 2 (cuando haya tienda)
 

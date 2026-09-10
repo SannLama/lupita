@@ -732,8 +732,14 @@ hr,
     background-color: var(--lu-papel);
 }
 
+/* El titulo del modal (Filtros, Carrito de Compras) es un rotulo tecnico: no
+   compite con el contenido, solo dice donde esta parado el visitante. */
 .modal-header {
     border-bottom: 1px solid var(--lu-linea);
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
 }
 
 .modal-header,
@@ -1013,4 +1019,301 @@ footer .powered-by {
 
 footer a:hover {
     color: var(--lu-acento);
+}
+
+/*============================================================================
+  #Encabezado de categoria
+  El base lo centra y lo encajona en col-lg-6 offset-lg-3. El nombre de la
+  seccion es el titulo mas grande de la pagina: va al ras de la izquierda,
+  como el resto de la grilla.
+==============================================================================*/
+
+.category-header {
+    margin-top: 0;
+}
+
+.category-header .page-header {
+    margin-top: 0;
+}
+
+.category-header .page-header [class*="col"] {
+    text-align: left !important;
+    flex: 1 1 auto;
+    max-width: none;
+    margin-left: 0;
+}
+
+.category-header .page-header-text {
+    font-family: var(--lu-micro);
+    font-size: 0.72rem;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    max-width: 60ch;
+    color: var(--lu-gris);
+    margin: 0.75rem 0 0;
+}
+
+/* El separador del base es un bloquecito centrado (col-2 offset-5). Aca es una
+   regla al ancho completo — pero fina y en linea, no en tinta: abajo viene el
+   riel de secciones con su propio borde y dos reglas macizas juntas se leen
+   como un error de imprenta. */
+.category-header .divider {
+    max-width: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    height: 1px;
+    background-color: var(--lu-linea);
+}
+
+/*============================================================================
+  #Riel de secciones
+  Ahi! Lupita vende SOLO ropa de mujer: no hay un nivel de genero que separar,
+  asi que las secciones son directamente las prendas (vestidos, pantalones,
+  abrigos). Por eso pueden estar todas a la vista en un solo renglon.
+
+  Misma mecanica que la grilla: gap de 1px sobre fondo linea. Abajo de cierto
+  ancho no entran y el riel se recorre de costado, como en cualquier tienda de
+  ropa; arriba, las celdas crecen y ocupan el ancho completo.
+==============================================================================*/
+
+.lu-secciones {
+    border-top: 1px solid var(--lu-linea);
+    border-bottom: 1px solid var(--lu-linea);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.lu-secciones::-webkit-scrollbar {
+    display: none;
+}
+
+.lu-secciones-lista {
+    display: flex;
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--lu-linea);
+    /* max-content mide el contenido; el min-width lo estira hasta el ancho
+       disponible cuando sobra lugar, y ahi el flex-grow reparte. */
+    width: max-content;
+    min-width: 100%;
+}
+
+.lu-secciones-lista > li {
+    flex: 1 0 auto;
+    background-color: var(--lu-papel);
+}
+
+.lu-seccion-link {
+    display: block;
+    padding: 0.9rem 1.25rem;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    line-height: 1;
+    color: var(--lu-tinta);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.lu-seccion-link:hover,
+.lu-seccion-link:focus {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+/*============================================================================
+  #Controles de categoria
+  La fila de "Filtrar" y el orden. Es sticky en el base y se respeta: al
+  recorrer una grilla larga, es lo unico que hace falta tener a mano.
+==============================================================================*/
+
+/* Ojo con el margin: es un .row de Bootstrap y su margen negativo de -.75rem
+   es lo que compensa el padding de las columnas. Anulandolo, todo el renglon
+   se corria 12px a la derecha y dejaba de alinear con el riel. */
+.category-controls {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--lu-linea);
+    background-color: var(--lu-papel);
+}
+
+.filter-link {
+    width: auto;
+    padding: 0;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    color: var(--lu-tinta);
+}
+
+/* Corchetes: la misma sintaxis tecnica de los rotulos y del contador de la
+   bolsa. El espacio despues del \00a0 cierra el escape. */
+.filter-link::before {
+    content: "[\00a0 ";
+}
+
+.filter-link::after {
+    content: "\00a0 ]";
+}
+
+.filter-link:hover {
+    color: var(--lu-acento);
+}
+
+/* El selector de orden lo arma un component() de la plataforma, asi que se lo
+   ataca por lo unico seguro: que adentro hay un select. */
+.category-controls select,
+.category-controls .form-control {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    height: auto;
+    padding: 0 1.25rem 0 0;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    color: var(--lu-tinta);
+    text-align: right;
+    text-align-last: right;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.category-controls select:focus {
+    outline: none;
+    color: var(--lu-acento);
+}
+
+/*============================================================================
+  #Panel de filtros
+  Lo que queda adentro del modal despues de sacarle las secciones: talle,
+  color, precio. Un filtro no es una decision de marca, es una tarea — asi que
+  todo micro, sin tipografia macro que compita con el catalogo.
+==============================================================================*/
+
+.modal-filters,
+.modal-filters .modal-body {
+    background-color: var(--lu-papel);
+}
+
+.filters-container {
+    margin: 0;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+/* El h6 del base es el nombre del grupo (TALLE, COLOR): rotulo tecnico. */
+.filters-container h6 {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    font-weight: 400;
+    color: var(--lu-gris);
+    margin: 0 0 0.9rem;
+}
+
+.filters-container .checkbox {
+    margin-bottom: 0.7rem;
+}
+
+.filters-container .checkbox-text {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.68rem;
+    font-weight: 400;
+}
+
+/* Marcado = cuadrado lleno de tinta con el tilde en papel. El base solo
+   dibujaba el tilde sobre fondo claro. */
+.checkbox-container .checkbox input:checked ~ .checkbox-icon {
+    background-color: var(--lu-tinta);
+}
+
+.checkbox-container .checkbox input:checked ~ .checkbox-icon:after {
+    border-color: var(--lu-papel);
+}
+
+/* La muestra de color venia redonda; en este theme no hay una sola curva. */
+.checkbox-container .checkbox-color {
+    border-radius: 0;
+    width: 12px;
+    height: 12px;
+}
+
+.js-accordion-toggle {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    color: var(--lu-acento);
+}
+
+.filters-overlay {
+    background-color: var(--lu-papel);
+}
+
+/*============================================================================
+  #Filtros aplicados
+  La fila de fichas arriba de la grilla. Es el unico lugar donde el visitante
+  ve, en una linea, que recorte esta mirando.
+==============================================================================*/
+
+.js-remove-filter.chip,
+.chip {
+    background-color: transparent;
+    color: var(--lu-tinta);
+    border: 1px solid var(--lu-tinta);
+    border-radius: 0;
+    padding: 0.4rem 0.6rem;
+    margin: 0 0.4rem 0.4rem 0;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    line-height: 1;
+}
+
+.chip:hover {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+.chip:hover .chip-remove-icon {
+    fill: var(--lu-papel);
+}
+
+.js-remove-all-filters {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    color: var(--lu-acento);
+}
+
+/* El "Filtrado por:" del base no tiene clase propia, asi que se le agrego
+   .lu-aplicados al contenedor — una palabra en filters.tpl, nada mas. */
+.lu-aplicados {
+    /* .75rem horizontal = el padding de columna de Bootstrap, que cancela el
+       margen negativo de su .row y deja el renglon al ras del container. */
+    padding: 0.9rem 0.75rem;
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.lu-aplicados > div {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    color: var(--lu-gris);
+    margin-bottom: 0;
 }

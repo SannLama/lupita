@@ -1,4 +1,8 @@
-{% set has_filters_available = products and has_filters_enabled and (filter_categories is not empty or product_filters is not empty) %}
+{# Las secciones salieron del modal y viven en un riel a la vista (ver mas
+   abajo), asi que el boton "Filtrar" se abre SOLO si hay filtros de verdad:
+   antes tambien se abria cuando lo unico que habia adentro eran categorias. #}
+{% set has_filters_available = products and has_filters_enabled and product_filters is not empty %}
+{% set has_sections = products and filter_categories is not empty %}
 
 {# Only remove this if you want to take away the theme onboarding advices #}
 {% set show_help = not has_products %}
@@ -23,6 +27,13 @@
 
 	<section class="category-body">
 		<div class="container">
+			{# Riel de secciones. Estaba adentro del modal de filtros, o sea a un
+			   click de distancia y sin ninguna pista de que existiera. Aca se
+			   ve sin abrir nada, que es como se recorre una tienda de ropa. #}
+			{% if has_sections %}
+				{% include 'snipplets/grid/categories.tpl' with { horizontal: true } %}
+			{% endif %}
+
 			<div class="js-category-controls-prev category-controls-sticky-detector"></div>
 			<div class="js-category-controls row align-items-center mb-md-3 category-controls">
 				{% if products %}
@@ -37,9 +48,6 @@
 								{{'Filtros' | translate }}
 							{% endblock %}
 							{% block modal_body %}
-								{% if filter_categories is not empty %}
-									{% snipplet "grid/categories.tpl" %}
-								{% endif %}
 								{% if product_filters is not empty %}
 									{% snipplet "grid/filters.tpl" %}
 								{% endif %}

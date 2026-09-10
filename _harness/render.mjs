@@ -94,8 +94,11 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="lupita.css">
   <style>
+    /* ANDAMIO — representa al theme base, asi que va ANTES de lupita.css, que
+       es como se cargan en la tienda (layout.tpl mete la nuestra despues de
+       style-async). Si fuera al reves, este bloque le ganaria los empates de
+       especificidad a nuestra hoja y el harness mentiria. */
     * { box-sizing: border-box; }
     body { margin: 0; }
     /* El padding es el de Bootstrap, que viene embebido en style-critical:
@@ -168,7 +171,54 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
     #nav-search .modal-body { padding: 1.25rem; }
     .modal-with-fixed-footer { display: flex; flex-direction: column; min-height: 100%; }
     .modal-scrollable-area { flex: 1; }
+
+    /* Theme base: controles y filtros de la categoria.
+       El base declara sticky SIN top, o sea que no se pega a nada; y arriba de
+       768 lo vuelve relative. Se copia tal cual, con defecto y todo. */
+    .category-controls { position: sticky; z-index: 100; padding: 15px 0; }
+    @media (min-width: 768px) { .category-controls { position: relative; padding: 0; } }
+    .category-controls-sticky-detector { height: 1px; }
+    .filter-link { display: inline-block; width: 100%; padding: 10px 0; }
+    .list-unstyled { padding-left: 0; list-style: none; }
+    .col-12 { flex: 0 0 100%; max-width: 100%; }
+    .col-6 { flex: 0 0 50%; max-width: 50%; }
+    @media (min-width: 768px) {
+      .col-md-9 { flex: 0 0 75%; max-width: 75%; }
+      .col-md-3 { flex: 0 0 25%; max-width: 25%; }
+      .col-lg-6 { flex: 0 0 100%; max-width: 100%; }
+    }
+    @media (min-width: 992px) {
+      .col-lg-6 { flex: 0 0 50%; max-width: 50%; }
+      .offset-lg-3 { margin-left: 25%; }
+    }
+    .col-2 { flex: 0 0 16.666667%; max-width: 16.666667%; }
+    .offset-5 { margin-left: 41.666667%; }
+    .background-primary { background-color: var(--lu-tinta); }
+    .divider { height: 2px; }
+    .font-weight-bold { font-weight: 700; }
+    .mt-3 { margin-top: 1rem; } .mt-4 { margin-top: 1.5rem; }
+    .mb-2 { margin-bottom: .5rem; } .mb-3 { margin-bottom: 1rem; }
+    .d-md-inline-block { display: inline-block; }
+    .mr-md-2 { margin-right: .5rem; }
+    .d-inline-block { display: inline-block; }
+    .px-0 { padding-left: 0; padding-right: 0; }
+
+    /* La casilla del base ya es un cuadrado con borde de 1px y un tilde
+       dibujado con dos bordes rotados. Se copia tal cual (style-async +
+       style-colors) para poder ver arriba lo que nuestra hoja le cambia. */
+    .checkbox-container .checkbox { position: relative; display: block; margin-bottom: 15px;
+                                    padding-left: 30px; line-height: 20px; cursor: pointer; }
+    .checkbox-container .checkbox input { display: none; }
+    .checkbox-container .checkbox input:checked ~ .checkbox-icon:after { display: block; }
+    .checkbox-icon { position: absolute; top: -1px; left: 0; width: 20px; height: 20px;
+                     background: var(--lu-papel); border: 1px solid var(--lu-tinta); }
+    .checkbox-icon:after { position: absolute; top: 1px; left: 6px; display: none;
+                           width: 7px; height: 12px; content: ''; transform: rotate(45deg);
+                           border: solid var(--lu-tinta); border-width: 0 2px 2px 0; }
+    .checkbox-color { display: inline-block; width: 10px; height: 10px; margin: 0 0 2px 5px;
+                      vertical-align: middle; border-radius: 100%; }
   </style>
+  <link rel="stylesheet" href="lupita.css">
 </head>`
 
 /* Cabecera real del theme: snipplets/header/header.tpl mas la barra de aviso.
@@ -218,7 +268,74 @@ const ICONO = {
   lupa: '<svg class="icon-inline" viewBox="0 0 512 512" aria-hidden="true"><path d="M208 48a160 160 0 10.1 320.1A160 160 0 00208 48zm0 288a128 128 0 110-256 128 128 0 010 256zm291 137L387 361a16 16 0 00-23 0l-3 3a16 16 0 000 23l112 112a16 16 0 0023 0l3-3a16 16 0 000-23z"/></svg>',
   bolsa: '<svg class="icon-inline" viewBox="0 0 448 512" aria-hidden="true"><path d="M352 128h-32V96a96 96 0 00-192 0v32H96a32 32 0 00-32 32v288a32 32 0 0032 32h256a32 32 0 0032-32V160a32 32 0 00-32-32zM160 96a64 64 0 01128 0v32H160V96zm192 352H96V160h320v288z"/></svg>',
   cerrar: '<svg class="icon-inline" viewBox="0 0 352 512" aria-hidden="true"><path d="M242 256l100-100a16 16 0 000-23l-23-23a16 16 0 00-23 0L196 210 96 110a16 16 0 00-23 0l-23 23a16 16 0 000 23l100 100-100 100a16 16 0 000 23l23 23a16 16 0 0023 0l100-100 100 100a16 16 0 0023 0l23-23a16 16 0 000-23L242 256z"/></svg>',
+  filtro: '<svg class="icon-inline" viewBox="0 0 512 512" aria-hidden="true"><path d="M487 24H25a24 24 0 00-17 41l180 180v163a24 24 0 0010 20l80 55a24 24 0 0038-20V245L496 65a24 24 0 00-9-41zM288 224v240l-64-44V224L32 56h448L288 224z"/></svg>',
 }
+
+/* ---------------------------------------------------------------------------
+   3a. Las secciones
+   Ahi! Lupita vende SOLO ropa de mujer, asi que no hay un nivel de genero que
+   separar: las secciones son directamente las prendas. Estos nombres son de
+   mentira, igual que las prendas — sirven para ver el bloque, no para decidir
+   el menu, que sale del catalogo real.
+   --------------------------------------------------------------------------- */
+
+const SECCIONES = [
+  'Nuevos ingresos', 'Vestidos', 'Remeras y tops', 'Pantalones', 'Faldas',
+  'Abrigos', 'Sastreria', 'Lenceria', 'Accesorios', 'Sale',
+]
+
+/** Replica el DOM de snipplets/grid/categories.tpl con horizontal: true. */
+const RIEL = `
+    <nav class="lu-secciones" aria-label="Categorías" data-store="category-sections">
+      <ul class="lu-secciones-lista list-unstyled">
+${SECCIONES.map((s, i) => `        <li data-item="${i + 1}"><a href="categoria.html" title="${s}" class="lu-seccion-link">${s}</a></li>`).join('\n')}
+      </ul>
+    </nav>`
+
+/** Replica el DOM de snipplets/grid/filters.tpl dentro del modal de category.tpl. */
+const grupoFiltro = (titulo, valores, color) => `
+        <div class="filters-container mb-5" data-store="filters-group">
+          <h6 class="mb-3">${titulo}</h6>
+${valores.map(([v, n, hex], i) => `          <label class="js-filter-checkbox js-apply-filter checkbox-container font-weight-bold mb-2" data-filter-name="${titulo.toLowerCase()}" data-filter-value="${v}">
+            <span class="checkbox">
+              <input type="checkbox" autocomplete="off"${i === 1 ? ' checked' : ''}>
+              <span class="checkbox-icon"></span>
+              <span class="checkbox-text">${v} (${n})</span>
+              ${color ? `<span class="checkbox-color" style="background-color: ${hex};"></span>` : ''}
+            </span>
+          </label>`).join('\n')}
+        </div>`
+
+const FILTROS = `
+  <div id="nav-filters" class="js-modal modal modal-filters modal-docked-small modal-left transition-slide modal-full" style="display:none">
+    <div class="js-modal-close modal-header">
+      <span class="modal-close">${ICONO.cerrar}</span>
+      Filtros
+    </div>
+    <div class="modal-body">
+      <div id="filters" data-store="filters-nav">
+${grupoFiltro('Talle', [['XS', 4], ['S', 11], ['M', 12], ['L', 9], ['XL', 5]])}
+${grupoFiltro('Color', [['Negro', 14, '#0A0A0A'], ['Crudo', 8, '#E8E2D6'], ['Turquesa', 3, '#6BB3B9'], ['Jean', 6, '#7E8A96']], true)}
+        <div class="filters-container mb-5">
+          <h6 class="mb-3">Precio</h6>
+          <label class="js-filter-checkbox checkbox-container font-weight-bold mb-2">
+            <span class="checkbox">
+              <input type="checkbox" autocomplete="off">
+              <span class="checkbox-icon"></span>
+              <span class="checkbox-text">Hasta $ 50.000 (5)</span>
+            </span>
+          </label>
+          <label class="js-filter-checkbox checkbox-container font-weight-bold mb-2">
+            <span class="checkbox">
+              <input type="checkbox" autocomplete="off">
+              <span class="checkbox-icon"></span>
+              <span class="checkbox-text">$ 50.000 a $ 100.000 (5)</span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>`
 
 /* ---------------------------------------------------------------------------
    3b. Panel de navegacion y buscador
@@ -228,15 +345,13 @@ const ICONO = {
    para decidir el menu.
    --------------------------------------------------------------------------- */
 
-const RUBROS = [
-  { nombre: 'Nuevos ingresos' },
-  { nombre: 'Vestidos' },
-  { nombre: 'Pantalones', subitems: ['Jeans', 'Sastreros', 'Calzas'] },
-  { nombre: 'Abrigos' },
-  { nombre: 'Remeras y tops' },
-  { nombre: 'Accesorios' },
-  { nombre: 'Sale' },
-]
+/* Las mismas secciones del riel, para que el menu y la categoria no cuenten
+   dos historias distintas. Solo Pantalones se despliega, para ver el acordeon. */
+const RUBROS = SECCIONES.map((nombre) =>
+  nombre === 'Pantalones'
+    ? { nombre, subitems: ['Jeans', 'Sastreros', 'Calzas'] }
+    : { nombre }
+)
 
 const PANELES = `
   <div id="nav-hamburger" class="js-modal modal modal-nav-hamburger modal-docked-small modal-left transition-fade" style="display:none">
@@ -447,18 +562,56 @@ function paginaCategoria(settings) {
 <body class="template-category">
 ${CABECERA(settings)}
 
+  <section class="category-header mt-4 section-margin">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <section class="page-header mt-3">
+            <div class="container">
+              <div class="row">
+                <div class="col text-center col-lg-6 offset-lg-3">
+                  <h1>Nuevos ingresos</h1>
+                  <p class="page-header-text font-md-normal">Lo ultimo que entro a los tres locales. Todo con 20% off pagando en efectivo.</p>
+                  <div class="divider col-2 offset-5 background-primary"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="category-body">
   <div class="container">
-    <section class="lu-seccion" style="border-top:0">
-      <div class="lu-seccion-titulo">
-        <h1 class="lu-macro">Nuevos<br>ingresos</h1>
+${RIEL}
+    <div class="js-category-controls-prev category-controls-sticky-detector"></div>
+    <div class="js-category-controls row align-items-center mb-md-3 category-controls">
+      <div class="col-6 col-md-9">
+        <a href="#" class="js-panel filter-link" data-toggle="#nav-filters">Filtrar ${ICONO.filtro}</a>
       </div>
-      <div class="lu-seccion-titulo">
-        <span class="lu-rotulo">${PRODUCTOS.length} prendas</span>
-        <hr class="lu-regla" style="flex:1">
-        <span class="lu-rotulo">20% off en efectivo</span>
+      <div class="col-6 col-md-3 text-right">
+        <div class="form-group mb-0" style="position:relative;display:inline-block">
+          <select class="js-sort-by form-control" aria-label="Ordenar por:">
+            <option>Destacado</option>
+            <option>Precio: Menor a Mayor</option>
+            <option>Precio: Mayor a Menor</option>
+            <option>Mas Nuevo al mas Viejo</option>
+          </select>
+          <span style="position:absolute;right:0;top:50%;transform:translateY(-50%);pointer-events:none">&#9662;</span>
+        </div>
       </div>
-    </section>
+    </div>
+    <div class="row">
+      <div class="col-12 mb-3 lu-aplicados">
+        <div class="d-md-inline-block mr-md-2 mb-3">Filtrado por:</div>
+        <button class="js-remove-filter chip">Talle M ${ICONO.cerrar}</button>
+        <button class="js-remove-filter chip">Negro ${ICONO.cerrar}</button>
+        <a href="#" class="js-remove-all-filters d-inline-block px-0">Borrar filtros</a>
+      </div>
+    </div>
   </div>
+  </section>
 
   <div class="container" style="padding:0">
     <div class="js-product-table row">${PRODUCTOS.map(tarjeta).join('')}
@@ -471,6 +624,7 @@ ${CABECERA(settings)}
     </section>
   </div>
 ${PIE}
+${FILTROS}
 ${PANELES}
 </body>
 </html>

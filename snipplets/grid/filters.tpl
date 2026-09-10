@@ -3,7 +3,7 @@
     {# Applied filters chips #}
 
     {% if has_applied_filters %}
-        <div class="col-12 mb-3">
+        <div class="col-12 mb-3 lu-aplicados">
             <div class="d-md-inline-block mr-md-2 mb-3">{{ 'Filtrado por:' | translate }}</div>
             {% for product_filter in product_filters %}
                 {% for value in product_filter.values %}
