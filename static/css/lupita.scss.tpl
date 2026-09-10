@@ -467,10 +467,13 @@ hr,
     display: block;
 }
 
-/* El texto NO se apoya sobre la foto: va dentro de un bloque macizo de tinta.
-   Sobre la foto dependeria de que justo ahi haya una zona oscura, y las fotos
-   todavia no existen. Ademas el bloque solido es brutalismo suizo puro, y la
-   skill prohibe los degradados con los que se suele tapar este problema. */
+/* El texto se apoya directo sobre la foto, sin nada atras — decision de
+   Santiago el 2026-09-10. Antes iba dentro de un bloque macizo de tinta.
+
+   ⚠️ Esto depende de la foto: si la campana es clara justo donde cae el
+   titulo, el texto se pierde. No hay red de contencion — la unica que existe
+   sin degradados (que la direccion prohibe) es volver al bloque. Cuando
+   lleguen las fotos hay que mirarlo una por una. */
 .nube-slider-home .swiper-text {
     position: absolute;
     left: 50%;
@@ -478,8 +481,8 @@ hr,
     transform: translateX(-50%);
     z-index: 2;
     max-width: min(88vw, 38rem);
-    padding: clamp(1.1rem, 2.2vw, 1.75rem) clamp(1.25rem, 2.5vw, 2rem);
-    background-color: var(--lu-tinta);
+    padding: 0;
+    background-color: transparent;
     color: var(--lu-papel);
     text-align: center;
 }
@@ -570,15 +573,19 @@ hr,
 
 /*============================================================================
   #Barra de aviso
-  La franja de tinta que corona la pagina. Es el unico lugar donde el mejor
-  dato de la marca — 20% en efectivo, 3 y 6 cuotas — esta antes que cualquier
-  foto. Va en negativo: papel sobre tinta.
+  El renglon que corona la pagina, y el unico lugar donde el mejor dato de la
+  marca — 20% en efectivo, 3 y 6 cuotas — esta antes que cualquier foto.
+
+  Iba en negativo (papel sobre tinta) hasta el 2026-09-10: Santiago pidio sacar
+  el negro. Queda como rotulo tecnico sobre papel, separado de la cabecera por
+  una regla de 1px para que no se lean como un solo bloque.
 ==============================================================================*/
 
 .section-advertising {
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
-    padding: 0.55rem 0;
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--lu-linea);
     font-family: var(--lu-micro);
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
@@ -588,7 +595,7 @@ hr,
 
 .section-advertising a,
 .section-advertising .link-contrast {
-    color: var(--lu-papel);
+    color: var(--lu-tinta);
     text-decoration: none;
 }
 

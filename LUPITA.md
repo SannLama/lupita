@@ -113,20 +113,28 @@ Swiper): esto es configurarla y restilarla, no escribirla.
   Instagram, o sea del telefono, que es justo donde un hero quieto no se
   entiende.
 
-Dos cosas se apartan de la referencia a proposito:
+Una cosa se aparta de la referencia a proposito:
 
-1. **El texto no se apoya sobre la foto.** Napoli pone blanco directamente sobre
-   la imagen, lo que depende de que ahi haya una zona oscura — y las fotos de
-   Ahi! Lupita todavia no existen. Va dentro de un bloque macizo de tinta:
-   contraste garantizado con cualquier foto, y ademas es brutalismo suizo puro
-   (la skill prohibe los degradados con los que se suele tapar este problema).
-2. **Contador `01 / 03` en vez de los puntitos**, sin tocar la plantilla: cada
+1. **Contador `01 / 03` en vez de los puntitos**, sin tocar la plantilla: cada
    bullet incrementa un contador CSS, el activo muestra su numero, y el
    `::after` del contenedor — que se renderiza despues de todos los hijos —
    muestra el total.
 
 Las fotos del slider las carga la clienta desde el panel (Diseño → Carrusel),
 con titulo, descripcion, boton y link por slide.
+
+### El texto va sobre la foto, sin nada atras
+
+Hasta el 2026-09-10 el titulo iba adentro de un bloque macizo de tinta,
+justamente para no depender de la foto. **Santiago pidio sacar el negro**, asi
+que ahora se apoya directo sobre la imagen, en crema, como en Napoli.
+
+⚠️ **Esto pasa a depender de cada foto de campaña.** Si la imagen es clara
+justo donde cae el titulo, el texto se pierde, y no hay red de contencion: la
+unica que existe sin degradados — que la direccion prohibe — es volver al
+bloque. **Cuando lleguen las fotos hay que mirar slide por slide**, y si alguna
+no aguanta, las salidas son recortar la foto para que la zona del titulo quede
+oscura, o volver al bloque solo en esa.
 
 ---
 
@@ -139,9 +147,13 @@ tocar. Ninguna plantilla se reescribio: todo sale de las clases que ya emiten
 ### La barra de aviso
 
 `ad_bar` prendida en `defaults.txt`, con **"20% OFF PAGANDO EN EFECTIVO — 3 Y 6
-CUOTAS SIN INTERES"**. Franja de tinta con papel encima: es el unico lugar donde
-el mejor dato de la marca aparece antes que cualquier foto. Los dos datos estan
-confirmados por Instagram; el resto de los renglones del pie, no (ver mas abajo).
+CUOTAS SIN INTERES"**. Es el unico lugar donde el mejor dato de la marca aparece
+antes que cualquier foto. Los dos datos estan confirmados por Instagram; el
+resto de los renglones del pie, no (ver mas abajo).
+
+Nacio como franja de tinta con papel encima. **El 2026-09-10 Santiago pidio
+sacar el negro**, asi que quedo como rotulo tecnico sobre papel, separado de la
+cabecera por una regla de 1px para que las dos no se lean como un solo bloque.
 
 ### La cabecera
 
@@ -334,6 +346,11 @@ apareciendo recien en 768, el panel de navegacion abriendo con sus divisiones al
 ancho completo y el hover invirtiendo el bloque, el buscador, y el pie
 repartiendose en tres columnas arriba de 768 y apilandose de a una abajo.
 
+**Despues de sacar los dos negros (2026-09-10):** la barra de aviso en papel con
+su regla, y el hero sin bloque, en los siete anchos. Sobre las fotos falsas del
+harness — un gris medio — **el titulo se lee flojo**, que es exactamente el
+riesgo anotado arriba: lo decide la foto real, no el CSS.
+
 **De las secciones y los filtros:** el riel ocupando el ancho completo en
 desktop y **recorriendose de costado en 320** (probado moviendolo, no deducido),
 el encabezado de categoria al ras de la izquierda, la fila de controles
@@ -364,6 +381,9 @@ animacion, el bloqueo del scroll y el acordeon de subrubros los maneja
 5. **Estandar de fotos.** La grilla aguanta fotos heterogeneas, pero mejora
    muchisimo si son verticales y a la misma distancia. Se logra con un celular
    y disciplina.
+   ⚠️ **Las del hero ahora tienen un requisito extra**: como el titulo se apoya
+   directo sobre la imagen, la zona de abajo al centro tiene que ser oscura.
+   Conviene decirselo antes de que las saquen, no despues.
 
 6. **Las secciones.** Las del menu y las del riel (`Vestidos`, `Pantalones`,
    `Abrigos`…) son de mentira, igual que las prendas del harness: sirven para
