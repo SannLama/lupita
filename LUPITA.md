@@ -13,9 +13,68 @@ muestra exactamente lo nuestro y nada mas.
 Un theme propio se sube **por FTP**, y el acceso al FTP existe **desde el plan
 Impulso** de Tiendanube. La tienda de Ahi! Lupita todavia no existe.
 
-Y hay un efecto colateral que la clienta tiene que saber antes de decidir:
-**al habilitar el FTP, la tienda pierde la posibilidad de cambiar de plantilla
-desde el panel.** Es un camino de ida.
+Y hay tres efectos colaterales que la clienta tiene que saber **antes** de
+decidir. Estan abajo, en "Las tres letras chicas".
+
+---
+
+## Puesta en produccion
+
+No hay nada que "conectar": **esto es la tienda**. No hay una API en el medio —
+los `.tpl` los renderiza el servidor de Tiendanube, asi que subir el theme *es*
+el deploy.
+
+*(Verificado contra la documentacion de Tiendanube el 2026-09-10. Los precios se
+mueven; el procedimiento, menos.)*
+
+### Los pasos
+
+1. **Crear la tienda** en Tiendanube. Hoy no existe: ese es el bloqueo real.
+2. **Plan Impulso o superior.** Lo que hace falta se llama **"edicion
+   estructural"** en su documentacion, y esta *desde* Impulso. En el gratuito y
+   en Inicial no hay forma de subir un theme propio, por mas que el codigo este
+   listo. A septiembre de 2026 su propio blog lo publica en **$234.999/mes, con
+   25% off pagando anual** — confirmarlo en el panel antes de prometer nada.
+3. **Habilitar el FTP** desde el panel: *Tienda online → Diseño → "Editar el
+   codigo"* sobre la plantilla actual. De ahi salen las credenciales — host,
+   usuario, contraseña y puerto.
+4. **Conectar con FileZilla** (el cliente que ellos mismos recomiendan), con dos
+   ajustes que no son opcionales:
+   - **FTP sobre SSL/TLS**.
+   - **Modo de transferencia binario, NO ASCII.** En ASCII tira
+     `503 ASCII (text) data type is not supported for file transfer operations`.
+5. **Subir cinco carpetas y nada mas:** `config/`, `layouts/`, `snipplets/`,
+   `static/`, `templates/`. Son ~1,5 MB.
+   **No se suben** `_harness/` (es local, para mirar el CSS), `LUPITA.md` ni
+   `README.md`.
+6. **Activar y revisar** la lista de "Sin verificar" de mas abajo, que es
+   justamente lo que recien se puede probar con la tienda arriba.
+
+### Las tres letras chicas
+
+1. ⚠️ **Es un camino de ida.** Con el FTP abierto, la tienda **pierde la
+   posibilidad de cambiar de plantilla desde el panel**.
+2. ⚠️ **Deja de recibir las mejoras automaticas de diseño de Tiendanube.** Las
+   tiendas con FTP abierto quedan afuera de sus actualizaciones. De ahora en
+   mas, el mantenimiento del theme es nuestro.
+3. ⚠️ **Si despues se cierra el FTP, se pierden TODAS las personalizaciones.**
+   Tiendanube no preserva nada. **El respaldo es este repo git** — por eso el
+   primer commit es el base sin tocar y por eso conviene que siga siendo la
+   fuente de verdad, no los archivos que queden en su servidor.
+
+### Lo que maneja la clienta una vez arriba
+
+Sin tocar codigo, porque para eso esta escrito `config/settings.txt`: los cuatro
+colores y las dos fuentes, las fotos y textos del carrusel, los banners, el
+orden de las secciones de la home, y **las categorias del catalogo, que son las
+que arman el riel de secciones**. Por eso las secciones no las decidimos
+nosotros: se cargan y aparecen.
+
+### Si se quedan en el plan gratuito
+
+Este theme no se puede subir, y la salida es la que ya estaba archivada: **dos
+sitios separados**, una landing propia que linkea a la tienda con la plantilla
+default de Tiendanube. Peor, pero existe.
 
 ---
 
@@ -377,7 +436,9 @@ animacion, el bloqueo del scroll y el acordeon de subrubros los maneja
    la de Banfield (Belgrano 1470) salio de guias comerciales, no de ella.
 3. **Horarios y WhatsApp.** Las fuentes se contradicen (10:00–18:30 vs
    10:00–20:30). No rellenar por iniciativa propia.
-4. **Plan Impulso**, con el aviso del camino de ida.
+4. **Plan Impulso**, con las tres letras chicas: camino de ida, sin las mejoras
+   automaticas de Tiendanube, y si se cierra el FTP se pierde todo lo hecho.
+   Ver "Puesta en produccion".
 5. **Estandar de fotos.** La grilla aguanta fotos heterogeneas, pero mejora
    muchisimo si son verticales y a la misma distancia. Se logra con un celular
    y disciplina.
