@@ -285,11 +285,12 @@ a:hover {
   Bloques macizos. El primario es tinta; el acento se reserva para el hover.
 ==============================================================================*/
 
+/* La transicion de los botones vive en #Movimiento, al final del archivo, con
+   el resto de las curvas. Aca solo la forma. */
 .btn {
     border: 1px solid var(--lu-tinta);
     padding: 0.85rem 1.5rem;
     font-weight: 400;
-    transition: background-color 0.12s linear, color 0.12s linear;
 }
 
 .btn-primary {
@@ -1664,4 +1665,172 @@ footer a:hover {
 
 .js-ajax-cart-submit {
     margin: 0;
+}
+
+/*============================================================================
+  #Movimiento
+  Criterio: WWDC "Designing Fluid Interfaces". Se aplica la parte que sirve a
+  esta marca — respuesta inmediata, caminos simetricos, propiedades que no
+  disparan layout, y respeto por prefers-reduced-motion.
+
+  Lo que NO se aplica, a proposito: materiales translucidos, backdrop-filter,
+  sombras contextuales y esquinas redondeadas. Toda esa parte de la guia
+  contradice la direccion del theme, que es brutalismo suizo — 90 grados, sin
+  sombras y sin degradados. La fisica del movimiento es prestable; el material
+  de iOS no.
+
+  Y una limitacion honesta: los paneles los abre el store.js de Tiendanube con
+  una clase, asi que esto son transiciones CSS. Una transicion no se puede
+  agarrar y revertir a mitad de camino — para eso hacen falta resortes en JS,
+  que es Etapa 2 y recien se puede probar con la tienda arriba.
+==============================================================================*/
+
+/* Curvas. Sin rebote a proposito: el rebote se justifica cuando el gesto trajo
+   inercia — un flick, un arrastre — y aca todo se abre con un toque. */
+:root {
+    /* Entrada: frena al llegar */
+    --lu-entrada: cubic-bezier(0.16, 0.84, 0.44, 1);
+    /* Salida: la inversa, para que el camino de ida y el de vuelta sean el
+       mismo recorrido en espejo */
+    --lu-salida: cubic-bezier(0.56, 0, 0.84, 0.16);
+    --lu-respuesta: 340ms;
+    --lu-respuesta-salida: 260ms;
+}
+
+/*  Los paneles: transform en vez de left/right.
+    El base los mueve con `left: -100% -> 0` y `transition: all`. Animar left
+    en un elemento de alto completo obliga al navegador a recalcular layout y
+    repintar en CADA frame; transform lo resuelve el compositor. Es el cambio
+    que mas se nota en un telefono, y no toca ni una plantilla ni el store.js:
+    el panel se ancla en su posicion final y se lo corre con transform.        */
+
+.modal-left,
+.modal-right {
+    transition-property: transform;
+    transition-duration: var(--lu-respuesta-salida);
+    transition-timing-function: var(--lu-salida);
+    will-change: transform;
+}
+
+.modal-left {
+    left: 0;
+    right: auto;
+    transform: translate3d(-100%, 0, 0);
+}
+
+.modal-right {
+    right: 0;
+    left: auto;
+    transform: translate3d(100%, 0, 0);
+}
+
+.modal-left.modal-show,
+.modal-right.modal-show {
+    transform: translate3d(0, 0, 0);
+    transition-duration: var(--lu-respuesta);
+    transition-timing-function: var(--lu-entrada);
+}
+
+/*============================================================================
+  #Respuesta
+  Lo primero de la guia: el estado se muestra al APRETAR, no al soltar. Un
+  boton que solo reacciona en el hover no existe en un telefono, que es de
+  donde viene el trafico de esta tienda.
+
+  La forma de la respuesta es la del theme y no la de iOS: en vez de encoger
+  el elemento, se lo invierte. Es el mismo idioma que ya usa el hover.
+==============================================================================*/
+
+.btn:active,
+.chip:active,
+.utilities-link:active,
+.filter-link:active,
+.lu-seccion-link:active,
+.nav-list-link:active,
+.cart-item-btn.btn:active,
+.footer-menu-link:active,
+.social-icon:active {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    transition-duration: 0s;
+}
+
+.social-icon:active svg,
+.cart-item-btn.btn:active svg {
+    fill: var(--lu-papel);
+}
+
+/* Las transiciones de color son cortas: acompañan, no se hacen notar. */
+.btn,
+.chip,
+.utilities-link,
+.filter-link,
+.lu-seccion-link,
+.nav-list-link,
+.social-icon,
+.cart-item-btn.btn {
+    transition-property: background-color, color, border-color;
+    transition-duration: 120ms;
+    transition-timing-function: var(--lu-entrada);
+}
+
+/*============================================================================
+  #Grilla: la foto respira al pasar por encima
+  Unico movimiento continuo del catalogo. Es transform puro — sin sombras ni
+  degradados — y la celda ya tiene overflow:hidden, asi que la foto crece
+  dentro de su division de 1px y no la pisa.
+==============================================================================*/
+
+.item-image img {
+    transition: transform 420ms var(--lu-entrada);
+}
+
+.item-product:hover .item-image img {
+    transform: scale(1.04);
+}
+
+/* El nombre se subraya en vez de cambiar de color: el turquesa sobre papel da
+   2.17:1 y no se lee. Ver la nota de contraste. */
+.item-product:hover .item-name {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+/*============================================================================
+  #Movimiento reducido
+  No es "sin feedback": es el mismo estado sin desplazamiento. Los paneles
+  aparecen con un fundido corto y el resto de los cambios de color se queda,
+  porque ayudan a entender que paso.
+==============================================================================*/
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-left,
+    .modal-right {
+        transform: none;
+        opacity: 0;
+        pointer-events: none;
+        transition-property: opacity;
+        transition-duration: 160ms;
+        will-change: auto;
+    }
+
+    .modal-left.modal-show,
+    .modal-right.modal-show {
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+        transition-duration: 160ms;
+    }
+
+    .item-image img,
+    .item-product:hover .item-image img {
+        transition: none;
+        transform: none;
+    }
+
+    .transition-soft,
+    .transition-soft-slow,
+    .bar-progress-active {
+        transition-duration: 0.01ms;
+    }
 }

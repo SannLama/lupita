@@ -301,6 +301,86 @@ colores de cada marca y son una fuga de color en una paleta de tres.
 
 ---
 
+## Movimiento
+
+Criterio tomado de *Designing Fluid Interfaces* (WWDC). **Se aplica la fisica,
+no el material.**
+
+⚠️ **Lo que NO se aplica, a proposito:** materiales translucidos,
+`backdrop-filter`, sombras contextuales y esquinas redondeadas. Toda esa parte
+de la guia contradice la direccion del theme — brutalismo suizo, 90 grados, sin
+sombras y sin degradados. La forma en que se mueven las cosas es prestable; el
+material de iOS no.
+
+### El hallazgo: el base anima `left`, no `transform`
+
+`.modal { transition: all .2s }` con `.modal-left { left: -100% }` →
+`.modal-left.modal-show { left: 0 }`.
+
+Animar `left` en un elemento de **alto completo** obliga al navegador a
+recalcular layout y repintar en **cada frame**; `transform` lo resuelve el
+compositor. Es la diferencia entre suave y con tirones en un telefono — que es
+de donde viene el trafico de esta tienda.
+
+El arreglo no toca ni una plantilla ni el `store.js`: el panel se ancla en su
+posicion final (`left: 0` / `right: 0`) y se lo corre con
+`transform: translate3d()`. La clase que dispara todo sigue siendo la suya,
+`.modal-show`.
+
+Y `transition: all` pasa a `transition-property: transform`, para que no se le
+escape ninguna propiedad de layout.
+
+### Curvas
+
+| | Duracion | Curva |
+|---|---|---|
+| Entrada | 340ms | `cubic-bezier(0.16, 0.84, 0.44, 1)` — frena al llegar |
+| Salida | 260ms | `cubic-bezier(0.56, 0, 0.84, 0.16)` — la inversa |
+
+Son una el espejo de la otra: lo que se fue por la izquierda vuelve por la
+izquierda, con el mismo recorrido al reves.
+
+**Sin rebote a proposito.** El rebote se justifica cuando el gesto trajo
+inercia — un flick, un arrastre —, y aca todo se abre con un toque. Un panel
+que rebota despues de un click se siente decorativo.
+
+### Respuesta al apretar
+
+Lo primero de la guia: el estado se muestra **al apretar, no al soltar**. Un
+boton que solo reacciona al hover no existe en un telefono. Ahora los botones,
+las fichas, el riel de secciones, los rubros del menu y los `+/-` del carrito
+se invierten en `:active`, con `transition-duration: 0s` para que sea inmediato.
+
+La *forma* de la respuesta es la del theme y no la de iOS: en vez de encoger el
+elemento se lo invierte, que es el mismo idioma que ya usa el hover.
+
+### La foto respira
+
+Unico movimiento continuo del catalogo: `scale(1.04)` en 420ms al pasar por
+encima. Es transform puro y la celda ya trae `overflow: hidden`, asi que la
+foto crece **dentro** de su division de 1px y no pisa la de al lado.
+
+El nombre se **subraya** en vez de cambiar de color, porque el turquesa sobre
+papel da 2.17:1 (ver la nota de contraste).
+
+### Movimiento reducido
+
+El theme no tenia nada. Ahora `prefers-reduced-motion: reduce` cambia el
+desplazamiento por un fundido corto de 160ms y apaga el `scale` de las fotos.
+**No es "sin feedback"**: los cambios de color se quedan, porque ayudan a
+entender que paso.
+
+### Lo que esto NO es
+
+**Son transiciones CSS, no resortes.** Una transicion no se puede agarrar y
+revertir a mitad de camino — que es, segun la propia guia, el principio mas
+importante. Para eso hacen falta resortes en JS con traspaso de velocidad, y
+los paneles los abre el `store.js` de Tiendanube. Eso es Etapa 2 y recien se
+puede probar con la tienda arriba: arrastrar el panel del carrito para cerrarlo,
+con proyeccion de inercia y rubber-banding en el borde.
+
+---
+
 ## El panel del carrito
 
 El ultimo lugar donde alguien duda antes de pagar, asi que todo lo que no sea
@@ -474,6 +554,16 @@ su regla, y el hero sin bloque, en los siete anchos. Sobre las fotos falsas del
 harness — un gris medio — **el titulo se lee flojo**, que es exactamente el
 riesgo anotado arriba: lo decide la foto real, no el CSS.
 
+**Del movimiento:** medido en el navegador, no deducido — el panel del carrito
+sale con `right: 0` fijo y `transform` animandose, `transition-property` es
+`transform` y no `all`, la entrada corre 340ms con su curva y la salida 260ms
+con la inversa, y **las unicas propiedades que anima toda la hoja son
+`transform`, `opacity` y colores**: ninguna de layout.
+
+**Del movimiento, SIN verificar:** el bloque de `prefers-reduced-motion` — las
+reglas estan y parsean, pero no se probo con la preferencia activada en el
+sistema.
+
 **Del panel del carrito:** abierto desde la bolsa de la cabecera, con dos
 prendas, en desktop y **en 320** — los renglones con su foto, el `[− 1 +]`, el
 tacho en su lugar y no en una linea propia, la barra de envio, el TOTAL entero
@@ -538,5 +628,11 @@ Sin depender de la clienta:
 
 ## Etapa 2 (cuando haya tienda)
 
-Animaciones con GSAP, hero de campaña a sangre, segunda imagen al hover en la
-grilla, y la revision de producto, carrito y cuenta con contenido real.
+Hero de campaña a sangre, segunda imagen al hover en la grilla, y la revision
+de producto, carrito y cuenta con contenido real.
+
+Y el movimiento que hoy no se puede hacer con CSS: **arrastrar el panel del
+carrito para cerrarlo**, con seguimiento 1:1 del dedo, traspaso de velocidad al
+soltar, proyeccion de inercia para decidir si cierra o vuelve, y
+rubber-banding en el borde. Todo eso necesita resortes en JS sobre el
+`store.js` de Tiendanube, y no se puede probar sin la tienda arriba.

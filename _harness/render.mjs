@@ -105,7 +105,10 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
        15px, no 1.5rem. En 320 esos 18px de diferencia deciden si la cabecera
        entra en un renglon o se parte. */
     .container { max-width: 1600px; margin: 0 auto; padding: 0 15px; }
-    .item-image { position: relative; margin-bottom: .5rem; }
+    /* El overflow:hidden es del base (style-critical) y no es un detalle: es
+       lo que hace que la foto crezca DENTRO de su division de 1px al pasar por
+       encima, en vez de pisar la celda de al lado. */
+    .item-image { position: relative; margin-bottom: .5rem; overflow: hidden; }
     .item-image img { display: block; width: 100%; height: auto; }
     .item-label { position: absolute; top: .6rem; left: .6rem; z-index: 1; }
     /* El base resetea esto para todo el sitio (style-critical: a{...}) */
@@ -158,13 +161,22 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
     .nav-list-arrow { position: absolute; }
     .footer-payments-shipping-logos img { max-height: 35px; width: auto; margin: 2px; }
 
-    /* Los modales del base son off-canvas. Esto no replica su CSS entero: es
-       lo minimo para poder abrir el panel y el buscador y mirarlos. */
+    /* Los modales del base son off-canvas. Esto no replica su CSS entero, pero
+       si lo que importa para mirar el movimiento: el panel vive FUERA de la
+       pantalla y entra al ganar .modal-show, y el base lo hace moviendo
+       left/right — propiedades de layout — con transition:all. Nuestra hoja lo
+       pasa a transform; para verlo como un cambio de verdad, aca esta el
+       original. */
     .modal { position: fixed; top: 0; bottom: 0; z-index: 1050; overflow-y: auto;
-             width: 100%; max-width: 380px; }
-    .modal-left { left: 0; }
-    .modal-right { right: 0; }
-    .modal-overlay { position: fixed; inset: 0; background: rgba(10,10,10,.45); z-index: 1045; }
+             width: 100%; max-width: 380px;
+             transition: all .2s cubic-bezier(.16,.68,.43,.99); }
+    .modal-left { left: -100%; }
+    .modal-right { right: -100%; }
+    .modal-left.modal-show { left: 0; }
+    .modal-right.modal-show { right: 0; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(10,10,10,.45); z-index: 1045;
+                     opacity: 0; transition: opacity .34s ease; }
+    .modal-overlay.visible { opacity: 1; }
     .modal-header { display: flex; align-items: center; gap: .75rem; padding: 1rem 1.25rem; }
     .modal-close { cursor: pointer; }
     .modal-body { padding: 0; }
@@ -527,15 +539,27 @@ ${CARRITO}
   <div class="js-modal-overlay modal-overlay" style="display:none"></div>
 
   <script>
-    // En la tienda esto lo maneja store.js. Aca alcanza con mostrar y esconder.
+    // En la tienda esto lo maneja store.js. Se replica su secuencia, que es la
+    // que decide si la transicion se ve o no: mostrar, FORZAR UN REFLOW, y
+    // recien ahi poner la clase. Sin ese reflow el navegador junta los dos
+    // cambios en un solo frame y el panel aparece de golpe, sin animar.
+    // Al cerrar, store.js espera 500ms antes de esconderlo; lo mismo aca.
     const velo = document.querySelector('.modal-overlay')
     function abrir(sel) {
-      document.querySelector(sel).style.display = 'block'
+      const m = document.querySelector(sel)
+      m.style.display = 'block'
       velo.style.display = 'block'
+      void m.offsetWidth
+      m.classList.add('modal-show')
+      velo.classList.add('visible')
     }
     function cerrar() {
-      document.querySelectorAll('.js-modal').forEach(m => m.style.display = 'none')
-      velo.style.display = 'none'
+      velo.classList.remove('visible')
+      document.querySelectorAll('.js-modal.modal-show').forEach(m => {
+        m.classList.remove('modal-show')
+        setTimeout(() => { m.style.display = 'none' }, 500)
+      })
+      setTimeout(() => { velo.style.display = 'none' }, 500)
     }
     document.querySelectorAll('.js-panel').forEach(b => b.addEventListener('click', (e) => {
       e.preventDefault()
