@@ -36,6 +36,7 @@ banner_services_01_icon = shipping
 banner_services_02_icon = card
 banner_services_03_icon = security
 continue_buying = 1
+banners_full = 1
 modules_full = 1
 video_full = 1
 home_order_position_0 = slider

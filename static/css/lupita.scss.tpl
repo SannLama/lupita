@@ -1136,6 +1136,103 @@ footer a:hover {
 }
 
 /*============================================================================
+  #Categorias con foto
+  home_order_position_2 = categories -> home-banners.tpl del base: 3 fotos
+  con titulo y link que la clienta carga desde el panel (Diseño -> Banners de
+  categorias), sin tocar codigo. Estaba sin restylar (Bootstrap de fabrica,
+  bordes redondeados). Idea de Santiago (referencia con 3 fotos y categoria
+  superpuesta) — 2026-09-11.
+
+  Se descarta la tipografia script/cursiva de la referencia: contradice
+  Archivo Black en mayusculas, que es la macro del sistema. El titulo va en
+  el mismo chip solido de tinta que ya usan las etiquetas de producto
+  (.item-label, OFERTA/NUEVO) en vez de flotar crema sobre la foto — asi no
+  depende de que la foto sea oscura ahi (el home-banners.tpl del base no
+  tiene, a diferencia del hero, un selector de color de texto por foto).
+==============================================================================*/
+
+.section-banners-home .row {
+    background-color: var(--lu-linea);
+    gap: 1px;
+}
+
+.section-banners-home .col-md {
+    background-color: var(--lu-papel);
+    padding: 0;
+}
+
+.textbanner {
+    position: relative;
+    height: 100%;
+}
+
+.textbanner-link {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.textbanner-image {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+}
+
+.textbanner-image-background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition-property: transform;
+    transition-duration: 420ms;
+}
+
+/* La foto respira, igual que en la grilla de productos */
+.textbanner-link:hover .textbanner-image-background {
+    transform: scale(1.04);
+}
+
+.textbanner-text.over-image {
+    position: absolute;
+    left: 0.75rem;
+    bottom: 0.75rem;
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    padding: 0.4rem 0.65rem;
+}
+
+.textbanner-title {
+    font-family: var(--lu-micro);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    margin: 0;
+}
+
+.textbanner-paragraph {
+    font-family: var(--lu-micro);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    opacity: 0.75;
+    margin-top: 0.2rem;
+}
+
+.textbanner-text .btn {
+    display: inline-block;
+    margin-top: 0.4rem;
+    border: 1px solid var(--lu-papel);
+    color: var(--lu-papel);
+    background: transparent;
+    padding: 0.3rem 0.6rem;
+    font-family: var(--lu-micro);
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+}
+
+/*============================================================================
   #Riel de secciones
   Ahi! Lupita vende SOLO ropa de mujer: no hay un nivel de genero que separar,
   asi que las secciones son directamente las prendas (vestidos, pantalones,

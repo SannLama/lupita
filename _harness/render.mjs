@@ -122,12 +122,13 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
     .row.no-gutters { margin: 0; }
     .col, [class^="col-"] { padding: 0 .75rem; }
     .col { flex: 1 0 0%; }
-    .row.no-gutters > .col { padding: 0; }
-    .col-md-3 { flex: 0 0 100%; max-width: 100%; }
+    .row.no-gutters > .col, .row.no-gutters > .col-md { padding: 0; }
+    .col-md-3, .col-md { flex: 0 0 100%; max-width: 100%; }
     .col-md-9 { flex: 0 0 100%; max-width: 100%; }
     @media (min-width: 768px) {
       .col-md-3 { flex: 0 0 25%; max-width: 25%; }
       .col-md-9 { flex: 0 0 75%; max-width: 75%; }
+      .col-md { flex: 1 0 0%; max-width: 100%; }
     }
     .align-items-center { align-items: center; }
     .justify-content-md-center { justify-content: center; }
@@ -938,6 +939,31 @@ function paginaHome(settings) {
 
   const destacados = PRODUCTOS.slice(0, 4).map(tarjeta).join('')
 
+  /* home_order_position_2 = categories -> home-banners.tpl del base, 3
+     banners con foto que la clienta carga desde el panel (Diseño -> Banners
+     de categorias). Nombres de demo = las secciones reales del riel, no
+     "denim/blusas/accesorios" de la referencia que trajo Santiago. */
+  const CATEGORIAS = [
+    { titulo: 'Vestidos', foto: 'img/hero-02.jpg', url: 'categoria.html' },
+    { titulo: 'Pantalones', foto: 'img/hero-04.jpg', url: 'categoria.html' },
+    { titulo: 'Abrigos', foto: 'img/hero-03.jpg', url: 'categoria.html' },
+  ]
+  const categorias = CATEGORIAS.map(
+    (c) => `
+      <div class="col-md">
+        <div class="textbanner">
+          <a class="textbanner-link" href="${c.url}" title="${c.titulo}" aria-label="${c.titulo}">
+            <div class="textbanner-image overlay">
+              <img src="${imagenSrc(c.foto, c.titulo, 600, 800)}" class="textbanner-image-background" alt="${c.titulo}">
+            </div>
+            <div class="textbanner-text over-image">
+              <div class="h1 textbanner-title">${c.titulo}</div>
+            </div>
+          </a>
+        </div>
+      </div>`
+  ).join('')
+
   return `${CABEZA('Home')}
 <body class="template-home">
   <style>
@@ -981,6 +1007,13 @@ ${CABECERA(settings)}
     <div class="js-product-table row">${destacados}
     </div>
   </div>
+
+  <section class="section-banners-home">
+    <div class="container-fluid p-0">
+      <div class="row no-gutters align-items-center">${categorias}
+      </div>
+    </div>
+  </section>
 
 ${PIE}
 ${PANELES}
