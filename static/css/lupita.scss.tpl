@@ -482,10 +482,12 @@ hr,
    selector del panel no hacia nada. Ahora el color sale de esas dos clases:
    para una foto clara, la clienta elige "oscuro" en el panel y el titulo pasa
    a tinta, sin tocar codigo. */
-/* .section-cover-home comparte estas cinco reglas con el hero a proposito
-   (ver #Portada mas abajo): mismo riesgo de contraste, mismo arreglo. */
+/* .section-cover-home y .section-capsule-home comparten estas cinco reglas
+   con el hero a proposito (ver #Portada y #Capsula mas abajo): mismo riesgo
+   de contraste, mismo arreglo. */
 .nube-slider-home .swiper-text,
-.section-cover-home .swiper-text {
+.section-cover-home .swiper-text,
+.section-capsule-home .swiper-text {
     position: absolute;
     left: 50%;
     bottom: clamp(2rem, 6vh, 5rem);
@@ -498,17 +500,20 @@ hr,
 }
 
 .nube-slider-home .swiper-text.swiper-white,
-.section-cover-home .swiper-text.swiper-white {
+.section-cover-home .swiper-text.swiper-white,
+.section-capsule-home .swiper-text.swiper-white {
     color: var(--lu-papel);
 }
 
 .nube-slider-home .swiper-text.swiper-black,
-.section-cover-home .swiper-text.swiper-black {
+.section-cover-home .swiper-text.swiper-black,
+.section-capsule-home .swiper-text.swiper-black {
     color: var(--lu-tinta);
 }
 
 .nube-slider-home .swiper-title,
-.section-cover-home .swiper-title {
+.section-cover-home .swiper-title,
+.section-capsule-home .swiper-title {
     font-family: var(--lu-macro);
     text-transform: uppercase;
     letter-spacing: -0.03em;
@@ -519,7 +524,8 @@ hr,
 }
 
 .nube-slider-home .swiper-description,
-.section-cover-home .swiper-description {
+.section-cover-home .swiper-description,
+.section-capsule-home .swiper-description {
     font-family: var(--lu-micro);
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
@@ -533,7 +539,8 @@ hr,
    Texto en tinta y no en papel: turquesa+papel da 2.17:1 (ver la nota de
    contraste general), turquesa+tinta da 8.27:1. */
 .nube-slider-home .swiper-btn,
-.section-cover-home .swiper-btn {
+.section-cover-home .swiper-btn,
+.section-capsule-home .swiper-btn {
     display: inline-block;
     margin-top: 1.25rem;
     background-color: var(--lu-acento);
@@ -613,7 +620,8 @@ hr,
     position: relative;
 }
 
-.cover-image {
+.cover-image,
+.capsule-media {
     position: relative;
     height: 56vh;
     max-height: 680px;
@@ -621,12 +629,34 @@ hr,
 }
 
 @media (min-width: 768px) {
-    .cover-image {
+    .cover-image,
+    .capsule-media {
         height: 72vh;
     }
 }
 
 .cover-image-background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/*============================================================================
+  #Capsula
+  home_order_position_9 = capsule -> home-capsule.tpl (nuevo, no viene del
+  base): video en loop, sin sonido, de fondo — la marca lo pidio para su
+  capsula actual ("The Trip"). Idea de Santiago — 2026-09-11.
+
+  Comparte alto con la Portada (.capsule-media agrupado arriba con
+  .cover-image) para que las dos "pausas graficas" del home midan lo mismo.
+==============================================================================*/
+
+.section-capsule-home {
+    position: relative;
+}
+
+.capsule-video {
     width: 100%;
     height: 100%;
     object-fit: cover;

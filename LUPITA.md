@@ -611,16 +611,24 @@ logotipo tipografico, que es el que usa el base cuando no hay imagen cargada),
 animacion, el bloqueo del scroll y el acordeon de subrubros los maneja
 `store.js` en la tienda — y el **panel del carrito**, que todavia no se toco.
 
-**La Portada (`home_order_position_8 = cover`, 2026-09-11):** es la unica
-seccion de home que no viene del base — se agrego a mano en
+**La Portada y la Capsula (`home_order_position_8/9`, 2026-09-11):** son las
+unicas dos secciones de home que no vienen del base — se agregaron a mano en
 `templates/home.tpl`, `config/settings.txt` (el widget `section_order` que
 arma el orden de secciones) y `snipplets/home/home-section-switch.tpl`,
-siguiendo el patron exacto de las secciones vecinas (`welcome`, `categories`).
-**Sin verificar contra el panel real de Tiendanube** — que el widget
-`section_order` acepte de verdad una opcion nueva agregada a mano en
-`sections`, y que `cover_show`/`cover_color`/etc. aparezcan como se espera en
-el editor — recien se puede probar con la tienda arriba. Visualmente se ve
+siguiendo el patron exacto de las secciones vecinas (`welcome`, `categories`,
+`video`). **Sin verificar contra el panel real de Tiendanube** — que el
+widget `section_order` acepte de verdad una opcion nueva agregada a mano en
+`sections`, y que los campos de cada una aparezcan como se espera en el
+editor — recien se puede probar con la tienda arriba. Visualmente se ven
 bien en el harness, en desktop y en 320/390/430.
+
+**La Capsula es un video en loop mudo, no el video-embed del base.** El base
+ya trae una seccion "Video" (`video_embed`, YouTube/Vimeo con boton de play):
+no sirve para esto porque es un reproductor a demanda, no un fondo que se
+reproduce solo. `capsule_video_url` pide un link directo a un `.mp4`
+alojado afuera de Tiendanube — la plataforma no aloja archivos de video
+sueltos para el theme. Sin `muted` ningun navegador deja hacer autoplay, asi
+que no hay sonido: no es una decision de diseño.
 
 ---
 
@@ -645,6 +653,13 @@ bien en el harness, en desktop y en 320/390/430.
    completa, sin carrusel, referencia Lara Casa) y va a pasar el título después.
    Hoy dice `[ Título a definir ]` en el harness — no rellenar con algo
    definitivo antes de que lo confirme.
+
+6b. **El video de "The Trip".** Santiago dijo que ya tiene o va a conseguir el
+   archivo/link (2026-09-11). Falta: el link directo al `.mp4` (alojado afuera
+   de Tiendanube — ver la nota de la Cápsula más arriba) y confirmar si "The
+   Trip" es el título que quiere ver en pantalla o solo el nombre interno de
+   la cápsula. Hoy el harness usa "THE TRIP" como demo sobre una foto fija,
+   sin el video real.
 
 6. **Las secciones.** Las del menu y las del riel (`Vestidos`, `Pantalones`,
    `Abrigos`…) son de mentira, igual que las prendas del harness: sirven para

@@ -9,8 +9,9 @@
 {% set has_video = settings.video_embed %}
 {% set has_instafeed = store.instagram and settings.show_instafeed and store.hasInstagramToken() %}
 {% set has_cover = settings.cover_show and settings.cover_title and ('cover.jpg' | has_custom_image) %}
+{% set has_capsule = settings.capsule_show and settings.capsule_video_url %}
 
-{% set show_help = not (has_main_slider or has_mobile_slider or has_category_banners or has_image_text_modules or has_video or has_instafeed or has_informative_banners or has_cover) and not has_products %}
+{% set show_help = not (has_main_slider or has_mobile_slider or has_category_banners or has_image_text_modules or has_video or has_instafeed or has_informative_banners or has_cover or has_capsule) and not has_products %}
 
 {% set show_component_help = params.preview %}
 
@@ -22,7 +23,7 @@
 {% set newArray = [] %}
 
 <div class="js-home-sections-container">
-	{% for i in 0..8 %}
+	{% for i in 0..9 %}
 		{% set section = 'home_order_position_' ~ i %}
 		{% set section_select = attribute(settings, section) %}
 
@@ -36,7 +37,7 @@
 	{#  **** Hidden Sections ****  #}
 	{% if show_component_help %}
 		<div style="display:none">
-			{% for section_select in ['slider', 'products', 'informatives', 'categories', 'welcome', 'video', 'instafeed', 'modules', 'cover'] %}
+			{% for section_select in ['slider', 'products', 'informatives', 'categories', 'welcome', 'video', 'instafeed', 'modules', 'cover', 'capsule'] %}
 				{% if section_select not in newArray %}
 					{% include 'snipplets/home/home-section-switch.tpl' %}
 				{% endif %}

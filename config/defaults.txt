@@ -48,6 +48,7 @@ home_order_position_5 = informatives
 home_order_position_6 = welcome
 home_order_position_7 = video
 home_order_position_8 = cover
+home_order_position_9 = capsule
 ajax_cart = 1
 cart_open_type = show_notification
 add_to_cart_recommendations = 1

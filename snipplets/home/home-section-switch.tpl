@@ -97,4 +97,13 @@
 		{% include 'snipplets/home/home-cover.tpl' %}
 	{% endif %}
 
+{% elseif section_select == 'capsule' %}
+
+	{#  **** Capsula: video en loop, sin sonido, de fondo ****  #}
+	{% if show_help or (show_component_help and not has_capsule) %}
+		{% include 'snipplets/defaults/home/capsule_help.tpl' %}
+	{% else %}
+		{% include 'snipplets/home/home-capsule.tpl' %}
+	{% endif %}
+
 {% endif %}

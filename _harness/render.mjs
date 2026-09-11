@@ -1024,6 +1024,17 @@ ${CABECERA(settings)}
     </div>
   </section>
 
+  <!-- Sin el link real de "The Trip" todavia: se ve la imagen de reemplazo
+       nomas, sin loop. El <video> real se prueba cuando llegue el archivo. -->
+  <section class="section-capsule-home">
+    <div class="capsule-media">
+      <img src="${imagenSrc('img/hero-04.jpg', 'VIDEO — THE TRIP (pendiente)', 1600, 1200)}" class="capsule-video" alt="">
+      <div class="swiper-text swiper-white">
+        <div class="swiper-title h1">The Trip</div>
+      </div>
+    </div>
+  </section>
+
 ${PIE}
 ${PANELES}
 
