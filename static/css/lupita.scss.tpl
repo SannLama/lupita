@@ -620,6 +620,52 @@ hr,
     color: var(--lu-acento);
 }
 
+/* Si la clienta escribe mas de un mensaje separados por "—" en el mismo
+   campo (ver header-advertising.tpl), rotan solos en vez de ir todos
+   pegados. Truco de siempre para un ticker sin JS: el contenedor mide una
+   linea y recorta, adentro los mensajes se apilan en columna (el track mide
+   N lineas), y una sola animacion con steps(N) — N mensajes, resuelto por
+   Twig al renderizar — corre el track de a un mensaje por vez, sin
+   transicion entre pasos.
+
+   ⚠️ El destino del keyframe es -100% (la altura del track), NO
+   -(N-1)/N*100% como parece "logico" para terminar en el ultimo mensaje.
+   Probado en pantalla el 2026-09-11: con steps(N) el valor sostenido en el
+   paso i es (i/N) del destino, no (i/(N-1)). Con destino -100% eso da
+   exactamente i mensajes de alto en cada paso (0, 1, 2... N-1), que es lo
+   que hace falta; con (N-1)/N el ultimo paso quedaba a mitad de camino del
+   ultimo mensaje. */
+.ad-rotator {
+    display: inline-block;
+    overflow: hidden;
+    height: 1.3em;
+    vertical-align: top;
+}
+
+.ad-track {
+    display: flex;
+    flex-direction: column;
+    animation-name: lu-ad-cycle;
+    animation-iteration-count: infinite;
+}
+
+.ad-msg {
+    height: 1.3em;
+    line-height: 1.3;
+}
+
+@keyframes lu-ad-cycle {
+    to {
+        transform: translateY(-100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ad-track {
+        animation: none;
+    }
+}
+
 /*============================================================================
   #Cabecera
   El base la arma en tres columnas: hamburguesa / logo / utilidades. Se

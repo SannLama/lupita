@@ -260,13 +260,21 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
   <link rel="stylesheet" href="lupita.css">
 </head>`
 
+/** Replica el split por "—" de header-advertising.tpl: con mas de un
+ * mensaje, arma el ticker de steps(N); con uno solo, lo deja estatico. */
+function adBar(texto) {
+  const partes = texto.split('—').map((p) => p.trim()).filter(Boolean)
+  if (partes.length <= 1) return texto
+  return `<span class="ad-rotator"><span class="ad-track" style="animation-duration: ${partes.length * 4}s; animation-timing-function: steps(${partes.length});">${partes.map((p) => `<span class="ad-msg">${p}</span>`).join('')}</span></span>`
+}
+
 /* Cabecera real del theme: snipplets/header/header.tpl mas la barra de aviso.
    Las tres columnas (hamburguesa / logo / utilidades) son las del base. */
 const CABECERA = (settings) => `
     ${settings.ad_bar === '1' && settings.ad_text_es ? `
     <section class="section-advertising">
       <div class="container">
-        <div class="row-fluid"><div class="col text-center">${settings.ad_text_es}</div></div>
+        <div class="row-fluid"><div class="col text-center">${adBar(settings.ad_text_es)}</div></div>
       </div>
     </section>` : ''}
     <header class="head-main head-${settings.head_background} head-fix">
