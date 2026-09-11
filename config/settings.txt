@@ -532,6 +532,37 @@ Página de inicio
 	description
 		description = Ej: https://www.youtube.com/watch?v=dptrWehSI8c
 	collapse
+		title = Portada
+		backto = home_order_position
+	description
+		description = Una sola foto a pantalla completa con un título grande encima, sin carrusel — para una campaña o una colección puntual.
+	checkbox
+		name = cover_show
+		description = Mostrar portada
+	image
+		original = cover.jpg
+		title = Cargar imagen (JPG, GIF, PNG)
+		width = 1600
+		height = 1200
+	dropdown
+		name = cover_color
+		description = Color del texto
+		values
+			white = Claro
+			black = Oscuro
+	i18n_input
+		name = cover_title
+		description = Título
+	i18n_input
+		name = cover_description
+		description = Descripción (Opcional)
+	i18n_input
+		name = cover_button
+		description = Texto del botón (Opcional)
+	i18n_input
+		name = cover_url
+		description = Link (Opcional)
+	collapse
 		title = Pop-up promocional
 		backto = home_order_position
 	checkbox
@@ -569,6 +600,7 @@ Página de inicio
 			modules = Módulos de imagen y texto
 			video = Video
 			instafeed = Publicaciones de Instagram
+			cover = Portada
 	link
 		text = Pop-up promocional
 		linkto = home_promotional_popup

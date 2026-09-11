@@ -88,4 +88,13 @@
 		{% include 'snipplets/home/home-modules.tpl' with {'textoverimage': false} %}
 	{% endif %}
 
+{% elseif section_select == 'cover' %}
+
+	{#  **** Portada: una foto a pantalla completa, sin carrusel ****  #}
+	{% if show_help or (show_component_help and not has_cover) %}
+		{% include 'snipplets/defaults/home/cover_help.tpl' %}
+	{% else %}
+		{% include 'snipplets/home/home-cover.tpl' %}
+	{% endif %}
+
 {% endif %}

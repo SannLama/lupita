@@ -482,7 +482,10 @@ hr,
    selector del panel no hacia nada. Ahora el color sale de esas dos clases:
    para una foto clara, la clienta elige "oscuro" en el panel y el titulo pasa
    a tinta, sin tocar codigo. */
-.nube-slider-home .swiper-text {
+/* .section-cover-home comparte estas cinco reglas con el hero a proposito
+   (ver #Portada mas abajo): mismo riesgo de contraste, mismo arreglo. */
+.nube-slider-home .swiper-text,
+.section-cover-home .swiper-text {
     position: absolute;
     left: 50%;
     bottom: clamp(2rem, 6vh, 5rem);
@@ -494,15 +497,18 @@ hr,
     text-align: center;
 }
 
-.nube-slider-home .swiper-text.swiper-white {
+.nube-slider-home .swiper-text.swiper-white,
+.section-cover-home .swiper-text.swiper-white {
     color: var(--lu-papel);
 }
 
-.nube-slider-home .swiper-text.swiper-black {
+.nube-slider-home .swiper-text.swiper-black,
+.section-cover-home .swiper-text.swiper-black {
     color: var(--lu-tinta);
 }
 
-.nube-slider-home .swiper-title {
+.nube-slider-home .swiper-title,
+.section-cover-home .swiper-title {
     font-family: var(--lu-macro);
     text-transform: uppercase;
     letter-spacing: -0.03em;
@@ -512,7 +518,8 @@ hr,
     margin: 0;
 }
 
-.nube-slider-home .swiper-description {
+.nube-slider-home .swiper-description,
+.section-cover-home .swiper-description {
     font-family: var(--lu-micro);
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
@@ -525,7 +532,8 @@ hr,
 /* El unico turquesa del hero, para que el ojo sepa donde tocar.
    Texto en tinta y no en papel: turquesa+papel da 2.17:1 (ver la nota de
    contraste general), turquesa+tinta da 8.27:1. */
-.nube-slider-home .swiper-btn {
+.nube-slider-home .swiper-btn,
+.section-cover-home .swiper-btn {
     display: inline-block;
     margin-top: 1.25rem;
     background-color: var(--lu-acento);
@@ -586,6 +594,43 @@ hr,
     height: auto;
     z-index: 3;
     filter: none;
+}
+
+/*============================================================================
+  #Portada
+  home_order_position_8 = cover -> home-cover.tpl (nuevo, no viene del
+  base): una sola foto a pantalla completa con un titulo grande y sin
+  carrusel. Idea de Santiago (referencia Lara Casa) — 2026-09-11.
+
+  Mas baja que el hero (56vh/72vh contra 72vh/88vh) a proposito: si va
+  cerca del hero en la pagina, misma altura hubiera leido como "otro slide
+  mas" en vez de una pausa distinta. El texto reusa las clases del hero
+  (swiper-text, swiper-white/black) — ver la regla compartida mas arriba —
+  asi hereda el mismo arreglo de contraste sin duplicar CSS.
+==============================================================================*/
+
+.section-cover-home {
+    position: relative;
+}
+
+.cover-image {
+    position: relative;
+    height: 56vh;
+    max-height: 680px;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .cover-image {
+        height: 72vh;
+    }
+}
+
+.cover-image-background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 /*============================================================================

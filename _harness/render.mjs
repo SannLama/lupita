@@ -1015,6 +1015,15 @@ ${CABECERA(settings)}
     </div>
   </section>
 
+  <section class="section-cover-home">
+    <div class="cover-image">
+      <img src="${imagenSrc('img/hero-01.jpg', 'PORTADA', 1600, 1200)}" class="cover-image-background" alt="">
+      <div class="swiper-text swiper-black">
+        <div class="swiper-title h1">[ Título a definir ]</div>
+      </div>
+    </div>
+  </section>
+
 ${PIE}
 ${PANELES}
 

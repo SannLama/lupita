@@ -47,6 +47,7 @@ home_order_position_4 = instafeed
 home_order_position_5 = informatives
 home_order_position_6 = welcome
 home_order_position_7 = video
+home_order_position_8 = cover
 ajax_cart = 1
 cart_open_type = show_notification
 add_to_cart_recommendations = 1
