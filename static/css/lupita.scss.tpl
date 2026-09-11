@@ -472,9 +472,16 @@ hr,
    Santiago el 2026-09-10. Antes iba dentro de un bloque macizo de tinta.
 
    ⚠️ Esto depende de la foto: si la campana es clara justo donde cae el
-   titulo, el texto se pierde. No hay red de contencion — la unica que existe
-   sin degradados (que la direccion prohibe) es volver al bloque. Cuando
-   lleguen las fotos hay que mirarlo una por una. */
+   titulo, el texto se pierde. Probado con fotos reales el 2026-09-11: en una
+   foto de playa clara (cielo y arena) el titulo crema casi desaparece.
+
+   La salida NO es un bloque nuevo: el propio home-slider.tpl del base ya
+   manda `slide.color` -> clase `swiper-white` / `swiper-black` (el selector
+   de color de texto que la clienta tiene en el panel, por slide). Antes esta
+   regla fijaba el color en `.swiper-text` sin importar esa clase, asi que el
+   selector del panel no hacia nada. Ahora el color sale de esas dos clases:
+   para una foto clara, la clienta elige "oscuro" en el panel y el titulo pasa
+   a tinta, sin tocar codigo. */
 .nube-slider-home .swiper-text {
     position: absolute;
     left: 50%;
@@ -484,8 +491,15 @@ hr,
     max-width: min(88vw, 38rem);
     padding: 0;
     background-color: transparent;
-    color: var(--lu-papel);
     text-align: center;
+}
+
+.nube-slider-home .swiper-text.swiper-white {
+    color: var(--lu-papel);
+}
+
+.nube-slider-home .swiper-text.swiper-black {
+    color: var(--lu-tinta);
 }
 
 .nube-slider-home .swiper-title {
@@ -494,7 +508,7 @@ hr,
     letter-spacing: -0.03em;
     line-height: 0.92;
     font-size: clamp(1.75rem, 5vw, 4rem);
-    color: var(--lu-papel);
+    color: inherit;
     margin: 0;
 }
 
@@ -504,17 +518,19 @@ hr,
     letter-spacing: var(--lu-track);
     font-size: 0.7rem;
     line-height: 1.5;
-    color: var(--lu-papel);
+    color: inherit;
     margin-top: 0.9rem;
 }
 
-/* El unico turquesa del hero, para que el ojo sepa donde tocar */
+/* El unico turquesa del hero, para que el ojo sepa donde tocar.
+   Texto en tinta y no en papel: turquesa+papel da 2.17:1 (ver la nota de
+   contraste general), turquesa+tinta da 8.27:1. */
 .nube-slider-home .swiper-btn {
     display: inline-block;
     margin-top: 1.25rem;
     background-color: var(--lu-acento);
     border-color: var(--lu-acento);
-    color: var(--lu-papel);
+    color: var(--lu-tinta);
 }
 
 /*  Contador tipo "01 / 04" en lugar de los puntitos del base.

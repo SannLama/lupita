@@ -128,13 +128,14 @@ Lo que implica: el acento sirve como **fondo con letras oscuras encima**, y no
 como color de texto sobre papel ni con texto claro encima.
 
 **Corregido hasta ahora:** la barra de envio gratis del carrito, que pasa a
-tinta porque dice cuanto falta y eso es informacion.
+tinta porque dice cuanto falta y eso es informacion. **Y el 2026-09-11, el
+boton del hero** (turquesa con texto papel → texto tinta, 8.27:1).
 
-**Sin corregir todavia, y hay que decidirlo:** el boton del hero (turquesa con
-texto papel), la etiqueta OFERTA (idem), y los links chicos en turquesa —
-"borrar filtros", "ver todos", el `strong` de las cuotas. La salida mas
-sencilla para casi todos es **darles texto en tinta en vez de papel**, que no
-toca la paleta y sube a 8.27:1. Para los links sueltos, tinta con subrayado.
+**Sin corregir todavia, y hay que decidirlo:** la etiqueta OFERTA, y los links
+chicos en turquesa — "borrar filtros", "ver todos", el `strong` de las
+cuotas. La salida mas sencilla para casi todos es **darles texto en tinta en
+vez de papel**, que no toca la paleta y sube a 8.27:1. Para los links sueltos,
+tinta con subrayado.
 
 Las dos fuentes salen del selector oficial del panel de Tiendanube, asi que la
 clienta puede cambiarlas sin tocar codigo y Google Fonts las sirve solo.
@@ -221,6 +222,20 @@ unica que existe sin degradados — que la direccion prohibe — es volver al
 bloque. **Cuando lleguen las fotos hay que mirar slide por slide**, y si alguna
 no aguanta, las salidas son recortar la foto para que la zona del titulo quede
 oscura, o volver al bloque solo en esa.
+
+**El 2026-09-11 llegaron 4 fotos reales de prueba** (una modelo, no material
+oficial de la clienta todavia) y confirmaron exactamente este riesgo: en una
+foto de playa clara (cielo y arena debajo del titulo) "NUEVA TEMPORADA" en
+crema casi desaparecia. Ahi aparecio el bug de fondo: **el propio
+`home-slider.tpl` del base ya manda `slide.color` → clase `swiper-white` /
+`swiper-black`**, que es el selector de color de texto por slide que la
+clienta tiene en el panel — pero nuestra hoja fijaba `color: var(--lu-papel)`
+directo en `.swiper-text` sin mirar esa clase, asi que el selector del panel
+no hacia nada. Se arreglo: ahora el color sale de `.swiper-white` /
+`.swiper-black`, y con la foto de playa en negro el titulo se lee perfecto. La
+clienta va a poder resolver una foto clara sola, desde el panel, sin pedirnos
+nada. Las fotos de prueba quedaron en `_harness/img/` (no se suben por FTP) y
+el harness las usa en vez del gris — ver el hero en `home.html`.
 
 ---
 
@@ -553,6 +568,16 @@ repartiendose en tres columnas arriba de 768 y apilandose de a una abajo.
 su regla, y el hero sin bloque, en los siete anchos. Sobre las fotos falsas del
 harness — un gris medio — **el titulo se lee flojo**, que es exactamente el
 riesgo anotado arriba: lo decide la foto real, no el CSS.
+
+**Con fotos reales (2026-09-11):** las 4 fotos de prueba en pantalla, en
+desktop. Con `swiper-white`, las tres fotos oscuras/de contraste medio (rocas,
+selfie urbano, restaurante) se leen bien. La foto de playa clara, en blanco,
+confirmaba el riesgo — con `swiper-black` (arreglado el selector de color por
+slide, ver arriba) se lee perfecto. Tambien en `dispositivos.html` en 320, 390
+y 430 (la foto de rocas): el recorte vertical del hero movil sigue mostrando
+la zona oscura debajo del titulo, sin perder contraste. **No se recorrio la
+foto de playa slide por slide en mobile** — el arreglo es una propiedad
+`color` heredada, no deberia depender del ancho, pero queda para confirmar.
 
 **Del movimiento:** medido en el navegador, no deducido — el panel del carrito
 sale con `right: 0` fijo y `transform` animandose, `transition-property` es

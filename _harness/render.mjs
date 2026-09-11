@@ -16,7 +16,7 @@
  * Uso:  node _harness/render.mjs   ->  _harness/out/
  */
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -681,6 +681,14 @@ function foto(color, texto, w = 400, h = 600) {
   return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg)
 }
 
+/* Fotos reales de campana, en _harness/img/ (NO se suben por FTP, son solo
+   para mirar el hero con contenido real en vez del gris de foto()). Si el
+   campo `foto` de un slide empieza con 'img/', se usa tal cual; si no, cae al
+   placeholder SVG de siempre. */
+function imagenSrc(valor, texto, w, h) {
+  return valor.startsWith('img/') ? valor : foto(valor, texto, w, h)
+}
+
 /** Replica el DOM de snipplets/grid/item.tpl (clases reales, verificadas). */
 function tarjeta(p, i) {
   const cuota = Math.round(p.precio / 3)
@@ -890,10 +898,15 @@ ${PANELES}
    para ver el ritmo, el contraste y el contador.
    --------------------------------------------------------------------------- */
 
+/* `color` replica el selector de color de texto que la clienta tiene en el
+   panel por slide (blanco/negro, ver home-slider.tpl -> slide.color). La foto
+   de playa (hero-01) es clara justo donde cae el titulo: con blanco se pierde
+   (probado en pantalla el 2026-09-11), asi que va en negro. */
 const SLIDES = [
-  { titulo: 'Nueva temporada', desc: 'Primavera 26 · Ya en los tres locales', boton: 'Ver lo nuevo', foto: '#8E9A93' },
-  { titulo: '20% off', desc: 'Abonando en efectivo', boton: 'Ver la tienda', foto: '#6E6A63' },
-  { titulo: '3 y 6 cuotas', desc: 'Sin interes con todas las tarjetas', boton: 'Comprar ahora', foto: '#A79C8C' },
+  { titulo: 'Nueva temporada', desc: 'Primavera 26 · Ya en los tres locales', boton: 'Ver lo nuevo', foto: 'img/hero-01.jpg', color: 'black' },
+  { titulo: '20% off', desc: 'Abonando en efectivo', boton: 'Ver la tienda', foto: 'img/hero-02.jpg', color: 'white' },
+  { titulo: 'Ahi! Lupita', desc: 'Ropa de mujer en tres locales', boton: 'Ver la tienda', foto: 'img/hero-03.jpg', color: 'white' },
+  { titulo: '3 y 6 cuotas', desc: 'Sin interes con todas las tarjetas', boton: 'Comprar ahora', foto: 'img/hero-04.jpg', color: 'white' },
 ]
 
 function paginaHome(settings) {
@@ -901,8 +914,8 @@ function paginaHome(settings) {
     (s, i) => `
           <div class="swiper-slide slide-container${i === 0 ? ' activo' : ''}">
             <div class="slider-slide">
-              <img class="slider-image" src="${foto(s.foto, 'CAMPANA ' + (i + 1), 1600, 900)}" alt="">
-              <div class="swiper-text swiper-white">
+              <img class="slider-image" src="${imagenSrc(s.foto, 'CAMPANA ' + (i + 1), 1600, 900)}" alt="">
+              <div class="swiper-text swiper-${s.color}">
                 <div class="swiper-title h1">${s.titulo}</div>
                 <div class="swiper-description h5 font-weight-normal mt-3">${s.desc}</div>
                 <a href="categoria.html" class="btn btn-small swiper-btn mt-4">${s.boton}</a>
@@ -1061,6 +1074,12 @@ writeFileSync(join(SALIDA, 'categoria.html'), paginaCategoria(settings))
 writeFileSync(join(SALIDA, 'producto.html'), paginaProducto(settings))
 writeFileSync(join(SALIDA, 'home.html'), paginaHome(settings))
 writeFileSync(join(SALIDA, 'dispositivos.html'), paginaDispositivos())
+
+/* Fotos reales del hero (ver imagenSrc): se copian tal cual a out/img. */
+const IMG_ORIGEN = join(AQUI, 'img')
+if (existsSync(IMG_ORIGEN)) {
+  cpSync(IMG_ORIGEN, join(SALIDA, 'img'), { recursive: true })
+}
 
 console.log('OK ->', SALIDA)
 console.log('   papel', settings.background_color, '| tinta', settings.text_color, '| acento', settings.accent_color)
