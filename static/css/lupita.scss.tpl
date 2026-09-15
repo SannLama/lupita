@@ -3703,6 +3703,236 @@ footer .lu-reclamo-link {
   (bottom-sheet en mobile, centrado en desktop) es del base y se respeta.
 ==============================================================================*/
 
+/*============================================================================
+  #Variantes y catalogo (2026-09-15)
+  Talles y colores (snipplets/product/product-variants.tpl, con
+  bullet_variants: botones .btn-variant), muestras de color en la grilla
+  (item-colors.tpl, product_color_variants) y carrusel de fotos por prenda
+  (component product-item-image con product_item_slider). Hasta aca salian
+  con el estilo del base: bordes redondeados grises, elegido casi igual al
+  resto. El harness no lo mostraba porque la ficha usaba botones inventados.
+
+  store.js pone .selected en la opcion elegida y .btn-variant-no-stock en la
+  que no tiene stock para la combinacion actual. Elegido = turquesa con tinta
+  (la unica combinacion del acento que contrasta).
+==============================================================================*/
+
+.btn-variant {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    margin: 0 0.4rem 0.4rem 0;
+    padding: 0;
+    border: 1px solid var(--lu-linea);
+    border-radius: 0;
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    line-height: 1;
+    vertical-align: top;
+}
+
+.btn-variant .btn-variant-content {
+    min-width: 0;
+    min-height: 0;
+    margin: 0.7rem 0.85rem;
+    line-height: 1;
+}
+
+.btn-variant:hover {
+    border-color: var(--lu-tinta);
+    color: var(--lu-tinta);
+}
+
+.btn-variant.selected {
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+/* Color: la muestra ocupa el boton; el borde gris #eee viene inline del tpl */
+.btn-variant.btn-variant-color {
+    padding: 3px;
+    background-color: var(--lu-papel);
+}
+
+.btn-variant.btn-variant-color .btn-variant-content {
+    width: 2.1rem;
+    height: 2.1rem;
+    margin: 0;
+    border: 1px solid var(--lu-linea) !important;
+}
+
+.btn-variant.btn-variant-color.selected {
+    background-color: var(--lu-papel);
+    border: 2px solid var(--lu-acento);
+    padding: 2px;
+}
+
+/* Sin stock para la combinacion: gris y cruzado por una diagonal de tinta */
+.btn-variant.btn-variant-no-stock {
+    position: relative;
+    overflow: hidden;
+    color: var(--lu-gris);
+    background-color: var(--lu-papel);
+}
+
+.btn-variant.btn-variant-no-stock::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(to top left, transparent calc(50% - 0.5px), var(--lu-gris) calc(50% - 0.5px), var(--lu-gris) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+}
+
+.btn-variant.btn-variant-no-stock.selected {
+    background-color: var(--lu-papel);
+    border-color: var(--lu-tinta);
+    color: var(--lu-tinta);
+}
+
+.js-product-variants .form-label {
+    margin-bottom: 0.6rem !important;
+}
+
+/* Muestras de color en la grilla: franja de papel al pie de la foto */
+.item-colors {
+    left: 0;
+    bottom: 0;
+    padding: 0.4rem 0.5rem;
+    background: color-mix(in srgb, var(--lu-papel) 90%, transparent);
+    text-align: left;
+    line-height: 0;
+}
+
+.item-colors .item-colors-bullet {
+    display: inline-block;
+    min-width: 0.9rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    margin: 0 0.3rem 0 0;
+    border: 1px solid var(--lu-linea);
+    border-radius: 0;
+    opacity: 1;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.item-colors .item-colors-bullet.selected,
+.item-colors .item-colors-bullet:hover {
+    outline: 1px solid var(--lu-tinta);
+    outline-offset: 1px;
+}
+
+/* "3 colores" / "+2": texto, no muestra */
+.item-colors a.item-colors-bullet,
+.item-colors .item-colors-bullet-text {
+    width: auto;
+    height: auto;
+    border: 0;
+    background: transparent !important;
+    color: var(--lu-tinta) !important;
+    font-family: var(--lu-micro);
+    font-size: 0.62rem;
+    letter-spacing: var(--lu-track);
+    line-height: 0.9rem;
+    text-decoration: none;
+    outline: 0;
+}
+
+/* Carrusel de fotos por prenda (secciones y busqueda) */
+.item-image .swiper-container {
+    top: 0;
+    left: 0;
+}
+
+.item-slider-controls-container {
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-top: -1.125rem;
+    background-color: var(--lu-papel);
+    border: 1px solid var(--lu-linea);
+    color: var(--lu-tinta);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item-slider-controls-container::after {
+    display: none;
+}
+
+.item-slider-controls-container:hover {
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+}
+
+.item-slider-controls-container svg {
+    display: block;
+    width: 0.5rem;
+    height: 0.9rem;
+    margin: auto;
+    fill: currentColor;
+}
+
+/* .d-md-block (Bootstrap, !important) le ganaba al flex y la flecha quedaba
+   pegada arriba a la izquierda del cuadrado */
+@media (min-width: 768px) {
+    .item-slider-controls-container.d-md-block {
+        display: flex !important;
+    }
+}
+
+/* Contador "1 / 3" (solo celular): abajo a la derecha, sobre la franja de
+   colores. Arriba chocaba con el corazon (derecha) y con OFERTA/NUEVO
+   (izquierda); la franja deja libre ese rincon. */
+.item-slider-pagination {
+    left: auto;
+    right: 0.5rem;
+    top: auto;
+    bottom: 0.35rem;
+    z-index: 10;
+    width: auto;
+    padding: 0.2rem 0.4rem;
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    font-family: var(--lu-micro);
+    font-size: 0.6rem;
+    letter-spacing: var(--lu-track);
+}
+
+.item-more-images-message {
+    font-family: var(--lu-micro);
+    font-size: 0.62rem;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+    color: var(--lu-tinta);
+}
+
+/* Compra rapida desde la grilla: el disparador es un link subrayado, no un
+   segundo boton macizo debajo de cada prenda */
+.item-actions .btn.btn-primary {
+    width: auto;
+    padding: 0.35rem 0;
+    border-color: transparent;
+    background-color: transparent;
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.8rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.item-actions .btn.btn-primary:hover {
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+    color: var(--lu-tinta);
+    padding-inline: 0.4rem;
+}
+
 .modal-quickshop,
 .modal-quickshop .modal-body {
     background-color: var(--lu-papel);

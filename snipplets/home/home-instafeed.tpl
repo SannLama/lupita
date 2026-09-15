@@ -25,7 +25,7 @@
                             </span>
                         </a>
                         {% if store.tiktok %}
-                            {% set tiktokuser = store.tiktok|split('/')|last|replace({'@': ''}) %}
+                            {% set tiktokuser = store.tiktok|split('/')|last|trim('@') %}
                             <a target="_blank" rel="noopener" href="{{ store.tiktok }}" class="instafeed-title lu-tiktok-title" aria-label="{{ 'TikTok de' | translate }} {{ store.name }}">
                                 {% include "snipplets/svg/tiktok.tpl" with {svg_custom_class: "icon-inline icon-3x align-top svg-icon-text"} %}
                                 <span class="instafeed-user-fila">

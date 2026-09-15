@@ -135,6 +135,19 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
     /* style-critical: lista de contact-links.tpl */
     .contact-info { margin-top: 0; padding-left: 0; }
     .contact-item { list-style: none; }
+    /* style-colors + style-critical: variantes, muestras de la grilla y carrusel
+       del base, para que la hoja de Lupita se pruebe contra lo que la tienda trae */
+    .btn-variant { display: inline-block; min-width: 24px; min-height: 24px; margin: 0 10px 10px 0; border: 1px solid rgba(10,10,10,.3); color: rgba(10,10,10,.3); border-radius: 2px; vertical-align: top; }
+    .btn-variant-content { display: block; min-width: 12px; min-height: 12px; margin: 5px; line-height: 12px; }
+    .btn-variant.selected { color: #0A0A0A; border: 1px solid rgba(10,10,10,.8); }
+    .item-image { position: relative; }
+    .item-colors { position: absolute; bottom: 0; z-index: 9; width: 100%; padding: 5px 0; background: rgba(10,10,10,.6); }
+    .item-colors-bullet { display: inline-block; min-width: 18px; height: 18px; margin: 0 3px; font-size: 10px; text-transform: uppercase; border-radius: 100%; opacity: .6; }
+    .swiper-button-prev, .swiper-button-next { position: absolute; top: 50%; z-index: 10; cursor: pointer; }
+    .swiper-button-prev { left: 10px; } .swiper-button-next { right: 10px; }
+    .swiper-pagination { position: absolute; z-index: 10; text-align: center; }
+    .d-none { display: none !important; }
+    @media (min-width: 768px) { .d-md-block { display: block !important; } .d-md-none { display: none !important; } }
     /* style-critical: la columna angosta de la nota del blog */
     @media (min-width: 768px) { .container-narrow { max-width: 680px; } }
     .row.no-gutters > .col, .row.no-gutters > .col-md { padding: 0; }
@@ -915,8 +928,14 @@ function corazon(p, i, clase) {
 }
 
 /** Replica el DOM de snipplets/grid/item.tpl (clases reales, verificadas). */
+/* Colores de demo para las muestras de la grilla (item-colors.tpl): una de
+   cada tres prendas tiene tres colores, otra dos, la tercera ninguno. */
+const COLORES_DEMO = [['#1C1C1C', '#C8B89A', '#6B7F99'], ['#F4F4F0', '#8C2F39'], null]
+const CHEVRON = (d) => `<svg class="icon-inline icon-w-8 icon-2x svg-icon-text" viewBox="0 0 320 512" aria-hidden="true"><path d="${d === 'izq' ? 'M34.5 239L228.9 44.7c9.4-9.4 24.6-9.4 33.9 0l22.7 22.7c9.4 9.4 9.4 24.5 0 33.9L131.5 256l154 154.8c9.3 9.4 9.3 24.5 0 33.9l-22.7 22.7c-9.4 9.4-24.6 9.4-33.9 0L34.5 273c-9.3-9.4-9.3-24.6 0-34z' : 'M285.5 273L91.1 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.7-22.7c-9.4-9.4-9.4-24.5 0-33.9L188.5 256 34.5 101.3c-9.3-9.4-9.3-24.5 0-33.9l22.7-22.7c9.4-9.4 24.6-9.4 33.9 0L285.5 239c9.4 9.4 9.4 24.6 0 34z'}"/></svg>`
+
 function tarjeta(p, i) {
   const cuota = Math.round(p.precio / 3)
+  const colores = COLORES_DEMO[i % 3]
   return `
         <div class="js-item-product col-6 col-md-3 item item-product" data-product-type="list"
              onclick="location.href='producto.html?p=${i}'">
@@ -924,6 +943,15 @@ function tarjeta(p, i) {
             ${corazon(p, i, 'lu-fav-tarjeta')}
             ${p.etiqueta ? `<span class="item-label${p.etiqueta === 'OFERTA' ? ' item-label-sale' : ''}">${p.etiqueta}</span>` : ''}
             <img class="js-item-image" src="${foto(p.foto, 'FOTO ' + String(i + 1).padStart(2, '0'))}" alt="${p.nombre}">
+            <!-- product_item_slider: controles y paginacion del component product-item-image -->
+            <div class="swiper-button-prev item-slider-controls-container d-none d-md-block">${CHEVRON('izq')}</div>
+            <div class="swiper-button-next item-slider-controls-container d-none d-md-block">${CHEVRON('der')}</div>
+            <div class="swiper-pagination item-slider-pagination font-small d-md-none">1 / 3</div>
+            ${colores ? `<!-- item-colors.tpl (product_color_variants) -->
+            <div class="js-item-colors item-colors">
+              <a href="producto.html?p=${i}" class="item-colors-bullet item-colors-bullet-text d-md-none w-auto px-2">${colores.length} colores</a>
+              <div class="d-none d-md-block">${colores.map((c, j) => `<span title="Color ${j + 1}" class="js-color-variant item-colors-bullet${j === 0 ? ' selected' : ''}" style="background: ${c}"></span>`).join('')}</div>
+            </div>` : ''}
           </div>
           <div class="item-description">
             <a href="producto.html?p=${i}" class="item-link">
@@ -934,6 +962,10 @@ function tarjeta(p, i) {
               </div>
             </a>
             <span class="item-installments">3 cuotas sin interes de ${pesos(cuota)}</span>
+          </div>
+          <!-- quick_shop: disparador del modal de compra rapida -->
+          <div class="item-actions mt-2">
+            <a href="#" class="js-quickshop-modal-open js-modal-open btn btn-primary btn-small px-4 mb-1 mx-auto" onclick="event.stopPropagation(); return false">Agregar al carrito</a>
           </div>
         </div>`
 }
@@ -1045,10 +1077,21 @@ function paginaProducto(settings) {
           <span class="item-installments">3 cuotas sin interes de ${pesos(Math.round(p.precio / 3))}</span>
           ${pagosHtml('compacto')}
 
-          <div class="lu-variantes">
-            <span class="lu-rotulo">Talle</span>
-            <div class="lu-talles">
-              ${['1', '2', '3', '4'].map((t, j) => `<button class="lu-talle${j === 1 ? ' activo' : ''}">${t}</button>`).join('')}
+          <!-- snipplets/product/product-variants.tpl con bullet_variants: el HTML real
+               (antes aca habia botones inventados .lu-talle, que escondian que
+               .btn-variant no tenia estilo). Talle 4 sin stock para ver el tachado. -->
+          <div class="js-product-variants form-row">
+            <div class="js-product-variants-group js-color-variants-container col-12 mb-2 text-center text-md-left">
+              <div class="text-center text-md-left"><label class="form-label mb-3">Color</label></div>
+              <div class="text-center text-md-left">
+                ${['#1C1C1C', '#C8B89A', '#6B7F99'].map((c, j) => `<a class="js-insta-variant btn btn-variant btn-variant-color${j === 0 ? ' selected' : ''}" title="Color ${j + 1}"><span class="btn-variant-content" style="background: ${c}; border: 1px solid #eee" data-name="Color ${j + 1}"></span></a>`).join('')}
+              </div>
+            </div>
+            <div class="js-product-variants-group col-12 mb-2 text-center text-md-left">
+              <div class="text-center text-md-left"><label class="form-label mb-3">Talle</label></div>
+              <div class="text-center text-md-left">
+                ${['1', '2', '3', '4'].map((t, j) => `<a class="js-insta-variant btn btn-variant${j === 1 ? ' selected' : ''}${j === 3 ? ' btn-variant-no-stock' : ''}"><span class="btn-variant-content" data-name="${t}">${t}</span></a>`).join('')}
+              </div>
             </div>
           </div>
 
@@ -1080,12 +1123,7 @@ function paginaProducto(settings) {
     @media (min-width: 768px) {
       .section-single-product { grid-template-columns: 7fr 5fr; gap: clamp(2rem, 4vw, 4rem); }
     }
-    .lu-variantes { margin: 1.5rem 0; }
-    .lu-talles { display: flex; gap: 1px; margin-top: .6rem; }
-    .lu-talle { font: 400 .72rem 'Roboto Mono', monospace; letter-spacing: .08em;
-                background: var(--lu-papel); color: var(--lu-tinta);
-                border: 1px solid var(--lu-tinta); padding: .7rem 1.1rem; cursor: pointer; }
-    .lu-talle.activo, .lu-talle:hover { background: var(--lu-tinta); color: var(--lu-papel); }
+    .js-product-variants { margin: 1.5rem 0; }
     .volver { display: inline-block; margin: 1.25rem 0; }
   </style>
 

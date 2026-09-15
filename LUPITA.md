@@ -1361,6 +1361,38 @@ Pago o billeteras virtuales.
   conexión pasa a "Seguinos en nuestras redes". En el pie, el ícono de TikTok
   ya salía de `store.tiktok`; el harness ahora usa los links reales.
 
+### Catálogo con datos reales (2026-09-15)
+
+Santiago aclaró el alcance: **solo diseño**; productos, stock y precios ya
+están en el programa y los trae Tiendanube. Auditoría contra el base:
+
+- **Conexión:** grilla, ficha, variantes, fotos, filtros, búsqueda,
+  paginación y carrito siguen en el código del base, leyendo datos de la
+  plataforma; nada escrito a mano. Script de chequeo: todo `settings.*` usado
+  existe en `settings.txt`, sin imágenes huérfanas, indentación con tabs.
+  `replace({...})` (no lo usa el base) se cambió por `trim('@')`.
+- **El harness escondía un problema:** la ficha tenía botones de talle
+  inventados (`.lu-talle`); los reales (`.btn-variant`) no tenían estilo. Ahora
+  la ficha del harness usa el HTML de `product-variants.tpl` y el andamio copia
+  las reglas del base de variantes, muestras y carrusel.
+- **Talles y colores** (`#Variantes y catalogo`): botones cuadrados de 1px,
+  elegido turquesa con tinta, colores como muestras con borde turquesa al
+  elegir, sin stock (`.btn-variant-no-stock`, lo pone store.js) gris y
+  tachado.
+- **Grilla:** prendidos `product_color_variants`, `product_item_slider` y
+  `quick_shop` en defaults. Muestras en una franja de papel al pie de la foto
+  ("3 colores" en celular); flechas cuadradas de papel, contador "1 / 3" en
+  celular abajo a la derecha, sobre la franja de colores (arriba chocaba con el
+  corazón y con OFERTA); "Agregar al carrito" de la compra rápida
+  como link subrayado.
+- **Lo que necesita la tienda:** variantes llamadas exactamente "Color" y
+  "Talle" (el theme las reconoce por nombre); página "Guía de talles" con su
+  link en Detalle de producto; el carrusel solo aparece en secciones y
+  búsqueda, en prendas con más de una foto y sin filtros aplicados (regla del
+  base).
+- **Sin verificar sin tienda:** el swipe real del carrusel, el cambio de foto
+  al tocar una muestra de color y el modal de compra rápida con variantes.
+
 ## Etapa 2 (cuando haya tienda)
 
 Hero de campaña a sangre, y la revision
