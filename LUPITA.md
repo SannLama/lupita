@@ -788,10 +788,25 @@ blog no se puede ver en una captura.
 ## Pendientes con la clienta
 
 1. **Logo vectorial** o el hex exacto del turquesa.
-2. **La tercera direccion.** Instagram confirma España 137 y Loria 198 (Lomas);
-   la de Banfield (Belgrano 1470) salio de guias comerciales, no de ella.
-3. **Horarios y WhatsApp.** Las fuentes se contradicen (10:00–18:30 vs
-   10:00–20:30). No rellenar por iniciativa propia.
+2. **Direcciones: resuelto (Santiago, 2026-09-15).** España 137 (Lomas),
+   **España 202 esquina Loria 198** (Lomas) y **Belgrano 1470, Banfield**. La
+   de Banfield la pidio buscar: sale de Lomas Urbano y otras guias, que
+   coinciden; conviene que la clienta la mire igual. Van en el panel, grupo
+   "Tiendas e Instagram de Lupita" (`lupita_tienda_1/2/3`), porque
+   `store.address` es un solo campo; snipplet `tiendas-datos.tpl`, usado en
+   `contact-links.tpl` (pie y contacto) y en el panel de favoritos. Sin ninguna
+   cargada vuelve a `store.address`.
+3. **Horarios: resuelto (Santiago, 2026-09-15): lunes a sábados de 10:30 a
+   19:30** (`lupita_horarios`, ultimo renglon de la misma lista). Primero dijo
+   "10:00 a 19:30"; el texto de preguntas frecuentes, mas tarde, trae dias y
+   10:30, y quedo ese en todos lados. Las dos de Lomas llevan "(Las Lomitas)". **WhatsApp confirmado por Santiago
+   (2026-09-15): +54 9 11 2862-2903** (`https://wa.me/5491128622903`). El
+   theme no lo escribe: lo lee de `store.whatsapp`, que la clienta tiene que
+   cargar en el panel de Tiendanube (datos de contacto). De ahi salen el boton
+   flotante, el pie, contacto y "Reservar para probármelas" de favoritos. El
+   harness ya usa el numero real. **Mail: no hay** (Santiago, 2026-09-15): no
+   se carga `store.email` y `contact-links.tpl` no muestra ese renglon; el
+   harness ya no tiene el marcador.
 4. **Plan Impulso**, con las tres letras chicas: camino de ida, sin las mejoras
    automaticas de Tiendanube, y si se cierra el FTP se pierde todo lo hecho.
    Ver "Puesta en produccion".
@@ -802,17 +817,19 @@ blog no se puede ver en una captura.
    directo sobre la imagen, la zona de abajo al centro tiene que ser oscura.
    Conviene decirselo antes de que las saquen, no despues.
 
-6a. **El título de la Portada.** Santiago pidió el formato (una foto a pantalla
-   completa, sin carrusel, referencia Lara Casa) y va a pasar el título después.
-   Hoy dice `[ Título a definir ]` en el harness — no rellenar con algo
-   definitivo antes de que lo confirme.
+6a. **Portada "Sea of Dreams" — video y título listos (Santiago, 2026-09-15).**
+   Pasó de foto a video: `cover_video_url` (link directo a un `.mp4`),
+   `cover.jpg` como póster, título opcional. El .mov (36 MB, 4K 60 fps) quedó
+   en `_harness/out/video/portada.mp4` (1920, 30 fps, sin audio, **3,2 MB**).
+   Título por defecto `cover_title_es = Sea of Dreams`, texto blanco. Falta
+   alojar el `.mp4` y pegar el link.
 
-6b. **El video de "The Trip".** Santiago dijo que ya tiene o va a conseguir el
-   archivo/link (2026-09-11). Falta: el link directo al `.mp4` (alojado afuera
-   de Tiendanube — ver la nota de la Cápsula más arriba) y confirmar si "The
-   Trip" es el título que quiere ver en pantalla o solo el nombre interno de
-   la cápsula. Hoy el harness usa "THE TRIP" como demo sobre una foto fija,
-   sin el video real.
+6b. **Cápsula "City Moves" (antes "The Trip") — video y título listos
+   (Santiago, 2026-09-15).** El .mov (81 MB, 4K 60 fps, 12,5 s) quedó en
+   `_harness/out/video/capsula.mp4` (1920, 30 fps, H.264 crf 29, sin audio,
+   faststart, **5,3 MB**) más `capsula-poster.jpg`. Título por defecto
+   `capsule_title_es = City Moves`, texto blanco. Falta: alojar el `.mp4`
+   afuera de Tiendanube y pegar el link en `capsule_video_url`.
 
 6. **Las secciones.** Las del menu y las del riel (`Vestidos`, `Pantalones`,
    `Abrigos`…) son de mentira, igual que las prendas del harness: sirven para
@@ -1046,6 +1063,303 @@ iframe de 390 para capturar mobile con Edge. Se copiaron al andamio el aire de
 arriba), la lista de `contact-links`, el blog de style-critical y
 `.container-narrow`. En `movil.html` las filas del blog salen sin foto: Edge
 headless dice tener mouse y se activa la vista previa — en un telefono no pasa.
+
+### 2026-09-15: Favoritos — "guardala y probátela en el local"
+
+Wishlist propia del theme, sin app (Tiendanube no trae una nativa; las apps
+son MeFavorita o Super Favoritos). Spec en
+`docs/superpowers/specs/2026-09-15-favoritos-design.md`. El fin no es comprar
+despues online sino **venir a probarse las prendas a los locales**.
+
+- **Donde:** corazon en las tarjetas (`item.tpl`, arriba a la derecha de la
+  foto), en la ficha (`product-form.tpl`, al lado de agregar al carrito, en
+  `.lu-comprar`) y en la compra rapida (`quick-shop.tpl`: nace sin datos y el
+  JS le copia los de la tarjeta que abrio el modal). Acceso en la cabecera con
+  contador `[n]` (`header-utilities.tpl`) que abre `#modal-favoritos`
+  (`header.tpl`, con `modal.tpl` como el carrito).
+- **Panel:** franja turquesa "Vení a probártelas" + `store.address` (nada
+  escrito a mano), la lista (foto, nombre, talle si se guardo desde la ficha,
+  precio, quitar) y el boton **"Reservar para probármelas"**, que abre
+  `store.whatsapp` con el mensaje "Hola! Quiero probarme estas prendas en el
+  local:" y una linea por prenda. Solo aparece si la tienda cargo WhatsApp.
+- **Aviso al guardar:** "Guardada. Probátela en cualquiera de los locales" +
+  "Ver favoritos", abajo al centro, 3,5 s.
+- **Datos:** `localStorage` (`lupita:favoritos`), maximo 50, no se sincroniza
+  entre dispositivos. Todo el marcado nace `hidden`: si el navegador no deja
+  guardar (modo privado), no aparece nada.
+- **Codigo:** `_harness/favoritos/logica.mjs` (pura, **11 tests**:
+  `npm run test:favoritos`), `entrada.mjs` (DOM), `build.mjs` →
+  `static/js/lupita-favoritos.js.tpl` (**4,1 KB**, SI se sube; no editar a
+  mano, `npm run build:favoritos`). Script propio en `layout.tpl`.
+- **Cabecera:** el corazon (inline-flex centrado) y la bolsa del base (icono
+  en linea corrido -0.2em) quedaban a distinta altura. Todas las utilidades
+  pasaron a la misma caja flex centrada. Con tres iconos la columna derecha
+  no entraba abajo de 768 y empujaba el logotipo contra la lupa: menos aire
+  entre iconos y contadores sin corchetes (solo el numero). Visto a 1440, 390
+  y 320.
+- **Visto en pantalla** (harness, clics simulados): corazones, guardar dos,
+  aviso, contador, panel lleno con el boton de WhatsApp, ficha, 390.
+- **Sin verificar:** formato real de `store.address` y `store.whatsapp`; que
+  `js-modal-open` de `store.js` abra el modal nuevo sin tocarlo; que la compra
+  rapida conserve el corazon al rellenarse; la lectura del talle en la ficha
+  real (el harness no tiene el formulario de variantes completo).
+
+### 2026-09-15: Sobre nosotros
+
+**Pagina propia**, no seccion del home (primero se armo en el home y
+Santiago prefirio separarla). `page.tpl` usa `snipplets/sobre-nosotros.tpl`
+cuando la pagina tiene handle `sobre-nosotros` o se llama "Sobre nosotros";
+lo que la clienta escriba en el contenido de esa pagina va debajo, y las
+demas paginas siguen igual. **La clienta tiene que crear la pagina** en Mi
+Tiendanube > Paginas y sumarla al menu y al pie desde Menus (el harness ya
+muestra los dos links). Todo editable en "Personalizar diseño > Sobre
+nosotros": casilla, titulo, texto, frase destacada, cierre y tres fotos de
+las tiendas. **Sin verificar:** que `page.handle` llegue asi y el filtro
+`lower` en su compilador.
+
+Texto actual (pedido de Santiago, mismo dia): el parrafo suma "Somos la
+tienda de la zona con mas variedad de jeans por temporada, y trabajamos
+marcas diferenciales como Rifle, Millie y Aylovers" (marcas asi escritas); la
+frase destacada pasa a "Te asesoramos de forma personalizada en nuestras
+tiendas para resolver tu outfit para ese evento especial". Texto inicial: tienda multimarca de Lomas de Zamora y Banfield,
+ultimas tendencias, precios accesibles, surtido amplio, y **el asesoramiento
+como especialidad** (la frase destacada, en Bodoni Moda con regla turquesa).
+Cierre: "Para todas las chicas apasionadas por la moda." + "Conocer las
+tiendas". Sin fotos cargadas, el texto queda solo y centrado (no se muestran
+fotos de relleno en la tienda; el harness usa las de campaña). Las fotos de la
+referencia tienen dibujos encima: hacen falta los originales.
+
+### 2026-09-15: titulos de categorias y botones flotantes
+
+- Los banners de categorias dicen **Accesorios, Denim y Night Out**. En la
+  tienda se cargan desde el panel (Banners de categorias); quedaron como valor
+  inicial en `defaults.txt` (`banner_0X_title_es`) y en el harness.
+- **Volver arriba:** solo la flecha, sin caja ni contorno (la palabra
+  "Arriba" queda en el `aria-label`). Hover en turquesa.
+- **WhatsApp:** circulo turquesa con el icono en tinta (8,27:1). Al pasar el
+  mouse **crece un 12% y sigue turquesa** (Santiago no lo queria negro); sin
+  crecer con movimiento reducido. El foco pasa a tinta y afuera del circulo:
+  en papel sobre turquesa no se veia.
+- **Corazon de favoritos guardado:** relleno **blanco** sobre turquesa (antes
+  en tinta). Queda debajo del 3:1 de un icono; guardado se distingue igual
+  porque pasa de contorno a relleno.
+- **Instagram:** el logo baja a la linea de `@ahilupitaok`, a su izquierda, y
+  crece (1.9rem); el usuario y el tilde se achican (clamp 1.1–1.5rem).
+
+### 2026-09-15: mas aire en la franja informativa
+
+La franja de envios, cuotas y compra protegida quedaba pegada a la grilla de
+destacados y a los banners de categorias. Suma `margin-block: clamp(2.5rem,
+6vw, 5rem)` afuera y mas relleno en cada celda (`.service-item`).
+
+### 2026-09-15: sin contador en el carrusel del inicio
+
+Se saco el "01 / 04" de arriba a la derecha del hero (pedido de Santiago):
+`.nube-slider-home .swiper-pagination { display: none }` al final del bloque
+del contador. Las fotos siguen pasando solas y con las flechas; las reglas
+del contador quedan en la hoja por si vuelve.
+
+### 2026-09-15: usuario de Instagram como en la app, "tiendas" y link a Google Maps
+
+- **Instagram:** la seccion sigue siendo la de siempre (icono, usuario y la
+  grilla de 1px); lo unico que cambia es **como se escribe el usuario**:
+  `@ahilupitaok` en la tipografia del sistema operativo (la de la app), en
+  negrita y minusculas, con el tilde azul de verificada al lado (casilla
+  `lupita_ig_verificada`). Un primer intento armo el perfil entero (avatar,
+  boton Seguir, bio, pestañas): **no era lo pedido** y se deshizo.
+- **"Tiendas", no "locales"** en todo texto visible: aviso de favoritos,
+  mensaje de WhatsApp ("probarme estas prendas en la tienda"),
+  `branches.tpl` ("Nuestras tiendas") y los textos de demo del harness. Los
+  textos de ayuda del panel que dicen "locales fisicos" son de Tiendanube y
+  no se tocaron.
+- **"Conocer las tiendas"** (`snipplets/tiendas-link.tpl`) → lista de Google
+  Maps de Santiago, en `lupita_tiendas_url` (grupo nuevo "Tiendas e Instagram
+  de Lupita", junto con el tilde de verificada). Aparece en el panel de
+  favoritos, el pie (columna de contacto) y la seccion de medios de pago.
+
+### 2026-09-15: Orden del home y banners de categorias sin chip
+
+- **Banners informativos** (envios, cuotas, compra protegida) suben a
+  `home_order_position_2`: quedan entre los destacados y los banners de
+  categorias. Solo cambia el orden inicial de `defaults.txt`; la clienta lo
+  sigue moviendo desde el panel.
+- **Banners de categorias:** fuera el chip de tinta. La palabra va centrada
+  sobre la foto (el mismo top/left 50% + translate del base), en Great Vibes
+  y en papel, con un velo plano de tinta al 22% sobre la imagen para que se
+  lea sobre fotos claras. Visto a 1440 y 390.
+
+### 2026-09-15: Medios de pago y volver arriba
+
+**Datos confirmados por Santiago:** 20% off en efectivo en todos los
+productos; 3 y 6 cuotas sin interes con tarjetas bancarizadas; American
+Express (unica tarjeta de empresa con cuotas sin interes) tambien 3 y 6
+cuotas (sin fecha de fin: Santiago aclaró el 2026-09-15 que no es "hasta fin de mes"); 10% off por transferencia directa a Mercado
+Pago o billeteras virtuales.
+
+- **Todo editable desde el panel:** grupo nuevo "Medios de pago de Lupita"
+  en `settings.txt` (cifra + texto para efectivo, tarjetas y transferencia;
+  casilla + texto para Amex). Valores iniciales en `defaults.txt`
+  (`lupita_pago_*_es`). Un campo vacio saca ese renglon; **la casilla de Amex
+  lo apaga en los tres lugares a la vez**.
+- **Un solo snipplet, `snipplets/medios-de-pago.tpl`**, en dos tamaños:
+  - **Home** (`tamano: 'grande'`): seccion nueva `payments` en el orden del
+    home — `home.tpl` recorre ahora `0..10` y `defaults.txt` suma
+    `home_order_position_10 = payments`. Tres celdas de 1px con la cifra en
+    Bodoni Moda; a 390 se apilan.
+  - **Ficha** (`product-form.tpl`, debajo del precio) y **carrito**
+    (`cart-totals.tpl`, arriba de Iniciar compra, panel y pagina):
+    `tamano: 'compacto'`, renglones con la cifra en negrita.
+  - Amex siempre aparte, en franja turquesa con tinta encima.
+- **Barra de aviso:** solo cambiaron los textos iniciales (`ad_text_*`), que
+  rotan en cuatro mensajes. El de Amex **no** lee la casilla: si
+  algún día se apaga Amex, hay que borrarlo a mano del campo de la barra. Ya
+  no dice "hasta fin de mes" (Santiago, 2026-09-15: la promo no vence).
+- **Volver arriba** (`snipplets/volver-arriba.tpl`, incluido en
+  `layout.tpl`): boton cuadrado en papel con borde de tinta, encima del de
+  WhatsApp; aparece al bajar mas de una pantalla, desplazamiento suave salvo
+  con movimiento reducido, y devuelve el foco al principio de la cabecera.
+  Nace `hidden` y es invisible (fuera del tabulado) hasta que corresponde.
+- **Sin verificar:** que el `section_order` del panel acepte la posicion 11
+  (igual que Portada/Capsula, nunca probado); que `for ... if` de Twig ande en
+  su compilador (el base ya lo usa en `product-variants.tpl`).
+
+### Preguntas frecuentes (2026-09-15)
+
+- **Pagina propia**, igual que "Sobre nosotros": `page.tpl` usa
+  `snipplets/preguntas-frecuentes.tpl` si el handle es `preguntas-frecuentes`
+  o `faq`, o el nombre es "Preguntas frecuentes"/"FAQ", y la casilla
+  `lupita_faq_show` esta prendida. El contenido que la clienta escriba en la
+  pagina va debajo de la lista. Tiene que crear la pagina y sumarla a los menus.
+- **Panel:** grupo "Preguntas frecuentes", hasta 6 preguntas
+  (`lupita_faq_N_pregunta`, `_respuesta`, `_respuesta_2` opcional para un
+  segundo parrafo, porque `i18n_input` es de un renglon). Las vacias no salen.
+- **Textos de Santiago:** plazo de cambio (30 dias, con etiqueta/troquel,
+  segun stock) y arrepentimiento (10 dias corridos desde la entrega, aviso por
+  WhatsApp +54 9 11 2862-2903, producto sin uso con embalaje y etiqueta, envio
+  a cargo del cliente). Corregidos solo "Podes" → "Podés", el doble espacio y
+  el doble punto. Despues sumo el texto de cambios, repartido en cuatro
+  preguntas (las preguntas las escribi yo; las respuestas son su texto):
+  cambio en la tienda, por envio, estado de la prenda y productos sin cambio
+  ("SA!LE" tal cual lo escribio). "Sucursales" paso a "tiendas" (regla de
+  vocabulario) y "Loria 198" a la direccion confirmada.
+- **Tiendas dentro de una respuesta:** casilla `lupita_faq_N_tiendas`; mete la
+  lista de `tiendas-datos.tpl` entre los dos parrafos, con la regla turquesa
+  al costado. Direcciones y horario se cargan en un solo lugar.
+- **Las 6 preguntas estan usadas.** Si la clienta quiere mas, hay que sumar
+  campos.
+- **Diseño:** titulo en Great Vibes, lista de renglones de 1px, pregunta en
+  Bodoni Moda con un "+" que gira a "×". `<details>`/`<summary>`: abre con
+  teclado y sin JS.
+- **Boton de arrepentimiento: solo al final y chico** (pedido de Santiago).
+  En la FAQ, un rotulo gris subrayado al pie de la lista, que lleva al
+  formulario de cancelacion (`store.contact_url` +
+  `?order_cancellation_without_id=true`). En el pie, `component('claim-info')`
+  recibe `lu-arrepentimiento-link` y `lu-reclamo-link` en lugar de
+  `font-weight-bold d-block mt-3`: mismo tamaño que el copyright, sin renglon
+  propio. ⚠️ La Res. 424/2020 pide que el boton sea de facil acceso desde la
+  pagina de inicio: el link sigue en el pie de todas las paginas, pero
+  conviene que la clienta lo confirme.
+- **Sin verificar:** `store.contact_url` y el parametro de cancelacion (sale
+  de `contact.tpl`); `in [...]` con `|lower` en su Twig; el HTML real de
+  `claim-info` (el harness lo replica a ojo).
+
+### Tanda del 2026-09-15 a la tarde
+
+- **Barra de aviso:** fondo turquesa con tinta y regla de tinta abajo. Los
+  mensajes (separados por "—" en `ad_text`) ya no rotan de a uno: corren
+  hacia la izquierda en una marquesina continua sin JS (dos grupos iguales,
+  `translateX(-50%)`, cada grupo `min-width: 100vw`, 7 s por mensaje, se
+  frena con el mouse, quieta con movimiento reducido). Separador: punto.
+- **Menú hamburguesa:** hover en turquesa con tinta (antes negro).
+- **Buscador:** el campo pasa a Instrument Sans en minúscula (era Archivo
+  Black en versales); la lupa sin el marco de `.btn`.
+- **Pie, arriba:** el newsletter se reemplaza por "Unite a nuestro canal"
+  (`snipplets/canal-difusion.tpl`): link, título, texto y botón desde el
+  panel ("Tiendas e Instagram de Lupita"). **Sin `lupita_canal_url` no se
+  muestra**: el canal todavía no existe. `newsletter.tpl` queda sin usar.
+- **Redes:** el theme ya pintaba los svg de Instagram y TikTok; el harness
+  mostraba "IG"/"TT" de relleno y ahora usa los svg reales.
+- **Páginas "Medios de pago" y "Cómo comprar"** (`snipplets/pagina-lupita.tpl`,
+  por handle o nombre en `page.tpl`): la primera muestra el bloque de pagos
+  grande; la segunda, hasta 5 pasos numerados del panel (grupo "Cómo
+  comprar"). Los pasos iniciales los escribí yo sin prometer nada no
+  confirmado (ni envíos, ni retiro). La clienta tiene que crear las dos
+  páginas y linkearlas en el menú del pie.
+- **Bienvenida del home:** "Ropa de mujer, al sur de la ciudad" pasa a
+  "Las últimas tendencias, cerca tuyo" (`welcome_message_es`) con un texto de
+  la tienda multimarca (`welcome_text_es`).
+- **Sin verificar:** `1..2` y `loop.index` en su Twig; `page.name|lower in
+  [...]` con acento.
+
+### Tanda del 2026-09-15, última
+
+- **Carrito — Quitar:** el tacho existía pero era gris y chico. Ahora es
+  tinta, más grande, con área de 2.5rem, y en la página del carrito (≥768)
+  lleva la palabra "Quitar". Hover turquesa. `aria-label` con el nombre de la
+  prenda (`item.short_name`, sin verificar que exista en su Twig).
+- **Carrusel del principio:** tres piezas de campaña de Santiago (Sea of
+  Dreams, Lost between the sea and a dream, City Moves) recortadas a ~1.9:1
+  sin las franjas blancas, en `_harness/img/slider-*.jpg`. **Traen el título
+  impreso**: en el panel van sin título, descripción ni botón. ⚠️ La de City
+  Moves todavía dice "THE TRIP" impreso. En celular el carrusel toma
+  `aspect-ratio: 19/10` (antes 72vh con cover cortaba el texto de la foto).
+  Desde 768 también ("achicá un poco las imágenes"): 19/10 con el ancho
+  limitado a `calc(70vh * 1.9)`, centrado sobre el papel; antes 88vh a todo
+  lo ancho. A 1440×900 mide ~1197×630; a 1440×800, ~1064×560.
+  La clienta sube las fotos en el panel del carrusel.
+- **Módulo "Elegilo online":** ya no es un link entero; solo "Conocé las
+  tiendas" es link (al mapa de las tiendas, `module_01_url_es`, pestaña
+  nueva si es externo). Sin caja negra: subrayado, hover turquesa.
+- **Títulos de los videos** (Portada y Cápsula) centrados en el medio.
+- **Líneas de marco en turquesa:** cabecera/hero, pie, cuenta del menú,
+  totales del panel del carrito, separador de la página del carrito, hojas
+  que suben y la barra de cookies. Siguen en tinta los bordes de campos,
+  botones, chips y los contornos de foco (esos sí comunican estado).
+
+### Cierre del 2026-09-15
+
+- **Carrusel: vuelven las fotos de antes** (Santiago). Se deshizo el
+  `aspect-ratio` y el ancho limitado: el hero vuelve a 72vh / 88vh a todo lo
+  ancho. Las piezas con título impreso pasan a la **galería de campañas**
+  (`snipplets/home/home-campanas.tpl`), incluida en `home-section-switch.tpl`
+  justo después de la Cápsula: tres en fila desde 768, apiladas en celular,
+  enteras y sin recorte. Panel: grupo Cápsula, casilla
+  `lupita_campanas_show`, rótulo `lupita_campanas_titulo` ("Campañas") y
+  `campana-1/2/3.jpg`. Las imágenes para subir están en
+  `_harness/img/slider-*.jpg`.
+- **Panel de favoritos:** el título pasa de "Favoritos" a "Guardá y probate";
+  el ícono de la cabecera sigue llamándose "Favoritos" para lectores de
+  pantalla.
+- **Estados animados en turquesa:** hover de botones secundarios, íconos
+  sociales, secciones, chips, más/menos del carrito y "Cargar más", y el
+  `:active` general, pasan de fondo tinta con papel a turquesa con tinta.
+  Siguen en tinta los fondos que no se animan (botón principal en reposo,
+  etiquetas OFERTA/NUEVO, alertas de error, casilla marcada, barra de envío
+  gratis, aviso de favoritos).
+
+- **Buscador sin la cruz azul:** `::-webkit-search-cancel-button` y
+  `::-ms-clear` ocultos en `.search-input` (panel y 404). Verificado con
+  texto escrito.
+- **Instagram — feed real:** el theme ya lo trae (`data-ig-feed`, lo llena la
+  plataforma con `store.hasInstagramToken()`). **No se conecta desde el
+  código:** la clienta tiene que cargar @ahilupitaok en los datos de la tienda
+  y conectar Instagram desde el panel de Tiendanube. Sin conexión la sección
+  muestra solo el usuario y "Seguinos en Instagram / Ver perfil", sin fotos.
+  El harness mostraba nueve fotos de campaña repetidas: se sacaron.
+
+- **Logo "A!" en la cabecera** (Santiago, `A! png editable.ai`): el .ai es
+  PDF por dentro; con PyMuPDF se sacaron los trazos (las 3 mesas de trabajo
+  son la misma forma en blanco, negro y rojo). `snipplets/svg/logo-lupita.tpl`
+  con `fill="currentColor"` y viewBox recortado; `.lu-logo-marca` lo pinta de
+  turquesa, 2.1rem de alto en celular y 2.75rem desde 768. Reemplaza al
+  `component('logos/logo')` mientras la casilla `lupita_logo_marca` esté
+  prendida (default 1). La página de contraseña sigue con el nombre en texto.
+
+- **TikTok** (Santiago: https://www.tiktok.com/@ahilupitaok): la sección de
+  redes del home muestra @ahilupitaok de Instagram y, al lado, el de TikTok
+  (`store.tiktok`, sale solo si está cargado en el panel). El aviso sin
+  conexión pasa a "Seguinos en nuestras redes". En el pie, el ícono de TikTok
+  ya salía de `store.tiktok`; el harness ahora usa los links reales.
 
 ## Etapa 2 (cuando haya tienda)
 

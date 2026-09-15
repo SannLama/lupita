@@ -71,8 +71,12 @@
 
   {# Cart item delete #}
   <div class="col-1 cart-item-delete text-right">
-    <button type="button" class="btn h6 {% if cart_page %}h5-md{% endif %} m-0" onclick="LS.removeItem({{ item.id }}{% if not cart_page %}, true{% endif %})" data-component="line-item.remove">
+    {# Quitar visible (Santiago, 2026-09-15: el tacho gris no se encontraba).
+       El texto se lee en la pagina del carrito; en el panel no entra en col-1
+       y queda el icono, con el nombre para lectores de pantalla. #}
+    <button type="button" class="btn h6 {% if cart_page %}h5-md{% endif %} m-0 lu-quitar" onclick="LS.removeItem({{ item.id }}{% if not cart_page %}, true{% endif %})" data-component="line-item.remove" aria-label="{{ 'Quitar' | translate }} {{ item.short_name }}">
       {% include "snipplets/svg/trash-alt.tpl" with {svg_custom_class: "icon-inline icon-lg svg-icon-text"} %}
+      <span class="lu-quitar-texto" aria-hidden="true">{{ 'Quitar' | translate }}</span>
     </button>
   </div>
 </div>

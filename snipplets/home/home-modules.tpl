@@ -46,9 +46,9 @@
             {% endif %}
 
             {% if has_module %}
-                {% if module_url %}
-                    <a class="module-with-text-link" href="{{ module_url | setting_url }}"{% if module_title %} title="{{ module_title }}" aria-label="{{ module_title }}"{% else %} title="{{ 'Módulo de' | translate }} {{ store.name }}" aria-label="{{ 'Módulo de' | translate }} {{ store.name }}"{% endif %}>
-                {% endif %}
+                {# 2026-09-15 (Santiago): el bloque ya no es un link entero; solo
+                   el boton lleva a module_url. Asi el texto se puede leer y
+                   seleccionar sin salir de la pagina. #}
                 <div class="row {% if settings.modules_full %}no-gutters{% endif %} align-items-center">               
                     
                     <div class="col-md {% if module_align == 'right' %}order-md-2{% endif %}">
@@ -77,14 +77,12 @@
                                 <div class="textbanner-paragraph">{{ module_description }}</div>
                             {% endif %}
                             {% if module_url and module_button_text %}
-                                <button class="btn btn-primary btn-small">{{ module_button_text }}</button>
+                                {% set module_link = module_url | setting_url %}
+                                <a href="{{ module_link }}" class="btn btn-primary btn-small"{% if 'http' in module_link and store.url not in module_link %} target="_blank" rel="noopener"{% endif %}>{{ module_button_text }}</a>
                             {% endif %}
                         </div>
                     </div>
                 </div>
-                {% if module_url %}
-                    </a>
-                {% endif %}
             {% endif %}
         {% endfor %}
     </div>

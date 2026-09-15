@@ -5,6 +5,7 @@
             <div class="js-product-container js-quickshop-container js-quickshop-modal js-quickshop-modal-shell" data-variants="" data-quickshop-id="">
                 <div class="js-item-variants">
                     <div class="js-item-name h1 mb-1" data-store="product-item-name-{{ product.id }}"></div>
+                    {% include 'snipplets/favoritos/boton.tpl' with {fav_vacio: true, fav_class: 'lu-fav-rapida'} %}
                     <div class="item-price-container mb-4" data-store="product-item-price-{{ product.id }}">
                         <span class="js-compare-price-display h4 price-compare"></span>
                         <span class="js-price-display h4"></span>

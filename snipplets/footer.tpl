@@ -1,5 +1,5 @@
 {% set has_social_network = store.facebook or store.twitter or store.pinterest or store.instagram or store.tiktok or store.youtube %}
-{% set has_footer_contact_info = store.phone or store.email or store.blog or store.address %}          
+{% set has_footer_contact_info = store.phone or store.email or store.blog or store.address or settings.lupita_tienda_1 or settings.lupita_tienda_2 or settings.lupita_tienda_3 or settings.lupita_horarios %}          
 
 {% set has_footer_menu = settings.footer_menu %}
 {% set has_payment_logos = settings.payments %}
@@ -10,10 +10,9 @@
 
 		{% if template != 'password' %}
 
-			{# Newsletter #}
-			{% if settings.news_show %}
-			    {% include "snipplets/newsletter.tpl" %}
-			{% endif %}
+			{# Canal de difusion en lugar del newsletter (snipplets/canal-difusion.tpl):
+			   sale solo con el link cargado. newsletter.tpl queda sin usar en el pie. #}
+			{% include "snipplets/canal-difusion.tpl" %}
 
 		{% endif %}
         
@@ -39,7 +38,14 @@
 		{# Contact #}
  		{% if has_footer_contact_info %}
  			<div class="row element-footer">
- 				<div class="col text-center">{% include "snipplets/contact-links.tpl" %}</div>
+ 				<div class="col text-center">
+ 					{% include "snipplets/contact-links.tpl" %}
+ 					{% include 'snipplets/tiendas-link.tpl' with {tiendas_clase: 'lu-tiendas-pie'} %}
+ 				</div>
+			</div>
+		{% elseif settings.lupita_tiendas_url %}
+			<div class="row element-footer">
+				<div class="col text-center">{% include 'snipplets/tiendas-link.tpl' with {tiendas_clase: 'lu-tiendas-pie'} %}</div>
 			</div>
 		{% endif %}
 
@@ -79,8 +85,9 @@
 						divider_classes: "mx-1 d-none d-md-inline-block",
 						text_classes: {text_consumer_defense: 'd-inline-block mb-1'},
 						link_classes: {
-							link_consumer_defense: "font-weight-bold",
-							link_order_cancellation: "font-weight-bold d-md-inline-block d-block mt-3 mt-md-0 mb-2",
+							link_consumer_defense: "lu-reclamo-link",
+							{# Chico y al final, sin negrita ni renglon propio (Santiago, 2026-09-15) #}
+							link_order_cancellation: "lu-arrepentimiento-link",
 						},
 					}) 
 				}}

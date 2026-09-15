@@ -28,6 +28,9 @@
     }}
 </div>
 
+{# Medios de pago de Lupita, justo debajo del precio: donde se decide #}
+{% include 'snipplets/medios-de-pago.tpl' with {tamano: 'compacto'} %}
+
 {{ component('subscriptions/subscription-price', {
     subscription_classes: {
         container: 'text-center text-md-left mb-3',
@@ -219,7 +222,11 @@
 
     <div class="mb-4">
 
-        <input type="submit" class="js-addtocart js-prod-submit-form btn btn-primary btn-block mb-4 {{ state }}" value="{{ texts[state] | translate }}" {% if state == 'nostock' %}disabled{% endif %} data-store="product-buy-button" data-component="product.add-to-cart"/>
+        {# El corazon de favoritos va al lado del boton: guardarla para probarsela en el local #}
+        <div class="lu-comprar">
+            <input type="submit" class="js-addtocart js-prod-submit-form btn btn-primary btn-block mb-4 {{ state }}" value="{{ texts[state] | translate }}" {% if state == 'nostock' %}disabled{% endif %} data-store="product-buy-button" data-component="product.add-to-cart"/>
+            {% include 'snipplets/favoritos/boton.tpl' with {fav_class: 'lu-fav-ficha'} %}
+        </div>
 
         {# Fake add to cart CTA visible during add to cart event #}
 

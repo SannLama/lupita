@@ -18,7 +18,15 @@
         <div class="row no-gutters align-items-center">
             <div class="col">{% snipplet "navigation/navigation.tpl" %}</div>
             <div class="col text-center">
-                {{ component('logos/logo', {logo_size: 'large', logo_img_classes: 'transition-soft-slow', logo_text_classes: 'h1 m-0'}) }}
+                {# Logo "A!" de la marca en turquesa (2026-09-15). Con la casilla
+                   apagada vuelve el logo del panel de Tiendanube. #}
+                {% if settings.lupita_logo_marca %}
+                    <a href="{{ store.url }}" class="lu-logo-marca" title="{{ store.name }}">
+                        {% include "snipplets/svg/logo-lupita.tpl" %}
+                    </a>
+                {% else %}
+                    {{ component('logos/logo', {logo_size: 'large', logo_img_classes: 'transition-soft-slow', logo_text_classes: 'h1 m-0'}) }}
+                {% endif %}
             </div>
             <div class="col text-right">{% snipplet "header/header-utilities.tpl" %}</div>
             {% if settings.head_fix and settings.ajax_cart %}
@@ -55,6 +63,28 @@
         {% snipplet "header/header-search.tpl" %}
     {% endblock %}
 {% endembed %}
+
+{# Favoritos: la lista que guarda la clienta en su navegador para venir a
+   probarse las prendas a la tienda (lupita-favoritos.js.tpl). El titulo del
+   panel es "Guardá y probate" (Santiago, 2026-09-15); el icono de la
+   cabecera sigue nombrandose "Favoritos" para lectores de pantalla. #}
+
+{% embed "snipplets/modal.tpl" with{modal_id: 'modal-favoritos', modal_class: 'favoritos', modal_position: 'right', modal_transition: 'slide', modal_width: 'docked-md', modal_footer: true, modal_fixed_footer: true} %}
+    {% block modal_head %}{{ 'Guardá y probate' | translate }}{% endblock %}
+    {% block modal_body %}
+        {% include 'snipplets/favoritos/panel.tpl' %}
+    {% endblock %}
+    {% block modal_foot %}
+        {% if store.whatsapp %}
+            <a href="{{ store.whatsapp }}" data-base="{{ store.whatsapp }}" target="_blank" rel="noopener" class="js-favs-whatsapp btn btn-primary btn-block lu-favs-whatsapp" hidden>{{ 'Reservar para probármelas' | translate }}</a>
+        {% endif %}
+    {% endblock %}
+{% endembed %}
+
+<div class="js-fav-aviso lu-fav-aviso" role="status" aria-live="polite" hidden>
+    <span>{{ 'Guardada. Probátela en cualquiera de nuestras tiendas' | translate }}</span>
+    <a href="#" class="js-modal-open lu-fav-aviso-link" data-toggle="#modal-favoritos">{{ 'Ver favoritos' | translate }}</a>
+</div>
 
 {% if not store.is_catalog and settings.ajax_cart and template != 'cart' %}           
 

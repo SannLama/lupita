@@ -46,6 +46,7 @@
 
         {% set floating_elements %}
             {% if not reduced_item %}
+                {% include 'snipplets/favoritos/boton.tpl' with {fav_class: 'lu-fav-tarjeta'} %}
                 {% if settings.product_color_variants %}
                     {% include 'snipplets/labels.tpl' with {color: true} %}
                     {% include 'snipplets/grid/item-colors.tpl' %}

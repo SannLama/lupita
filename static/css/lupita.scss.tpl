@@ -342,10 +342,12 @@ a:hover {
     color: var(--lu-tinta);
 }
 
+/* Estados animados en turquesa con tinta, nunca negro (Santiago, 2026-09-15) */
 .btn-default:hover,
 .btn-secondary:hover {
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 /*============================================================================
@@ -643,6 +645,14 @@ hr,
     font-size: 0.68rem;
 }
 
+/* Sin contador desde el 2026-09-15 (pedido de Santiago): el "01 / 04" de
+   arriba a la derecha se saca. Se oculta la paginacion entera; las fotos se
+   siguen pasando solas y con las flechas. Las reglas de arriba quedan por
+   si vuelve. */
+.nube-slider-home .swiper-pagination {
+    display: none;
+}
+
 /* Flechas: sin fondo, sin circulo, sin sombra. */
 .nube-slider-home .swiper-button-prev,
 .nube-slider-home .swiper-button-next {
@@ -714,6 +724,54 @@ hr,
     display: block;
 }
 
+/* Galeria de campanas (home-campanas.tpl): las piezas con el titulo impreso
+   van enteras, sin recorte, con divisiones de 1px como la grilla. */
+.lu-campanas {
+    padding-block: clamp(2rem, 5vw, 3.5rem) 0;
+}
+
+.lu-campanas-rotulo {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.lu-campanas-grilla {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background-color: var(--lu-linea);
+    border-block: 1px solid var(--lu-linea);
+}
+
+@media (min-width: 768px) {
+    .lu-campanas-grilla {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.lu-campana {
+    margin: 0;
+    background-color: var(--lu-papel);
+    display: flex;
+    align-items: center;
+}
+
+.lu-campana img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Los titulos de los dos videos (Portada y Capsula) van en el centro de la
+   pieza, no abajo como en el hero (Santiago, 2026-09-15). Mas especifico que
+   la regla compartida con el hero de #Hero. */
+.section-cover-home .cover-image .swiper-text,
+.section-capsule-home .capsule-media .swiper-text {
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+}
+
 /*============================================================================
   #Barra de aviso
   El renglon que corona la pagina, y el unico lugar donde el mejor dato de la
@@ -724,11 +782,14 @@ hr,
   una regla de 1px para que no se lean como un solo bloque.
 ==============================================================================*/
 
+/* 2026-09-15: pasa a fondo turquesa (Santiago) con la letra en tinta, la
+   unica combinacion del acento que contrasta (8.27:1). */
 .section-advertising {
-    background-color: var(--lu-papel);
+    background-color: var(--lu-acento);
     color: var(--lu-tinta);
     padding: 0.6rem 0;
-    border-bottom: 1px solid var(--lu-linea);
+    border-bottom: 1px solid var(--lu-acento);
+    overflow: hidden;
     font-family: var(--lu-micro);
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
@@ -747,48 +808,55 @@ hr,
     text-decoration: underline;
 }
 
-/* Si la clienta escribe mas de un mensaje separados por "—" en el mismo
-   campo (ver header-advertising.tpl), rotan solos en vez de ir todos
-   pegados. Truco de siempre para un ticker sin JS: el contenedor mide una
-   linea y recorta, adentro los mensajes se apilan en columna (el track mide
-   N lineas), y una sola animacion con steps(N) — N mensajes, resuelto por
-   Twig al renderizar — corre el track de a un mensaje por vez, sin
-   transicion entre pasos.
-
-   ⚠️ El destino del keyframe es -100% (la altura del track), NO
-   -(N-1)/N*100% como parece "logico" para terminar en el ultimo mensaje.
-   Probado en pantalla el 2026-09-11: con steps(N) el valor sostenido en el
-   paso i es (i/N) del destino, no (i/(N-1)). Con destino -100% eso da
-   exactamente i mensajes de alto en cada paso (0, 1, 2... N-1), que es lo
-   que hace falta; con (N-1)/N el ultimo paso quedaba a mitad de camino del
-   ultimo mensaje. */
-.ad-rotator {
-    display: inline-block;
+/* Marquesina continua (2026-09-15; reemplaza al rotador que cambiaba de
+   mensaje de golpe). Ver header-advertising.tpl: dos grupos iguales, el track
+   corre -50% en loop lineal. min-width: 100vw en cada grupo evita el hueco
+   cuando los mensajes no llenan la pantalla. Se frena al pasar el mouse para
+   poder leer; con movimiento reducido queda quieta y recortada. */
+.ad-marquee {
     overflow: hidden;
-    height: 1.3em;
-    vertical-align: top;
+    white-space: nowrap;
 }
 
-.ad-track {
+.ad-marquee-track {
     display: flex;
-    flex-direction: column;
-    animation-name: lu-ad-cycle;
+    width: max-content;
+    animation-name: lu-ad-marquee;
+    animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
 
+.ad-marquee-grupo {
+    display: flex;
+    flex: 0 0 auto;
+    min-width: 100vw;
+    justify-content: space-around;
+}
+
 .ad-msg {
-    height: 1.3em;
+    padding-inline: 1.5rem;
     line-height: 1.3;
 }
 
-@keyframes lu-ad-cycle {
+/* Separador entre mensajes: un punto de tinta, no el "—" que la clienta usa
+   para cortar el texto en el panel. */
+.ad-msg::after {
+    content: "\2022";
+    margin-left: 3rem;
+}
+
+.ad-marquee:hover .ad-marquee-track {
+    animation-play-state: paused;
+}
+
+@keyframes lu-ad-marquee {
     to {
-        transform: translateY(-100%);
+        transform: translateX(-50%);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ad-track {
+    .ad-marquee-track {
         animation: none;
     }
 }
@@ -800,9 +868,11 @@ hr,
   una regla de 2px al ras que la ancla a la grilla, y todo lo demas en micro.
 ==============================================================================*/
 
+/* Lineas de marco en turquesa (Santiago, 2026-09-15). Son decorativas: no
+   llevan informacion, asi que el 2.17:1 contra el papel no es un problema. */
 .head-main {
     background-color: var(--lu-papel);
-    border-bottom: 2px solid var(--lu-tinta);
+    border-bottom: 2px solid var(--lu-acento);
 }
 
 /* La regla de abajo tiene que cruzar la pantalla entera, como las de la
@@ -855,6 +925,36 @@ hr,
     .logo-img {
         max-height: 52px;
     }
+}
+
+/* Logo "A!" de la marca (snipplets/svg/logo-lupita.tpl), en turquesa. Es un
+   logotipo: la regla de contraste de texto no aplica (WCAG 1.4.3 exceptua
+   logos). Alto fijo, ancho segun la proporcion del dibujo (~1.24:1). */
+.lu-logo-marca {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 0.35rem;
+    color: var(--lu-acento);
+    line-height: 0;
+    text-decoration: none;
+}
+
+.lu-logo-marca .lu-logo-svg {
+    display: block;
+    height: 2.1rem;
+    width: auto;
+}
+
+@media (min-width: 768px) {
+    .lu-logo-marca .lu-logo-svg {
+        height: 2.75rem;
+    }
+}
+
+.lu-logo-marca:hover {
+    color: var(--lu-acento);
+    opacity: 0.85;
 }
 
 /* Utilidades: los iconos del base pasan a ser rotulos tecnicos. */
@@ -971,9 +1071,11 @@ hr,
     border-bottom: 1px solid var(--lu-linea);
 }
 
+/* Hover en turquesa con la letra en tinta (8.27:1), no negro (Santiago,
+   2026-09-15). Tinta y no papel encima: papel sobre turquesa da 2.17:1. */
 .nav-primary .nav-list .nav-list-link:hover {
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 /* Los subrubros bajan a micro: no compiten con el rubro que los contiene. */
@@ -992,7 +1094,7 @@ hr,
 /* Cuenta: la unidad de abajo del panel, separada por una regla maciza. */
 .nav-account {
     background-color: var(--lu-papel);
-    border-top: 2px solid var(--lu-tinta);
+    border-top: 2px solid var(--lu-acento);
     margin: 0;
     padding: 0.5rem 1.25rem;
     list-style: none;
@@ -1034,6 +1136,20 @@ hr,
     background-color: color-mix(in srgb, var(--lu-tinta) 5%, var(--lu-papel));
 }
 
+/* La cruz azul que Chrome/Edge le agregan solos a input[type=search] al
+   escribir (Santiago, 2026-09-15: "sacá la cruz azul"). Se borra con la
+   tecla Escape o a mano; no hace falta un boton extra. */
+.search-input::-webkit-search-cancel-button,
+.search-input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
+
+.search-input::-ms-clear {
+    display: none;
+}
+
 .search-input::placeholder {
     color: var(--lu-gris);
 }
@@ -1055,7 +1171,7 @@ hr,
 ==============================================================================*/
 
 footer {
-    border-top: 2px solid var(--lu-tinta);
+    border-top: 2px solid var(--lu-acento);
     margin-top: clamp(3rem, 8vw, 6rem);
 }
 
@@ -1147,8 +1263,9 @@ footer .contact-item {
 }
 
 .social-icon:hover {
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 /* Newsletter: el titulo es lo unico macro del pie. */
@@ -1201,6 +1318,29 @@ footer .contact-item {
 }
 
 .newsletter form .newsletter-btn:hover {
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+/* Canal de difusion (reemplaza al newsletter): el mismo boton de tinta, ahora
+   suelto, sin campo de mail al lado. */
+.lu-canal .lu-canal-btn {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.7rem 1.1rem;
+    background-color: var(--lu-tinta);
+    border: 0;
+    border-radius: 0;
+    color: var(--lu-papel);
+    font-family: var(--lu-texto);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: none;
+    letter-spacing: 0;
+    text-decoration: none;
+}
+
+.lu-canal .lu-canal-btn:hover {
     background-color: var(--lu-acento);
     color: var(--lu-tinta);
 }
@@ -1279,12 +1419,11 @@ footer a:hover {
   bordes redondeados). Idea de Santiago (referencia con 3 fotos y categoria
   superpuesta) — 2026-09-11.
 
-  Se descarta la tipografia script/cursiva de la referencia: contradice
-  Archivo Black en mayusculas, que es la macro del sistema. El titulo va en
-  el mismo chip solido de tinta que ya usan las etiquetas de producto
-  (.item-label, OFERTA/NUEVO) en vez de flotar crema sobre la foto — asi no
-  depende de que la foto sea oscura ahi (el home-banners.tpl del base no
-  tiene, a diferencia del hero, un selector de color de texto por foto).
+  Desde el 2026-09-15 (pedido de Santiago): sin el chip de tinta. La palabra
+  va centrada sobre la foto, en la tipografia de titulo (Great Vibes) y en
+  papel. Como el home-banners.tpl del base no trae selector de color de
+  texto por foto, un velo plano de tinta al 22% sobre la imagen asegura que
+  se lea aunque la foto sea clara ahi — plano, sin degradado ni sombra.
 ==============================================================================*/
 
 .section-banners-home .row {
@@ -1342,21 +1481,44 @@ footer a:hover {
     }
 }
 
-/* top/right/width/transform: el base centra este bloque con top: 50%,
-   left: 50%, width: 100% y translate(-50%, -50%). Sin apagar los cuatro,
-   el chip era una caja de tinta del ancho del banner, corrida a la
-   izquierda — se vio recien cuando el harness copio esas reglas. */
+/* Centrado como lo arma el base (top/left 50% + translate), sin el chip:
+   la palabra flota en el medio de la foto, en papel. */
 .textbanner-text.over-image {
     position: absolute;
-    top: auto;
+    top: 50%;
+    left: 50%;
     right: auto;
-    left: 0.75rem;
-    bottom: 0.75rem;
-    width: auto;
-    transform: none;
-    background-color: var(--lu-tinta);
+    bottom: auto;
+    z-index: 1;
+    width: 100%;
+    padding: 0 1rem;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
     color: var(--lu-papel);
-    padding: 0.4rem 0.65rem;
+    text-align: center;
+}
+
+/* Velo plano para que el papel se lea sobre cualquier foto */
+.section-banners-home .textbanner-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--lu-tinta) 22%, transparent);
+    pointer-events: none;
+}
+
+.section-banners-home .textbanner-title {
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: clamp(2.5rem, 5vw, 4.25rem);
+    line-height: 1.1;
+    color: var(--lu-papel);
+}
+
+.section-banners-home .textbanner-text .btn {
+    margin-top: 0.75rem;
 }
 
 .textbanner-title {
@@ -1448,8 +1610,8 @@ footer a:hover {
 
 .lu-seccion-link:hover,
 .lu-seccion-link:focus {
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 /*============================================================================
@@ -1606,8 +1768,9 @@ footer a:hover {
 }
 
 .chip:hover {
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 .chip:hover .chip-remove-icon {
@@ -1963,8 +2126,8 @@ footer a:hover {
 
 .cart-item-btn.btn:hover {
     opacity: 1;
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 .cart-item-input.form-control {
@@ -1981,16 +2144,51 @@ footer a:hover {
     color: var(--lu-tinta);
 }
 
-/* El tacho tampoco es un boton macizo. */
-.cart-item-delete .btn {
+/* Quitar (2026-09-15): el tacho era gris y de 1em y no se encontraba. Pasa a
+   tinta, mas grande y con area de toque de 2.5rem; en la pagina del carrito
+   lleva la palabra "Quitar". Hover en turquesa con tinta, no negro. */
+.cart-item-delete .btn.lu-quitar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
     border: 0;
-    padding: 0.2rem;
+    padding: 0.35rem;
     background-color: transparent;
-    color: var(--lu-gris);
+    color: var(--lu-tinta);
 }
 
-.cart-item-delete .btn:hover {
+.cart-item-delete .btn.lu-quitar svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: currentColor;
+}
+
+.cart-item-delete .btn.lu-quitar:hover {
+    background-color: var(--lu-acento);
     color: var(--lu-tinta);
+}
+
+.lu-quitar-texto {
+    display: none;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Solo en la pagina, desde 768: ahi la columna tiene lugar para la palabra */
+@media (min-width: 768px) {
+    .template-cart .cart-item-delete {
+        flex: 0 0 auto;
+        max-width: none;
+        width: auto;
+    }
+
+    .template-cart .lu-quitar-texto {
+        display: inline;
+    }
 }
 
 /*============================================================================
@@ -2024,7 +2222,7 @@ footer a:hover {
    por ser el ultimo hijo y no por una clase, porque .cart-row la comparte con
    la lista y con el mensaje de carrito vacio. */
 #modal-cart .modal-body > .cart-row:last-child {
-    border-top: 2px solid var(--lu-tinta);
+    border-top: 2px solid var(--lu-acento);
     margin-top: 1.25rem;
 }
 
@@ -2432,10 +2630,12 @@ body:not(.template-product):not(.template-category) .page-header {
     justify-content: center;
     width: 3rem;
     height: 3rem;
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
+    /* Circulo del color de la marca con el icono en tinta (8,27:1), pedido
+       de Santiago 2026-09-15. Antes: cuadrado de tinta con icono en papel. */
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
     border: 0;
-    border-radius: 0;
+    border-radius: 50%;
     box-shadow: none;
     transition-property: background-color;
     transition-duration: 120ms;
@@ -2446,12 +2646,37 @@ body:not(.template-product):not(.template-category) .page-header {
     width: 1.35rem;
     height: 1.35rem;
     padding: 0;
-    fill: var(--lu-papel);
+    fill: var(--lu-tinta);
+}
+
+/* Al pasar el mouse crece un poco y sigue turquesa con el icono en tinta:
+   no se oscurece (pedido de Santiago, 2026-09-15). Solo transform. */
+.btn-whatsapp {
+    transition: transform 180ms var(--lu-entrada);
 }
 
 .btn-whatsapp:hover,
 .btn-whatsapp:active {
     background-color: var(--lu-acento);
+    transform: scale(1.12);
+}
+
+.btn-whatsapp:hover svg,
+.btn-whatsapp:active svg {
+    fill: var(--lu-tinta);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-whatsapp:hover,
+    .btn-whatsapp:active {
+        transform: none;
+    }
+}
+
+/* Sobre turquesa el foco en papel no se ve (2,17:1): va en tinta, afuera */
+.btn-whatsapp:focus-visible {
+    outline-color: var(--lu-tinta);
+    outline-offset: 2px;
 }
 
 .btn-whatsapp:hover svg,
@@ -2579,7 +2804,7 @@ body:not(.template-product):not(.template-category) .page-header {
     background-color: var(--lu-papel);
     color: var(--lu-tinta);
     border: 0;
-    border-top: 2px solid var(--lu-tinta);
+    border-top: 2px solid var(--lu-acento);
     font-family: var(--lu-micro);
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
@@ -2629,7 +2854,7 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .modal-bottom-sheet {
     background-color: var(--lu-papel);
-    border-top: 2px solid var(--lu-tinta);
+    border-top: 2px solid var(--lu-acento);
     border-radius: 0;
 }
 
@@ -2646,8 +2871,11 @@ body:not(.template-product):not(.template-category) .page-header {
   pasa por Swiper de a uno, con sus puntitos: los puntitos pasan a cuadrados.
 ==============================================================================*/
 
+/* Aire afuera (2026-09-15, pedido de Santiago): entre los destacados y los
+   banners de categorias la franja quedaba pegada a las dos grillas. */
 .section-informative-banners {
     padding: 0;
+    margin-block: clamp(2.5rem, 6vw, 5rem);
     text-align: left;
     border-top: 1px solid var(--lu-linea);
     border-bottom: 1px solid var(--lu-linea);
@@ -2684,7 +2912,7 @@ body:not(.template-product):not(.template-category) .page-header {
     justify-content: flex-start;
     gap: 0.9rem;
     margin: 0;
-    padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
+    padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.25rem, 3.5vw, 2.5rem);
     text-align: left;
 }
 
@@ -2854,11 +3082,16 @@ body:not(.template-product):not(.template-category) .page-header {
     text-wrap: pretty;
 }
 
+/* 2026-09-15 (Santiago): sin la caja negra. Queda como link subrayado en
+   tinta; al pasar el mouse, fondo turquesa con tinta (reglas de abajo). */
 .section-home-modules .textbanner-text .btn {
-    border-color: var(--lu-tinta);
-    color: var(--lu-papel);
-    background-color: var(--lu-tinta);
-    padding: 0.85rem 1.5rem;
+    border-color: transparent;
+    color: var(--lu-tinta);
+    background-color: transparent;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    display: inline-block;
+    padding: 0.5rem 0;
     font-size: 0.72rem;
     margin: 0;
 }
@@ -2925,12 +3158,9 @@ body:not(.template-product):not(.template-category) .page-header {
 
 /*============================================================================
   #Instagram
-  home_order_position_4 = instafeed -> home-instafeed.tpl. La cuenta
-  (131 mil seguidoras, verificada) es el activo mas grande de la marca, asi
-  que la seccion no se esconde: el usuario en la macro, con la arroba, y las
-  nueve fotos en la misma grilla de 1px que el catalogo. El base lo arma con
-  col-4 flotantes: con gap de 1px tres tercios no entran y la tercera foto
-  se caia — pasa a grid.
+  home-instafeed.tpl. La cuenta (131 mil seguidoras, verificada) es el
+  activo mas grande de la marca. El base arma el feed con col-4 flotantes:
+  con gap tres tercios no entran y la tercera foto se caia — pasa a grid.
 ==============================================================================*/
 
 .section-instafeed-home {
@@ -2938,34 +3168,82 @@ body:not(.template-product):not(.template-category) .page-header {
     border-top: 1px solid var(--lu-linea);
 }
 
+/* El logo de Instagram baja a la linea del usuario, a su izquierda, y crece
+   (pedido de Santiago, 2026-09-15). flex-wrap: el aviso de respaldo del base
+   (.js-ig-fallback) sigue yendo en su propio renglon. */
 .instafeed-title {
     display: inline-flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
     color: var(--lu-tinta);
     text-decoration: none;
 }
 
-.instafeed-title svg {
-    width: 1.1rem;
-    height: 1.1rem;
+.instafeed-title > svg {
+    width: 1.9rem;
+    height: 1.9rem;
     fill: var(--lu-tinta);
 }
 
-/* El usuario va en minusculas con la arroba: un handle en versales no es un
-   handle. text-transform pisa el uppercase del h2 del sistema. */
+.instafeed-title .js-ig-fallback {
+    flex-basis: 100%;
+}
+
+/* Instagram y TikTok en la misma fila (2026-09-15); en celular se apilan
+   solos si no entran. */
+.lu-redes-fila {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem 2.5rem;
+}
+
+.lu-redes-fila .instafeed-title {
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+.instafeed-user-fila {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* El usuario como se escribe en Instagram (pedido de Santiago, 2026-09-15):
+   @usuario en la tipografia del sistema operativo — la que usa la app —, en
+   negrita y en minusculas, con el tilde azul de verificada al lado. Es la
+   unica pieza del theme que no usa las fuentes de Lupita: tiene que
+   reconocerse como un handle de Instagram. */
 .instafeed-user {
     display: block;
     margin: 0;
-    line-height: 1;
-    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
     text-transform: none;
-    letter-spacing: 0.01em;
+    color: #000000;
+}
+
+/* El h2 llega con .mt-2 de Bootstrap: en la misma linea que el logo lo
+   desalineaba hacia abajo */
+.instafeed-title .instafeed-user.mt-2 {
+    margin-top: 0 !important;
 }
 
 .instafeed-user::before {
     content: "@";
+}
+
+.instafeed-verificada {
+    flex: none;
+    width: clamp(0.95rem, 1.8vw, 1.15rem);
+    height: clamp(0.95rem, 1.8vw, 1.15rem);
 }
 
 .instafeed-title:hover .instafeed-user {
@@ -3013,14 +3291,406 @@ body:not(.template-product):not(.template-category) .page-header {
     transition-timing-function: var(--lu-entrada), ease;
 }
 
-.instafeed-link:hover .instafeed-img,
-.instafeed-link:focus .instafeed-img {
-    transform: none;
-}
-
 @media (hover: hover) and (pointer: fine) {
     .instafeed-link:hover .instafeed-img {
         transform: scale(1.04);
+    }
+}
+
+/*============================================================================
+  #Conocer las tiendas (2026-09-15)
+  snipplets/tiendas-link.tpl: lleva a la lista de Google Maps. Link subrayado
+  en la voz del texto; en el pie, rotulo como el resto de la columna.
+==============================================================================*/
+
+.lu-tiendas-link {
+    display: inline-block;
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.lu-tiendas-favs,
+.lu-tiendas-pagos {
+    margin-top: 0.75rem;
+}
+
+.lu-tiendas-favs::after,
+.lu-tiendas-pagos::after {
+    content: "\00a0→";
+}
+
+.lu-tiendas-pagos {
+    margin-top: 1.25rem;
+}
+
+.lu-tiendas-pie {
+    margin-top: 1rem;
+    font-family: var(--lu-micro);
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+}
+
+.lu-tiendas-sobre {
+    margin-top: 0.25rem;
+}
+
+.lu-tiendas-sobre::after {
+    content: "\00a0→";
+}
+
+/*============================================================================
+  #Sobre nosotros (2026-09-15)
+  snipplets/home/home-sobre-nosotros.tpl. Texto a la izquierda en las voces
+  del sistema — titulo en Great Vibes, la frase del asesoramiento (la
+  especialidad de la tienda) en Bodoni Moda, grande, con una regla turquesa
+  decorativa al costado — y tres fotos a la derecha: la primera alta, las
+  otras dos apiladas, con divisiones de 1px como el resto del theme.
+==============================================================================*/
+
+.lu-sobre {
+    border-top: 1px solid var(--lu-linea);
+    padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.lu-sobre-grilla {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .lu-sobre-grilla {
+        grid-template-columns: 5fr 7fr;
+    }
+}
+
+.lu-sobre-solo-texto {
+    grid-template-columns: 1fr !important;
+    max-width: 46rem;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.lu-sobre-titulo {
+    margin: 0 0 1.5rem;
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.05;
+}
+
+.lu-sobre-parrafo {
+    max-width: 42ch;
+    margin: 0 0 1.75rem;
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.lu-sobre-asesoramiento {
+    max-width: 30ch;
+    margin: 0 0 1.75rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--lu-acento);
+    font-family: var(--lu-sub);
+    font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
+    font-size: clamp(1.45rem, 2.4vw, 2rem);
+    line-height: 1.25;
+}
+
+.lu-sobre-cierre {
+    margin: 0 0 1rem;
+    font-family: var(--lu-micro);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+}
+
+.lu-sobre-solo-texto .lu-sobre-parrafo,
+.lu-sobre-solo-texto .lu-sobre-asesoramiento {
+    margin-inline: auto;
+}
+
+.lu-sobre-solo-texto .lu-sobre-asesoramiento {
+    padding-left: 0;
+    border-left: 0;
+}
+
+.lu-sobre-fotos {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1px;
+    background-color: var(--lu-linea);
+    border: 1px solid var(--lu-linea);
+}
+
+.lu-sobre-foto {
+    margin: 0;
+    overflow: hidden;
+    background-color: var(--lu-papel);
+}
+
+.lu-sobre-foto:first-child {
+    grid-row: 1 / span 2;
+}
+
+.lu-sobre-foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Con una sola foto cargada, ocupa todo el bloque */
+.lu-sobre-foto:only-child {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 899px) {
+    .lu-sobre-fotos {
+        aspect-ratio: 4 / 3;
+    }
+}
+
+/*============================================================================
+  #Preguntas frecuentes (2026-09-15)
+  snipplets/preguntas-frecuentes.tpl. Titulo en Great Vibes como "Sobre
+  nosotros"; la lista son renglones de 1px (el mismo corte que el pie y el
+  carrito). La pregunta en Bodoni Moda y un "+" que gira a "×" al abrir.
+  El boton de arrepentimiento cierra la pagina chico, en rotulo gris.
+==============================================================================*/
+
+.lu-faq {
+    border-top: 1px solid var(--lu-linea);
+    padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.lu-faq-caja {
+    max-width: 46rem;
+    margin-inline: auto;
+}
+
+.lu-faq-titulo {
+    margin: 0 0 clamp(1.75rem, 4vw, 3rem);
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.05;
+    text-align: center;
+}
+
+.lu-faq-lista {
+    border-top: 1px solid var(--lu-linea);
+}
+
+.lu-faq-item {
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.lu-faq-pregunta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.35rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--lu-sub);
+    font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
+    font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+    line-height: 1.25;
+    color: var(--lu-tinta);
+}
+
+.lu-faq-pregunta::-webkit-details-marker {
+    display: none;
+}
+
+.lu-faq-pregunta::after {
+    content: "+";
+    flex: 0 0 auto;
+    font-family: var(--lu-texto);
+    font-size: 1.6rem;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform 0.25s ease;
+}
+
+.lu-faq-item[open] > .lu-faq-pregunta::after {
+    transform: rotate(45deg);
+}
+
+.lu-faq-pregunta:focus-visible {
+    outline: 2px solid var(--lu-tinta);
+    outline-offset: 4px;
+}
+
+.lu-faq-respuesta {
+    padding-bottom: 1.5rem;
+    max-width: 62ch;
+}
+
+.lu-faq-respuesta p {
+    margin: 0 0 1rem;
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.lu-faq-respuesta p:last-child {
+    margin-bottom: 0;
+}
+
+/* Tiendas dentro de una respuesta: renglones con la regla turquesa de
+   "Sobre nosotros" al costado; el horario cierra en rotulo. */
+.lu-faq-tiendas {
+    margin: 0 0 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--lu-acento);
+}
+
+.lu-faq-tienda {
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.lu-faq-tienda.lu-tienda-horario {
+    margin-top: 0.4rem;
+    font-family: var(--lu-micro);
+    font-size: 0.72rem;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+}
+
+.lu-faq-tiendas:last-child {
+    margin-bottom: 0;
+}
+
+/*  Paginas "Medios de pago" y "Como comprar" (snipplets/pagina-lupita.tpl):
+    mismo titulo que preguntas frecuentes. Los pasos: numero grande en
+    Bodoni Moda a la izquierda, renglones de 1px como la lista de preguntas. */
+.lu-pagina {
+    border-top: 1px solid var(--lu-linea);
+    padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.lu-pagina-titulo {
+    margin: 0 0 clamp(1.75rem, 4vw, 3rem);
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.05;
+    text-align: center;
+}
+
+/* El bloque de pagos trae su propio margen y el rotulo "Medios de pago":
+   debajo de un titulo con ese mismo nombre, el rotulo sobra. */
+.lu-pagina-pagos .lu-pagos-grande {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+
+.lu-pagina-pagos .lu-pagos-rotulo {
+    display: none;
+}
+
+.lu-pasos {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 0;
+    border-top: 1px solid var(--lu-linea);
+}
+
+.lu-paso {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.lu-paso-numero {
+    font-family: var(--lu-sub);
+    font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1;
+    color: var(--lu-tinta);
+}
+
+.lu-paso-titulo {
+    margin: 0 0 0.4rem;
+    font-family: var(--lu-sub);
+    font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
+    font-weight: 500;
+    font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+    line-height: 1.25;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.lu-paso-texto {
+    margin: 0;
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.lu-pagina-extra {
+    max-width: 46rem;
+    margin: 2.5rem auto 0;
+}
+
+.lu-faq-extra {
+    margin-top: 2.5rem;
+}
+
+.lu-faq-arrepentimiento {
+    margin: clamp(3rem, 7vw, 5rem) 0 0;
+    text-align: center;
+}
+
+/* El link chico: el del final de preguntas frecuentes y el del pie */
+.lu-arrepentimiento-link,
+footer .lu-arrepentimiento-link {
+    font-family: var(--lu-micro);
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+    color: var(--lu-gris, #6B6B66);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.lu-arrepentimiento-link:hover {
+    color: var(--lu-tinta);
+}
+
+/* En el pie, a la medida del copyright (0.58rem): ni un punto mas grande.
+   "ingresá acá" (defensa del consumidor) llegaba en el azul del navegador. */
+footer .lu-arrepentimiento-link,
+footer .lu-reclamo-link {
+    font-size: 0.58rem;
+    color: var(--lu-gris);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-faq-pregunta::after {
+        transition: none;
     }
 }
 
@@ -3130,7 +3800,7 @@ body:not(.template-product):not(.template-category) .page-header {
    la cifra que decide la compra. */
 .template-cart .cart-row .divider {
     height: 2px;
-    background-color: var(--lu-tinta);
+    background-color: var(--lu-acento);
     margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
 }
 
@@ -3267,8 +3937,9 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .js-load-more.btn:hover {
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 .category-body .font-big {
@@ -3381,14 +4052,14 @@ body:not(.template-product):not(.template-category) .page-header {
 .cart-item-btn.btn:active,
 .footer-menu-link:active,
 .social-icon:active {
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
     transition-duration: 0s;
 }
 
 .social-icon:active svg,
 .cart-item-btn.btn:active svg {
-    fill: var(--lu-papel);
+    fill: var(--lu-tinta);
 }
 
 /* Las transiciones de color son cortas: acompañan, no se hacen notar. */
@@ -3972,6 +4643,29 @@ body .template-cart .cart-row .btn {
     letter-spacing: 0;
 }
 
+/* El buscador tambien (Santiago, 2026-09-15: "no cambiaste la tipografia del
+   buscar"): el campo era Archivo Black en versales y las sugerencias rotulo.
+   Mismo tamaño, voz del texto, minuscula. Cubre el panel y el de la 404. */
+body .search-input,
+body .search-input.form-control,
+body #nav-search .modal-header,
+body .search-suggest :is(a, span, div, li, p, strong) {
+    font-family: var(--lu-texto);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+body .search-input,
+body .search-input.form-control {
+    font-weight: 500;
+}
+
+/* La lupa llegaba con el marco de .btn, un cuadrado mas alto que el renglon */
+body .search-input-submit.btn {
+    border: 0;
+    background-color: transparent;
+}
+
 /* Los rubros del menu eran Archivo Black en versales: en Instrument Sans
    necesitan algo de peso para seguir leyendose como la entrada principal */
 body .nav-primary .nav-list .nav-list-link {
@@ -4122,4 +4816,552 @@ h5,
 .lu-cerrado-mensaje {
     font-weight: 400;
     font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
+}
+
+/*============================================================================
+  #Favoritos (2026-09-15)
+  Wishlist propia para venir a probarse las prendas al local
+  (lupita-favoritos.js.tpl). Corazon sin guardar: contorno en tinta sobre
+  papel. Guardado: relleno en tinta sobre turquesa (8,27:1) — el turquesa
+  nunca como color de un icono sobre papel. Todo nace hidden: si el
+  navegador no deja guardar, no aparece nada.
+==============================================================================*/
+
+.lu-fav[hidden],
+.js-favs-acceso[hidden],
+.lu-fav-aviso[hidden],
+.js-favs-whatsapp[hidden],
+.js-favs-vacio[hidden] {
+    display: none !important;
+}
+
+.lu-fav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 1px solid var(--lu-tinta);
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    cursor: pointer;
+    transition-property: background-color, transform;
+    transition-duration: 150ms;
+}
+
+.lu-fav svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    fill: currentColor;
+}
+
+.lu-fav .lu-fav-lleno,
+.lu-fav[aria-pressed="true"] .lu-fav-vacio {
+    display: none;
+}
+
+.lu-fav[aria-pressed="true"] .lu-fav-lleno {
+    display: block;
+}
+
+/* Guardado: corazon relleno BLANCO sobre turquesa (pedido de Santiago,
+   2026-09-15; antes relleno en tinta). Blanco sobre turquesa queda por
+   debajo del 3:1 de un icono, pero guardado/no guardado no depende solo del
+   color: tambien cambia de contorno a relleno (y aria-pressed). */
+.lu-fav[aria-pressed="true"] {
+    background-color: var(--lu-acento);
+    color: #FFFFFF;
+}
+
+.lu-fav:active {
+    transform: scale(0.94);
+}
+
+.lu-fav:focus-visible {
+    outline: 2px solid var(--lu-tinta);
+    outline-offset: 2px;
+}
+
+/* Tarjeta: arriba a la derecha de la foto, la etiqueta queda a la izquierda */
+.lu-fav-tarjeta {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    z-index: 2;
+    width: 2.25rem;
+    height: 2.25rem;
+}
+
+/* Ficha: el corazon pegado al boton de comprar, mismo alto */
+.lu-comprar {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.lu-comprar .btn-block {
+    flex: 1 1 auto;
+    width: auto;
+    margin-bottom: 0 !important;
+}
+
+.lu-fav-ficha {
+    width: 3.25rem;
+    height: auto;
+}
+
+.lu-fav-ficha svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.lu-fav-rapida {
+    margin: 0.5rem auto 1rem;
+}
+
+/* Cabecera: el mismo lenguaje que la bolsa, con el contador entre corchetes */
+.lu-favs-link {
+    color: var(--lu-tinta);
+}
+
+/* Alineacion de la cabecera: el corazon venia en inline-flex centrado y la
+   bolsa del base en linea, con el icono corrido -0.2em y el contador como
+   inline-block: uno se alineaba al centro y el otro a la linea de base, y
+   quedaban a distinta altura. Todos los items y links de utilidades pasan a
+   la misma caja flex centrada, con el icono sin corrimiento. */
+.utilities-container,
+.utilities-item,
+.cart-summary {
+    display: inline-flex;
+    align-items: center;
+}
+
+.utilities-item[hidden] {
+    display: none !important;
+}
+
+.utilities-link,
+.cart-summary a {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.utilities-link .icon-inline,
+.cart-summary .icon-inline {
+    display: block;
+    vertical-align: 0;
+    flex: none;
+}
+
+.cart-widget-amount,
+.lu-favs-cantidad {
+    display: inline-block;
+    line-height: 1;
+}
+
+/* Con el corazon son tres utilidades: abajo de 768 la columna derecha (un
+   tercio del ancho, 130px a 390) ya no entraba y empujaba el logotipo contra
+   la lupa. Menos aire entre iconos y el contador sin corchetes, solo el
+   numero pegado al icono. */
+@media (max-width: 767px) {
+    .utilities-container > .utilities-item + .utilities-item {
+        margin-left: 0.55rem;
+    }
+
+    /* .utilities-item delante: el bloque #Favoritos, mas abajo en la hoja,
+       le ganaba por orden a .lu-favs-cantidad sola */
+    .utilities-item .cart-widget-amount::before,
+    .utilities-item .lu-favs-cantidad::before {
+        content: "\00a0";
+    }
+
+    .utilities-item .cart-widget-amount::after,
+    .utilities-item .lu-favs-cantidad::after {
+        content: none;
+    }
+}
+
+.lu-favs-cantidad {
+    font-family: var(--lu-micro);
+    font-size: 0.62rem;
+    letter-spacing: var(--lu-track);
+}
+
+.lu-favs-cantidad::before {
+    content: "\00a0[";
+}
+
+.lu-favs-cantidad::after {
+    content: "]";
+}
+
+/* Panel */
+#modal-favoritos,
+#modal-favoritos .modal-body {
+    background-color: var(--lu-papel);
+}
+
+#modal-favoritos .modal-header {
+    font-family: var(--lu-texto);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.lu-favs-local {
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+    padding: 1.25rem;
+    margin: 0 0 0.5rem;
+}
+
+.lu-favs-titulo {
+    font-family: var(--lu-sub);
+    font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
+    font-size: 1.75rem;
+    line-height: 1.1;
+    margin: 0 0 0.35rem;
+}
+
+.lu-favs-direcciones {
+    margin: 0;
+    padding: 0;
+}
+
+.lu-favs-direccion {
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* El horario cierra la lista de tiendas: un renglon aparte, en rotulo */
+.lu-favs-direccion.lu-tienda-horario {
+    margin-top: 0.35rem;
+    font-family: var(--lu-micro);
+    font-size: 0.72rem;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+}
+
+/* La franja turquesa va a sangre; la lista y el vacio llevan el aire lateral
+   del resto del panel (sin esto las fotos quedaban contra el borde) */
+.lu-favs-lista {
+    padding: 0 1.25rem;
+    margin: 0;
+}
+
+.lu-favs-item {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    align-items: start;
+    gap: 0.85rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.lu-favs-foto img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+}
+
+.lu-favs-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-family: var(--lu-texto);
+}
+
+.lu-favs-nombre {
+    color: var(--lu-tinta);
+    font-size: 0.9rem;
+    line-height: 1.35;
+}
+
+.lu-favs-variante {
+    color: var(--lu-gris);
+    font-size: 0.8rem;
+}
+
+.lu-favs-precio {
+    font-size: 0.85rem;
+}
+
+.lu-favs-quitar {
+    border: 0;
+    background: none;
+    padding: 0.25rem 0.5rem;
+    font-size: 1.3rem;
+    line-height: 1;
+    color: var(--lu-gris);
+    cursor: pointer;
+}
+
+.lu-favs-quitar:hover {
+    color: var(--lu-tinta);
+}
+
+.lu-favs-vacio {
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--lu-gris);
+    padding: 1rem 1.25rem;
+    margin: 0;
+}
+
+#modal-favoritos .modal-footer {
+    padding: 1rem 1.25rem;
+}
+
+.lu-favs-whatsapp {
+    font-family: var(--lu-texto);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Aviso al guardar: tinta, abajo al centro, con el link en turquesa
+   (turquesa sobre tinta = 8,27:1) */
+.lu-fav-aviso {
+    position: fixed;
+    left: 50%;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: calc(100vw - 2rem);
+    padding: 0.85rem 1.1rem;
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    font-family: var(--lu-texto);
+    font-size: 0.88rem;
+    line-height: 1.35;
+    opacity: 0;
+    transform: translate(-50%, 0.75rem);
+    transition-property: opacity, transform;
+    transition-duration: 250ms;
+    transition-timing-function: var(--lu-entrada);
+}
+
+.lu-fav-aviso-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.lu-fav-aviso-link {
+    color: var(--lu-acento);
+    text-decoration: underline;
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-fav-aviso {
+        transform: translate(-50%, 0);
+        transition-property: opacity;
+    }
+
+    .lu-fav:active {
+        transform: none;
+    }
+}
+
+/*============================================================================
+  #Medios de pago (2026-09-15)
+  snipplets/medios-de-pago.tpl. Grande (seccion del home): tres celdas de
+  1px con la cifra en la voz de subtitulo. Compacto (ficha y carrito): una
+  lista de renglones. American Express siempre aparte, en franja turquesa
+  con tinta encima (8,27:1). Los textos los maneja la clienta desde el panel.
+==============================================================================*/
+
+.lu-pagos-lista {
+    margin: 0;
+    padding: 0;
+}
+
+.lu-pagos-grande {
+    border-top: 1px solid var(--lu-linea);
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.lu-pagos-rotulo {
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.lu-pagos-grande .lu-pagos-lista {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background-color: var(--lu-linea);
+    border-top: 1px solid var(--lu-linea);
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+@media (min-width: 768px) {
+    .lu-pagos-grande .lu-pagos-lista {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.lu-pagos-grande .lu-pagos-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 2.5vw, 1.75rem);
+    background-color: var(--lu-papel);
+}
+
+.lu-pagos-grande .lu-pagos-cifra {
+    font-family: var(--lu-sub);
+    font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    line-height: 1;
+}
+
+.lu-pagos-grande .lu-pagos-texto {
+    font-family: var(--lu-texto);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 30ch;
+}
+
+.lu-pagos-amex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 1rem;
+    margin-top: 1px;
+    padding: 1rem 1.25rem;
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+}
+
+.lu-pagos-amex-rotulo {
+    font-family: var(--lu-micro);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.7rem;
+}
+
+.lu-pagos-amex-texto {
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.lu-pagos-compacto {
+    margin: 0 0 1.5rem;
+    border-top: 1px solid var(--lu-linea);
+    text-align: left;
+}
+
+.lu-pagos-compacto .lu-pagos-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--lu-linea);
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.lu-pagos-compacto .lu-pagos-cifra {
+    flex: none;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.lu-pagos-compacto .lu-pagos-texto {
+    color: var(--lu-gris);
+}
+
+.lu-pagos-compacto .lu-pagos-amex {
+    margin-top: 0.6rem;
+    padding: 0.7rem 0.85rem;
+}
+
+.lu-pagos-compacto .lu-pagos-amex-texto {
+    font-size: 0.82rem;
+}
+
+/*============================================================================
+  #Volver arriba (2026-09-15)
+  Encima del boton de WhatsApp (3rem + 1rem de margen), mismo tamaño, en
+  papel con borde de tinta para no confundirse con el. Invisible (y fuera
+  del orden de tabulacion) hasta que se baja mas de una pantalla.
+==============================================================================*/
+
+.lu-arriba[hidden] {
+    display: none !important;
+}
+
+.lu-arriba {
+    position: fixed;
+    right: 1rem;
+    bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    z-index: 25;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    /* Solo la flecha, sin contorno ni caja (pedido de Santiago 2026-09-15) */
+    border: 0;
+    background-color: transparent;
+    color: var(--lu-tinta);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.5rem);
+    transition: opacity 200ms, transform 200ms, visibility 0s linear 200ms;
+}
+
+.lu-arriba-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 200ms, transform 200ms, visibility 0s;
+}
+
+.lu-arriba svg {
+    width: 1.35rem;
+    height: 1.35rem;
+    fill: currentColor;
+}
+
+/* La palabra queda para el lector de pantalla (aria-label del boton): a la
+   vista, solo la flecha */
+.lu-arriba-texto {
+    display: none;
+}
+
+.lu-arriba:hover {
+    color: var(--lu-acento);
+}
+
+.lu-arriba:focus-visible {
+    outline: 2px solid var(--lu-tinta);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-arriba,
+    .lu-arriba-visible {
+        transform: none;
+    }
 }

@@ -21,11 +21,8 @@
     </li>
 {% endif %}
 {% if not phone_and_mail_only %}
-	{% if store.address and not is_order_cancellation %}
-	    <li class="contact-item{% if columns %} col-6 col-md{% endif %}">
-			{% include "snipplets/svg/map-marker-alt.tpl" with {svg_custom_class: "icon-inline icon-lg icon-w mx-2 svg-icon-text"} %}
-	    	{{ store.address }}
-	    </li>
+	{% if not is_order_cancellation %}
+		{% include 'snipplets/tiendas-datos.tpl' with {tiendas_item_clase: 'contact-item' ~ (columns ? ' col-6 col-md' : ''), tiendas_iconos: true} %}
 	{% endif %}
 	{% if store.blog %}
 	    <li class="contact-item{% if columns %} col-6 col-md{% endif %}">

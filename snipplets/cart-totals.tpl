@@ -215,6 +215,9 @@
                    {{ "¡Uy! No tenemos más stock de este producto para agregarlo al carrito. Si querés podés" | translate }}<a href="{{ store.products_url }}" class="btn-link">{{ "ver otros acá" | translate }}</a>
                 </div>
 
+                {# Medios de pago de Lupita: recordatorio arriba del boton de comprar #}
+                {% include 'snipplets/medios-de-pago.tpl' with {tamano: 'compacto'} %}
+
                 {# Cart panel CTA #}
                 
                 {% set cart_total = (settings.cart_minimum_value * 100) %}

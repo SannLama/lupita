@@ -18,6 +18,7 @@ const TIPOS = {
   '.svg': 'image/svg+xml',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
+  '.mp4': 'video/mp4',
 }
 
 createServer(async (req, res) => {

@@ -130,6 +130,10 @@
 
         {% snipplet "whatsapp-chat.tpl" %}
 
+        {# Volver arriba: aparece al bajar mas de una pantalla #}
+
+        {% snipplet "volver-arriba.tpl" %}
+
         {# Footer #}
 
         {% snipplet "footer.tpl" %}
@@ -175,6 +179,12 @@
 
         <script type="text/javascript">
             {% include "static/js/lupita-motion.js.tpl" %}
+        </script>
+
+        {# Favoritos de Lupita: script aparte, igual que el movimiento #}
+
+        <script type="text/javascript">
+            {% include "static/js/lupita-favoritos.js.tpl" %}
         </script>
 
         {# Google reCAPTCHA on register page #}

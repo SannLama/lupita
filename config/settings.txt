@@ -539,10 +539,13 @@ Página de inicio
 		title = Portada
 		backto = home_order_position
 	description
-		description = Una sola foto a pantalla completa con un título grande encima, sin carrusel — para una campaña o una colección puntual.
+		description = Una sola foto o un video en loop a pantalla completa, con un título opcional encima, sin carrusel — para una campaña o una colección puntual. El video no se sube acá: hace falta un link directo a un .mp4 alojado en otro lado; la imagen queda de reemplazo mientras carga.
 	checkbox
 		name = cover_show
 		description = Mostrar portada
+	i18n_input
+		name = cover_video_url
+		description = Link directo al video (.mp4, opcional)
 	image
 		original = cover.jpg
 		title = Cargar imagen (JPG, GIF, PNG)
@@ -570,7 +573,7 @@ Página de inicio
 		title = Cápsula
 		backto = home_order_position
 	description
-		description = Un video en loop, sin sonido, de fondo — para una cápsula o colección puntual (ej. "The Trip"). Tiendanube no aloja el archivo: hace falta un link directo a un .mp4 alojado en otro lado.
+		description = Un video en loop, sin sonido, de fondo — para una cápsula o colección puntual (ej. "City Moves"). Tiendanube no aloja el archivo: hace falta un link directo a un .mp4 alojado en otro lado.
 	checkbox
 		name = capsule_show
 		description = Mostrar cápsula
@@ -600,6 +603,241 @@ Página de inicio
 	i18n_input
 		name = capsule_url
 		description = Link (Opcional)
+	description
+		description = Galería de campañas: hasta tres piezas gráficas (con el título ya impreso) debajo del video, en fila en computadora y una debajo de otra en celular. Se ven enteras, sin recortar.
+	checkbox
+		name = lupita_campanas_show
+		description = Mostrar la galería de campañas
+	i18n_input
+		name = lupita_campanas_titulo
+		description = Rótulo de la galería (opcional)
+	image
+		original = campana-1.jpg
+		title = Pieza 1 (JPG, horizontal)
+		width = 1400
+		height = 740
+	image
+		original = campana-2.jpg
+		title = Pieza 2 (JPG, horizontal)
+		width = 1400
+		height = 740
+	image
+		original = campana-3.jpg
+		title = Pieza 3 (JPG, horizontal)
+		width = 1400
+		height = 740
+	collapse
+		title = Sobre nosotros
+	description
+		description = Página "Sobre nosotros": creala en Mi Tiendanube > Páginas con ese nombre y sumala al menú y al pie desde Menús. Estos textos y fotos le dan su diseño. Si dejás un texto vacío, ese renglón no aparece; sin fotos, el texto se muestra solo y centrado.
+	checkbox
+		name = lupita_about_show
+		description = Mostrar "Sobre nosotros"
+	i18n_input
+		name = lupita_about_title
+		description = Título
+	i18n_input
+		name = lupita_about_text
+		description = Texto
+	i18n_input
+		name = lupita_about_advice
+		description = Frase destacada (asesoramiento)
+	i18n_input
+		name = lupita_about_closing
+		description = Cierre
+	image
+		original = sobre-nosotros-1.jpg
+		title = Foto 1 de la tienda (la grande, vertical)
+		width = 1200
+		height = 1600
+	image
+		original = sobre-nosotros-2.jpg
+		title = Foto 2 de la tienda (Opcional)
+		width = 1200
+		height = 900
+	image
+		original = sobre-nosotros-3.jpg
+		title = Foto 3 de la tienda (Opcional)
+		width = 1200
+		height = 900
+	collapse
+		title = Cómo comprar
+	description
+		description = La página "Cómo comprar": creala en Mi Tiendanube > Páginas con ese nombre y linkeala desde el menú del pie. Hasta cinco pasos numerados; los que queden sin título no se muestran. (La página "Medios de pago" funciona igual y toma los textos de "Medios de pago de Lupita".)
+	i18n_input
+		name = lupita_comprar_1_titulo
+		description = Paso 1: título
+	i18n_input
+		name = lupita_comprar_1_texto
+		description = Paso 1: texto
+	i18n_input
+		name = lupita_comprar_2_titulo
+		description = Paso 2: título
+	i18n_input
+		name = lupita_comprar_2_texto
+		description = Paso 2: texto
+	i18n_input
+		name = lupita_comprar_3_titulo
+		description = Paso 3: título
+	i18n_input
+		name = lupita_comprar_3_texto
+		description = Paso 3: texto
+	i18n_input
+		name = lupita_comprar_4_titulo
+		description = Paso 4: título
+	i18n_input
+		name = lupita_comprar_4_texto
+		description = Paso 4: texto
+	i18n_input
+		name = lupita_comprar_5_titulo
+		description = Paso 5: título
+	i18n_input
+		name = lupita_comprar_5_texto
+		description = Paso 5: texto
+	collapse
+		title = Preguntas frecuentes
+	description
+		description = La página "Preguntas frecuentes": creala en Mi Tiendanube > Páginas con ese nombre y sumala a los menús. Cada pregunta se despliega al tocarla; las que queden vacías no se muestran. El segundo párrafo de cada respuesta es opcional.
+	checkbox
+		name = lupita_faq_show
+		description = Usar el diseño de preguntas frecuentes
+	i18n_input
+		name = lupita_faq_1_pregunta
+		description = Pregunta 1
+	i18n_input
+		name = lupita_faq_1_respuesta
+		description = Respuesta 1
+	i18n_input
+		name = lupita_faq_1_respuesta_2
+		description = Respuesta 1, segundo párrafo (opcional)
+	checkbox
+		name = lupita_faq_1_tiendas
+		description = Pregunta 1: mostrar las direcciones y el horario de las tiendas
+	i18n_input
+		name = lupita_faq_2_pregunta
+		description = Pregunta 2
+	i18n_input
+		name = lupita_faq_2_respuesta
+		description = Respuesta 2
+	i18n_input
+		name = lupita_faq_2_respuesta_2
+		description = Respuesta 2, segundo párrafo (opcional)
+	checkbox
+		name = lupita_faq_2_tiendas
+		description = Pregunta 2: mostrar las direcciones y el horario de las tiendas
+	i18n_input
+		name = lupita_faq_3_pregunta
+		description = Pregunta 3
+	i18n_input
+		name = lupita_faq_3_respuesta
+		description = Respuesta 3
+	i18n_input
+		name = lupita_faq_3_respuesta_2
+		description = Respuesta 3, segundo párrafo (opcional)
+	checkbox
+		name = lupita_faq_3_tiendas
+		description = Pregunta 3: mostrar las direcciones y el horario de las tiendas
+	i18n_input
+		name = lupita_faq_4_pregunta
+		description = Pregunta 4
+	i18n_input
+		name = lupita_faq_4_respuesta
+		description = Respuesta 4
+	i18n_input
+		name = lupita_faq_4_respuesta_2
+		description = Respuesta 4, segundo párrafo (opcional)
+	checkbox
+		name = lupita_faq_4_tiendas
+		description = Pregunta 4: mostrar las direcciones y el horario de las tiendas
+	i18n_input
+		name = lupita_faq_5_pregunta
+		description = Pregunta 5
+	i18n_input
+		name = lupita_faq_5_respuesta
+		description = Respuesta 5
+	i18n_input
+		name = lupita_faq_5_respuesta_2
+		description = Respuesta 5, segundo párrafo (opcional)
+	checkbox
+		name = lupita_faq_5_tiendas
+		description = Pregunta 5: mostrar las direcciones y el horario de las tiendas
+	i18n_input
+		name = lupita_faq_6_pregunta
+		description = Pregunta 6
+	i18n_input
+		name = lupita_faq_6_respuesta
+		description = Respuesta 6
+	i18n_input
+		name = lupita_faq_6_respuesta_2
+		description = Respuesta 6, segundo párrafo (opcional)
+	checkbox
+		name = lupita_faq_6_tiendas
+		description = Pregunta 6: mostrar las direcciones y el horario de las tiendas
+	collapse
+		title = Tiendas e Instagram de Lupita
+	description
+		description = Las direcciones y el horario (pie, contacto y panel de favoritos), el link "Conocer las tiendas" (panel de favoritos, pie y medios de pago) y el tilde de verificada al lado del usuario de Instagram.
+	i18n_input
+		name = lupita_tienda_1
+		description = Tienda 1 (dirección)
+	i18n_input
+		name = lupita_tienda_2
+		description = Tienda 2 (dirección)
+	i18n_input
+		name = lupita_tienda_3
+		description = Tienda 3 (dirección)
+	i18n_input
+		name = lupita_horarios
+		description = Horario de las tiendas
+	i18n_input
+		name = lupita_tiendas_url
+		description = Link a las tiendas (lista de Google Maps)
+	checkbox
+		name = lupita_ig_verificada
+		description = Mostrar el tilde de cuenta verificada al lado del usuario de Instagram
+	checkbox
+		name = lupita_logo_marca
+		description = Usar el logo "A!" de la marca (en turquesa) en la cabecera, en lugar del logo cargado en Tiendanube
+	i18n_input
+		name = lupita_canal_url
+		description = Link al canal de difusión (arriba del pie; vacío = no se muestra)
+	i18n_input
+		name = lupita_canal_titulo
+		description = Canal de difusión: título
+	i18n_input
+		name = lupita_canal_texto
+		description = Canal de difusión: texto
+	i18n_input
+		name = lupita_canal_boton
+		description = Canal de difusión: texto del botón
+	collapse
+		title = Medios de pago de Lupita
+	description
+		description = Los textos del bloque de medios de pago: se muestran en la página de inicio (ordenalo desde "Página de inicio"), en el detalle de producto y en el carrito. Si dejás un campo vacío, ese renglón no aparece.
+	i18n_input
+		name = lupita_pago_efectivo_cifra
+		description = Efectivo: cifra (ej. 20% off)
+	i18n_input
+		name = lupita_pago_efectivo
+		description = Efectivo: texto
+	i18n_input
+		name = lupita_pago_tarjetas_cifra
+		description = Tarjetas: cifra (ej. 3 y 6 cuotas)
+	i18n_input
+		name = lupita_pago_tarjetas
+		description = Tarjetas: texto
+	i18n_input
+		name = lupita_pago_transferencia_cifra
+		description = Transferencia: cifra (ej. 10% off)
+	i18n_input
+		name = lupita_pago_transferencia
+		description = Transferencia: texto
+	checkbox
+		name = lupita_pago_amex_show
+		description = Mostrar el apartado de American Express (destildalo cuando termine la promo)
+	i18n_input
+		name = lupita_pago_amex
+		description = American Express: texto
 	collapse
 		title = Pop-up promocional
 		backto = home_order_position
@@ -640,6 +878,7 @@ Página de inicio
 			instafeed = Publicaciones de Instagram
 			cover = Portada
 			capsule = Cápsula
+			payments = Medios de pago
 	link
 		text = Pop-up promocional
 		linkto = home_promotional_popup

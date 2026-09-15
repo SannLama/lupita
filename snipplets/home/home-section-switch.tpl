@@ -105,5 +105,12 @@
 	{% else %}
 		{% include 'snipplets/home/home-capsule.tpl' %}
 	{% endif %}
+	{# Galeria de campanas debajo de los videos: sale sola con sus imagenes #}
+	{% include 'snipplets/home/home-campanas.tpl' %}
+
+{% elseif section_select == 'payments' %}
+
+	{#  **** Medios de pago de Lupita: textos desde "Medios de pago de Lupita" ****  #}
+	{% include 'snipplets/medios-de-pago.tpl' with {tamano: 'grande'} %}
 
 {% endif %}

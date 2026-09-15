@@ -1,7 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "build:motion": "node _harness/motion/build.mjs"
+    "build:motion": "node _harness/motion/build.mjs",
+    "build:favoritos": "node _harness/favoritos/build.mjs",
+    "test:favoritos": "node --test _harness/favoritos/logica.test.mjs"
   },
   "devDependencies": {
     "animejs": "^4.5.0",

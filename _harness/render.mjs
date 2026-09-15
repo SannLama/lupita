@@ -393,21 +393,18 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
 
 /** Replica el split por "—" de header-advertising.tpl: con mas de un
  * mensaje, arma el ticker de steps(N); con uno solo, lo deja estatico. */
+/* Replica snipplets/header/header-advertising.tpl: marquesina con dos grupos */
 function adBar(texto) {
   const partes = texto.split('—').map((p) => p.trim()).filter(Boolean)
-  if (partes.length <= 1) return texto
-  return `<span class="ad-rotator"><span class="ad-track" style="animation-duration: ${partes.length * 4}s; animation-timing-function: steps(${partes.length});">${partes.map((p) => `<span class="ad-msg">${p}</span>`).join('')}</span></span>`
+  const grupo = (oculto) => `<div class="ad-marquee-grupo"${oculto ? ' aria-hidden="true"' : ''}>${partes.map((p) => `<span class="ad-msg">${p}</span>`).join('')}</div>`
+  return `<div class="ad-marquee"><div class="ad-marquee-track" style="animation-duration: ${partes.length * 7}s;">${grupo(false)}${grupo(true)}</div></div>`
 }
 
 /* Cabecera real del theme: snipplets/header/header.tpl mas la barra de aviso.
    Las tres columnas (hamburguesa / logo / utilidades) son las del base. */
 const CABECERA = (settings, extra = '') => `
     ${settings.ad_bar === '1' && settings.ad_text_es ? `
-    <section class="section-advertising">
-      <div class="container">
-        <div class="row-fluid"><div class="col text-center">${adBar(settings.ad_text_es)}</div></div>
-      </div>
-    </section>` : ''}
+    <section class="section-advertising">${adBar(settings.ad_text_es)}</section>` : ''}
     <header class="head-main head-${settings.head_background} head-fix">
       <div class="container position-relative">
         <div class="row no-gutters align-items-center">
@@ -420,13 +417,17 @@ const CABECERA = (settings, extra = '') => `
           </div>
           <div class="col text-center">
             <div class="logo-text-container">
-              <a href="home.html" class="logo-text h1 m-0" style="text-decoration:none;color:inherit">AHI ! LUPITA</a>
+              <!-- snipplets/header/header.tpl con lupita_logo_marca: el "A!" del .ai en turquesa -->
+              <a href="home.html" class="lu-logo-marca" title="Ahí! Lupita">${readFileSync(join(RAIZ, 'snipplets', 'svg', 'logo-lupita.tpl'), 'utf8').replace(/\{#[\s\S]*?#\}/g, '').replace('{{ svg_custom_class }}', '').replace('{{ store.name }}', 'Ahí! Lupita').trim()}</a>
             </div>
           </div>
           <div class="col text-right">
             <div class="utilities-container">
               <div class="utilities-item">
                 <a href="#" class="js-panel utilities-link" data-toggle="#nav-search" aria-label="Buscador">${ICONO.lupa}</a>
+              </div>
+              <div class="utilities-item js-favs-acceso" hidden>
+                <a href="#" class="js-panel utilities-link lu-favs-link" data-toggle="#modal-favoritos" aria-label="Favoritos">${ICONO.corazon}<span class="js-favs-cantidad lu-favs-cantidad">0</span></a>
               </div>
               <div class="utilities-item">
                 <div id="ajax-cart" class="cart-summary">
@@ -449,6 +450,9 @@ const ICONO = {
   filtro: '<svg class="icon-inline" viewBox="0 0 512 512" aria-hidden="true"><path d="M487 24H25a24 24 0 00-17 41l180 180v163a24 24 0 0010 20l80 55a24 24 0 0038-20V245L496 65a24 24 0 00-9-41zM288 224v240l-64-44V224L32 56h448L288 224z"/></svg>',
   whatsapp: '<svg class="icon-inline icon-2x" viewBox="0 0 448 512" aria-hidden="true"><path d="M380 105A221 221 0 0 0 32 371L0 486l118-31a221 221 0 0 0 106 27c122 0 224-99 224-221 0-59-25-114-68-156zm-156 340c-33 0-65-9-94-26l-7-4-70 18 19-68-4-7a184 184 0 1 1 156 87zm101-138c-6-3-33-16-38-18s-9-3-12 3-14 18-17 21-6 4-12 1-23-9-44-27c-16-15-27-33-30-38s0-9 2-11l8-10c3-3 4-6 6-9s1-7 0-10-12-30-17-41c-4-11-9-9-12-9h-11a21 21 0 0 0-15 7c-5 6-20 20-20 48s21 56 23 60 41 62 99 87c38 16 51 18 68 15 11-2 33-13 38-26s5-24 3-26-5-4-11-7z"/></svg>',
   instagram: '<svg class="icon-inline icon-3x align-top svg-icon-text" viewBox="0 0 448 512" aria-hidden="true"><path d="M224 141a115 115 0 1 0 0 230 115 115 0 0 0 0-230zm0 190a75 75 0 1 1 0-150 75 75 0 0 1 0 150zm146-195a27 27 0 1 1-54 0 27 27 0 0 1 54 0zm76 27c-2-36-10-68-36-94s-58-34-94-36c-37-2-148-2-185 0-36 2-68 10-94 36S3 127 1 163c-2 37-2 148 0 185 2 36 10 68 36 94s58 34 94 36c37 2 148 2 185 0 36-2 68-10 94-36s34-58 36-94c2-37 2-148 0-185zm-48 225a76 76 0 0 1-43 43c-30 12-100 9-133 9s-103 3-133-9a76 76 0 0 1-43-43c-12-30-9-100-9-133s-3-103 9-133a76 76 0 0 1 43-43c30-12 100-9 133-9s103-3 133 9a76 76 0 0 1 43 43c12 30 9 100 9 133s3 103-9 133z"/></svg>',
+  corazon: '<svg class="icon-inline" viewBox="0 0 512 512" aria-hidden="true"><path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"/></svg>',
+  corazonVacio: '<svg class="lu-fav-vacio" aria-hidden="true" viewBox="0 0 512 512"><path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"/></svg>',
+  corazonLleno: '<svg class="lu-fav-lleno" aria-hidden="true" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>',
   tacho: '<svg class="icon-inline" viewBox="0 0 448 512" aria-hidden="true"><path d="M432 80h-98l-16-33a32 32 0 00-29-18H159a32 32 0 00-29 18l-16 33H16a16 16 0 000 32h16l21 359a48 48 0 0048 45h246a48 48 0 0048-45l21-359h16a16 16 0 000-32zM159 64h130l8 16H151l8-16zm188 416H101a16 16 0 01-16-15L64 112h320l-21 353a16 16 0 01-16 15z"/></svg>',
 }
 
@@ -572,7 +576,7 @@ const rengloncarrito = (p) => `
             </div>
           </div>
           <div class="col-1 cart-item-delete text-right">
-            <button type="button" class="btn h6 m-0" aria-label="Quitar">${ICONO.tacho}</button>
+            <button type="button" class="btn h6 m-0 lu-quitar" aria-label="Quitar ${p.nombre}">${ICONO.tacho}<span class="lu-quitar-texto" aria-hidden="true">Quitar</span></button>
           </div>
         </div>`
 
@@ -619,6 +623,7 @@ ${EN_CARRITO.map(rengloncarrito).join('')}
           </div>
 
           <div class="js-visible-on-cart-filled container-fluid">
+            ${pagosHtml('compacto')}
             <div class="js-ajax-cart-submit row mb-3">
               <input class="btn btn-primary btn-block" type="submit" name="go_to_checkout" value="Iniciar Compra">
             </div>
@@ -631,7 +636,7 @@ ${EN_CARRITO.map(rengloncarrito).join('')}
 /* whatsapp-chat.tpl: el boton flotante, en todas las paginas. El numero es
    un pendiente de la clienta, asi que el href no va a ningun lado. */
 const WHATSAPP = `
-  <a href="#" class="js-btn-fixed-bottom btn-whatsapp" aria-label="Comunicate por WhatsApp">${ICONO.whatsapp}</a>`
+  <a href="https://wa.me/5491128622903" target="_blank" rel="noopener" class="js-btn-fixed-bottom btn-whatsapp" aria-label="Comunicate por WhatsApp">${ICONO.whatsapp}</a>`
 
 const PANELES = `
 ${WHATSAPP}
@@ -652,6 +657,8 @@ ${r.subitems.map((s) => `                  <li><a class="nav-list-link" href="ca
                 </ul>
               </li>`
   : `              <li><a class="nav-list-link" href="categoria.html">${r.nombre}</a></li>`)).join('\n')}
+              <li><a class="nav-list-link" href="sobre-nosotros.html">Sobre nosotros</a></li>
+              <li><a class="nav-list-link" href="preguntas-frecuentes.html">Preguntas frecuentes</a></li>
             </ul>
           </div>
         </div>
@@ -684,6 +691,34 @@ ${r.subitems.map((s) => `                  <li><a class="nav-list-link" href="ca
 
 ${CARRITO}
 
+  <!-- Favoritos: header.tpl + snipplets/favoritos/panel.tpl. Direccion y numero de demo. -->
+  <div id="modal-favoritos" class="js-modal modal modal-favoritos modal-right transition-slide modal-docked-md" style="display:none">
+    <div class="modal-with-fixed-footer">
+      <div class="modal-scrollable-area">
+        <div class="js-modal-close modal-header"><span class="modal-close">${ICONO.cerrar}</span>Guardá y probate</div>
+        <div class="modal-body">
+          <div class="lu-favs">
+            <div class="lu-favs-local">
+              <p class="lu-favs-titulo">Vení a probártelas</p>
+              <ul class="lu-favs-direcciones list-unstyled">${tiendasItems('lu-favs-direccion')}</ul>
+              <a href="${leerDefaults().lupita_tiendas_url_es}" target="_blank" rel="noopener" class="lu-tiendas-link lu-tiendas-favs">Conocer las tiendas</a>
+            </div>
+            <ul class="js-favs-lista lu-favs-lista list-unstyled"></ul>
+            <p class="js-favs-vacio lu-favs-vacio">Todavía no guardaste nada. Tocá el corazón en las prendas que quieras probarte.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="https://wa.me/5491128622903" data-base="https://wa.me/5491128622903" target="_blank" rel="noopener" class="js-favs-whatsapp btn btn-primary btn-block lu-favs-whatsapp" hidden>Reservar para probármelas</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="js-fav-aviso lu-fav-aviso" role="status" aria-live="polite" hidden>
+    <span>Guardada. Probátela en cualquiera de nuestras tiendas</span>
+    <a href="#" class="js-panel lu-fav-aviso-link" data-toggle="#modal-favoritos">Ver favoritos</a>
+  </div>
+
   <div class="js-modal-overlay modal-overlay" style="display:none"></div>
 
   <script>
@@ -715,7 +750,13 @@ ${CARRITO}
     }))
     document.querySelectorAll('.js-modal-close').forEach(b => b.addEventListener('click', cerrar))
     velo.addEventListener('click', cerrar)
-  </script>`
+  </script>
+  <script src="lupita-favoritos.js"></script>
+${(() => {
+  /* snipplets/volver-arriba.tpl tal cual, sin el comentario Twig */
+  const p = join(RAIZ, 'snipplets', 'volver-arriba.tpl')
+  return existsSync(p) ? readFileSync(p, 'utf8').replace(/\{#[\s\S]*?#\}/g, '').replace(/\{\{\s*'([^']*)'\s*\|\s*translate\s*\}\}/g, '$1') : ''
+})()}`
 
 /* ---------------------------------------------------------------------------
    3c. Pie
@@ -730,31 +771,30 @@ const PIE = `
 
       <div class="row justify-content-md-center">
         <div class="col-md-8 text-center">
-          <div class="js-newsletter newsletter section-footer">
-            <h3>Recibí todas las ofertas</h3>
-            <p>¿Querés recibir nuestras ofertas? ¡Registrate ya mismo y comenzá a disfrutarlas!</p>
-            <form method="post" action="#">
-              <div class="input-append">
-                <input class="form-control" type="email" name="email" placeholder="Email" aria-label="Email">
-                <input type="submit" class="btn newsletter-btn" value="Enviar">
-              </div>
-            </form>
+          <!-- snipplets/canal-difusion.tpl. En la tienda no sale hasta cargar el
+               link; aca se muestra con "#" para ver el bloque. -->
+          <div class="newsletter section-footer lu-canal">
+            <h3>${leerDefaults().lupita_canal_titulo_es}</h3>
+            <p>${leerDefaults().lupita_canal_texto_es}</p>
+            <a href="#" target="_blank" rel="noopener" class="btn lu-canal-btn">${leerDefaults().lupita_canal_boton_es}</a>
           </div>
         </div>
       </div>
 
       <div class="row element-footer">
         <div class="col text-center">
-          <a class="social-icon" href="#" aria-label="instagram">IG</a>
-          <a class="social-icon" href="#" aria-label="tiktok">TT</a>
+          <!-- snipplets/social/social-links.tpl con los svg reales del theme -->
+          ${['instagram', 'tiktok'].map((sn) => `<a class="social-icon" href="${{ instagram: 'https://www.instagram.com/ahilupitaok', tiktok: 'https://www.tiktok.com/@ahilupitaok' }[sn]}" target="_blank" rel="noopener" aria-label="${sn} Ahí! Lupita">${readFileSync(join(RAIZ, 'snipplets', 'svg', sn + '.tpl'), 'utf8').replace('{{ svg_custom_class }}', 'icon-inline').trim()}</a>`).join('\n          ')}
         </div>
       </div>
 
       <div class="row element-footer">
         <div class="col text-center">
           <ul class="footer-menu m-0 p-0">
-            <li class="footer-menu-item"><a class="footer-menu-link" href="#">Cómo comprar</a></li>
-            <li class="footer-menu-item"><a class="footer-menu-link" href="#">Medios de pago</a></li>
+            <li class="footer-menu-item"><a class="footer-menu-link" href="como-comprar.html">Cómo comprar</a></li>
+            <li class="footer-menu-item"><a class="footer-menu-link" href="medios-de-pago.html">Medios de pago</a></li>
+            <li class="footer-menu-item"><a class="footer-menu-link" href="sobre-nosotros.html">Sobre nosotros</a></li>
+            <li class="footer-menu-item"><a class="footer-menu-link" href="preguntas-frecuentes.html">Preguntas frecuentes</a></li>
             <li class="footer-menu-item"><a class="footer-menu-link" href="#">Envíos</a></li>
             <li class="footer-menu-item"><a class="footer-menu-link" href="#">Cambios y devoluciones</a></li>
           </ul>
@@ -764,13 +804,10 @@ const PIE = `
       <div class="row element-footer">
         <div class="col text-center">
           <ul class="contact-info text-center">
-            <li class="contact-item"><a href="#" class="contact-link">[ WhatsApp a confirmar ]</a></li>
-            <li class="contact-item"><a href="#" class="contact-link">[ Mail a confirmar ]</a></li>
-            <li class="contact-item">España 137, Lomas de Zamora</li>
-            <li class="contact-item">Loria 198, Lomas de Zamora</li>
-            <li class="contact-item">[ Tercera dirección a confirmar ]</li>
-            <li class="contact-item">[ Horarios a confirmar ]</li>
+            <li class="contact-item"><a href="https://wa.me/5491128622903" class="contact-link">+54 9 11 2862-2903</a></li>
+            ${tiendasItems('contact-item')}
           </ul>
+          <a href="${leerDefaults().lupita_tiendas_url_es}" target="_blank" rel="noopener" class="lu-tiendas-link lu-tiendas-pie">Conocer las tiendas</a>
         </div>
       </div>
 
@@ -780,7 +817,7 @@ const PIE = `
         </div>
         <div class="w-100 my-2"></div>
         <div class="col text-center">
-          ${['ANDREANI', 'OCA', 'RETIRO EN LOCAL'].map((m) => `<img src="${foto('#8A8A84', m, 140, 48)}" alt="${m}">`).join('')}
+          ${['ANDREANI', 'OCA', 'RETIRO EN TIENDA'].map((m) => `<img src="${foto('#8A8A84', m, 140, 48)}" alt="${m}">`).join('')}
         </div>
       </div>
 
@@ -790,6 +827,13 @@ const PIE = `
         </div>
         <div class="col-md-9 copyright text-center text-md-right">
           Copyright Ahí! Lupita 2026. Todos los derechos reservados.
+          <!-- Replica aproximada de component('claim-info'): el HTML real no esta publicado -->
+          <div class="mt-2">
+            <span class="d-inline-block mb-1">Defensa de las y los consumidores. Para reclamos</span>
+            <a href="#" class="lu-reclamo-link">ingresá acá</a>
+            <span class="mx-1 d-none d-md-inline-block">/</span>
+            <a href="contacto.html" class="lu-arrepentimiento-link">Botón de arrepentimiento</a>
+          </div>
         </div>
       </div>
 
@@ -833,8 +877,41 @@ function foto(color, texto, w = 400, h = 600) {
    para mirar el hero con contenido real en vez del gris de foto()). Si el
    campo `foto` de un slide empieza con 'img/', se usa tal cual; si no, cae al
    placeholder SVG de siempre. */
+// Espeja snipplets/tiendas-datos.tpl con los valores de defaults.txt.
+function tiendasItems(clase) {
+  const d = leerDefaults()
+  return ['lupita_tienda_1_es', 'lupita_tienda_2_es', 'lupita_tienda_3_es']
+    .filter((k) => d[k])
+    .map((k) => `<li class="${clase} lu-tienda-direccion">${d[k]}</li>`)
+    .concat(d.lupita_horarios_es ? [`<li class="${clase} lu-tienda-horario">${d.lupita_horarios_es}</li>`] : [])
+    .join('\n            ')
+}
+
 function imagenSrc(valor, texto, w, h) {
   return valor.startsWith('img/') ? valor : foto(valor, texto, w, h)
+}
+
+/** Replica snipplets/medios-de-pago.tpl con los textos iniciales de config/defaults.txt.
+    Declaracion (no const): CARRITO la usa mas arriba, al cargar el modulo. */
+function pagosHtml(tamano) {
+  const s = leerDefaults()
+  const filas = ['efectivo', 'tarjetas', 'transferencia']
+    .map((k) => [s[`lupita_pago_${k}_cifra_es`], s[`lupita_pago_${k}_es`]])
+    .filter(([c, t]) => c || t)
+  const amex = s.lupita_pago_amex_show === '1' && s.lupita_pago_amex_es
+  const cuerpo = `
+      <ul class="lu-pagos-lista list-unstyled">${filas.map(([c, t]) => `
+        <li class="lu-pagos-item">${c ? `<span class="lu-pagos-cifra">${c}</span>` : ''}${t ? `<span class="lu-pagos-texto">${t}</span>` : ''}</li>`).join('')}
+      </ul>${amex ? `
+      <div class="lu-pagos-amex"><span class="lu-pagos-amex-rotulo">American Express</span><span class="lu-pagos-amex-texto">${amex}</span></div>` : ''}`
+  return tamano === 'grande'
+    ? `<section class="lu-pagos lu-pagos-grande" data-store="lupita-medios-de-pago" aria-label="Medios de pago"><div class="container"><span class="lu-rotulo lu-micro lu-pagos-rotulo">Medios de pago</span>${cuerpo}<a href="${s.lupita_tiendas_url_es}" target="_blank" rel="noopener" class="lu-tiendas-link lu-tiendas-pagos">Conocer las tiendas</a></div></section>`
+    : `<section class="lu-pagos lu-pagos-compacto" data-store="lupita-medios-de-pago" aria-label="Medios de pago">${cuerpo}</section>`
+}
+
+/** Replica snipplets/favoritos/boton.tpl. Nace hidden como en la tienda. */
+function corazon(p, i, clase) {
+  return `<button type="button" class="js-fav lu-fav ${clase}" hidden aria-pressed="false" aria-label="Guardar en favoritos" data-fav-id="demo-${i}" data-fav-nombre="${p.nombre}" data-fav-url="producto.html?p=${i}" data-fav-imagen="${foto(p.foto, 'FOTO ' + String(i + 1).padStart(2, '0'), 120, 180)}" data-fav-precio="${pesos(p.precio)}">${ICONO.corazonVacio}${ICONO.corazonLleno}</button>`
 }
 
 /** Replica el DOM de snipplets/grid/item.tpl (clases reales, verificadas). */
@@ -844,6 +921,7 @@ function tarjeta(p, i) {
         <div class="js-item-product col-6 col-md-3 item item-product" data-product-type="list"
              onclick="location.href='producto.html?p=${i}'">
           <div class="item-image mb-2">
+            ${corazon(p, i, 'lu-fav-tarjeta')}
             ${p.etiqueta ? `<span class="item-label${p.etiqueta === 'OFERTA' ? ' item-label-sale' : ''}">${p.etiqueta}</span>` : ''}
             <img class="js-item-image" src="${foto(p.foto, 'FOTO ' + String(i + 1).padStart(2, '0'))}" alt="${p.nombre}">
           </div>
@@ -878,7 +956,7 @@ ${CABECERA(settings)}
               <div class="row">
                 <div class="col text-center col-lg-6 offset-lg-3">
                   <h1>Nuevos ingresos</h1>
-                  <p class="page-header-text font-md-normal">Lo ultimo que entro a los tres locales. Todo con 20% off pagando en efectivo.</p>
+                  <p class="page-header-text font-md-normal">Lo ultimo que entro a las tres tiendas. Todo con 20% off pagando en efectivo.</p>
                   <div class="divider col-2 offset-5 background-primary"></div>
                 </div>
               </div>
@@ -965,6 +1043,7 @@ function paginaProducto(settings) {
             <p class="js-price-display mb-0">${pesos(p.precio)}</p>
           </div>
           <span class="item-installments">3 cuotas sin interes de ${pesos(Math.round(p.precio / 3))}</span>
+          ${pagosHtml('compacto')}
 
           <div class="lu-variantes">
             <span class="lu-rotulo">Talle</span>
@@ -973,10 +1052,13 @@ function paginaProducto(settings) {
             </div>
           </div>
 
-          <input type="submit" class="js-addtocart btn btn-primary btn-block" value="Agregar al carrito">
+          <div class="lu-comprar">
+            <input type="submit" class="js-addtocart btn btn-primary btn-block" value="Agregar al carrito">
+            ${corazon(PRODUCTOS[0], 0, 'lu-fav-ficha')}
+          </div>
 
           <div class="product-description user-content">
-            <p>Prenda de la nueva temporada, disponible en los tres locales de Lomas de Zamora y Banfield. Asesoramiento personalizado para encontrar tu talle.</p>
+            <p>Prenda de la nueva temporada, disponible en las tres tiendas de Lomas de Zamora y Banfield. Asesoramiento personalizado para encontrar tu talle.</p>
             <p>Este texto es de relleno: la descripcion real la carga la clienta desde el panel de Tiendanube.</p>
           </div>
 
@@ -1050,19 +1132,22 @@ ${PANELES}
    panel por slide (blanco/negro, ver home-slider.tpl -> slide.color). La foto
    de playa (hero-01) es clara justo donde cae el titulo: con blanco se pierde
    (probado en pantalla el 2026-09-11), asi que va en negro. */
+/* Las piezas de campana con titulo impreso pasaron por aca el 2026-09-15 y
+   Santiago prefirio volver a estas: ahora van en la galeria de campanas,
+   debajo de los videos (home-campanas.tpl). */
 const SLIDES = [
-  { titulo: 'Nueva temporada', desc: 'Primavera 26 · Ya en los tres locales', boton: 'Ver lo nuevo', foto: 'img/hero-01.jpg', color: 'black' },
+  { titulo: 'Nueva temporada', desc: 'Primavera 26 · Ya en las tres tiendas', boton: 'Ver lo nuevo', foto: 'img/hero-01.jpg', color: 'black' },
   { titulo: '20% off', desc: 'Abonando en efectivo', boton: 'Ver la tienda', foto: 'img/hero-02.jpg', color: 'white' },
-  { titulo: 'Ahi! Lupita', desc: 'Ropa de mujer en tres locales', boton: 'Ver la tienda', foto: 'img/hero-03.jpg', color: 'white' },
+  { titulo: 'Ahi! Lupita', desc: 'Ropa de mujer en tres tiendas', boton: 'Ver la tienda', foto: 'img/hero-03.jpg', color: 'white' },
   { titulo: '3 y 6 cuotas', desc: 'Sin interes con todas las tarjetas', boton: 'Comprar ahora', foto: 'img/hero-04.jpg', color: 'white' },
 ]
 
 /* banner-services.tpl: tres renglones de demo. Los iconos son los del base
    (truck, credit-card, lock) en trazo equivalente. */
 const SERVICIOS = [
-  { titulo: 'Envíos a todo el país', texto: 'Por Andreani o Correo Argentino. Retiro gratis en los tres locales.',
+  { titulo: 'Envíos a todo el país', texto: 'Por Andreani o Correo Argentino. Retiro gratis en las tres tiendas.',
     icono: '<svg class="icon-inline icon-w-20 icon-2x service-icon" viewBox="0 0 640 512" aria-hidden="true"><path d="M624 352h-16V243c0-13-5-25-14-34l-77-77c-9-9-21-14-34-14h-51V64c0-18-14-32-32-32H32C14 32 0 46 0 64v288c0 18 14 32 32 32h16a96 96 0 0 0 192 0h160a96 96 0 0 0 192 0h32c9 0 16-7 16-16v-16c0-9-7-16-16-16zM144 464a48 48 0 1 1 0-96 48 48 0 0 1 0 96zm288-160H272v-32h160v32zm0-64H272v-32h160v32zm64 224a48 48 0 1 1 0-96 48 48 0 0 1 0 96zm64-96h-8a96 96 0 0 0-112-46V160h51l77 77v131z"/></svg>' },
-  { titulo: '3 y 6 cuotas sin interés', texto: 'Con todas las tarjetas. Y 20% off pagando en efectivo en el local.',
+  { titulo: '3 y 6 cuotas sin interés', texto: 'Con todas las tarjetas. Y 20% off pagando en efectivo en la tienda.',
     icono: '<svg class="icon-inline icon-w-18 icon-2x service-icon" viewBox="0 0 576 512" aria-hidden="true"><path d="M528 32H48C22 32 0 54 0 80v352c0 26 22 48 48 48h480c26 0 48-22 48-48V80c0-26-22-48-48-48zm-480 48h480c9 0 16 7 16 16v48H32V96c0-9 7-16 16-16zm480 352H48c-9 0-16-7-16-16V256h512v160c0 9-7 16-16 16zM128 336v32h96v-32h-96zm160 0v32h160v-32H288z"/></svg>' },
   { titulo: 'Compra protegida', texto: 'Pagás con Mercado Pago y tu compra queda cubierta hasta que la tenés en la mano.',
     icono: '<svg class="icon-inline icon-w-14 icon-2x service-icon" viewBox="0 0 448 512" aria-hidden="true"><path d="M400 224h-24v-72a152 152 0 0 0-304 0v72H48c-26 0-48 22-48 48v192c0 26 22 48 48 48h352c26 0 48-22 48-48V272c0-26-22-48-48-48zm-104 0H152v-72a72 72 0 0 1 144 0v72zm104 240H48V272h352v192z"/></svg>' },
@@ -1073,12 +1158,12 @@ function paginaHome(settings) {
     (s, i) => `
           <div class="swiper-slide slide-container${i === 0 ? ' activo' : ''}">
             <div class="slider-slide">
-              <img class="slider-image" src="${imagenSrc(s.foto, 'CAMPANA ' + (i + 1), 1600, 900)}" alt="">
+              <img class="slider-image" src="${imagenSrc(s.foto, 'CAMPANA ' + (i + 1), 1600, 900)}" alt="">${s.titulo || s.desc || s.boton ? `
               <div class="swiper-text swiper-${s.color}">
-                <div class="swiper-title h1">${s.titulo}</div>
-                <div class="swiper-description h5 font-weight-normal mt-3">${s.desc}</div>
-                <a href="categoria.html" class="btn btn-small swiper-btn mt-4">${s.boton}</a>
-              </div>
+                ${s.titulo ? `<div class="swiper-title h1">${s.titulo}</div>` : ''}
+                ${s.desc ? `<div class="swiper-description h5 font-weight-normal mt-3">${s.desc}</div>` : ''}
+                ${s.boton ? `<a href="categoria.html" class="btn btn-small swiper-btn mt-4">${s.boton}</a>` : ''}
+              </div>` : ''}
             </div>
           </div>`
   ).join('')
@@ -1094,9 +1179,9 @@ function paginaHome(settings) {
      de categorias). Nombres de demo = las secciones reales del riel, no
      "denim/blusas/accesorios" de la referencia que trajo Santiago. */
   const CATEGORIAS = [
-    { titulo: 'Vestidos', foto: 'img/hero-02.jpg', url: 'categoria.html' },
-    { titulo: 'Pantalones', foto: 'img/hero-04.jpg', url: 'categoria.html' },
-    { titulo: 'Abrigos', foto: 'img/hero-03.jpg', url: 'categoria.html' },
+    { titulo: 'Accesorios', foto: 'img/hero-02.jpg', url: 'categoria.html' },
+    { titulo: 'Denim', foto: 'img/hero-04.jpg', url: 'categoria.html' },
+    { titulo: 'Night Out', foto: 'img/hero-03.jpg', url: 'categoria.html' },
   ]
   const categorias = CATEGORIAS.map(
     (c) => `
@@ -1158,36 +1243,9 @@ ${CABECERA(settings)}
     </div>
   </div>
 
-  <section class="section-banners-home">
-    <div class="container-fluid p-0">
-      <div class="row no-gutters align-items-center">${categorias}
-      </div>
-    </div>
-  </section>
-
-  <section class="section-cover-home">
-    <div class="cover-image">
-      <img src="${imagenSrc('img/hero-01.jpg', 'PORTADA', 1600, 1200)}" class="cover-image-background" alt="">
-      <div class="swiper-text swiper-black">
-        <div class="swiper-title h1">[ Título a definir ]</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sin el link real de "The Trip" todavia: se ve la imagen de reemplazo
-       nomas, sin loop. El <video> real se prueba cuando llegue el archivo. -->
-  <section class="section-capsule-home">
-    <div class="capsule-media">
-      <img src="${imagenSrc('img/hero-04.jpg', 'VIDEO — THE TRIP (pendiente)', 1600, 1200)}" class="capsule-video" alt="">
-      <div class="swiper-text swiper-white">
-        <div class="swiper-title h1">The Trip</div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- home_order_position_5 = informatives -> banner-services.tpl. Los tres
-       textos son de demo: la clienta los escribe desde el panel. -->
+  <!-- home_order_position_2 = informatives -> banner-services.tpl, entre los
+       destacados y los banners de categorias (pedido de Santiago, 2026-09-15).
+       Los tres textos son de demo: la clienta los escribe desde el panel. -->
   <section class="section-informative-banners" data-store="banner-services">
     <div class="container">
       <div class="row">
@@ -1211,59 +1269,120 @@ ${CABECERA(settings)}
     </div>
   </section>
 
-  <!-- home_order_position_3 = modules -> home-modules.tpl, con modules_full.
+  <!-- home_order_position_3 = categories -> home-banners.tpl -->
+  <section class="section-banners-home">
+    <div class="container-fluid p-0">
+      <div class="row no-gutters align-items-center">${categorias}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-cover-home">
+    <div class="cover-image">
+      <!-- El video de Santiago convertido con ffmpeg (1920, 30 fps, H.264, sin
+           audio, faststart): de 36 MB .mov a ~3 MB. En la tienda va por
+           cover_video_url, alojado afuera. Titulo: Sea of Dreams. -->
+      <video class="cover-image-background" autoplay muted loop playsinline preload="auto" poster="video/portada-poster.jpg">
+        <source src="video/portada.mp4" type="video/mp4">
+      </video>
+      <div class="swiper-text swiper-white">
+        <div class="swiper-title h1">Sea of Dreams</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capsula "City Moves" (antes "The Trip"): segundo video de Santiago,
+       convertido igual que el de la Portada. En la tienda va por
+       capsule_video_url, alojado afuera. -->
+  <section class="section-capsule-home">
+    <div class="capsule-media">
+      <video class="capsule-video" autoplay muted loop playsinline preload="auto" poster="video/capsula-poster.jpg">
+        <source src="video/capsula.mp4" type="video/mp4">
+      </video>
+      <div class="swiper-text swiper-white">
+        <div class="swiper-title h1">City Moves</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- home-campanas.tpl: las piezas con titulo impreso, debajo de los videos -->
+  <section class="lu-campanas" data-store="home-campanas">
+    <div class="container"><span class="lu-rotulo lu-micro lu-campanas-rotulo">${settings.lupita_campanas_titulo_es}</span></div>
+    <div class="lu-campanas-grilla">
+      ${['slider-sea-of-dreams.jpg', 'slider-sea-and-a-dream.jpg', 'slider-city-moves.jpg'].map((f) => `<figure class="lu-campana"><img src="img/${f}" alt="Campaña de Ahí! Lupita" loading="lazy"></figure>`).join('\n      ')}
+    </div>
+  </section>
+
+
+  <!-- home_order_position_4 = modules -> home-modules.tpl, con modules_full.
        Un modulo con la foto a la derecha (module_align = right). -->
   <section class="section-home-modules" data-store="home-image-text-module">
     <div class="container-fluid p-0">
-      <a class="module-with-text-link" href="categoria.html" title="Tres locales, un solo perchero">
+      <!-- Sin link envolvente (2026-09-15): solo el boton lleva al mapa -->
         <div class="row no-gutters align-items-center">
           <div class="col-md order-md-2">
             <div class="textbanner">
               <div class="textbanner-image">
-                <img src="${imagenSrc('img/hero-03.jpg', 'MODULO', 800, 1000)}" class="textbanner-image-background" alt="Tres locales, un solo perchero">
+                <img src="${imagenSrc('img/hero-03.jpg', 'MODULO', 800, 1000)}" class="textbanner-image-background" alt="Elegilo online, probátelo en la tienda">
               </div>
             </div>
           </div>
           <div class="col-md">
             <div class="textbanner-text">
-              <div class="h1 textbanner-title">Tres locales, un solo perchero</div>
-              <div class="textbanner-paragraph">Lo que ves en la tienda es lo que hay colgado en España 137, en Loria 198 y en Banfield. Comprás online y lo retirás en el local que te quede más cerca, o te lo mandamos. Este texto es de demo: el real lo escribe la clienta desde el panel.</div>
-              <button class="btn btn-primary btn-small">Conocé los locales</button>
+              <div class="h1 textbanner-title">Elegilo online, probátelo en la tienda</div>
+              <div class="textbanner-paragraph">${settings.module_01_description_es}</div>
+              <a href="${settings.module_01_url_es}" target="_blank" rel="noopener" class="btn btn-primary btn-small">${settings.module_01_button_es}</a>
             </div>
           </div>
         </div>
-      </a>
     </div>
   </section>
+
+  <!-- home_order_position_10 = payments -> medios-de-pago.tpl (aca antes de la bienvenida para verlo) -->
+  ${pagosHtml('grande')}
 
   <!-- home_order_position_6 = welcome -> home-welcome-message.tpl -->
   <section class="section-welcome-home" data-store="home-welcome-message">
     <div class="container">
       <div class="row">
         <div class="col-md-8 offset-md-2">
-          <h2 class="welcome-title">Ropa de mujer, al sur de la ciudad</h2>
-          <p class="welcome-text">Multimarca, en Lomas de Zamora y Banfield desde antes de Instagram. Frase de demo: la real la escribe la clienta desde el panel.</p>
+          <h2 class="welcome-title">${settings.welcome_message_es}</h2>
+          <p class="welcome-text">${settings.welcome_text_es}</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- home_order_position_4 = instafeed -> home-instafeed.tpl. Las nueve
-       fotos las trae la plataforma con el token de Instagram; aca son las
-       de prueba repetidas. -->
+       fotos las trae la plataforma cuando la clienta conecta Instagram en el
+       panel (store.hasInstagramToken). Sin conexion el theme no pinta fotos:
+       solo el aviso "Seguinos en Instagram". Aca se muestra ese estado, sin
+       fotos inventadas (Santiago, 2026-09-15). -->
   <section class="section-instafeed-home" data-store="home-instagram-feed">
     <div class="container">
       <div class="row">
         <div class="col-12 text-center">
-          <a target="_blank" href="https://www.instagram.com/ahilupitaok" class="instafeed-title" aria-label="Instagram de Ahi! Lupita">
-            ${ICONO.instagram}
-            <h2 class="h2 h1-md mt-2 instafeed-user">ahilupitaok</h2>
-          </a>
+          <div class="lu-redes-fila">
+            <a target="_blank" rel="noopener" href="https://www.instagram.com/ahilupitaok" class="instafeed-title" aria-label="Instagram de Ahi! Lupita">
+              ${ICONO.instagram}
+              <span class="instafeed-user-fila">
+                <h2 class="h2 h1-md mt-2 instafeed-user">ahilupitaok</h2>
+                <svg class="instafeed-verificada" viewBox="0 0 40 40" role="img" aria-label="Cuenta verificada"><path fill="#0095F6" fill-rule="evenodd" d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"/></svg>
+              </span>
+            </a>
+            <a target="_blank" rel="noopener" href="https://www.tiktok.com/@ahilupitaok" class="instafeed-title lu-tiktok-title" aria-label="TikTok de Ahi! Lupita">
+              ${readFileSync(join(RAIZ, 'snipplets', 'svg', 'tiktok.tpl'), 'utf8').replace('{{ svg_custom_class }}', 'icon-inline icon-3x align-top svg-icon-text').trim()}
+              <span class="instafeed-user-fila">
+                <span class="h2 h1-md mt-2 instafeed-user">ahilupitaok</span>
+              </span>
+            </a>
+          </div>
+          <div class="js-ig-fallback text-center mt-3">
+            <div class="mb-3">Seguinos en nuestras redes</div>
+            <a target="_blank" rel="noopener" href="https://www.instagram.com/ahilupitaok" class="btn btn-link">Ver perfil</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div id="instagram-feed" class="js-ig-success row no-gutters">${['img/hero-01.jpg', 'img/hero-02.jpg', 'img/hero-03.jpg', 'img/hero-04.jpg', 'img/hero-02.jpg', 'img/hero-03.jpg', 'img/hero-04.jpg', 'img/hero-01.jpg', 'img/hero-03.jpg'].map((f) => `
-      <div class="col-4"><a class="instafeed-link" href="https://www.instagram.com/ahilupitaok" target="_blank" aria-label="Publicación de Instagram de Ahi! Lupita"><img class="instafeed-img w-100 fade-in lazyloaded" src="${f}" alt=""></a></div>`).join('')}
     </div>
   </section>
 
@@ -1329,7 +1448,7 @@ const renglonCarritoPagina = (p, i, arr) => `
             </div>
           </div>
           <div class="col-1 cart-item-delete text-right">
-            <button type="button" class="btn h6 h5-md m-0" aria-label="Quitar">${ICONO.tacho}</button>
+            <button type="button" class="btn h6 h5-md m-0 lu-quitar" aria-label="Quitar ${p.nombre}">${ICONO.tacho}<span class="lu-quitar-texto" aria-hidden="true">Quitar</span></button>
           </div>
         </div>`
 
@@ -1375,7 +1494,7 @@ ${CABECERA(settings)}
                             <input type="submit" class="btn btn-default" value="Calcular" style="flex:none">
                           </div>
                         </div>
-                        <div class="alert alert-info">Retiro gratis en los tres locales.</div>
+                        <div class="alert alert-info">Retiro gratis en las tres tiendas.</div>
                       </div>
                     </div>
                   </div>
@@ -1405,6 +1524,7 @@ ${CABECERA(settings)}
                         <div class="js-payment-discount-price-cart-container lu-efectivo mt-1 text-right text-md-center"><span class="lu-efectivo-precio">${pesos(Math.round(TOTAL_CARRITO * 0.8 * 0.8))}</span> <span class="lu-efectivo-medio">con Efectivo</span></div>
                       </div>
                       <div class="js-visible-on-cart-filled">
+                        ${pagosHtml('compacto')}
                         <input id="go-to-checkout" class="btn btn-primary btn-block mb-3" type="submit" name="go_to_checkout" value="Iniciar Compra">
                         <div class="row mb-2">
                           <div class="text-center w-100">
@@ -1488,11 +1608,11 @@ ${CABECERA(settings, NOTIFICACION)}
     <div class="container">
       <div class="row justify-content-md-center">
         <div class="col-md-8">
-          <p>Texto de demo: el real lo escribe la clienta desde el panel. Tenés 30 días desde que recibís tu compra para cambiarla en cualquiera de los tres locales, con la prenda sin uso y con la etiqueta puesta. Si comprás online y el talle no te queda, lo cambiás en el local o lo coordinamos por WhatsApp.</p>
+          <p>Texto de demo: el real lo escribe la clienta desde el panel. Tenés 30 días desde que recibís tu compra para cambiarla en cualquiera de las tres tiendas, con la prenda sin uso y con la etiqueta puesta. Si comprás online y el talle no te queda, lo cambiás en la tienda o lo coordinamos por WhatsApp.</p>
           <h2>Cómo hacer un cambio</h2>
           <ul>
             <li>Escribinos por WhatsApp con el número de pedido.</li>
-            <li>Acercate al local que te quede más cómodo, o pedí el retiro a domicilio.</li>
+            <li>Acercate a la tienda que te quede más cómoda, o pedí el retiro a domicilio.</li>
             <li>Elegís otra prenda o te queda un crédito para usar cuando quieras.</li>
           </ul>
           <h3>Tabla de talles</h3>
@@ -1603,6 +1723,8 @@ ${fila('Contacto', 'contacto.html')}
 ${fila('Contrasena', 'contrasena.html')}
 ${fila('Blog', 'blog.html')}
 ${fila('Nota', 'nota.html')}
+${fila('Sobre nosotros', 'sobre-nosotros.html')}
+${fila('Preguntas frecuentes', 'preguntas-frecuentes.html')}
 </body></html>
 `
 }
@@ -1696,9 +1818,8 @@ ${CABECERA(settings)}
         <div class="col-md-5 lu-contacto-datos">
           <p class="lu-contacto-intro">[ Demo: el texto de contacto lo escribe la clienta en el panel ]</p>
           <ul class="contact-info text-center">
-            <li class="contact-item">${ICONO.whatsapp}<a href="#" class="contact-link">[ whatsapp del panel ]</a></li>
-            <li class="contact-item"><a href="#" class="contact-link">[ mail del panel ]</a></li>
-            <li class="contact-item">[ dirección del panel ]</li>
+            <li class="contact-item">${ICONO.whatsapp}<a href="https://wa.me/5491128622903" class="contact-link">5491128622903</a></li>
+            ${tiendasItems('contact-item')}
           </ul>
         </div>
         <div class="col-md-7 lu-contacto-form">
@@ -1759,7 +1880,7 @@ ${MOTION}
 const NOTAS = [
   { titulo: 'Cómo combinar un blazer estructurado para todos los días', resumen: '[ Demo ] Tres formas de llevarlo del trabajo a la noche sin cambiarte entera.', foto: '#A8A093' },
   { titulo: 'Guía de talles: medirte en casa', resumen: '[ Demo ] Busto, cintura y cadera con un centímetro y dos minutos.', foto: '#8C9AA3' },
-  { titulo: 'Lo nuevo de la temporada', resumen: '[ Demo ] Las prendas que entraron esta semana a los locales.', foto: '#6E6A63' },
+  { titulo: 'Lo nuevo de la temporada', resumen: '[ Demo ] Las prendas que entraron esta semana a las tiendas.', foto: '#6E6A63' },
   { titulo: 'Cuidar el satén', resumen: '[ Demo ] Lavado, planchado y guardado para que dure.', foto: '#CFC7B8' },
 ]
 
@@ -1827,6 +1948,105 @@ ${MOTION}
 `
 }
 
+/* Sobre nosotros (templates/page.tpl con handle sobre-nosotros ->
+   snipplets/sobre-nosotros.tpl). Textos de defaults.txt; fotos de campaña. */
+function paginaSobre(settings) {
+  return `${CABEZA('Sobre nosotros')}
+<body class="template-page">
+${CABECERA(settings)}
+  <section class="lu-sobre" data-store="page-about">
+    <div class="container">
+      <div class="lu-sobre-grilla">
+        <div class="lu-sobre-texto">
+          <h1 class="lu-sobre-titulo">${settings.lupita_about_title_es}</h1>
+          <p class="lu-sobre-parrafo">${settings.lupita_about_text_es}</p>
+          <p class="lu-sobre-asesoramiento">${settings.lupita_about_advice_es}</p>
+          <p class="lu-sobre-cierre">${settings.lupita_about_closing_es}</p>
+          <a href="${settings.lupita_tiendas_url_es}" target="_blank" rel="noopener" class="lu-tiendas-link lu-tiendas-sobre">Conocer las tiendas</a>
+        </div>
+        <div class="lu-sobre-fotos">
+          <figure class="lu-sobre-foto"><img src="img/hero-01.jpg" alt="Tienda de Ahi! Lupita"></figure>
+          <figure class="lu-sobre-foto"><img src="img/hero-03.jpg" alt="Tienda de Ahi! Lupita"></figure>
+          <figure class="lu-sobre-foto"><img src="img/hero-04.jpg" alt="Tienda de Ahi! Lupita"></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+${PIE}
+${PANELES}
+</body>
+</html>
+`
+}
+
+/* Preguntas frecuentes (templates/page.tpl con handle preguntas-frecuentes ->
+   snipplets/preguntas-frecuentes.tpl). Textos de defaults.txt; la primera abierta
+   en el harness para que la captura muestre una respuesta. */
+function paginaFaq(settings) {
+  const items = [1, 2, 3, 4, 5, 6]
+    .map((n) => [settings[`lupita_faq_${n}_pregunta_es`], settings[`lupita_faq_${n}_respuesta_es`], settings[`lupita_faq_${n}_respuesta_2_es`], settings[`lupita_faq_${n}_tiendas`] === '1'])
+    .filter(([p, r]) => p && r)
+    .map(([p, r, r2, tiendas], i) => `
+          <details class="lu-faq-item"${i === 0 || tiendas ? ' open' : ''}>
+            <summary class="lu-faq-pregunta">${p}</summary>
+            <div class="lu-faq-respuesta">
+              <p>${r}</p>${tiendas ? `\n              <ul class="lu-faq-tiendas list-unstyled">${tiendasItems('lu-faq-tienda')}</ul>` : ''}${r2 ? `\n              <p>${r2}</p>` : ''}
+            </div>
+          </details>`)
+    .join('')
+  return `${CABEZA('Preguntas frecuentes')}
+<body class="template-page">
+${CABECERA(settings)}
+  <section class="lu-faq" data-store="page-faq">
+    <div class="container">
+      <div class="lu-faq-caja">
+        <h1 class="lu-faq-titulo">Preguntas frecuentes</h1>
+        <div class="lu-faq-lista">${items}
+        </div>
+        <p class="lu-faq-arrepentimiento">
+          <a href="contacto.html" class="lu-arrepentimiento-link">Botón de arrepentimiento</a>
+        </p>
+      </div>
+    </div>
+  </section>
+${PIE}
+${PANELES}
+</body>
+</html>
+`
+}
+
+/* Medios de pago y Como comprar (templates/page.tpl -> snipplets/pagina-lupita.tpl) */
+function paginaLupita(settings, tipo) {
+  const titulo = tipo === 'pagos' ? 'Medios de pago' : 'Cómo comprar'
+  const pasos = [1, 2, 3, 4, 5]
+    .map((n) => [settings[`lupita_comprar_${n}_titulo_es`], settings[`lupita_comprar_${n}_texto_es`]])
+    .filter(([t]) => t)
+    .map(([t, x], i) => `
+          <li class="lu-paso">
+            <span class="lu-paso-numero">${i + 1}</span>
+            <div class="lu-paso-cuerpo">
+              <h2 class="lu-paso-titulo">${t}</h2>${x ? `\n              <p class="lu-paso-texto">${x}</p>` : ''}
+            </div>
+          </li>`)
+    .join('')
+  return `${CABEZA(titulo)}
+<body class="template-page">
+${CABECERA(settings)}
+  <section class="lu-pagina lu-pagina-${tipo}" data-store="page-${tipo}">
+    <div class="container">
+      <h1 class="lu-pagina-titulo">${titulo}</h1>
+    </div>
+    ${tipo === 'pagos' ? pagosHtml('grande') : `<div class="container"><ol class="lu-pasos list-unstyled">${pasos}
+      </ol></div>`}
+  </section>
+${PIE}
+${PANELES}
+</body>
+</html>
+`
+}
+
 /* El JS de movimiento se sirve crudo, como lo incluye layout.tpl */
 const MOTION = `<script src="lupita-motion.js"></script>`
 
@@ -1862,7 +2082,15 @@ writeFileSync(join(SALIDA, 'contacto.html'), paginaContacto(settings))
 writeFileSync(join(SALIDA, 'contrasena.html'), paginaContrasena())
 writeFileSync(join(SALIDA, 'blog.html'), paginaBlog(settings))
 writeFileSync(join(SALIDA, 'nota.html'), paginaNota(settings))
+writeFileSync(join(SALIDA, 'sobre-nosotros.html'), paginaSobre(settings))
+writeFileSync(join(SALIDA, 'preguntas-frecuentes.html'), paginaFaq(settings))
+writeFileSync(join(SALIDA, 'medios-de-pago.html'), paginaLupita(settings, 'pagos'))
+writeFileSync(join(SALIDA, 'como-comprar.html'), paginaLupita(settings, 'comprar'))
 writeFileSync(join(SALIDA, 'lupita-motion.js'), motionJs())
+{
+  const p = join(RAIZ, 'static', 'js', 'lupita-favoritos.js.tpl')
+  writeFileSync(join(SALIDA, 'lupita-favoritos.js'), existsSync(p) ? readFileSync(p, 'utf8').replace(/\{#[\s\S]*?#\}/g, '') : '')
+}
 writeFileSync(join(SALIDA, 'movil.html'), MOVIL)
 
 /* Fotos reales del hero (ver imagenSrc): se copian tal cual a out/img. */
@@ -1873,4 +2101,4 @@ if (existsSync(IMG_ORIGEN)) {
 
 console.log('OK ->', SALIDA)
 console.log('   papel', settings.background_color, '| tinta', settings.text_color, '| acento', settings.accent_color)
-console.log('   titulos', settings.font_headings, '| texto', settings.font_rest, '| subtitulos Caveat, rotulos Roboto Mono, marca Archivo Black (fijas)')
+console.log('   titulos', settings.font_headings, '| texto', settings.font_rest, '| subtitulos Bodoni Moda, rotulos Roboto Mono, marca Archivo Black (fijas)')

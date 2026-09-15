@@ -6,9 +6,9 @@
         <div class="col-6">
             <div {% if store.branches|length > 1 %}class="mb-1"{% endif %}> 
                 {% if store.branches|length > 1 %}
-                    {{ 'Nuestros locales' | translate }}
+                    {{ 'Nuestras tiendas' | translate }}
                 {% else %}
-                    {{ 'Nuestro local' | translate }}
+                    {{ 'Nuestra tienda' | translate }}
                 {% endif %}
             </div>
             {% if store.branches|length > 1 %}
