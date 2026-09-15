@@ -3,28 +3,24 @@
         {% block page_header_text %}{{ "Blog" | translate }}{% endblock page_header_text %}
     {% endembed %}
 
-    <section class="blog-page">
+    {# Lista editorial: una fila por nota. Las clases lu-* son las que controla
+       el theme; el HTML de adentro lo arma la plataforma (component). Sin lazy
+       en las fotos: la vista previa del cursor necesita el src real. #}
+    <section class="blog-page lu-blog" data-motion="hover-preview">
         {% for post in blog.posts %}
-            {% if loop.index % 3 == 1 %}
-                <div class="row">
-            {% endif %}
             {{ component(
                 'blog/blog-post-item', {
-                    image_lazy: true,
-                    image_lazy_js: true,
+                    image_lazy: false,
                     post_item_classes: {
-                        item: 'col-md-4 item',
-                        image_container: 'mb-2',
-                        image: 'img-absolute img-absolute-centered fade-in',
-                        title: 'font-big mb-2',
-                        summary: 'mb-3',
-                        read_more: 'btn-link d-inline-block',
+                        item: 'lu-post',
+                        image_container: 'lu-post-imagen',
+                        image: 'lu-post-img',
+                        title: 'lu-post-titulo',
+                        summary: 'lu-post-resumen',
+                        read_more: 'lu-post-leer',
                     },
                 })
             }}
-            {% if loop.index % 3 == 0 or loop.last %}
-                </div>
-            {% endif %}
         {% endfor %}
     </section>
     {% include 'snipplets/grid/pagination.tpl' with {'pages': blog.pages} %}

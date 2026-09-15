@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "build:motion": "node _harness/motion/build.mjs"
+  },
+  "devDependencies": {
+    "animejs": "^4.5.0",
+    "esbuild": "^0.28.2"
+  }
+}

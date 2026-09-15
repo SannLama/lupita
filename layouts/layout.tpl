@@ -5,6 +5,12 @@
         <link rel="dns-prefetch" href="{{ store_resource_hints }}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        {# Fuentes fijas de Lupita: el panel solo carga font_headings y font_rest.
+           Archivo Black (marca), Roboto Mono (rotulos) y Caveat (subtitulos) no
+           se eligen desde el panel, asi que se cargan aca. Antes del 2026-09-15
+           Archivo Black no se cargaba en ningun lado. #}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bodoni+Moda:opsz,wght@6..96,400..700&family=Roboto+Mono:wght@400;700&display=swap" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -162,6 +168,13 @@
 
                 {% include "static/js/store.js.tpl" %}
             });
+        </script>
+
+        {# Movimiento de Lupita (anime.js recortado): script aparte para que un
+           error aca no apague el JS de la tienda #}
+
+        <script type="text/javascript">
+            {% include "static/js/lupita-motion.js.tpl" %}
         </script>
 
         {# Google reCAPTCHA on register page #}

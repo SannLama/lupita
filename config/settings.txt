@@ -64,6 +64,7 @@ Tipo de letra
 			"Braah One", sans-serif = Braah One
 			"Bree Serif", serif = Bree Serif
 			"Buenard", serif = Buenard
+			"Caveat", cursive = Caveat
 			"Chakra Petch", sans-serif = Chakra Petch
 			"Chivo", sans-serif = Chivo
 			"Corben", serif = Corben
@@ -76,6 +77,7 @@ Tipo de letra
 			"Fredoka One", sans-serif = Fredoka One
 			"Gabarito", sans-serif = Gabarito
 			"Golos Text", sans-serif = Golos Text
+			"Great Vibes", cursive = Great Vibes
 			"Handlee", cursive = Handlee
 			"IBM Plex Sans", sans-serif = IBM Plex Sans
 			"IBM Plex Serif", serif = IBM Plex Serif
@@ -147,6 +149,7 @@ Tipo de letra
 			"Braah One", sans-serif = Braah One
 			"Bree Serif", serif = Bree Serif
 			"Buenard", serif = Buenard
+			"Caveat", cursive = Caveat
 			"Chakra Petch", sans-serif = Chakra Petch
 			"Chivo", sans-serif = Chivo
 			"Corben", serif = Corben
@@ -159,6 +162,7 @@ Tipo de letra
 			"Fredoka One", sans-serif = Fredoka One
 			"Gabarito", sans-serif = Gabarito
 			"Golos Text", sans-serif = Golos Text
+			"Great Vibes", cursive = Great Vibes
 			"Handlee", cursive = Handlee
 			"IBM Plex Sans", sans-serif = IBM Plex Sans
 			"IBM Plex Serif", serif = IBM Plex Serif

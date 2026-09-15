@@ -110,7 +110,68 @@ geometricas.
 **El turquesa esta sacado a ojo del avatar de Instagram (un JPEG comprimido).
 Hay que confirmarlo contra el logo original.**
 
-### 🔴 El macro paso de Archivo Black a Italiana (2026-09-11)
+### 🔴 Cuatro voces desde el 2026-09-15: Great Vibes, Caveat, Instrument Sans y Roboto Mono
+
+Santiago pidio **Liza Pro** para titulos, **Brown Sugar** (la manuscrita de
+KA Designs, no la serif de Muntab Art) para subtitulos e **Instrument Sans**
+para el texto. Liza Pro (Underware, licencia web por paginas vistas) y Brown
+Sugar son pagas; eligio reemplazos libres de Google Fonts sobre una hoja de
+muestras con 16 candidatas: **Great Vibes** y **Caveat**.
+
+| Rol | Fuente | Token | Como se carga |
+|---|---|---|---|
+| Titulos (h1, h2, hero, modulos, compra rapida, blog, 404) | Great Vibes | `--lu-macro` | panel: `font_headings` |
+| Subtitulos (h3–h5, descripciones del hero/portada/capsula, descripcion de categoria, texto de banners, mensaje de tienda cerrada) | Bodoni Moda (antes Caveat) | `--lu-sub` | fija |
+| Texto corrido (body, descripcion de producto, `.user-content`, bienvenida, servicios, newsletter) | Instrument Sans | `--lu-texto` | panel: `font_rest` |
+| Rotulos, precios, menu, botones, migas, formularios | Roboto Mono | `--lu-micro` | fija |
+| Logotipo, TOTAL | Archivo Black | `--lu-marca` | fija |
+
+- **Los titulos perdieron la MAYUSCULA y el tracking**: una script ligada en
+  versales no se lee y el tracking separa letras que tienen que tocarse.
+  Tamaños un ~25% mas grandes (la x es baja) e interlineado 1.15 para que los
+  adornos no pisen el renglon de abajo. La mascara del titulo de la nota
+  (`.lu-mascara`) se abrio en los cuatro lados: recortaba las colas.
+- **Las fijas se cargan con un `<link>` a Google Fonts en `layout.tpl` y
+  `password.tpl`.** El panel solo carga `font_headings` y `font_rest`.
+- 🔴 **Bug encontrado de paso: Archivo Black no se cargaba en ningun lado.**
+  Desde que `font_headings` paso a Italiana (2026-09-11), en la tienda el
+  logotipo, el menu y el TOTAL iban a salir en la sans del sistema. El harness
+  no lo mostraba porque su `CABEZA` carga Archivo Black por su cuenta — otra
+  regla del andamio que no es la de la tienda.
+- **Subtitulos: Caveat → Bodoni Moda (mismo dia).** Santiago pidio **Bigilla**
+  (Jeremie Gauthier), pero es "free to try only": la web comercial necesita
+  licencia paga. Bigilla por dentro trae solo `liga` (29 ligaduras) y `aalt`
+  (~30 alternates). Entre libres con alternates reales se compararon Bodoni
+  Moda, Cormorant Garamond, Instrument Serif, Playfair, Fraunces y Gloock
+  (hoja de muestras, normal vs. con features); Bodoni Moda es la mas cercana
+  por contraste de didona. Va en peso 400 con `dlig`, `hlig` y `ss01`
+  prendidos (#Subtitulos, al final de la hoja).
+- **Carrito y menu hamburguesa en Instrument Sans, minuscula normal**,
+  TOTAL incluido (#Carrito y menu en la voz del texto). Se pisa con `body`
+  delante de cada selector, sin `!important`.
+- **Tarjeta y efectivo en el carrito:** con "Descuento por medio de pago"
+  prendido en el panel (`payment_discount_price`), el TOTAL pasa a "Total con
+  tarjeta", chico y al 60%, y el `component('payment-discount-price')` —que
+  el base ya traia debajo— recibe clases propias (`lu-efectivo-precio`) y va
+  grande en turquesa. ⚠️ Turquesa sobre papel = 2,17:1: Santiago lo eligio
+  asi sabiendolo. **Sin verificar:** el HTML real del componente (el harness
+  lo deduce) y que prender el checkbox tambien muestra el precio en efectivo
+  en la grilla, la ficha y la compra rapida, que no se estilaron.
+- **La frase de bienvenida del home salia ilegible:** `style-critical` le pone
+  `text-transform: uppercase` a `.welcome-title` y el `h2` del base trae
+  `font-weight: 700` — Great Vibes en versales y engordada a mano. Se piso en
+  `#Bienvenida` (sin mayuscula, peso 400, mas grande). Revisado el resto del
+  CSS base: era el unico titulo con mayuscula forzada.
+- `settings.txt` suma Great Vibes y Caveat a las dos listas del panel;
+  `defaults.txt` arranca con Great Vibes / Instrument Sans.
+- **Sin verificar:** el layout pide pesos `300, 400, 700` y Great Vibes solo
+  tiene 400 (mismo caso que tenia Italiana) — ver que el componente `fonts` no
+  rompa la URL de Google Fonts.
+- **Si compran las licencias:** Liza Pro y Brown Sugar van en `static/fonts/`
+  con `@font-face` usando `static_url`, y se cambian `--lu-macro` / `--lu-sub`.
+  Nada mas.
+
+### El macro paso de Archivo Black a Italiana (2026-09-11) — reemplazado el 2026-09-15
 
 Santiago pidio una tipografia "romantica y delicada" para los titulos
 grandes, viendo el sistema con fotos reales. Eligio el alcance mas acotado
@@ -713,6 +774,17 @@ ficha pegada al scrollear en desktop, la segunda foto al pasar el mouse
 (`product_hover`, depende del lazyload del base), el modal de compra rapida,
 la hoja de recomendados al agregar al carrito y `prefers-reduced-motion`.
 
+**De las pantallas restantes (2026-09-15, tarde), sin verificar hasta que
+exista la tienda:** que `query` y `categories` lleguen a `search.tpl` (sin
+`query` el titulo vuelve a "Resultados de búsqueda"; sin `categories` no se
+dibuja el riel); que `lupita.scss.tpl` y el JS lleguen a `password.tpl`; el
+HTML real de `blog-post-item` y `blog-post-content` y que respeten las clases
+que les pasamos; que `lupita-motion` conviva con `store.js`; y el scroll
+infinito de la busqueda (las tarjetas que agrega entran sin animar, a
+proposito). **Visto en pantalla** a 1440 y 390: las siete paginas, sin JS
+(completas) y la 404 con movimiento reducido. El seguimiento del cursor del
+blog no se puede ver en una captura.
+
 ## Pendientes con la clienta
 
 1. **Logo vectorial** o el hex exacto del turquesa.
@@ -903,6 +975,77 @@ saber su alto, y eso es JS.
 
 Ademas se escribio `PRODUCT.md` (el contexto que pide `impeccable`: registro
 brand, usuarias, principios, anti-referencias) — es documentacion, no se sube.
+
+### 2026-09-15 (tarde): busqueda, 404, contacto, contraseña, blog y nota
+
+Las seis plantillas que el harness nunca habia mostrado, cada una con **un
+solo gesto de movimiento**. Spec en
+`docs/superpowers/specs/2026-09-15-pantallas-restantes-design.md`, plan en
+`docs/superpowers/plans/2026-09-15-pantallas-restantes.md`.
+
+**El movimiento: `static/js/lupita-motion.js.tpl` (SI se sube, va en
+`static/`).** Es anime.js recortado con esbuild desde
+`_harness/motion/entrada.mjs`; se regenera con `npm run build:motion` y **no se
+edita a mano**. Pesa **20,9 KB** (tope 30). Tres decisiones:
+
+- **`waapi.animate` y no `animate`.** El motor completo de anime.js pesaba
+  41,7 KB (16,5 con gzip) aunque se sacara todo lo demas: el tope de 30 no se
+  podia cumplir. `waapi` usa las animaciones nativas del navegador y baja a
+  19,8. Lo que waapi no hace (animar texto y valores sueltos) va a mano con
+  `requestAnimationFrame`: el decrypt de la 404 y el seguimiento del cursor
+  del blog. Sin `splitText` tambien: el titulo de la nota se corta por
+  palabras a mano.
+- **Se activa por atributo** (`data-motion="decrypt|stagger|spring|shake|
+  split-lines|hover-preview"`), no por plantilla. Un gesto roto no apaga los
+  demas (`try/catch` por gesto) y va en un `<script>` propio en `layout.tpl`,
+  asi un error no se lleva puesto el JS de la tienda.
+- **El HTML trae el estado final.** Todo anima *desde* otro valor. Sin JS la
+  pantalla esta completa; con `prefers-reduced-motion` el modulo sale sin
+  animar nada. `build.mjs` tambien neutraliza `{{`, `{%` y `{#` del minificado
+  (Twig incluye el archivo crudo) y compila el resultado para confirmar que
+  sigue siendo JS valido.
+
+**Por pantalla:**
+
+- **404** — "404" en Italiana a escala de hero, buscador y 4 prendas en la
+  grilla del sistema (`js-product-table`, sin esa clase la grilla se cortaba).
+  Gesto: los digitos pasan por numeros al azar y se asientan. Solo digitos: `#`
+  y `%` en Italiana son mucho mas anchos y la cifra saltaba. Un `setTimeout` de
+  respaldo la deja en "404" aunque la pestaña este en segundo plano (ahi rAF
+  se frena — Edge headless la capturaba a medio desordenar).
+- **Busqueda** — encabezado propio: rotulo "Búsqueda" y el termino entre
+  comillas como titulo; sin resultados, el termino tachado y el riel de
+  secciones (`categories.tpl` con `filter_categories: categories`). No se
+  muestra la cantidad: `products | length` es la de la pagina, no el total.
+  Gesto: las tarjetas de la primera pagina entran escalonadas.
+- **Contacto** — dos columnas desde 768: lo que carga el panel a la izquierda
+  (nada escrito a mano), formulario a la derecha con la linea de 1px en el
+  medio. Cancelacion, honeypot y consulta por producto intactos. Gesto: el
+  aviso de "gracias" entra con resorte.
+- **Contraseña** — turquesa a sangre con tinta encima, logotipo en Archivo
+  Black, mensaje del panel en Italiana, campo en caja de papel. `password.tpl`
+  no usa el layout: carga `lupita.scss.tpl` y el JS por su cuenta. Gesto: el
+  formulario tiembla una vez si la contraseña es incorrecta.
+- **Blog** — lista editorial: primera nota grande a dos columnas, el resto en
+  filas de 1px. Gesto: con mouse, la foto de la fila se oculta y aparece
+  flotando junto al cursor; en tactil y sin JS queda chica y fija.
+- **Nota** — columna de 680px, fecha como rotulo, cuerpo con `user-content`
+  (hereda #Texto institucional). Gesto: el titulo sube palabra por palabra
+  (`data-motion` en `page-header.tpl`, solo para `blog-post`).
+
+**El blog es el punto flojo:** `component('blog/blog-post-item')` y
+`blog-post-content` son de la plataforma y su HTML no esta publicado. Todo el
+CSS apunta a las clases que pasamos nosotros (`lu-post*`, `lu-nota-*`), nunca a
+las internas; el DOM del harness es deducido.
+
+**Harness:** `404.html`, `busqueda.html`, `busqueda-vacia.html`,
+`contacto.html`, `contrasena.html`, `blog.html`, `nota.html`, todas en
+`dispositivos.html`. Nuevo `movil.html?p=<pagina>`: la pagina pedida en un
+iframe de 390 para capturar mobile con Edge. Se copiaron al andamio el aire de
+`.form-group` (35px, de style-async: sin eso cada rotulo se pegaba a la caja de
+arriba), la lista de `contact-links`, el blog de style-critical y
+`.container-narrow`. En `movil.html` las filas del blog salen sin foto: Edge
+headless dice tener mouse y se activa la vista previa — en un telefono no pasa.
 
 ## Etapa 2 (cuando haya tienda)
 

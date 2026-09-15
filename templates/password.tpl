@@ -5,6 +5,9 @@
         <link rel="dns-prefetch" href="{{ store_resource_hints }}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+        {# Fuentes fijas de Lupita, igual que en layout.tpl #}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bodoni+Moda:opsz,wght@6..96,400..700&family=Roboto+Mono:wght@400;700&display=swap" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -47,6 +50,10 @@
         {# Load async styling not mandatory for first meaningfull paint #}
 
         <link rel="stylesheet" href="{{ 'css/style-async.scss.tpl' | static_url }}" media="print" onload="this.media='all'">
+
+        {# Sistema visual de Ahi! Lupita: password.tpl no pasa por layout.tpl #}
+
+        <link rel="stylesheet" href="{{ 'css/lupita.scss.tpl' | static_url }}">
 
         {# Loads custom CSS added from Advanced Settings on the admin´s theme customization screen #}
 
@@ -91,30 +98,30 @@
 
         {# Page content #}
 
-        <section class="section-password">
+        {# Tienda cerrada: turquesa a sangre con tinta encima (8.27:1). Si la
+           contraseña falla, el bloque del formulario tiembla una vez. #}
+
+        <section class="section-password lu-cerrado">
             <div class="container">
-                <div class="row justify-content-md-center">
-                    <div class="col-md-8 text-center">
-                        <div class="my-5">
-                            {{ component('logos/logo', {logo_size: 'large', logo_img_classes: 'transition-soft-slow', logo_text_classes: 'h1 m-0'}) }}
-                        </div>
+                <div class="lu-cerrado-logo">
+                    {{ component('logos/logo', {logo_size: 'large', logo_img_classes: 'transition-soft-slow', logo_text_classes: 'h1 m-0'}) }}
+                </div>
 
-                        <h2 class="mb-5">{{ message }}</h2>
-                        {% embed "snipplets/forms/form.tpl" with{form_id: 'password-form', submit_text: 'Desbloquear' | translate } %}
-                            {% block form_body %}
+                <h2 class="lu-cerrado-mensaje">{{ message }}</h2>
+                <div class="lu-cerrado-form" {% if invalid_password == true %}data-motion="shake"{% endif %}>
+                    {% embed "snipplets/forms/form.tpl" with{form_id: 'password-form', submit_text: 'Desbloquear' | translate } %}
+                        {% block form_body %}
 
-                                {% embed "snipplets/forms/form-input.tpl" with{input_for: 'password', type_password: true, input_name: 'password', input_help: true, input_help_link: store.customer_reset_password_url, input_label_text: 'Contraseña de acceso' | translate } %}
-                                    {% block input_form_alert %}
-                                        {% if invalid_password == true %}
-                                            <div class="alert alert-danger">{{ 'La contraseña es incorrecta.' | translate }}</div>
-                                        {% endif %}
-                                    {% endblock input_form_alert %}
-                                {% endembed %}
+                            {% embed "snipplets/forms/form-input.tpl" with{input_for: 'password', type_password: true, input_name: 'password', input_help: true, input_help_link: store.customer_reset_password_url, input_label_text: 'Contraseña de acceso' | translate } %}
+                                {% block input_form_alert %}
+                                    {% if invalid_password == true %}
+                                        <div class="alert alert-danger">{{ 'La contraseña es incorrecta.' | translate }}</div>
+                                    {% endif %}
+                                {% endblock input_form_alert %}
+                            {% endembed %}
 
-                            {% endblock %}
-                        {% endembed %}
-
-                    </div>
+                        {% endblock %}
+                    {% endembed %}
                 </div>
             </div>
         </section>
@@ -132,6 +139,12 @@
 
             {% include "static/js/external-no-dependencies.js.tpl" %}
 
+        </script>
+
+        {# Movimiento de Lupita: aparte, como en layout.tpl #}
+
+        <script type="text/javascript">
+            {% include "static/js/lupita-motion.js.tpl" %}
         </script>
     </body>
 </html>

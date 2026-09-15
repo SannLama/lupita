@@ -93,7 +93,7 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
   <title>${titulo} — Ahi! Lupita (harness)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Italiana&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bodoni+Moda:opsz,wght@6..96,400..700&family=Great+Vibes&family=Instrument+Sans:wght@400;600;700&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     /* ANDAMIO — representa al theme base, asi que va ANTES de lupita.css, que
        es como se cargan en la tienda (layout.tpl mete la nuestra despues de
@@ -122,6 +122,21 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
     .row.no-gutters { margin: 0; }
     .col, [class^="col-"] { padding: 0 .75rem; }
     .col { flex: 1 0 0%; }
+    /* style-critical + style-async: el aire entre campos de forms/form-input.tpl
+       (%element-margin de style-async es 35px). Sin esto el harness pegaba
+       cada rotulo a la caja de arriba, y en la tienda no pasa. */
+    .form-group { position: relative; width: 100%; margin-bottom: 35px; }
+    .form-group .form-label { float: left; width: 100%; margin-bottom: 10px; }
+    /* style-critical #Blog: el base le fija 200px de alto a la caja de la foto
+       y line-clamp de 3 al titulo y resumen */
+    .post-item-image-container { position: relative; height: 200px; overflow: hidden; }
+    .post-item-image { width: 100%; height: 100%; object-fit: cover; }
+    .post-item-title, .post-item-summary { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; text-overflow: ellipsis; line-height: 1.5em; }
+    /* style-critical: lista de contact-links.tpl */
+    .contact-info { margin-top: 0; padding-left: 0; }
+    .contact-item { list-style: none; }
+    /* style-critical: la columna angosta de la nota del blog */
+    @media (min-width: 768px) { .container-narrow { max-width: 680px; } }
     .row.no-gutters > .col, .row.no-gutters > .col-md { padding: 0; }
     .col-md-3, .col-md { flex: 0 0 100%; max-width: 100%; }
     .col-md-9 { flex: 0 0 100%; max-width: 100%; }
@@ -594,12 +609,13 @@ ${EN_CARRITO.map(rengloncarrito).join('')}
           </div>
 
           <div class="js-cart-total-container js-visible-on-cart-filled mb-3 clear-both" data-store="cart-total">
-            <div class="h2 row no-gutters text-primary mb-0">
-              <span class="col mr-1">Total:</span>
+            <div class="h2 row no-gutters text-primary mb-0 lu-tarjeta">
+              <span class="col mr-1">Total con tarjeta:</span>
               <span class="js-cart-total col text-right">${pesos(TOTAL_CARRITO)}</span>
             </div>
             <div class="total-price hidden">Total: ${pesos(TOTAL_CARRITO)}</div>
-            <div class="installments mt-1 font-weight-bold text-right">3 cuotas sin interes de ${pesos(Math.round(TOTAL_CARRITO / 3))}</div>
+            <!-- DEDUCIDO: component('payment-discount-price') no esta publicado; clases que le pasa cart-totals.tpl -->
+            <div class="js-payment-discount-price-cart-container lu-efectivo mt-1 text-right"><span class="lu-efectivo-precio">${pesos(Math.round(TOTAL_CARRITO * 0.8))}</span> <span class="lu-efectivo-medio">con Efectivo</span></div>
           </div>
 
           <div class="js-visible-on-cart-filled container-fluid">
@@ -1380,12 +1396,13 @@ ${CABECERA(settings)}
                         </span>
                       </div>
                       <div class="js-cart-total-container js-visible-on-cart-filled mb-3 clear-both" data-store="cart-total">
-                        <div class="h2 row no-gutters text-primary mb-0 justify-content-end justify-content-md-center">
-                          <span class="col col-md-auto mr-1">Total:</span>
+                        <div class="h2 row no-gutters text-primary mb-0 lu-tarjeta justify-content-end justify-content-md-center">
+                          <span class="col col-md-auto mr-1">Total con tarjeta:</span>
                           <span class="js-cart-total col col-md-auto text-right">${pesos(Math.round(TOTAL_CARRITO * 0.8))}</span>
                         </div>
                         <div class="total-price hidden">Total: ${pesos(TOTAL_CARRITO)}</div>
-                        <div class="installments mt-1 font-weight-bold text-right">3 cuotas sin interes de ${pesos(Math.round(TOTAL_CARRITO * 0.8 / 3))}</div>
+                        <!-- DEDUCIDO: component('payment-discount-price') no esta publicado -->
+                        <div class="js-payment-discount-price-cart-container lu-efectivo mt-1 text-right text-md-center"><span class="lu-efectivo-precio">${pesos(Math.round(TOTAL_CARRITO * 0.8 * 0.8))}</span> <span class="lu-efectivo-medio">con Efectivo</span></div>
                       </div>
                       <div class="js-visible-on-cart-filled">
                         <input id="go-to-checkout" class="btn btn-primary btn-block mb-3" type="submit" name="go_to_checkout" value="Iniciar Compra">
@@ -1494,13 +1511,6 @@ ${CABECERA(settings, NOTIFICACION)}
     </div>
   </section>
 
-  <!-- Muestrario: busqueda sin resultados (search.tpl) -->
-  <section class="category-body">
-    <div class="container">
-      <p class="text-center">No hubo resultados para tu búsqueda</p>
-    </div>
-  </section>
-
   <!-- Muestrario: banner de cookies (notification.tpl, fijo al pie) -->
   <div class="js-notification js-notification-cookie-banner notification notification-fixed-bottom notification-above notification-secondary" style="display:block">
     <div class="container text-center text-md-left">
@@ -1580,15 +1590,257 @@ function paginaDispositivos() {
   nav a { color:#0A0A0A; letter-spacing:.06em; text-transform:uppercase; margin-right:1rem; }
 </style>
 </head><body>
-<nav><a href="home.html">Home</a><a href="categoria.html">Categoria</a><a href="producto.html">Producto</a><a href="carrito.html">Carrito</a><a href="pagina.html">Pagina</a></nav>
+<nav><a href="home.html">Home</a><a href="categoria.html">Categoria</a><a href="producto.html">Producto</a><a href="carrito.html">Carrito</a><a href="pagina.html">Pagina</a><a href="busqueda.html">Busqueda</a><a href="busqueda-vacia.html">Sin resultados</a><a href="404.html">404</a><a href="contacto.html">Contacto</a><a href="contrasena.html">Contrasena</a><a href="blog.html">Blog</a><a href="nota.html">Nota</a></nav>
 ${fila('Home', 'home.html')}
 ${fila('Categoria', 'categoria.html')}
 ${fila('Producto', 'producto.html')}
 ${fila('Carrito', 'carrito.html')}
 ${fila('Pagina', 'pagina.html')}
+${fila('Busqueda', 'busqueda.html')}
+${fila('Sin resultados', 'busqueda-vacia.html')}
+${fila('404', '404.html')}
+${fila('Contacto', 'contacto.html')}
+${fila('Contrasena', 'contrasena.html')}
+${fila('Blog', 'blog.html')}
+${fila('Nota', 'nota.html')}
 </body></html>
 `
 }
+
+/* ---------------------------------------------------------------------------
+   Pantallas restantes (2026-09-15): 404
+   --------------------------------------------------------------------------- */
+
+function pagina404(settings) {
+  return `${CABEZA('Error 404')}
+<body class="template-404">
+${CABECERA(settings)}
+  <section class="lu-404" id="404">
+    <div class="container">
+      <span class="lu-rotulo lu-micro">Error</span>
+      <h1 class="lu-404-cifra" aria-label="404"><span data-motion="decrypt" aria-hidden="true">404</span></h1>
+      <p class="lu-404-texto">La página que estás buscando no existe.</p>
+      <div class="lu-404-buscar">
+        <form class="js-search-container js-search-form" action="categoria.html" method="get">
+          <div class="form-group m-0">
+            <input class="js-search-input form-control search-input" autocomplete="off" type="search" name="q" placeholder="Buscar" aria-label="Buscador">
+            <button type="submit" class="btn search-input-submit" aria-label="Buscar">${ICONO.lupa}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="container lu-404-sugeridos">
+      <span class="lu-rotulo lu-micro">Quizás te interesen los siguientes productos.</span>
+    </div>
+    <div class="container" style="padding:0">
+      <div class="js-product-table row">${PRODUCTOS.slice(0, 4).map(tarjeta).join('')}</div>
+    </div>
+  </section>
+${PIE}
+${PANELES}
+${MOTION}
+</body>
+</html>
+`
+}
+
+/* Busqueda con y sin resultados (templates/search.tpl) */
+function paginaBusqueda(settings, vacia) {
+  const termino = vacia ? 'campera de corderoy' : 'vestido'
+  return `${CABEZA('Búsqueda')}
+<body class="template-search">
+${CABECERA(settings)}
+  <section class="page-header mt-3 lu-busqueda-header" data-store="page-title">
+    <div class="container"><div class="row"><div class="col">
+      <span class="lu-rotulo lu-micro">Búsqueda</span>
+      <h1><span class="lu-busqueda-termino${vacia ? ' lu-tachado' : ''}">“${termino}”</span></h1>
+    </div></div></div>
+  </section>
+  <section class="category-body">
+    <div class="container">
+${vacia
+    ? `      <p class="lu-busqueda-vacia">No hubo resultados para tu búsqueda</p>
+      <span class="lu-rotulo lu-micro lu-busqueda-seguir">Seguí mirando</span>
+${RIEL}`
+    : `      <div class="js-product-table row" data-motion="stagger">${PRODUCTOS.map(tarjeta).join('')}</div>`}
+    </div>
+  </section>
+${PIE}
+${PANELES}
+${MOTION}
+</body>
+</html>
+`
+}
+
+/* Contacto (templates/contact.tpl) con el aviso de exito visible. El DOM del
+   formulario es el de snipplets/forms/form.tpl + form-input.tpl. Los datos de
+   la columna izquierda son de relleno: en la tienda los carga el panel. */
+function paginaContacto(settings) {
+  const campo = (id, rotulo, tipo) => `
+            <div class="form-group ">
+              <label class="form-label " for="${id}">${rotulo}</label>
+              <input type="${tipo}" id="${id}" class=" form-control  " autocorrect="off" autocapitalize="off" name="${id}">
+            </div>`
+  return `${CABEZA('Contacto')}
+<body class="template-contact">
+${CABECERA(settings)}
+  <section class="page-header mt-3" data-store="page-title">
+    <div class="container"><div class="row"><div class="col text-center">
+      <h1>Contacto</h1>
+    </div></div></div>
+  </section>
+  <section class="contact-page">
+    <div class="container">
+      <div class="row lu-contacto">
+        <div class="col-md-5 lu-contacto-datos">
+          <p class="lu-contacto-intro">[ Demo: el texto de contacto lo escribe la clienta en el panel ]</p>
+          <ul class="contact-info text-center">
+            <li class="contact-item">${ICONO.whatsapp}<a href="#" class="contact-link">[ whatsapp del panel ]</a></li>
+            <li class="contact-item"><a href="#" class="contact-link">[ mail del panel ]</a></li>
+            <li class="contact-item">[ dirección del panel ]</li>
+          </ul>
+        </div>
+        <div class="col-md-7 lu-contacto-form">
+          <div class="alert alert-success" data-component="contact-success-message" data-motion="spring">¡Gracias por contactarnos! Vamos a responderte apenas veamos tu mensaje.</div>
+          <form id="contact-form" action="#" method="post" class="form js-winnie-pooh-form" data-store="contact-form">
+${campo('name', 'Nombre', 'text')}${campo('email', 'Email', 'email')}${campo('phone', 'Teléfono', 'tel')}
+            <div class="form-group ">
+              <label class="form-label " for="message">Mensaje</label>
+              <textarea id="message" class="form-control form-control-area  " autocorrect="off" autocapitalize="off" name="message" rows="7"></textarea>
+            </div>
+            <input class="btn btn-primary " type="submit" value="Enviar" name="contact">
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+${PIE}
+${PANELES}
+${MOTION}
+</body>
+</html>
+`
+}
+
+/* Tienda cerrada (templates/password.tpl) con la contraseña incorrecta, para
+   ver el aviso y el temblor. No usa CABECERA: la plantilla no pasa por el layout. */
+function paginaContrasena() {
+  return `${CABEZA('Tienda cerrada')}
+<body class="template-password">
+  <section class="section-password lu-cerrado">
+    <div class="container">
+      <div class="lu-cerrado-logo">
+        <div class="logo-text-container"><span class="logo-text h1 m-0">AHI ! LUPITA</span></div>
+      </div>
+      <h2 class="lu-cerrado-mensaje">[ Mensaje del panel: ej. Volvemos pronto ]</h2>
+      <div class="lu-cerrado-form" data-motion="shake">
+        <form id="password-form" action="#" method="post" class="form ">
+          <div class="form-group ">
+            <label class="form-label " for="password">Contraseña de acceso</label>
+            <input type="password" id="password" class="js-password-input form-control  " autocorrect="off" autocapitalize="off" autocomplete="off" name="password">
+            <div class="mt-4 text-center"><a href="#" class="btn-link ">¿Olvidaste la contraseña?</a></div>
+            <div class="alert alert-danger">La contraseña es incorrecta.</div>
+          </div>
+          <input class="btn btn-primary " type="submit" value="Desbloquear" name="">
+        </form>
+      </div>
+    </div>
+  </section>
+${PIE}
+${MOTION}
+</body>
+</html>
+`
+}
+
+/* Blog y nota (templates/blog.tpl y blog-post.tpl). Titulos y resumenes de
+   relleno, marcados como [ Demo ]. */
+const NOTAS = [
+  { titulo: 'Cómo combinar un blazer estructurado para todos los días', resumen: '[ Demo ] Tres formas de llevarlo del trabajo a la noche sin cambiarte entera.', foto: '#A8A093' },
+  { titulo: 'Guía de talles: medirte en casa', resumen: '[ Demo ] Busto, cintura y cadera con un centímetro y dos minutos.', foto: '#8C9AA3' },
+  { titulo: 'Lo nuevo de la temporada', resumen: '[ Demo ] Las prendas que entraron esta semana a los locales.', foto: '#6E6A63' },
+  { titulo: 'Cuidar el satén', resumen: '[ Demo ] Lavado, planchado y guardado para que dure.', foto: '#CFC7B8' },
+]
+
+/* DEDUCIDO: el componente blog-post-item no esta publicado. Clases del base
+   (post-item-*, las que estila style-critical) + las que pasa blog.tpl
+   (lu-post*). Verificar contra la tienda. */
+function notaItem(n, i) {
+  return `
+      <div class="post-item lu-post">
+        <div class="post-item-image-container lu-post-imagen"><a href="nota.html"><img class="post-item-image lu-post-img" src="${foto(n.foto, 'NOTA ' + (i + 1), 600, 800)}" alt="${n.titulo}"></a></div>
+        <div class="post-item-title lu-post-titulo"><a href="nota.html">${n.titulo}</a></div>
+        <p class="post-item-summary lu-post-resumen">${n.resumen}</p>
+        <a href="nota.html" class="lu-post-leer">Leer más</a>
+      </div>`
+}
+
+function paginaBlog(settings) {
+  return `${CABEZA('Blog')}
+<body class="template-blog">
+${CABECERA(settings)}
+<div class="container">
+  <section class="page-header mt-3" data-store="page-title"><div class="container"><div class="row"><div class="col text-center">
+    <div class="breadcrumbs"><a class="crumb" href="home.html">Inicio</a><span class="divider">></span><span class="crumb active">Blog</span></div>
+    <h1>Blog</h1>
+  </div></div></div></section>
+  <section class="blog-page lu-blog" data-motion="hover-preview">${NOTAS.map(notaItem).join('')}
+  </section>
+</div>
+${PIE}
+${PANELES}
+${MOTION}
+</body>
+</html>
+`
+}
+
+function paginaNota(settings) {
+  const n = NOTAS[0]
+  return `${CABEZA('Nota')}
+<body class="template-blog-post">
+${CABECERA(settings)}
+<div class="container container-narrow">
+  <section class="page-header mt-3" data-store="page-title"><div class="container"><div class="row"><div class="col text-center">
+    <div class="breadcrumbs"><a class="crumb" href="home.html">Inicio</a><span class="divider">></span><a class="crumb" href="blog.html">Blog</a><span class="divider">></span><span class="crumb active">${n.titulo}</span></div>
+    <h1 data-motion="split-lines">${n.titulo}</h1>
+  </div></div></div></section>
+  <div class="blog-post-page lu-nota">
+    <span class="lu-nota-fecha">15 de septiembre de 2026</span>
+    <img class="img-fluid lu-nota-img" src="${foto(n.foto, 'FOTO DE LA NOTA', 1200, 800)}" alt="">
+    <div class="user-content lu-nota-cuerpo">
+      <p>[ Demo: el texto lo escribe la clienta desde el panel. ] Un blazer con hombros marcados ordena cualquier look: arriba de una remera básica, con un jean wide leg, o cerrado como si fuera un vestido.</p>
+      <h2>Para el trabajo</h2>
+      <p>Pantalón sastrero del mismo tono y una camisa oversize a rayas. Zapato bajo.</p>
+      <ul><li>Mismo color arriba y abajo alarga la figura.</li><li>Las mangas arremangadas lo hacen menos formal.</li></ul>
+      <h3>Para la noche</h3>
+      <p>Sin nada abajo, cerrado con un cinto, y una <a href="#">falda de cuero ecológico</a>.</p>
+    </div>
+  </div>
+</div>
+${PIE}
+${PANELES}
+${MOTION}
+</body>
+</html>
+`
+}
+
+/* El JS de movimiento se sirve crudo, como lo incluye layout.tpl */
+const MOTION = `<script src="lupita-motion.js"></script>`
+
+function motionJs() {
+  const p = join(RAIZ, 'static', 'js', 'lupita-motion.js.tpl')
+  return existsSync(p) ? readFileSync(p, 'utf8').replace(/\{#[\s\S]*?#\}/g, '') : ''
+}
+
+/* Edge headless no baja de ~500 px: esta pagina mete la que se pida en un iframe de 390 */
+const MOVIL = `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>390</title>
+<style>body{margin:0;background:#cfccc5}iframe{border:0;display:block;background:#F4F4F0}</style></head>
+<body><iframe id="f" width="390" height="1800"></iframe>
+<script>document.getElementById('f').src = new URLSearchParams(location.search).get('p') || 'home.html'</script>
+</body></html>`
 
 /* ---------------------------------------------------------------------------
    9. Escribir
@@ -1603,6 +1855,15 @@ writeFileSync(join(SALIDA, 'home.html'), paginaHome(settings))
 writeFileSync(join(SALIDA, 'carrito.html'), paginaCarrito(settings))
 writeFileSync(join(SALIDA, 'pagina.html'), paginaPagina(settings))
 writeFileSync(join(SALIDA, 'dispositivos.html'), paginaDispositivos())
+writeFileSync(join(SALIDA, '404.html'), pagina404(settings))
+writeFileSync(join(SALIDA, 'busqueda.html'), paginaBusqueda(settings, false))
+writeFileSync(join(SALIDA, 'busqueda-vacia.html'), paginaBusqueda(settings, true))
+writeFileSync(join(SALIDA, 'contacto.html'), paginaContacto(settings))
+writeFileSync(join(SALIDA, 'contrasena.html'), paginaContrasena())
+writeFileSync(join(SALIDA, 'blog.html'), paginaBlog(settings))
+writeFileSync(join(SALIDA, 'nota.html'), paginaNota(settings))
+writeFileSync(join(SALIDA, 'lupita-motion.js'), motionJs())
+writeFileSync(join(SALIDA, 'movil.html'), MOVIL)
 
 /* Fotos reales del hero (ver imagenSrc): se copian tal cual a out/img. */
 const IMG_ORIGEN = join(AQUI, 'img')
@@ -1612,4 +1873,4 @@ if (existsSync(IMG_ORIGEN)) {
 
 console.log('OK ->', SALIDA)
 console.log('   papel', settings.background_color, '| tinta', settings.text_color, '| acento', settings.accent_color)
-console.log('   macro', settings.font_headings, '| micro', settings.font_rest)
+console.log('   titulos', settings.font_headings, '| texto', settings.font_rest, '| subtitulos Caveat, rotulos Roboto Mono, marca Archivo Black (fijas)')

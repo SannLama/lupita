@@ -27,8 +27,17 @@
     --lu-linea: color-mix(in srgb, {{ settings.text_color }} 14%, {{ settings.background_color }});
     --lu-gris: color-mix(in srgb, {{ settings.text_color }} 55%, {{ settings.background_color }});
 
+    /* Desde el 2026-09-15: cuatro voces. Titulos y texto los elige la clienta
+       en el panel (font_headings = Great Vibes, font_rest = Instrument Sans);
+       subtitulos, rotulos y marca son fijos y se cargan con un <link> propio
+       en layout.tpl y password.tpl — el panel solo carga las dos elegidas.
+       Great Vibes reemplaza a Liza Pro y Bodoni Moda a Bigilla (que a su
+       vez habia reemplazado a Caveat/Brown Sugar), las dos pagas: con
+       licencia web, se cambian aca y en el @font-face, nada mas. */
     --lu-macro: {{ settings.font_headings }};
-    --lu-micro: {{ settings.font_rest }};
+    --lu-texto: {{ settings.font_rest }};
+    --lu-sub: "Bodoni Moda", serif;
+    --lu-micro: "Roboto Mono", monospace;
 
     /* El logotipo y la navegacion NO siguen font_headings a proposito, desde
        el 2026-09-11: Santiago pidio una tipografia "romantica y delicada"
@@ -70,18 +79,18 @@ textarea,
 body {
     background-color: var(--lu-papel);
     color: var(--lu-tinta);
-    font-family: var(--lu-micro);
+    font-family: var(--lu-texto);
 }
 
 /*============================================================================
   #Tipografia
 ==============================================================================*/
 
-/* Macro: --lu-macro paso a ser Italiana el 2026-09-11 (pedido de Santiago:
-   tipografia "romantica y delicada" para los titulos grandes). El tracking
-   negativo y el leading comprimido de antes le iban bien a Archivo Black
-   (una masa solida de letras) pero aprietan una serif fina — pasan a
-   positivo/normal para que las formas respiren.
+/* Macro: --lu-macro es Great Vibes desde el 2026-09-15 (antes Italiana, y
+   antes Archivo Black). Es una script ligada: en MAYUSCULAS no se lee, y el
+   tracking separa letras que tienen que tocarse — minuscula normal y
+   letter-spacing 0. El interlineado se abre para que los adornos de un
+   renglon no pisen el de abajo.
 
    Logotipo, menu de navegacion, buscador y el TOTAL del carrito NO usan
    --lu-macro: son identidad de marca o cifras, no titulos de contenido, y
@@ -90,9 +99,10 @@ h1,
 h2,
 .lu-macro {
     font-family: var(--lu-macro);
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    line-height: 1;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.15;
     margin: 0;
     /* Un titulo de dos renglones parte parejo, no deja una palabra sola
        colgando en el segundo (visto con "[ Titulo a definir ]" en la
@@ -102,20 +112,24 @@ h2,
 
 h1,
 .lu-macro {
-    font-size: clamp(2.75rem, 10vw, 9rem);
+    font-size: clamp(3rem, 10vw, 9rem);
 }
 
+/* La script tiene la x baja: a igual cuerpo que la serif se leia chica */
 h2 {
-    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
 }
 
+/* Subtitulos: Bodoni Moda (en lugar de Bigilla). Ver #Subtitulos al final
+   para el peso y las ligaduras/alternates que les dan el caracter. */
 h3,
 h4,
 h5 {
-    font-family: var(--lu-macro);
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    line-height: 1.1;
+    font-family: var(--lu-sub);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.15;
 }
 
 /* Micro: metadatos, precios, navegacion. Espaciado de maquina de escribir. */
@@ -123,6 +137,7 @@ h5 {
 .item-name,
 .item-price,
 .item-installments,
+.item-price-compare,
 .lu-nav a,
 .btn,
 .breadcrumbs,
@@ -452,7 +467,7 @@ hr,
    parrafos — un texto de venta en versales no lo lee nadie. */
 .product-description,
 .product-description p {
-    font-family: var(--lu-micro);
+    font-family: var(--lu-texto);
     text-transform: none;
     letter-spacing: 0;
     font-size: 0.82rem;
@@ -548,10 +563,11 @@ hr,
 .section-cover-home .swiper-title,
 .section-capsule-home .swiper-title {
     font-family: var(--lu-macro);
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    line-height: 1.05;
-    font-size: clamp(1.75rem, 5vw, 4rem);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.15;
+    font-size: clamp(2.5rem, 6.5vw, 5.25rem);
     color: inherit;
     margin: 0;
     text-wrap: balance;
@@ -560,11 +576,12 @@ hr,
 .nube-slider-home .swiper-description,
 .section-cover-home .swiper-description,
 .section-capsule-home .swiper-description {
-    font-family: var(--lu-micro);
-    text-transform: uppercase;
-    letter-spacing: var(--lu-track);
-    font-size: 0.7rem;
-    line-height: 1.5;
+    font-family: var(--lu-sub);
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    line-height: 1.2;
     color: inherit;
     margin-top: 0.9rem;
 }
@@ -1141,7 +1158,7 @@ footer .contact-item {
 }
 
 .newsletter p {
-    font-family: var(--lu-micro);
+    font-family: var(--lu-texto);
     font-size: 0.72rem;
     letter-spacing: 0.02em;
     line-height: 1.6;
@@ -1232,10 +1249,11 @@ footer a:hover {
 }
 
 .category-header .page-header-text {
-    font-family: var(--lu-micro);
-    font-size: 0.72rem;
-    line-height: 1.6;
-    letter-spacing: 0.02em;
+    font-family: var(--lu-sub);
+    font-weight: 500;
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+    line-height: 1.3;
+    letter-spacing: 0;
     max-width: 60ch;
     color: var(--lu-gris);
     margin: 0.75rem 0 0;
@@ -1350,10 +1368,12 @@ footer a:hover {
 }
 
 .textbanner-paragraph {
-    font-family: var(--lu-micro);
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: var(--lu-track);
+    font-family: var(--lu-sub);
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.2;
+    text-transform: none;
+    letter-spacing: 0;
     opacity: 0.75;
     margin-top: 0.2rem;
 }
@@ -2277,7 +2297,7 @@ body:not(.template-product):not(.template-category) .page-header {
 .user-content li,
 .user-content td,
 .user-content th {
-    font-family: var(--lu-micro);
+    font-family: var(--lu-texto);
     text-transform: none;
     letter-spacing: 0;
     font-size: 0.9rem;
@@ -2304,9 +2324,10 @@ body:not(.template-product):not(.template-category) .page-header {
     font-size: clamp(1.5rem, 3vw, 2.25rem);
 }
 
+/* Caveat tiene la x chica: a 1.15rem un subtitulo se leia como nota al pie */
 .user-content h3,
 .user-content h4 {
-    font-size: 1.15rem;
+    font-size: 1.6rem;
 }
 
 .user-content ul,
@@ -2368,7 +2389,7 @@ body:not(.template-product):not(.template-category) .page-header {
 #\34 04 .text-center,
 #\34 04 p {
     text-align: left !important;
-    font-family: var(--lu-micro);
+    font-family: var(--lu-texto);
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
     font-size: 0.72rem;
@@ -2712,7 +2733,7 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .service-item p {
-    font-family: var(--lu-micro);
+    font-family: var(--lu-texto);
     text-transform: none;
     letter-spacing: 0.02em;
     font-size: 0.72rem;
@@ -2808,17 +2829,18 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .section-home-modules .textbanner-title {
     font-family: var(--lu-macro);
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    font-size: clamp(1.75rem, 4vw, 3rem);
-    line-height: 1.05;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    line-height: 1.15;
     margin: 0 0 1.25rem;
     text-wrap: balance;
 }
 
 .section-home-modules .textbanner-paragraph {
     display: block;
-    font-family: var(--lu-micro);
+    font-family: var(--lu-texto); /* parrafo largo: texto, no subtitulo */
     text-transform: none;
     letter-spacing: 0.02em;
     font-size: 0.82rem;
@@ -2875,14 +2897,22 @@ body:not(.template-product):not(.template-category) .page-header {
     margin-left: 0;
 }
 
+/* style-critical le pone text-transform: uppercase a .welcome-title, y con
+   Great Vibes eso era ilegible ("ROPA DE MUJER, AL SUR DE LA CIUDAD" en
+   versales script). Tambien el h2 del base trae font-weight 700 y Great
+   Vibes tiene un solo peso: el navegador la engordaba a mano. */
 .welcome-title {
-    font-size: clamp(1.75rem, 4vw, 3rem);
-    margin: 0 auto 1rem;
-    max-width: 24ch;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.15;
+    margin: 0 auto 1.25rem;
+    max-width: 22ch;
 }
 
 .welcome-text {
-    font-family: var(--lu-micro);
+    font-family: var(--lu-texto);
     text-transform: none;
     letter-spacing: 0.02em;
     font-size: 0.82rem;
@@ -3015,10 +3045,11 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .modal-quickshop .js-item-name {
     font-family: var(--lu-macro);
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    line-height: 1.05;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.15;
     font-weight: 400;
     text-wrap: balance;
 }
@@ -3465,4 +3496,630 @@ body:not(.template-product):not(.template-category) .page-header {
     .placeholder-fade {
         animation: none;
     }
+}
+
+/*============================================================================
+  #404
+  La cifra es el cartel: Italiana a escala de hero, al ras de la izquierda.
+  El decrypt (lupita-motion) cambia el texto, nunca el tamaño: tabular-nums
+  para que los caracteres al azar no muevan la caja.
+==============================================================================*/
+
+.lu-404 {
+    padding-top: clamp(2rem, 6vw, 5rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.lu-404-cifra {
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: clamp(7rem, 42vw, 26rem);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    margin: 0.5rem 0 1.5rem;
+}
+
+.lu-404-texto {
+    font-size: 0.9rem;
+    max-width: 32rem;
+    margin: 0 0 2rem;
+}
+
+.lu-404-buscar {
+    position: relative;
+    max-width: 32rem;
+}
+
+/* El .btn del sistema trae borde y padding: la lupa del buscador es un icono
+   sobre la regla, no un boton con caja */
+.lu-404-buscar .search-input-submit {
+    border: 0;
+    background: none;
+    padding: 0.25rem;
+}
+
+.lu-404-sugeridos {
+    border-top: 1px solid var(--lu-linea);
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+/*============================================================================
+  #Busqueda
+  El termino buscado es el titulo. Sin resultados se tacha en tinta (no en
+  turquesa: es texto) y abajo queda el riel de secciones para seguir.
+==============================================================================*/
+
+.lu-busqueda-header .lu-rotulo {
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.lu-busqueda-termino {
+    overflow-wrap: anywhere;
+}
+
+.lu-tachado {
+    text-decoration: line-through;
+    text-decoration-thickness: 0.06em;
+}
+
+.lu-busqueda-vacia {
+    font-size: 0.9rem;
+    margin: 0 0 2.5rem;
+}
+
+.lu-busqueda-seguir {
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+/*============================================================================
+  #Contacto
+  Dos columnas desde 768: lo que carga el panel a la izquierda, el formulario
+  a la derecha, separados por la linea de 1px. Nada escrito a mano.
+==============================================================================*/
+
+.lu-contacto {
+    row-gap: 2rem;
+}
+
+.lu-contacto-datos .contact-info {
+    text-align: left !important; /* .text-center del base en contact-links.tpl */
+    margin: 0;
+}
+
+.lu-contacto-datos .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 0;
+    margin: 0;
+    border-top: 1px solid var(--lu-linea);
+    font-size: 0.8rem;
+}
+
+.lu-contacto-datos .contact-item:last-child {
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.lu-contacto-datos .contact-item svg {
+    margin: 0 !important;
+    flex: 0 0 auto;
+}
+
+.lu-contacto-datos .contact-link {
+    color: var(--lu-tinta);
+    overflow-wrap: anywhere;
+}
+
+.lu-contacto-intro {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+}
+
+.lu-contacto-producto {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    border: 1px solid var(--lu-linea);
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+}
+
+.lu-contacto-producto img {
+    width: 4rem;
+    height: auto;
+}
+
+.lu-contacto-producto p {
+    margin: 0;
+}
+
+.lu-contacto-form .alert {
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .lu-contacto-form {
+        border-left: 1px solid var(--lu-linea);
+        padding-left: clamp(1.5rem, 4vw, 3rem);
+    }
+}
+
+/*============================================================================
+  #Tienda cerrada (password.tpl)
+  El unico lugar donde el turquesa es el fondo de toda la pantalla: tinta
+  encima da 8.27:1. El campo es una caja de papel; el foco es el borde de
+  tinta de 2px de #Formularios (sobre turquesa, turquesa no se veria).
+==============================================================================*/
+
+.template-password {
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+.lu-cerrado {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: clamp(3rem, 8vw, 6rem);
+}
+
+.lu-cerrado .container {
+    width: 100%;
+}
+
+.lu-cerrado-logo .logo-text {
+    font-family: var(--lu-marca);
+    font-size: clamp(2.5rem, 12vw, 7rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    color: var(--lu-tinta);
+}
+
+.lu-cerrado-mensaje {
+    font-family: var(--lu-sub);
+    font-weight: 500;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    max-width: 18ch;
+    margin: 1.5rem 0 2.5rem;
+}
+
+.lu-cerrado-form {
+    max-width: 26rem;
+}
+
+.lu-cerrado .form-label,
+.lu-cerrado .btn-link {
+    color: var(--lu-tinta);
+}
+
+.lu-cerrado .form-group .text-center,
+.lu-cerrado-logo,
+.lu-cerrado-logo .logo-text-container {
+    text-align: left !important; /* el logo y el link de ayuda del base vienen centrados */
+}
+
+.lu-cerrado .form-group .mt-4 {
+    margin-top: 1rem !important;
+}
+
+.lu-cerrado .alert {
+    margin-top: 1rem;
+}
+
+/*============================================================================
+  #Blog
+  Lista editorial en vez de la grilla de 3. Todo apunta a las clases lu-post*
+  que pasa blog.tpl: el HTML interno del componente no es nuestro.
+  La primera nota va grande con su foto; las demas son filas de 1px. Con
+  mouse (lupita-motion agrega .lu-preview-on) la foto de las filas se oculta
+  y aparece flotando junto al cursor; sin JS o en tactil queda chica y fija.
+==============================================================================*/
+
+/* Sin regla propia arriba: la pone el encabezado de pagina (#Encabezado de
+   pagina). Una .template-blog .page-header {border:0} pierde contra el
+   body:not():not() de alla — 0,2,0 contra 0,3,1 — y quedaban dos lineas. */
+.lu-blog {
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+.lu-post {
+    position: relative;
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    column-gap: 1rem;
+    align-items: start;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.lu-post > * {
+    grid-column: 2;
+}
+
+.lu-post .lu-post-imagen {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    position: relative;
+    aspect-ratio: 3 / 4;
+    height: auto; /* el base le fija 200px a la caja */
+    overflow: hidden;
+    margin: 0;
+}
+
+.lu-post .lu-post-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lu-post-titulo,
+.lu-post-titulo a {
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: clamp(1.4rem, 3.5vw, 2.5rem);
+    line-height: 1.05;
+    color: var(--lu-tinta);
+    -webkit-line-clamp: 2;
+    margin: 0 0 0.5rem;
+}
+
+.lu-post-resumen {
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: var(--lu-gris);
+    max-width: 60ch;
+    margin: 0 0 0.75rem;
+}
+
+.lu-post-leer {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    color: var(--lu-tinta);
+    text-decoration: underline;
+}
+
+.lu-post:first-child {
+    grid-template-columns: 1fr;
+    padding-top: clamp(1.25rem, 3vw, 2rem);
+}
+
+.lu-post:first-child > * {
+    grid-column: 1;
+}
+
+.lu-post:first-child .lu-post-imagen {
+    grid-row: auto;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 1.25rem;
+}
+
+.lu-post:first-child .lu-post-titulo,
+.lu-post:first-child .lu-post-titulo a {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+}
+
+@media (min-width: 768px) {
+    .lu-post {
+        grid-template-columns: 9rem 1fr;
+        column-gap: 2rem;
+        padding: 1.75rem 0;
+    }
+
+    .lu-post:first-child {
+        grid-template-columns: 1.4fr 1fr;
+        column-gap: 2.5rem;
+        align-items: end;
+    }
+
+    .lu-post:first-child .lu-post-imagen {
+        grid-column: 1;
+        grid-row: 1 / span 3;
+        margin-bottom: 0;
+    }
+
+    .lu-post:first-child > :not(.lu-post-imagen) {
+        grid-column: 2;
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .lu-preview-on .lu-post:not(:first-child) {
+        grid-template-columns: 1fr;
+    }
+
+    .lu-preview-on .lu-post:not(:first-child) > * {
+        grid-column: 1;
+    }
+
+    .lu-preview-on .lu-post:not(:first-child) .lu-post-imagen {
+        display: none;
+    }
+
+    .lu-preview-on .lu-post:not(:first-child):hover .lu-post-titulo a {
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+    }
+}
+
+/* La primera nota es el cartel: hasta 3 renglones de titulo (el base clampa
+   a 3 y la fila a 2), y en desktop el texto se apila al pie de la foto en vez
+   de repartirse a lo alto de ella */
+.lu-post:first-child .lu-post-titulo {
+    -webkit-line-clamp: 3;
+}
+
+@media (min-width: 768px) {
+    .lu-post:first-child {
+        grid-template-rows: 1fr auto auto;
+    }
+
+    .lu-post:first-child .lu-post-titulo {
+        align-self: end;
+    }
+}
+
+/* blog.tpl y blog-post.tpl meten page-header.tpl adentro de otro .container:
+   sin esto las migas y el titulo quedan 15px mas adentro que el contenido */
+.template-blog .page-header .container,
+.template-blog-post .page-header .container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.lu-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16rem;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 20;
+    border: 1px solid var(--lu-tinta);
+}
+
+/*============================================================================
+  #Nota del blog
+  Columna de 680px (container-narrow del base). El cuerpo hereda
+  .user-content (#Texto institucional). lupita-motion corta el titulo en
+  palabras dentro de .lu-mascara y las sube desde abajo.
+==============================================================================*/
+
+.template-blog-post .page-header h1 {
+    font-size: clamp(2.25rem, 7vw, 4.5rem);
+    line-height: 1.02;
+}
+
+/* La mascara recorta la subida; el padding de abajo evita cortar los
+   descendentes de la Italiana y el margen negativo lo devuelve */
+.lu-mascara {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    /* Great Vibes tira colas y adornos lejos de la caja: la mascara se abre
+       arriba, abajo y a los costados y los margenes negativos lo devuelven */
+    padding: 0.2em 0.15em 0.35em;
+    margin: -0.2em -0.15em -0.35em;
+}
+
+.lu-mascara > span {
+    display: inline-block;
+}
+
+.lu-nota-fecha {
+    display: block;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    color: var(--lu-gris);
+    margin: 0 0 1.5rem;
+}
+
+.lu-nota-img {
+    display: block;
+    width: 100%;
+    margin: 0 0 2rem;
+}
+
+.lu-nota-cuerpo {
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+/*============================================================================
+  #Carrito y menu en la voz del texto (2026-09-15)
+  Pedido de Santiago: el panel y la pagina del carrito, y el menu
+  hamburguesa, pasan a Instrument Sans (--lu-texto) en minuscula normal,
+  TOTAL incluido. Antes eran rotulos (Roboto Mono en versales) y marca
+  (Archivo Black). "body" delante de cada selector suma 0,0,1 de
+  especificidad: le gana a las reglas de mas arriba sin !important.
+==============================================================================*/
+
+body #modal-cart .modal-header,
+body .modal-nav-hamburger .modal-header,
+body .nav-primary .nav-list .nav-list-link,
+body .nav-primary .nav-list .list-subitems .nav-list-link,
+body .nav-accounts-link,
+body .cart-item h6,
+body .cart-item .cart-item-name,
+body .cart-item .cart-item-name small,
+body .cart-item-subtotal,
+body .cart-row .h6,
+body .js-total-promotions,
+body .ship-free-rest-message,
+body .js-cart-total-container .h2,
+body #modal-cart .js-cart-total-container .h2 > span:first-child,
+body .js-cart-total-container .installments,
+body #modal-cart .btn,
+body .template-cart .cart-row .btn {
+    font-family: var(--lu-texto);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+/* Los rubros del menu eran Archivo Black en versales: en Instrument Sans
+   necesitan algo de peso para seguir leyendose como la entrada principal */
+body .nav-primary .nav-list .nav-list-link {
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+body .modal-nav-hamburger .modal-header,
+body #modal-cart .modal-header {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+body .cart-item h6,
+body .cart-item .cart-item-name {
+    font-size: 0.88rem;
+    line-height: 1.35;
+}
+
+body .cart-item .cart-item-name small {
+    font-size: 0.75rem;
+}
+
+body #modal-cart .btn,
+body .template-cart .cart-row .btn {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* "Todo el carrito": la lista de arriba se quedaba corta (subtotal,
+   promociones, calculador de envio, Iniciar compra, Ver mas productos y el
+   aviso de "agregamos tu producto" seguian en Roboto Mono versal). Esto
+   cubre todo lo que vive adentro del panel, de la pagina (#shoppingCartPage,
+   el titulo en Great Vibes queda afuera) y del aviso flotante. :is() de
+   elementos + un id = 1,0,2: le gana a las reglas de rotulo de clase
+   (.template-cart .cart-row .btn-link, 0,3,0) y a #go-to-checkout (1,0,0)
+   sin !important. No toca color ni iconos. */
+body #modal-cart :is(h1, h2, h3, h4, h5, h6, p, span, strong, small, a, div, label, input, button, li),
+body #shoppingCartPage :is(h1, h2, h3, h4, h5, h6, p, span, strong, small, a, div, label, input, button, li),
+body .notification-floating .notification :is(h1, h2, h3, h4, h5, h6, p, span, strong, small, a, div, label, input, button, li) {
+    font-family: var(--lu-texto);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+/* El rotulo de "Total con tarjeta" venia a 0.62rem, pensado para versal */
+body #modal-cart .js-cart-total-container .h2.lu-tarjeta > span:first-child,
+body .template-cart .js-cart-total-container .h2.lu-tarjeta > span:first-child {
+    font-size: 0.85rem;
+    color: inherit;
+}
+
+/* En Instrument Sans minuscula, los subrubros y la cuenta a 0.66–0.7rem
+   quedaban diminutos al lado de los rubros */
+body .nav-primary .nav-list .list-subitems .nav-list-link {
+    font-size: 0.95rem;
+}
+
+body .nav-accounts-link {
+    font-size: 0.85rem;
+}
+
+/* Mismo problema en el carrito: subtotal, promociones, calculador de envio,
+   avisos y "Ver mas productos" venian a 0.62–0.66rem para versal mono. En
+   minuscula se leian como letra chica de contrato. */
+/* El tamaño lo fijan los hijos (span/strong del renglon), no el .h5, y hay
+   reglas de clase encima: se ancla en el id del panel y de la pagina. */
+body #modal-cart .cart-row .h5 :is(span, strong),
+body #modal-cart .js-total-promotions,
+body #modal-cart .ship-free-rest-message,
+body #shoppingCartPage .h5 :is(span, strong),
+body #shoppingCartPage .js-total-promotions :is(span, div),
+body #shoppingCartPage .form-label,
+body #shoppingCartPage .alert,
+body #shoppingCartPage .btn-link,
+body #modal-cart .js-cart-total-container .h2.lu-tarjeta > span:first-child,
+body #shoppingCartPage .js-cart-total-container .h2.lu-tarjeta > span:first-child {
+    font-size: 0.85rem;
+}
+
+body #modal-cart .cart-row .h5 small,
+body #shoppingCartPage .h5 small {
+    font-size: 0.75rem;
+}
+
+/* #go-to-checkout fija 0.72rem con un id: se le gana con dos */
+body #shoppingCartPage .btn:not(.btn-link),
+body #shoppingCartPage #go-to-checkout {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/*============================================================================
+  #Tarjeta y efectivo (2026-09-15)
+  Con "Descuento por medio de pago" prendido en el panel, el carrito muestra
+  dos precios: el TOTAL (tarjeta) chico y apagado, y el precio en efectivo
+  (component payment-discount-price, 20% off) grande y en el color de marca.
+  ⚠️ Pedido explicito de Santiago, avisado: #6BB3B9 sobre papel da 2,17:1 y
+  no llega ni al 3:1 de texto grande. Si hay quejas de lectura, pasar el
+  numero a tinta sobre una franja turquesa (8,27:1).
+==============================================================================*/
+
+body .js-cart-total-container .h2.lu-tarjeta,
+body #modal-cart .js-cart-total-container .h2.lu-tarjeta {
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.6;
+}
+
+.lu-efectivo {
+    margin-top: 0.5rem;
+}
+
+.lu-efectivo .lu-efectivo-precio {
+    display: block;
+    font-family: var(--lu-texto);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--lu-acento);
+}
+
+.lu-efectivo .lu-efectivo-medio {
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    color: var(--lu-tinta);
+}
+
+/*============================================================================
+  #Subtitulos
+  Bodoni Moda en su peso fino y con las ligaduras discrecionales, las
+  historicas y el primer juego estilistico: sin eso es una didona correcta,
+  con eso aparece algo del caracter raro que Santiago buscaba en Bigilla.
+  Va al final para ganarle en orden a los pesos 500 que dejo Caveat.
+==============================================================================*/
+
+h3,
+h4,
+h5,
+.user-content h3,
+.user-content h4,
+.nube-slider-home .swiper-description,
+.section-cover-home .swiper-description,
+.section-capsule-home .swiper-description,
+.category-header .page-header-text,
+.textbanner-paragraph,
+.lu-cerrado-mensaje {
+    font-weight: 400;
+    font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
 }

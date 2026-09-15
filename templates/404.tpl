@@ -8,30 +8,29 @@
 		{% snipplet 'defaults/show_help_product.tpl' %}
 	</div>
 {% else %}
-	{% embed "snipplets/page-header.tpl" %}
-		{% block page_header_text %}{{ "Error" | translate }} - {{ "404" | translate }}{% endblock page_header_text %}
-	{% endembed %}
-
-	<section id="404">
+	{# La cifra es el cartel. El decrypt (lupita-motion) cambia el texto del
+	   span; el lector de pantalla lee el aria-label del h1. #}
+	<section class="lu-404" id="404">
 		<div class="container">
-			<div class="row">
-				<div class="col-12 text-center">
-					<p class="mb-1">{{ "La página que estás buscando no existe." | translate }}</p></br>
-				</div>
+			<span class="lu-rotulo lu-micro">{{ "Error" | translate }}</span>
+			<h1 class="lu-404-cifra" aria-label="404"><span data-motion="decrypt" aria-hidden="true">404</span></h1>
+			<p class="lu-404-texto">{{ "La página que estás buscando no existe." | translate }}</p>
+			<div class="lu-404-buscar">
+				{% include "snipplets/header/header-search.tpl" %}
 			</div>
-			{% set related_products = sections.primary.products | take(4) | shuffle %}
-			{% if related_products | length > 1 %}
-				<div class="row">
-					<div class="col-12 text-center">
-						{{ "Quizás te interesen los siguientes productos." | translate }}
-					</div>
-				</div>
-				<div class="row mt-3">
+		</div>
+		{% set related_products = sections.primary.products | take(4) | shuffle %}
+		{% if related_products | length > 1 %}
+			<div class="container lu-404-sugeridos">
+				<span class="lu-rotulo lu-micro">{{ "Quizás te interesen los siguientes productos." | translate }}</span>
+			</div>
+			<div class="container" style="padding:0">
+				<div class="js-product-table row">
 					{% for related in related_products %}
 						{% include 'snipplets/grid/item.tpl' with {product : related} %}
 					{% endfor %}
 				</div>
-			{% endif %}
-		</div>
+			</div>
+		{% endif %}
 	</section>
 {% endif %}

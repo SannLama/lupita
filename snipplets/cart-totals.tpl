@@ -179,8 +179,10 @@
               {# Cart total #}
 
               <div class="js-cart-total-container js-visible-on-cart-filled mb-3 clear-both" {% if cart.items_count == 0 %}style="display:none;"{% endif %} data-store="cart-total">
-                <div class="h2 row no-gutters text-primary mb-0 {% if cart_page %}justify-content-end justify-content-md-center{% endif %}">
-                  <span class="col {% if cart_page %}col-md-auto{% endif %} mr-1">{{ "Total" | translate }}:</span>
+                {# Con descuento por medio de pago, el TOTAL es el precio con tarjeta
+                   (chico, lu-tarjeta) y el grande es el de efectivo, mas abajo #}
+                <div class="h2 row no-gutters text-primary mb-0 {% if settings.payment_discount_price %}lu-tarjeta{% endif %} {% if cart_page %}justify-content-end justify-content-md-center{% endif %}">
+                  <span class="col {% if cart_page %}col-md-auto{% endif %} mr-1">{{ "Total" | translate }}{% if settings.payment_discount_price %} {{ "con tarjeta" | translate }}{% endif %}:</span>
                   <span class="js-cart-total {% if cart.free_shipping.cart_has_free_shipping %}js-free-shipping-achieved{% endif %} {% if cart.shipping_data.selected %}js-cart-saved-shipping{% endif %} col {% if cart_page %}col-md-auto{% endif %} text-right" data-component="cart.total" data-component-value={{ cart.total }}>{{ cart.total | money }}</span>
                 </div>
 
@@ -193,8 +195,12 @@
                 {{ component('payment-discount-price', {
                     visibility_condition: settings.payment_discount_price,
                     location: 'cart',
-                    container_classes: 'mt-1 font-weight-bold text-right text-accent ' ~ cart_page_align_classes,
-                  }) 
+                    container_classes: 'lu-efectivo mt-1 text-right ' ~ cart_page_align_classes,
+                    text_classes: {
+                      price: 'lu-efectivo-precio',
+                      payment_method: 'lu-efectivo-medio',
+                    },
+                  })
                 }}
                 {% if not settings.payment_discount_price %}
                   {{ component('installments', {'location': 'cart', container_classes: { installment: "mt-1 font-weight-bold text-right"}}) }}
