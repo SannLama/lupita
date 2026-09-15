@@ -102,12 +102,38 @@ geometricas.
 | Papel | `#F4F4F0` (no blanco puro: perdona fotos de luz despareja) |
 | Tinta | `#0A0A0A` |
 | Acento unico | `#6BB3B9` turquesa |
-| Macro | Archivo Black, `clamp()`, tracking `-0.04em`, leading `0.9`, MAYUSCULAS |
+| Macro | **Italiana** (desde el 2026-09-11), `clamp()`, tracking `0.02em`, leading `1`, MAYUSCULAS |
 | Micro | Roboto Mono, 0.58–0.84rem, tracking `0.08em`, MAYUSCULAS |
+| Marca | Archivo Black — logotipo, menu, buscador, TOTAL del carrito |
 | Geometria | `border-radius: 0` y sin sombras en todo |
 
 **El turquesa esta sacado a ojo del avatar de Instagram (un JPEG comprimido).
 Hay que confirmarlo contra el logo original.**
+
+### 🔴 El macro paso de Archivo Black a Italiana (2026-09-11)
+
+Santiago pidio una tipografia "romantica y delicada" para los titulos
+grandes, viendo el sistema con fotos reales. Eligio el alcance mas acotado
+de los tres que le ofreci: **solo los titulos de contenido** (hero, Portada,
+Capsula, el `<h1>` de categoria y de producto) — no todo el sistema.
+
+Eso obligo a separar dos cosas que hasta ese dia usaban la misma variable:
+
+- **`--lu-macro`** (`font_headings` del panel) → pasa a **Italiana**. Le
+  quedan `h1`, `h2`, `h3-h5` y los `swiper-title` del hero/Portada/Capsula.
+  El tracking negativo que le quedaba bien a Archivo Black (una masa solida
+  de letras) aprieta una serif fina: pasa a positivo (`0.02em` en los
+  titulos grandes, `0.01em` en h3-h5).
+- **`--lu-marca`** (nueva, fija en `"Archivo Black", sans-serif`, NO sale de
+  `font_headings`) → el logotipo, el menu de navegacion, el buscador y el
+  TOTAL del carrito. Son identidad de marca y una cifra de plata, no
+  titulos de contenido, y se quedan bold aunque la clienta cambie
+  `font_headings` desde el panel.
+
+**Efecto secundario, a proposito:** antes, si la clienta cambiaba la
+tipografia de titulos desde el panel, el logotipo cambiaba con ella — un
+acoplamiento que nadie habia pedido. Ahora el logotipo es fijo, y eso es
+mejor comportamiento, no una regresion.
 
 ### ⚠️ El turquesa funciona con tinta, no con papel
 

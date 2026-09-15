@@ -93,7 +93,7 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
   <title>${titulo} — Ahi! Lupita (harness)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Italiana&family=Roboto+Mono:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     /* ANDAMIO — representa al theme base, asi que va ANTES de lupita.css, que
        es como se cargan en la tienda (layout.tpl mete la nuestra despues de

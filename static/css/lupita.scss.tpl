@@ -30,6 +30,15 @@
     --lu-macro: {{ settings.font_headings }};
     --lu-micro: {{ settings.font_rest }};
 
+    /* El logotipo y la navegacion NO siguen font_headings a proposito, desde
+       el 2026-09-11: Santiago pidio una tipografia "romantica y delicada"
+       para los titulos grandes (hero, portada, secciones), y font_headings
+       paso a ser Italiana para eso. Pero el logotipo es identidad de marca,
+       no un titulo de contenido — sigue fijo en la Archivo Black de siempre
+       aunque la clienta cambie font_headings desde el panel. Fijo a
+       proposito, no via variable: ver #Cabecera. */
+    --lu-marca: "Archivo Black", sans-serif;
+
     /* Tracking mecanico de la micro-tipografia */
     --lu-track: 0.08em;
     --lu-gutter: 1rem;
@@ -68,15 +77,22 @@ body {
   #Tipografia
 ==============================================================================*/
 
-/* Macro: bloques arquitectonicos. Tracking negativo y leading comprimido para
-   que las letras formen una masa solida, no una linea de texto. */
+/* Macro: --lu-macro paso a ser Italiana el 2026-09-11 (pedido de Santiago:
+   tipografia "romantica y delicada" para los titulos grandes). El tracking
+   negativo y el leading comprimido de antes le iban bien a Archivo Black
+   (una masa solida de letras) pero aprietan una serif fina — pasan a
+   positivo/normal para que las formas respiren.
+
+   Logotipo, menu de navegacion, buscador y el TOTAL del carrito NO usan
+   --lu-macro: son identidad de marca o cifras, no titulos de contenido, y
+   se fijaron en --lu-marca (Archivo Black) a proposito. Ver #Tokens. */
 h1,
 h2,
 .lu-macro {
     font-family: var(--lu-macro);
     text-transform: uppercase;
-    letter-spacing: -0.04em;
-    line-height: 0.9;
+    letter-spacing: 0.02em;
+    line-height: 1;
     margin: 0;
 }
 
@@ -94,8 +110,8 @@ h4,
 h5 {
     font-family: var(--lu-macro);
     text-transform: uppercase;
-    letter-spacing: -0.02em;
-    line-height: 1;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
 }
 
 /* Micro: metadatos, precios, navegacion. Espaciado de maquina de escribir. */
@@ -516,8 +532,8 @@ hr,
 .section-capsule-home .swiper-title {
     font-family: var(--lu-macro);
     text-transform: uppercase;
-    letter-spacing: -0.03em;
-    line-height: 0.92;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
     font-size: clamp(1.75rem, 5vw, 4rem);
     color: inherit;
     margin: 0;
@@ -767,7 +783,7 @@ hr,
    theme tiene que aguantar tambien sin ella. */
 .head-main .h1,
 .head-main .logo-text {
-    font-family: var(--lu-macro);
+    font-family: var(--lu-marca);
     font-size: clamp(0.9rem, 2.4vw, 1.5rem);
     text-transform: uppercase;
     letter-spacing: -0.03em;
@@ -907,7 +923,7 @@ hr,
    el panel entero, no terminar donde termina la palabra. */
 .nav-primary .nav-list .nav-list-link {
     display: block;
-    font-family: var(--lu-macro);
+    font-family: var(--lu-marca);
     text-transform: uppercase;
     letter-spacing: -0.02em;
     line-height: 1;
@@ -966,7 +982,7 @@ hr,
     border-bottom: 2px solid var(--lu-tinta);
     padding: 0.5rem 2.25rem 0.5rem 0;
     height: auto;
-    font-family: var(--lu-macro);
+    font-family: var(--lu-marca);
     text-transform: uppercase;
     letter-spacing: -0.02em;
     font-size: clamp(1.25rem, 4.5vw, 1.75rem);
@@ -1793,9 +1809,14 @@ footer a:hover {
 }
 
 /* TOTAL: llega con class="h2", que es una clase de Bootstrap y NO el elemento
-   h2, asi que la escala macro del sistema no lo agarraba sola. */
+   h2, asi que la escala macro del sistema no lo agarraba sola.
+
+   Fijo en --lu-marca (Archivo Black) y no en --lu-macro a proposito, desde
+   que font_headings paso a Italiana (2026-09-11): es una cifra de plata, no
+   un titulo — se queda estructural, fuera del alcance que pidio Santiago
+   ("solo los titulos grandes: hero, portada, secciones"). */
 .js-cart-total-container .h2 {
-    font-family: var(--lu-macro);
+    font-family: var(--lu-marca);
     text-transform: uppercase;
     letter-spacing: -0.03em;
     line-height: 1;
