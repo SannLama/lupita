@@ -153,15 +153,14 @@ papel ni con el blanco**, en ninguna de las dos direcciones. Con la tinta, si.
 Lo que implica: el acento sirve como **fondo con letras oscuras encima**, y no
 como color de texto sobre papel ni con texto claro encima.
 
-**Corregido hasta ahora:** la barra de envio gratis del carrito, que pasa a
-tinta porque dice cuanto falta y eso es informacion. **Y el 2026-09-11, el
-boton del hero** (turquesa con texto papel → texto tinta, 8.27:1).
-
-**Sin corregir todavia, y hay que decidirlo:** la etiqueta OFERTA, y los links
-chicos en turquesa — "borrar filtros", "ver todos", el `strong` de las
-cuotas. La salida mas sencilla para casi todos es **darles texto en tinta en
-vez de papel**, que no toca la paleta y sube a 8.27:1. Para los links sueltos,
-tinta con subrayado.
+**Corregido:** la barra de envio gratis del carrito y el boton del hero
+(2026-09-11), y el resto de la lista (2026-09-14) — la etiqueta OFERTA, el
+boton primario, el boton del newsletter, y todos los links/rotulos sueltos en
+turquesa ("borrar filtros", los accordion de talle/color, el `strong` de las
+cuotas, los links de cabecera/carrito/footer/barra de aviso). Fondos en
+turquesa pasan a texto en tinta (8.27:1); los links sueltos, tinta con
+subrayado. Quedan sin tocar los dos bordes en turquesa (foco del buscador y
+`.alert-success`) — son borde, no texto, y no estaban en esta lista.
 
 Las dos fuentes salen del selector oficial del panel de Tiendanube, asi que la
 clienta puede cambiarlas sin tocar codigo y Google Fonts las sirve solo.
@@ -407,9 +406,18 @@ papel da 2.17:1 (ver la nota de contraste).
 ### Movimiento reducido
 
 El theme no tenia nada. Ahora `prefers-reduced-motion: reduce` cambia el
-desplazamiento por un fundido corto de 160ms y apaga el `scale` de las fotos.
-**No es "sin feedback"**: los cambios de color se quedan, porque ayudan a
-entender que paso.
+desplazamiento por un fundido corto de 160ms y apaga el `scale` de las fotos
+(grilla de productos y banners de categoria). **No es "sin feedback"**: los
+cambios de color se quedan, porque ayudan a entender que paso.
+
+El unico caso que CSS no puede apagar es el video en loop de la Capsula
+(`home-capsule.tpl`): un fondo en movimiento continuo es justo lo que la guia
+marca como riesgo, y pausar un `<video>` necesita JS. Un script inline chico
+lo saca de `autoplay` y lo deja en el primer frame si `matchMedia` detecta
+`prefers-reduced-motion: reduce`. Sin probar en pantalla todavia: el mock del
+harness dibuja la Capsula a mano con una `<img>` de reemplazo (no hay link de
+video real puesto), asi que no pasa por `home-capsule.tpl` — recien se ve con
+la tienda arriba o con un `capsule_video_url` real.
 
 ### Lo que esto NO es
 
@@ -577,6 +585,43 @@ tener que compilar nada.
 
 ---
 
+### Desde el 2026-09-15: dos paginas mas y un andamio mas fiel
+
+`carrito.html` replica `templates/cart.tpl` (los renglones con
+`cart_page = true`, el calculador de envio y el resumen pegado a la derecha)
+y `pagina.html` replica `page.tpl` — migas, encabezado, texto institucional
+con lista y tabla de talles — y debajo trae un **muestrario** de las piezas
+que no tienen pagina propia donde verse: la notificacion de "agregado al
+carrito", la busqueda sin resultados, los cuatro avisos, las etiquetas y el
+banner de cookies. La home suma las cuatro secciones del base que faltaban
+(servicios, modulo de imagen y texto, bienvenida, Instagram) y todas las
+paginas llevan el boton flotante de WhatsApp.
+
+El andamio copio mas reglas del base (`style-critical` + `style-async`):
+los titulos por clase (`.h1`…`.h6`), el WhatsApp verde, la notificacion con
+su rotacion 3D, los banners con su `padding-top: 100%` y su chip centrado,
+los servicios, la bienvenida, el instafeed, y **las utilidades de Bootstrap
+con su `!important`** (`.text-center`, `.mb-5`, `.text-right`…). Eso
+destapo tres cosas que en el harness viejo se veian bien y en la tienda no
+iban a verse — ver "2026-09-15" mas abajo.
+
+### Mirarlo sin la extension de Chrome
+
+Si la extension no conecta, sirve **Edge headless** (Chrome no esta en esta
+maquina):
+
+```
+"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless=new
+  --disable-gpu --hide-scrollbars --window-size=1440,4000
+  --screenshot=home.png http://localhost:5200/home.html
+```
+
+Dos trampas: (1) **tampoco baja de ~500px de ancho**, asi que para mobile
+hay que envolver la pagina en un `<iframe width="390">` (mismo truco que
+`dispositivos.html`); (2) una captura de 6000px de alto se lee mal —
+conviene un iframe con `margin-top` negativo adentro de una caja con
+`overflow: hidden`, que hace de ventana sobre un tramo de la pagina.
+
 ## Verificado / no verificado
 
 **Visto en pantalla** en 320, 390, 430, 768, 1024, 1280 y 1920: la escalera de
@@ -658,6 +703,16 @@ que no hay sonido: no es una decision de diseño.
 
 ---
 
+**Del 2026-09-15, en pantalla (Edge headless, 1440 y 390 via iframe):** el
+home entero con las cuatro secciones nuevas del base, la pagina del carrito
+en desktop y mobile, la pagina institucional con la notificacion desplegada,
+el banner de cookies, los avisos y las etiquetas, y las tres paginas de
+siempre sin regresiones. **Sin verificar:** el foco visible con teclado, la
+entrada del texto del hero (son animaciones, la captura es estatica), la
+ficha pegada al scrollear en desktop, la segunda foto al pasar el mouse
+(`product_hover`, depende del lazyload del base), el modal de compra rapida,
+la hoja de recomendados al agregar al carrito y `prefers-reduced-motion`.
+
 ## Pendientes con la clienta
 
 1. **Logo vectorial** o el hex exacto del turquesa.
@@ -698,19 +753,160 @@ que no hay sonido: no es una decision de diseño.
 
 ## Lo que sigue en el codigo
 
-Sin depender de la clienta:
+Sin depender de la clienta **ya no queda nada del base sin restilar**: la
+pagina del carrito, que era el ultimo punto de esta lista, se resolvio el
+2026-09-15 junto con todo lo que faltaba (ver abajo). Lo que sigue es Etapa 2.
 
-1. **Decidir el turquesa sobre papel** (ver la nota de contraste): el boton del
-   hero, la etiqueta OFERTA y los links chicos en acento estan en 2.17:1.
-2. **Los formularios** — contacto, cuenta, checkout — que son lo ultimo que
-   queda con el estilo del base.
-3. **La pagina del carrito** (`templates/cart.tpl`). Comparte los snipplets con
-   el panel, asi que ya hereda casi todo, pero su layout de dos columnas no se
-   miro todavia.
+### Formularios y cuenta — resuelto el 2026-09-14
+
+Contacto (`contact.tpl`) y las nueve plantillas de `templates/account/`
+(login, registro, reset/newpass, info, address, addresses, orders, order)
+comparten tres snipplets (`form.tpl`, `form-input.tpl`, `form-select.tpl`),
+asi que unas pocas reglas genericas en `lupita.scss.tpl` alcanzaron para las
+diez: caja con borde de 1px (`.form-control`/`.form-select`, foco en
+turquesa), rotulo micro para `.form-label`, links sueltos en tinta con
+subrayado en hover (`.btn-link`/`.btn-link-primary`, antes sin ningun
+estilo propio), tarjetas de "Mis compras" con borde en vez de sombra
+(`.card`), y los rotulos tecnicos ("Mis datos", "Detalles") vs. la cifra de
+plata del total de una orden, escopeados a `.account-page .h5` / `.h3` para
+no tocar esas mismas clases de Bootstrap en otras paginas. `.alert` ya
+estaba resuelto de una sesion anterior — no hizo falta tocarlo.
+
+**Checkout no se toco:** `static/checkout.scss.tpl` es la hoja que
+Tiendanube aplica a su checkout alojado (una pantalla propia de la
+plataforma, no una plantilla de este repo) y ya sale de `settings.*` —
+toma turquesa/tinta/papel y `border-radius:0` solos. No hay brutalismo
+posible ahi (no se controla el marcado), asi que "checkout" del punto
+viejo de esta lista ya estaba cubierto sin escribir nada.
+
+**Verificado en pantalla** con un mock suelto (`_harness/login-mock.html`,
+no forma parte del recorrido del harness — se armo y se borro en la misma
+sesion) replicando el DOM de `login.tpl` + `snipplets/forms/*` sobre el CSS
+compilado. Encontro un problema real: `.alert` pegado directo a un `.btn`
+sin margen se leia como un solo bloque negro — pero resulto ser un hueco
+del mock (le faltaba el `margin-bottom: 35px` que el base ya le pone a
+`.form-group`/`.alert` via `%element-margin`), no un bug de la hoja: en la
+tienda de verdad ese respiro ya esta. El resto — caja de los inputs,
+rotulo, links, tarjeta — se ve como se penso.
+
+### 2026-09-15: revision general — lo que faltaba del base, foco y detalles
+
+Santiago pidio "mejorala en lo que consideres necesario", con todas las
+skills y MCP que sirvieran. Se paso `impeccable` (audit + polish) y el
+checklist de `emil-design-eng`, se miro todo en pantalla con Edge headless
+(la extension de Chrome no conecto) y se hizo esto:
+
+**Lo que el base todavia mostraba con su estilo de fabrica** — todo por
+clases, sin tocar plantillas:
+
+- **WhatsApp flotante**: era un circulo verde con sombra; pasa a un cuadrado
+  de tinta con el icono en papel, del tamano de un boton.
+- **Notificacion "¡Ya agregamos tu producto al carrito!"** (`cart_open_type =
+  show_notification`): caja de 1px en papel que baja medio centimetro y se
+  funde (220ms / 160ms), en vez de la rotacion 3D con sombra del base.
+- **Migas** en micro, con una raya vertical de 1px en vez del ">".
+- **Encabezado de pagina** para todo lo que no es categoria ni producto
+  (carrito, busqueda, institucionales, 404, cuenta): al ras de la izquierda y
+  a `clamp(2rem, 6vw, 5rem)` — "Carrito de compras" a 9rem era un cartel.
+- **Texto institucional** (`.user-content`: Como comprar, Cambios y
+  devoluciones…): minusculas, 68ch, subtitulos macro, tabla con reglas de 1px
+  y cabecera en rotulo. Es el unico texto largo ademas de la descripcion.
+- **Vacios**: busqueda sin resultados, 404 y carrito vacio como rotulo al ras
+  con su regla, no un parrafo centrado.
+- **Servicios** (`banner-services`): tres celdas de la grilla de 1px con el
+  icono a la izquierda; en mobile el Swiper del base con cuadrados en vez de
+  puntos. Los puntos se esconden arriba de 768 porque ahi el base no arma el
+  Swiper y el contenedor queda vacio.
+- **Modulos de imagen y texto**: titulo macro, parrafo, boton; las dos
+  columnas miden lo mismo y la foto llena la suya (con `align-items-center`
+  del tpl, la columna baja dejaba ver el fondo de linea como un bloque gris).
+- **Bienvenida**: centrada a proposito (es la unica seccion de solo texto),
+  con la escala del sistema.
+- **Instagram**: el usuario en la macro con la arroba y en minusculas, y las
+  nueve fotos en grid de 3 con gap de 1px — el base usa `col-4` flotantes, y
+  con 1px de gap tres tercios no entran.
+- **Compra rapida** (modal): el nombre llega con `class="h1"` (la de
+  Bootstrap, 28px bold) y el precio con `h4`: pasan a macro y micro.
+- **Pagina del carrito** (`cart.tpl`): la lista con sus divisiones, y abajo
+  el envio a la izquierda y el resumen a la derecha, pegado al scrollear
+  (`position-sticky-md` sin `top` en el base). Los `mb-5` con `!important`
+  de cada renglon se pisan con `!important` scopeado.
+- **Cookies y "segui tu ultima compra"** (`.notification-secondary`): papel,
+  regla maciza de 2px y micro, como el pie que tienen al lado.
+- **Hojas desde abajo** (recomendados al agregar, promo cruzada): papel y
+  regla; la mecanica es del base.
+- **Etiquetas del carrito** (`label-accent`, `label-secondary`) y **paginacion**
+  ("Mostrar mas productos").
+
+**Foco y accesibilidad:**
+
+- **Foco visible** global (`:focus-visible`, 2px en tinta con 2px de aire;
+  en papel sobre foto o sobre tinta). El base apagaba el outline en varios
+  lados y no ponia nada a cambio.
+- Los tres focos que pasaban a **turquesa** (buscador, newsletter, campos de
+  formulario) contradecian la nota de contraste: un indicador de foco pide
+  3:1 (WCAG 1.4.11) y el turquesa da 2.17. Ahora el campo se tiñe (buscador,
+  newsletter) o el borde se engrosa a 2px con un inset sin reflow (campos).
+- `.alert-success` era solo un borde turquesa sobre papel: pasa a fondo
+  turquesa con tinta, la unica combinacion del acento que contrasta.
+- Se borro `.lu-marca` — una clase huerfana con turquesa + papel.
+- El hover que agranda las fotos (grilla, banners, Instagram) queda gateado
+  con `@media (hover: hover) and (pointer: fine)`: en un telefono el hover
+  se dispara al tocar y la foto quedaba agrandada hasta tocar otra cosa.
+- `prefers-reduced-motion` suma: el texto del hero sin subir, la notificacion
+  sin desplazarse, el parpadeo gris de carga apagado, el Instagram sin scale.
+
+**Tres bugs que el harness viejo escondia** (aparecieron al copiar mas reglas
+del base al andamio):
+
+1. 🔴 **Los chips de los banners de categoria iban a ser cajas de tinta del
+   ancho del banner**, corridas a la izquierda. El base centra ese bloque con
+   `top: 50%; left: 50%; width: 100%; transform: translate(-50%, -50%)` y
+   nuestra regla solo cambiaba `left` y `bottom`. Ahora apaga los cuatro.
+2. **`.textbanner-image` iba a medir cuadrado + tres cuartos**: el base arma
+   el alto con `padding-top: 100%` y nosotros le pusimos `aspect-ratio`
+   encima. `padding-top: 0`.
+3. **La cifra del TOTAL del panel iba a quedar a la derecha**: el span lleva
+   `.text-right`, que en Bootstrap es `!important`, y nuestra regla no lo
+   era. Lo mismo con `justify-content-md-center` en el texto institucional.
+
+**Detalles:**
+
+- `text-wrap: balance` en los titulos macro (el "[ Titulo a definir ]" de la
+  Portada dejaba el corchete solo en la segunda linea).
+- El `h1` de la ficha tenia tracking negativo, heredado de cuando la macro
+  era Archivo Black: pasa a positivo como el resto de Italiana.
+- **La ficha se queda a la vista** mientras se recorren las fotos en desktop
+  (`position: sticky` en la columna, `top: 4.5rem`, `align-self: flex-start`
+  porque el `.row` es flex).
+- **La foto de la grilla ahora funde al cargar**: `.item-image img` declaraba
+  `transition: transform` con el shorthand y pisaba el `transition: opacity
+  .2s` de `.fade-in` del base — la foto aparecia de golpe. Pasa a
+  `transition-property: transform, opacity`. Lo mismo en los banners.
+- Con eso arreglado se prendio **`product_hover = 1`**: la segunda foto al
+  pasar el mouse, que el base ya implementa con opacity y estaba en la lista
+  de Etapa 2. Depende del lazyload del base: recien se ve en la tienda.
+- **El texto del hero asoma** al cargar (sube 0.75rem y se funde, 700ms,
+  `backwards` para que si la animacion no corre el texto este visible igual).
+  Unica animacion de carga del theme.
+- Los links del nombre en la pagina del carrito salian en el azul del
+  navegador (`.cart-item h6 a` no tenia regla, solo `.cart-item-name a`).
+- El boton de comprar se pegaba a la descripcion (`p` del base sin margen
+  superior): `margin-bottom` en el boton.
+
+**Lo que NO se hizo, a proposito:** el modal de compra rapida y las hojas
+desde abajo siguen animando `top`/`bottom` como en el base — el centrado en
+desktop usa `transform` propio y pasarlos a `translate` sin poder probarlos
+en la tienda era mas riesgo que beneficio. El `category-controls` sticky sin
+`top` del base tampoco se toco: pegarlo debajo de la cabecera fija necesita
+saber su alto, y eso es JS.
+
+Ademas se escribio `PRODUCT.md` (el contexto que pide `impeccable`: registro
+brand, usuarias, principios, anti-referencias) — es documentacion, no se sube.
 
 ## Etapa 2 (cuando haya tienda)
 
-Hero de campaña a sangre, segunda imagen al hover en la grilla, y la revision
+Hero de campaña a sangre, y la revision
 de producto, carrito y cuenta con contenido real.
 
 Y el movimiento que hoy no se puede hacer con CSS: **arrastrar el panel del

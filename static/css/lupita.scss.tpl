@@ -94,6 +94,10 @@ h2,
     letter-spacing: 0.02em;
     line-height: 1;
     margin: 0;
+    /* Un titulo de dos renglones parte parejo, no deja una palabra sola
+       colgando en el segundo (visto con "[ Titulo a definir ]" en la
+       Portada: el corchete de cierre quedaba solo en su linea). */
+    text-wrap: balance;
 }
 
 h1,
@@ -261,21 +265,15 @@ h5 {
 
 /*============================================================================
   #Acento
-  Un solo color de acento en todo el theme, y es el de la marca.
+  Un solo color de acento en todo el theme, y es el de la marca. El turquesa
+  no sirve como texto sobre papel (2.17:1, ver LUPITA.md): solo como fondo
+  con tinta encima.
 ==============================================================================*/
 
 .text-accent,
 .item-installments strong,
 a:hover {
-    color: var(--lu-acento);
-}
-
-/* El logotipo es un bloque solido y no se parte nunca: en 390px se cortaba en
-   dos lineas y se montaba sobre la navegacion. */
-.lu-marca {
-    background-color: var(--lu-acento);
-    color: var(--lu-papel);
-    white-space: nowrap;
+    color: var(--lu-tinta);
 }
 
 /* Etiquetas (NUEVO, OFERTA): rectangulos planos, sin redondeo ni sombra */
@@ -290,10 +288,12 @@ a:hover {
     font-size: 0.62rem;
 }
 
+/* OFERTA: mismo bug que tenia el boton del hero — el turquesa de fondo pide
+   texto en tinta, no en papel (8.27:1 contra 2.17:1). */
 .item-label-sale,
 .label-sale {
     background-color: var(--lu-acento);
-    color: var(--lu-papel);
+    color: var(--lu-tinta);
 }
 
 /*============================================================================
@@ -318,7 +318,7 @@ a:hover {
 .btn-primary:focus {
     background-color: var(--lu-acento);
     border-color: var(--lu-acento);
-    color: var(--lu-papel);
+    color: var(--lu-tinta);
 }
 
 .btn-default,
@@ -407,8 +407,23 @@ hr,
    (hasta 9rem). Una prenda con ese cuerpo es absurda: se acota aca. */
 #single-product h1 {
     font-size: clamp(1.5rem, 3vw, 2.5rem);
-    letter-spacing: -0.02em;
+    /* Positivo, como el resto de la macro: el -0.02em venia de cuando la
+       macro era Archivo Black y apretaba la serif fina de Italiana. */
+    letter-spacing: 0.01em;
     margin-bottom: 1rem;
+}
+
+/* La ficha se queda a la vista mientras se recorren las fotos, como en
+   Zara: en desktop la columna de fotos es mas alta que la de la ficha, y
+   sin esto el boton de comprar se iba de la pantalla en la segunda foto.
+   El top es la altura de la cabecera fija mas un respiro; align-self hace
+   falta porque el .row es flex y estiraria la columna a todo el alto. */
+@media (min-width: 768px) {
+    #single-product .section-single-product > .col {
+        position: sticky;
+        top: 4.5rem;
+        align-self: flex-start;
+    }
 }
 
 #single-product .js-price-display {
@@ -445,11 +460,13 @@ hr,
     color: var(--lu-tinta);
 }
 
-/* Comprar: el bloque mas macizo de la pagina */
+/* Comprar: el bloque mas macizo de la pagina. El margen de abajo lo
+   separa de la descripcion, que arranca sin margen superior (p del base). */
 #single-product .js-addtocart {
     width: 100%;
     padding: 1.15rem 1.5rem;
     font-size: 0.78rem;
+    margin-bottom: 1.5rem;
 }
 
 /*============================================================================
@@ -537,6 +554,7 @@ hr,
     font-size: clamp(1.75rem, 5vw, 4rem);
     color: inherit;
     margin: 0;
+    text-wrap: balance;
 }
 
 .nube-slider-home .swiper-description,
@@ -708,7 +726,8 @@ hr,
 }
 
 .section-advertising a:hover {
-    color: var(--lu-acento);
+    color: var(--lu-tinta);
+    text-decoration: underline;
 }
 
 /* Si la clienta escribe mas de un mensaje separados por "—" en el mismo
@@ -843,7 +862,8 @@ hr,
 
 .utilities-link:hover,
 .cart-summary a:hover {
-    color: var(--lu-acento);
+    color: var(--lu-tinta);
+    text-decoration: underline;
 }
 
 /* Corchetes alrededor del contador de la bolsa: la sintaxis tecnica que el
@@ -989,9 +1009,12 @@ hr,
     color: var(--lu-tinta);
 }
 
+/* Foco: el campo se tiñe, la regla no cambia de color. Antes pasaba a
+   turquesa, que contra el papel da 2.17:1 — un indicador de foco pide 3:1
+   (WCAG 1.4.11), asi que el cambio se veia menos que el estado normal. */
 .search-input:focus {
     outline: none;
-    border-bottom-color: var(--lu-acento);
+    background-color: color-mix(in srgb, var(--lu-tinta) 5%, var(--lu-papel));
 }
 
 .search-input::placeholder {
@@ -1141,9 +1164,10 @@ footer .contact-item {
     color: var(--lu-tinta);
 }
 
+/* Mismo criterio que el buscador: se tiñe el campo, la regla sigue en tinta */
 .newsletter .form-control:focus {
     outline: none;
-    border-bottom-color: var(--lu-acento);
+    background-color: color-mix(in srgb, var(--lu-tinta) 5%, var(--lu-papel));
 }
 
 .newsletter form .newsletter-btn {
@@ -1161,6 +1185,7 @@ footer .contact-item {
 
 .newsletter form .newsletter-btn:hover {
     background-color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 /* Los logos de pago y envio vienen en los colores de cada marca y son una
@@ -1178,8 +1203,10 @@ footer .powered-by {
     color: var(--lu-gris);
 }
 
+/* Link suelto: tinta con subrayado, no turquesa (ver #Acento). */
 footer a:hover {
-    color: var(--lu-acento);
+    color: var(--lu-tinta);
+    text-decoration: underline;
 }
 
 /*============================================================================
@@ -1264,30 +1291,51 @@ footer a:hover {
     text-decoration: none;
 }
 
+/* padding-top: 0 a proposito: el base arma el alto con padding-top: 100%
+   (un cuadrado) y la foto en absoluto adentro. Con el aspect-ratio encima
+   de ese padding la caja iba a medir cuadrado + tres cuartos. El harness no
+   copiaba ese padding, asi que aca se veia bien y en la tienda no. */
 .textbanner-image {
     position: relative;
+    padding-top: 0;
     aspect-ratio: 3 / 4;
     overflow: hidden;
 }
 
+/* transform Y opacity: el base carga las fotos con lazyload y las funde
+   con .fade-in (transition: opacity .2s). Declarar solo transform pisaba
+   esa transicion y la foto aparecia de golpe. */
 .textbanner-image-background {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition-property: transform;
-    transition-duration: 420ms;
+    transition-property: transform, opacity;
+    transition-duration: 420ms, 200ms;
+    transition-timing-function: var(--lu-entrada), ease;
 }
 
-/* La foto respira, igual que en la grilla de productos */
-.textbanner-link:hover .textbanner-image-background {
-    transform: scale(1.04);
+/* La foto respira, igual que en la grilla de productos. Solo con mouse:
+   en un telefono el hover se dispara al tocar y la foto quedaba agrandada
+   hasta tocar otra cosa. */
+@media (hover: hover) and (pointer: fine) {
+    .textbanner-link:hover .textbanner-image-background {
+        transform: scale(1.04);
+    }
 }
 
+/* top/right/width/transform: el base centra este bloque con top: 50%,
+   left: 50%, width: 100% y translate(-50%, -50%). Sin apagar los cuatro,
+   el chip era una caja de tinta del ancho del banner, corrida a la
+   izquierda — se vio recien cuando el harness copio esas reglas. */
 .textbanner-text.over-image {
     position: absolute;
+    top: auto;
+    right: auto;
     left: 0.75rem;
     bottom: 0.75rem;
+    width: auto;
+    transform: none;
     background-color: var(--lu-tinta);
     color: var(--lu-papel);
     padding: 0.4rem 0.65rem;
@@ -1420,7 +1468,8 @@ footer a:hover {
 }
 
 .filter-link:hover {
-    color: var(--lu-acento);
+    color: var(--lu-tinta);
+    text-decoration: underline;
 }
 
 /* El selector de orden lo arma un component() de la plataforma, asi que se lo
@@ -1443,11 +1492,6 @@ footer a:hover {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-}
-
-.category-controls select:focus {
-    outline: none;
-    color: var(--lu-acento);
 }
 
 /*============================================================================
@@ -1513,7 +1557,7 @@ footer a:hover {
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
     font-size: 0.62rem;
-    color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 .filters-overlay {
@@ -1555,7 +1599,8 @@ footer a:hover {
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
     font-size: 0.62rem;
-    color: var(--lu-acento);
+    color: var(--lu-tinta);
+    text-decoration: underline;
 }
 
 /* El "Filtrado por:" del base no tiene clase propia, asi que se le agrego
@@ -1601,8 +1646,26 @@ footer a:hover {
     color: var(--lu-gris);
 }
 
+/* Exito (cupon aplicado, newsletter enviado): el unico aviso en turquesa,
+   y como fondo con tinta encima — la unica combinacion del acento que
+   contrasta (8.27:1). Antes era solo un borde turquesa sobre papel, que a
+   2.17:1 casi no se distinguia del aviso neutro. */
 .alert-success {
+    background-color: var(--lu-acento);
     border-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+/* Etiquetas del carrito (envio gratis, promocion): misma regla que OFERTA */
+.label-accent {
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+.label-secondary {
+    background-color: transparent;
+    border: 1px solid var(--lu-linea);
+    color: var(--lu-gris);
 }
 
 /* Falta stock, no llega al minimo de compra: son las unicas dos veces que el
@@ -1618,6 +1681,163 @@ footer a:hover {
 .alert-danger a {
     color: var(--lu-papel);
     text-decoration: underline;
+}
+
+/* "¡Estás a un paso de crear tu cuenta!" (register.tpl): ni informa un dato
+   neutro (.alert-info) ni frena una compra (.alert-danger) — mismo trato que
+   .alert-info, borde fino sin relleno. */
+.alert-primary {
+    color: var(--lu-gris);
+}
+
+/*============================================================================
+  #Formularios y cuenta
+  Contacto, login/registro, direcciones y pedidos: el ultimo tramo del base
+  sin restylar (LUPITA.md, "Lo que sigue en el codigo"). Los tres snipplets
+  compartidos (form.tpl, form-input.tpl, form-select.tpl) alcanzan para
+  cubrir las once plantillas: nada de esto se scopea por pantalla.
+==============================================================================*/
+
+.form-label {
+    display: block;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    color: var(--lu-gris);
+    margin-bottom: 0.5rem;
+}
+
+/* Caja con borde, como el .btn: es la unica forma de campo que no contradice
+   "sin redondeo, sin sombra" cuando el campo no vive solo en una linea (ver
+   #Buscador, que si puede ser un renglon con regla inferior). El texto
+   tipeado se queda en minuscula/mayuscula normal a proposito: un email o una
+   contraseña en VERSALITA es mas dificil de revisar antes de enviar. */
+.form-control,
+.form-select {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--lu-tinta);
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    padding: 0.85rem 1rem;
+    height: auto;
+    font-family: var(--lu-micro);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+}
+
+/* Foco: el borde se engrosa a 2px sin mover nada (el inset no ocupa
+   lugar). No pasa a turquesa: 2.17:1 contra papel, abajo del 3:1 que pide
+   un indicador de foco. El box-shadow no es una sombra visible, es la forma
+   de sumar 1px de borde sin reflow. */
+.form-control:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--lu-tinta);
+    box-shadow: inset 0 0 0 1px var(--lu-tinta);
+}
+
+.form-control::placeholder {
+    color: var(--lu-gris);
+}
+
+.form-control-area {
+    min-height: 9rem;
+    resize: vertical;
+}
+
+/* El base dibuja su propio dropdown (form-select-icon, .open) y ya lo
+   posiciona en style-critical.tpl — falta apagar la flecha nativa del
+   navegador, que si no queda una al lado de la otra, y dejarle aire al
+   texto para que no pise el icono. */
+.form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 2.5rem;
+}
+
+.form-select-icon {
+    right: 1rem;
+}
+
+/* Contacto y cuenta respiran igual que el resto de las secciones del home. */
+.account-page,
+.contact-page {
+    padding-top: clamp(1.5rem, 4vw, 3rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+/* Mismo ajuste que .category-header .divider: una regla fina de linea a
+   ancho completo, no el bloque de color chico del base. */
+.account-page hr.divider {
+    max-width: none;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    height: 1px;
+    background-color: var(--lu-linea);
+    border: 0;
+}
+
+/* "Mis datos", "Principal", "Detalles", "Productos": son rotulos tecnicos
+   que anteceden una regla, no titulos de contenido — van en la microtipo-
+   grafia del sistema (como .lu-rotulo), no en la serif macro de los h1/h2. */
+.account-page .h5 {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.68rem;
+    color: var(--lu-gris);
+}
+
+/* El total de una orden es una cifra de plata, como el TOTAL del carrito
+   (#Carrito, mas abajo): --lu-marca fija, no la serif de los titulos. */
+.account-page .h3 {
+    font-family: var(--lu-marca);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+}
+
+/* Links sueltos (Editar, Ver detalle, ¿Olvidaste tu contraseña?): tinta con
+   subrayado en hover, el mismo lenguaje que .filter-link. .btn-link-primary
+   es el llamado a la accion (Crear cuenta, Iniciar sesión) y se queda
+   subrayado siempre, no solo al pasar el mouse. */
+.btn-link,
+.btn-link-primary {
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+.btn-link-primary {
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+/* "Mis compras" (orders.tpl) y el detalle de una orden (order.tpl): el
+   mismo contenedor con borde de 1px que usa el resto del sistema en vez de
+   la sombra/redondeo del base — .card ya viene sin ninguna de las dos por
+   el reset de arriba, aca solo falta el borde y el aire interno. */
+.card {
+    border: 1px solid var(--lu-linea);
+}
+
+.card-header,
+.card-body,
+.card-footer {
+    padding: 1rem 1.25rem;
+}
+
+.card-header {
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.card-footer {
+    border-top: 1px solid var(--lu-linea);
 }
 
 /*============================================================================
@@ -1681,7 +1901,8 @@ footer a:hover {
     color: var(--lu-tinta);
 }
 
-.cart-item .cart-item-name a {
+.cart-item .cart-item-name a,
+.cart-item h6 a {
     color: var(--lu-tinta);
 }
 
@@ -1740,11 +1961,6 @@ footer a:hover {
     color: var(--lu-tinta);
 }
 
-.cart-item-input.form-control:focus {
-    outline: none;
-    color: var(--lu-acento);
-}
-
 /* El tacho tampoco es un boton macizo. */
 .cart-item-delete .btn {
     border: 0;
@@ -1754,7 +1970,7 @@ footer a:hover {
 }
 
 .cart-item-delete .btn:hover {
-    color: var(--lu-acento);
+    color: var(--lu-tinta);
 }
 
 /*============================================================================
@@ -1837,11 +2053,13 @@ footer a:hover {
     font-size: 1.9rem;
 }
 
+/* !important: el span de la cifra llega con .text-right, que en Bootstrap
+   es !important; sin esto la cifra iba a la derecha en la tienda. */
 #modal-cart .js-cart-total-container .h2 > span {
     display: block;
     max-width: none;
     flex: none;
-    text-align: left;
+    text-align: left !important;
     padding: 0;
 }
 
@@ -1902,9 +2120,9 @@ footer a:hover {
     color: var(--lu-gris);
 }
 
-/* Mismo motivo: "envio gratis" en turquesa a 0.66rem sobre papel no se lee. */
+/* El color ya viene de .text-accent (tinta, ver #Acento); esto solo agrega
+   el peso para que se note el "te faltan $X". */
 .ship-free-rest-message .text-accent {
-    color: var(--lu-tinta);
     font-weight: 700;
 }
 
@@ -1920,6 +2138,1133 @@ footer a:hover {
 
 .js-ajax-cart-submit {
     margin: 0;
+}
+
+/*============================================================================
+  #Foco visible
+  El base apaga el outline en varios lados y no pone nada a cambio: con
+  teclado no se sabe donde se esta parado. Un rectangulo de 2px en tinta,
+  separado 2px del borde — cuadrado y sin sombra, como todo lo demas.
+  :focus-visible y no :focus, para que un click con el mouse no lo dibuje.
+  Los campos de texto tienen su propio estado (borde a 2px o campo teñido)
+  y no lo necesitan encima.
+==============================================================================*/
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible,
+input[type="submit"]:focus-visible,
+input[type="checkbox"]:focus-visible,
+select:focus-visible,
+.btn:focus-visible {
+    outline: 2px solid var(--lu-tinta);
+    outline-offset: 2px;
+}
+
+/* Sobre foto o sobre tinta el rectangulo va en papel, si no desaparece */
+.swiper-btn:focus-visible,
+.textbanner-link:focus-visible,
+.btn-primary:focus-visible,
+.nav-list-link:focus-visible,
+.social-icon:focus-visible,
+.btn-whatsapp:focus-visible {
+    outline-color: var(--lu-papel);
+    outline-offset: -4px;
+}
+
+.form-control:focus-visible,
+.form-select:focus-visible,
+.search-input:focus-visible,
+.newsletter .form-control:focus-visible {
+    outline: none;
+}
+
+/*============================================================================
+  #Migas
+  El base las arma con ">" entre las migas. Se las trata como un rotulo
+  tecnico, y el ">" se reemplaza por una raya vertical de 1px — la misma
+  linea que divide todo lo demas — sin tocar breadcrumbs.tpl.
+==============================================================================*/
+
+.breadcrumbs {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    line-height: 1.4;
+    color: var(--lu-gris);
+    margin: 0 0 1rem;
+}
+
+.breadcrumbs .crumb {
+    color: var(--lu-gris);
+    text-decoration: none;
+}
+
+.breadcrumbs a.crumb:hover {
+    color: var(--lu-tinta);
+    text-decoration: underline;
+}
+
+.breadcrumbs .crumb.active {
+    color: var(--lu-tinta);
+}
+
+.breadcrumbs .divider {
+    display: inline-block;
+    width: 1px;
+    height: 0.6rem;
+    margin: 0 0.6rem;
+    vertical-align: -0.1em;
+    background-color: var(--lu-gris);
+    font-size: 0;
+    line-height: 0;
+    color: transparent;
+}
+
+/*============================================================================
+  #Encabezado de pagina
+  page-header.tpl lo comparten todas las paginas que no son la categoria
+  (carrito, busqueda, institucionales, 404, contacto, cuenta). El base lo
+  centra; aca va al ras de la izquierda como el resto, y con un cuerpo mas
+  chico que el titulo de categoria: "Carrito de compras" a 9rem es un
+  cartel, no un titulo. La categoria conserva su escala (#Encabezado de
+  categoria) y el producto la suya (#Ficha de producto).
+==============================================================================*/
+
+.page-header [class*="col"] {
+    text-align: left !important;
+}
+
+.page-header h1 {
+    font-size: clamp(2rem, 6vw, 5rem);
+}
+
+.category-header .page-header h1 {
+    font-size: clamp(2.75rem, 10vw, 9rem);
+}
+
+body:not(.template-product):not(.template-category) .page-header {
+    margin-top: clamp(1.5rem, 4vw, 3rem);
+    margin-bottom: clamp(1.5rem, 4vw, 3rem);
+    padding-bottom: clamp(1rem, 3vw, 2rem);
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+/*============================================================================
+  #Texto institucional
+  "Como comprar", "Cambios y devoluciones", "Envios": las paginas que la
+  clienta escribe desde el panel (page.tpl -> .user-content). Junto con la
+  descripcion del producto son el unico texto largo del theme, y se leen
+  igual: minusculas, sin tracking, interlineado ancho, 68 caracteres de
+  ancho como maximo. Los subtitulos si van en la macro.
+==============================================================================*/
+
+/* Solo en la pagina institucional: la descripcion del producto tambien
+   lleva .user-content y no necesita este aire al pie. */
+.template-page .user-content {
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+/* El base centra la columna (justify-content-md-center); en este theme el
+   texto arranca donde arranca todo lo demas. */
+.user-content .row {
+    justify-content: flex-start !important;
+}
+
+.user-content,
+.user-content p,
+.user-content li,
+.user-content td,
+.user-content th {
+    font-family: var(--lu-micro);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--lu-tinta);
+}
+
+.user-content p {
+    margin: 0 0 1.25rem;
+    max-width: 68ch;
+    text-wrap: pretty;
+}
+
+.user-content h1,
+.user-content h2,
+.user-content h3,
+.user-content h4 {
+    margin: 2.25rem 0 0.75rem;
+    max-width: 30ch;
+}
+
+.user-content h1,
+.user-content h2 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.user-content h3,
+.user-content h4 {
+    font-size: 1.15rem;
+}
+
+.user-content ul,
+.user-content ol {
+    padding-left: 1.25rem;
+    margin: 0 0 1.25rem;
+    max-width: 68ch;
+}
+
+.user-content li {
+    margin-bottom: 0.4rem;
+}
+
+.user-content a {
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+}
+
+.user-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Una tabla de talles, por ejemplo: reglas de 1px y cabecera en rotulo */
+.user-content table {
+    width: 100%;
+    max-width: 68ch;
+    border-collapse: collapse;
+    margin: 0 0 1.5rem;
+}
+
+.user-content th,
+.user-content td {
+    padding: 0.6rem 0.75rem 0.6rem 0;
+    border-bottom: 1px solid var(--lu-linea);
+    text-align: left;
+    vertical-align: top;
+}
+
+.user-content th {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    color: var(--lu-gris);
+    font-weight: 400;
+    border-bottom-color: var(--lu-tinta);
+}
+
+/*============================================================================
+  #Vacios
+  Busqueda sin resultados, 404, carrito vacio. El base los centra en un
+  parrafo suelto; aca son un rotulo al ras de la izquierda con su regla,
+  como un cartel de "no hay" en una estanteria.
+==============================================================================*/
+
+.category-body > .container > .text-center,
+#\34 04 .text-center,
+#\34 04 p {
+    text-align: left !important;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.72rem;
+    line-height: 1.6;
+    color: var(--lu-tinta);
+    margin: 0;
+}
+
+.category-body > .container > .text-center {
+    padding: clamp(2rem, 5vw, 4rem) 0;
+    border-top: 1px solid var(--lu-linea);
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+#\34 04 .container {
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+#\34 04 br {
+    display: none;
+}
+
+#\34 04 .row.mt-3 {
+    margin-top: clamp(1.5rem, 4vw, 3rem) !important;
+}
+
+/*============================================================================
+  #WhatsApp
+  El boton flotante del base es un circulo verde con sombra: un logo de
+  otra marca pegado sobre la paleta de tres. Pasa a un cuadrado de tinta con
+  el icono en papel, del tamano de un boton, en la esquina de siempre. Verde
+  no: el icono ya dice que es WhatsApp.
+==============================================================================*/
+
+.btn-whatsapp {
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    transition-property: background-color;
+    transition-duration: 120ms;
+    transition-timing-function: var(--lu-entrada);
+}
+
+.btn-whatsapp svg {
+    width: 1.35rem;
+    height: 1.35rem;
+    padding: 0;
+    fill: var(--lu-papel);
+}
+
+.btn-whatsapp:hover,
+.btn-whatsapp:active {
+    background-color: var(--lu-acento);
+}
+
+.btn-whatsapp:hover svg,
+.btn-whatsapp:active svg {
+    fill: var(--lu-tinta);
+}
+
+/* Abajo de 768 el boton se corre para no tapar el "Agregar al carrito"
+   de la ficha, que en mobile queda al pie de la pantalla. */
+@media (max-width: 767px) {
+    .btn-whatsapp {
+        bottom: 0.75rem;
+        right: 0.75rem;
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+}
+
+/*============================================================================
+  #Notificacion del carrito
+  cart_open_type = show_notification: al agregar un producto, el base
+  despliega una tarjeta debajo de la cabecera (notification-cart.tpl), con
+  sombra y una rotacion 3D en el eje X. Aca es una caja de 1px en tinta
+  sobre papel, que baja medio centimetro y se funde — entrada 220ms, salida
+  mas corta, como los paneles. Mismo contenido, mismas clases.
+==============================================================================*/
+
+.notification {
+    background-color: var(--lu-papel);
+    border: 1px solid var(--lu-tinta);
+    border-radius: 0;
+    padding: 1.1rem 1.25rem 1.25rem;
+    text-align: left;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    line-height: 1.5;
+    color: var(--lu-tinta);
+}
+
+.notification-floating {
+    margin-top: 0.5rem;
+}
+
+.notification-floating .notification {
+    box-shadow: none;
+}
+
+.notification .h6 {
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-align: left !important;
+    margin: 0 1.75rem 0.9rem 0 !important;
+}
+
+.notification-close {
+    top: 0.85rem;
+    right: 0.85rem;
+    font-size: 0.85rem;
+    padding: 0.25rem;
+    cursor: pointer;
+}
+
+.notification .js-cart-notification-item {
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.notification .notification-img img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.notification .js-cart-notification-item-variant-container {
+    color: var(--lu-gris);
+}
+
+/* "Total (2 productos): $ 219.500" */
+.notification .h5 {
+    font-size: 0.66rem;
+    font-weight: 400;
+    color: var(--lu-tinta);
+    margin: 0.9rem 0 1rem !important;
+}
+
+.notification .h5 strong {
+    font-weight: 700;
+}
+
+.notification .btn {
+    margin: 0;
+}
+
+/* Movimiento: bajar y fundir, en vez de la rotacion 3D del base */
+.notification-hidden {
+    transform: translate3d(0, -0.5rem, 0);
+    opacity: 0;
+    transition-property: transform, opacity;
+    transition-duration: 160ms;
+    transition-timing-function: var(--lu-salida);
+    pointer-events: none;
+}
+
+.notification-visible {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+    transition-property: transform, opacity;
+    transition-duration: 220ms;
+    transition-timing-function: var(--lu-entrada);
+}
+
+/*============================================================================
+  #Cookies y aviso de compra
+  notification.tpl: el banner de cookies (fijo al pie, .notification-fixed-
+  bottom) y el "Segui aca tu ultima compra" (debajo de la cabecera). Los dos
+  llegan con .notification-secondary, que el base pinta con un fondo apenas
+  mas oscuro y texto al 80%. Aca: papel, regla maciza de 2px y micro — el
+  mismo trato que el pie, que es lo que tienen al lado.
+==============================================================================*/
+
+.notification-secondary {
+    padding: 0.9rem 0;
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    border: 0;
+    border-top: 2px solid var(--lu-tinta);
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.notification-secondary .text-foreground {
+    color: var(--lu-tinta);
+}
+
+/* El texto va al ras: el base lo corre dos columnas (offset-md-2) */
+.notification-secondary .offset-md-2 {
+    margin-left: 0;
+}
+
+.notification-secondary .col-md-7 {
+    flex: 1 1 auto;
+    max-width: none;
+}
+
+.notification-secondary .text-center {
+    text-align: left !important;
+}
+
+.notification-secondary .btn {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.62rem;
+}
+
+/* El aviso de "segui tu compra" no es un boton macizo: es un renglon */
+.js-notification-status-page .btn {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--lu-tinta);
+    text-decoration: underline;
+}
+
+/*============================================================================
+  #Hojas desde abajo
+  Los modales que suben desde el pie de la pantalla: "Agregado al carrito"
+  con recomendados (add_to_cart_recommendations) y la promo cruzada. La
+  mecanica es del base; aca solo el papel, la regla y el rotulo.
+==============================================================================*/
+
+.modal-bottom-sheet {
+    background-color: var(--lu-papel);
+    border-top: 2px solid var(--lu-tinta);
+    border-radius: 0;
+}
+
+.modal-bottom-sheet .modal-header {
+    border-bottom: 0;
+}
+
+/*============================================================================
+  #Servicios
+  home_order_position_5 = informatives -> banner-services.tpl: hasta tres
+  renglones de "envios", "cuotas", "compra segura" con un icono cada uno.
+  El base los centra con el icono arriba. Aca son tres celdas de la misma
+  grilla de 1px, icono a la izquierda, todo en micro. En mobile el base los
+  pasa por Swiper de a uno, con sus puntitos: los puntitos pasan a cuadrados.
+==============================================================================*/
+
+.section-informative-banners {
+    padding: 0;
+    text-align: left;
+    border-top: 1px solid var(--lu-linea);
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.section-informative-banners > .container {
+    max-width: none;
+    padding: 0;
+}
+
+.section-informative-banners .row {
+    margin: 0;
+}
+
+.js-informative-banners {
+    width: 100%;
+}
+
+.service-item-container {
+    padding: 0 !important;
+}
+
+/* Divisiones verticales entre celdas, recien cuando estan lado a lado */
+@media (min-width: 768px) {
+    .service-item-container + .service-item-container {
+        border-left: 1px solid var(--lu-linea);
+    }
+}
+
+.service-item {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.9rem;
+    margin: 0;
+    padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
+    text-align: left;
+}
+
+.service-item > [class*="col"] {
+    flex: none;
+    width: auto;
+    max-width: none;
+    padding: 0;
+}
+
+.service-item > .col {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.service-icon {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    fill: var(--lu-tinta);
+}
+
+.service-item .service-icon-big {
+    font-size: inherit;
+}
+
+.service-item a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.service-item a:hover .service-title {
+    text-decoration: underline;
+}
+
+.service-title {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.72rem;
+    line-height: 1.35;
+    font-weight: 700;
+    margin: 0 0 0.3rem;
+    color: var(--lu-tinta);
+}
+
+.service-item p {
+    font-family: var(--lu-micro);
+    text-transform: none;
+    letter-spacing: 0.02em;
+    font-size: 0.72rem;
+    line-height: 1.55;
+    color: var(--lu-gris);
+    margin: 0;
+    max-width: 40ch;
+}
+
+.service-pagination {
+    margin: 0 0 1rem;
+    line-height: 0;
+}
+
+.service-pagination .swiper-pagination-bullet {
+    width: 6px;
+    height: 6px;
+    margin: 0 4px;
+    border-radius: 0;
+    background-color: var(--lu-tinta);
+    opacity: 0.25;
+}
+
+.service-pagination .swiper-pagination-bullet-active {
+    opacity: 1;
+}
+
+@media (min-width: 768px) {
+    .service-pagination {
+        display: none;
+    }
+}
+
+/*============================================================================
+  #Modulos de imagen y texto
+  home_order_position_3 = modules -> home-modules.tpl: hasta dos bloques de
+  foto a un lado y texto al otro (la clienta elige el lado). Es la seccion
+  de "quienes somos" o de una campana con texto largo. Comparte marcado con
+  los banners de categoria (.textbanner), asi que hay que sacarle el chip
+  micro que le pusimos al titulo de aquellos: aca el titulo es macro y el
+  texto es parrafo.
+==============================================================================*/
+
+.section-home-modules {
+    border-top: 1px solid var(--lu-linea);
+}
+
+.section-home-modules .textbanner {
+    margin: 0;
+}
+
+/* stretch y no center (el tpl trae align-items-center): con las columnas
+   de distinto alto, la mas baja dejaba ver el fondo de linea como un
+   bloque gris. Las dos miden lo mismo; la foto se estira a llenar la suya
+   y el texto se centra adentro de la suya. */
+.section-home-modules .row {
+    margin: 0;
+    background-color: var(--lu-linea);
+    gap: 1px;
+    align-items: stretch;
+}
+
+.section-home-modules .col-md {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    background-color: var(--lu-papel);
+}
+
+.section-home-modules .textbanner {
+    flex: 1 1 auto;
+    display: flex;
+}
+
+.section-home-modules .textbanner-image {
+    flex: 1 1 auto;
+    aspect-ratio: 4 / 5;
+}
+
+.module-with-text-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.section-home-modules .textbanner-text {
+    position: relative;
+    padding: clamp(2rem, 5vw, 4.5rem) clamp(1.25rem, 4vw, 4rem);
+    text-align: left;
+    color: var(--lu-tinta);
+}
+
+.section-home-modules .textbanner-title {
+    font-family: var(--lu-macro);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.05;
+    margin: 0 0 1.25rem;
+    text-wrap: balance;
+}
+
+.section-home-modules .textbanner-paragraph {
+    display: block;
+    font-family: var(--lu-micro);
+    text-transform: none;
+    letter-spacing: 0.02em;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--lu-gris);
+    opacity: 1;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+    max-width: 48ch;
+    margin: 0 0 1.75rem;
+    text-wrap: pretty;
+}
+
+.section-home-modules .textbanner-text .btn {
+    border-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    background-color: var(--lu-tinta);
+    padding: 0.85rem 1.5rem;
+    font-size: 0.72rem;
+    margin: 0;
+}
+
+.section-home-modules .textbanner-text .btn:hover {
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+/* Cuando la foto y el texto se apilan (mobile), el texto queda debajo de
+   la foto sin importar el lado elegido en el panel. */
+@media (max-width: 767px) {
+    .section-home-modules .col-md.order-md-2 {
+        order: 0;
+    }
+}
+
+/*============================================================================
+  #Bienvenida
+  home_order_position_6 = welcome -> home-welcome-message.tpl: una frase
+  de la marca y, si quiere, un parrafo. Es la unica seccion del home que es
+  solo texto: se queda centrada a proposito — una pausa entre bloques de
+  fotos — pero con la escala del sistema y sin el aire de 70px del base.
+==============================================================================*/
+
+.section-welcome-home {
+    padding: clamp(3rem, 8vw, 6rem) 0;
+    border-top: 1px solid var(--lu-linea);
+    text-align: center;
+}
+
+.section-welcome-home .col-md-8 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-left: 0;
+}
+
+.welcome-title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    margin: 0 auto 1rem;
+    max-width: 24ch;
+}
+
+.welcome-text {
+    font-family: var(--lu-micro);
+    text-transform: none;
+    letter-spacing: 0.02em;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--lu-gris);
+    max-width: 52ch;
+    margin: 0 auto;
+    text-wrap: pretty;
+}
+
+/*============================================================================
+  #Instagram
+  home_order_position_4 = instafeed -> home-instafeed.tpl. La cuenta
+  (131 mil seguidoras, verificada) es el activo mas grande de la marca, asi
+  que la seccion no se esconde: el usuario en la macro, con la arroba, y las
+  nueve fotos en la misma grilla de 1px que el catalogo. El base lo arma con
+  col-4 flotantes: con gap de 1px tres tercios no entran y la tercera foto
+  se caia — pasa a grid.
+==============================================================================*/
+
+.section-instafeed-home {
+    padding-top: clamp(2rem, 5vw, 4rem);
+    border-top: 1px solid var(--lu-linea);
+}
+
+.instafeed-title {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+.instafeed-title svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: var(--lu-tinta);
+}
+
+/* El usuario va en minusculas con la arroba: un handle en versales no es un
+   handle. text-transform pisa el uppercase del h2 del sistema. */
+.instafeed-user {
+    display: block;
+    margin: 0;
+    line-height: 1;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    text-transform: none;
+    letter-spacing: 0.01em;
+}
+
+.instafeed-user::before {
+    content: "@";
+}
+
+.instafeed-title:hover .instafeed-user {
+    text-decoration: underline;
+    text-underline-offset: 0.12em;
+    text-decoration-thickness: 1px;
+}
+
+.js-ig-fallback {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    color: var(--lu-gris);
+}
+
+.js-ig-fallback .btn-link {
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    padding: 0;
+    border: 0;
+}
+
+#instagram-feed {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background-color: var(--lu-linea);
+    border-top: 1px solid var(--lu-linea);
+    border-bottom: 1px solid var(--lu-linea);
+    margin: clamp(1.5rem, 4vw, 3rem) 0 0;
+}
+
+#instagram-feed .col-4 {
+    flex: none;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    background-color: var(--lu-papel);
+}
+
+.instafeed-link .instafeed-img {
+    transition-property: transform, opacity;
+    transition-duration: 420ms, 200ms;
+    transition-timing-function: var(--lu-entrada), ease;
+}
+
+.instafeed-link:hover .instafeed-img,
+.instafeed-link:focus .instafeed-img {
+    transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .instafeed-link:hover .instafeed-img {
+        transform: scale(1.04);
+    }
+}
+
+/*============================================================================
+  #Compra rapida
+  quick_shop (apagado por defecto, la clienta lo prende desde el panel): el
+  modal que abre "Agregar al carrito" desde la grilla para elegir talle.
+  Solo la tipografia — el nombre llega con class h1 (la de Bootstrap, no el
+  elemento) y el precio con h4 — y los bordes. La mecanica del modal
+  (bottom-sheet en mobile, centrado en desktop) es del base y se respeta.
+==============================================================================*/
+
+.modal-quickshop,
+.modal-quickshop .modal-body {
+    background-color: var(--lu-papel);
+}
+
+.modal-quickshop .modal-body {
+    padding: 1.25rem;
+    text-align: left;
+}
+
+.modal-quickshop .js-item-name {
+    font-family: var(--lu-macro);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.05;
+    font-weight: 400;
+    text-wrap: balance;
+}
+
+.modal-quickshop .js-price-display {
+    font-family: var(--lu-micro);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+}
+
+.modal-quickshop .js-compare-price-display {
+    font-family: var(--lu-micro);
+    text-decoration: line-through;
+    color: var(--lu-gris);
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-right: 0.5rem;
+}
+
+.modal-quickshop .modal-footer {
+    border-top: 1px solid var(--lu-linea);
+    padding: 1rem 1.25rem;
+}
+
+/*============================================================================
+  #Pagina del carrito
+  templates/cart.tpl: el mismo renglon de producto que el panel
+  (cart-item-ajax.tpl con cart_page = true) y los totales a la derecha. El
+  base apila y centra; aca: lista arriba con sus divisiones de 1px, y abajo
+  una fila con el envio a la izquierda y el resumen a la derecha, pegado
+  mientras se recorre la lista (el base lo declara sticky sin top).
+==============================================================================*/
+
+#shoppingCartPage {
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.template-cart .js-ajax-cart-list {
+    border-top: 1px solid var(--lu-linea);
+}
+
+/* El tpl pega mb-5 / mb-2 (con !important, son utilidades de Bootstrap) a
+   cada renglon: sin esto quedaba la division de 1px y despues 3rem de nada. */
+.template-cart .cart-item.mb-5,
+.template-cart .cart-item.mb-2 {
+    margin-bottom: 0 !important;
+}
+
+.template-cart .cart-item {
+    padding: 1.25rem 0;
+}
+
+/* Dentro del renglon, el base reparte nombre / cantidad / subtotal en
+   6 / 3 / 3 de doce a partir de 768. Se respeta; solo se alinea. */
+.template-cart .cart-item h6.col-12 {
+    font-size: 0.72rem;
+}
+
+.template-cart .cart-item-quantity .form-quantity {
+    margin: 0 !important;
+}
+
+.template-cart .cart-item-subtotal {
+    font-size: 0.84rem;
+    margin: 0;
+    text-align: right !important;
+}
+
+@media (min-width: 768px) {
+    .template-cart .cart-item-quantity .row {
+        justify-content: flex-start;
+    }
+}
+
+/* Los totales: el base mete un .divider (que no tiene CSS propio en el
+   base) y una fila de dos columnas. La regla es maciza porque abajo esta
+   la cifra que decide la compra. */
+.template-cart .cart-row .divider {
+    height: 2px;
+    background-color: var(--lu-tinta);
+    margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.template-cart #cart-sticky-summary {
+    top: 4.5rem;
+    padding: 0;
+}
+
+.template-cart #cart-sticky-summary > .row {
+    margin: 0;
+}
+
+/* Hijo directo de la fila: el subtotal de adentro tambien lleva
+   .col-md-auto y con la regla suelta se iba a un renglon propio. */
+.template-cart #cart-sticky-summary > .row > .col-md-auto {
+    padding: 0;
+    width: 100%;
+    max-width: 22rem;
+    margin-left: auto;
+}
+
+@media (max-width: 767px) {
+    .template-cart #cart-sticky-summary > .row > .col-md-auto {
+        max-width: none;
+    }
+}
+
+/* Subtotal y descuentos: una linea cada uno, cifra a la derecha */
+.template-cart .cart-row .h5.row {
+    justify-content: space-between !important;
+    margin: 0 0 0.35rem;
+}
+
+.template-cart .cart-row .h5 .col,
+.template-cart .cart-row .h5 .col-md-auto {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+    padding: 0;
+}
+
+.template-cart .js-total-promotions {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    line-height: 1.6;
+}
+
+.template-cart .js-total-promotions .row {
+    margin: 0;
+    justify-content: space-between;
+}
+
+.template-cart .js-total-promotions .col {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 0;
+}
+
+/* TOTAL: rotulo arriba, cifra entera debajo — igual que en el panel */
+.template-cart .js-cart-total-container {
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--lu-linea);
+}
+
+.template-cart .js-cart-total-container .h2 {
+    display: block;
+    margin: 0;
+}
+
+.template-cart .js-cart-total-container .h2 > span {
+    display: block;
+    flex: none;
+    max-width: none;
+    width: auto;
+    padding: 0;
+    margin: 0;
+    text-align: left !important;
+}
+
+.template-cart .js-cart-total-container .h2 > span:first-child {
+    font-family: var(--lu-micro);
+    font-size: 0.62rem;
+    letter-spacing: var(--lu-track);
+    color: var(--lu-gris);
+    margin-bottom: 0.35rem;
+}
+
+.template-cart .js-cart-total {
+    white-space: nowrap;
+}
+
+.template-cart .js-cart-total-container .installments,
+.template-cart .js-cart-total-container [class*="installment"],
+.template-cart .js-cart-total-container .text-accent {
+    text-align: left !important;
+}
+
+.template-cart #go-to-checkout {
+    margin: 1.25rem 0 0.75rem !important;
+}
+
+.template-cart .cart-row .btn-link {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    border: 0;
+    padding: 0.5rem 0;
+}
+
+/* Calculador de envio (columna izquierda): rotulos y campos del sistema */
+.template-cart .js-shipping-calculator-container {
+    padding: 0;
+}
+
+.template-cart .js-shipping-calculator-container .row {
+    margin: 0;
+}
+
+/*============================================================================
+  #Paginacion
+  "Mostrar mas productos" (infinite scroll del base) y la version numerada.
+==============================================================================*/
+
+.js-load-more.btn {
+    background-color: transparent;
+    color: var(--lu-tinta);
+    padding: 1rem 2.5rem;
+}
+
+.js-load-more.btn:hover {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+.category-body .font-big {
+    font-family: var(--lu-micro);
+    font-size: 0.72rem;
+    letter-spacing: var(--lu-track);
+}
+
+/*============================================================================
+  #Hero: el texto asoma
+  Unica animacion de carga del theme, y solo en el hero: el bloque de texto
+  sube medio centimetro y se funde, 700ms, despues de que la foto ya esta.
+  backwards y no both: si la animacion no corre (pestana oculta, motor sin
+  animaciones), el texto esta visible igual — el estado final es el normal.
+  Swiper clona los slides para el loop; los clones la corren invisibles y
+  no importa. Con prefers-reduced-motion se apaga (ver #Movimiento reducido).
+==============================================================================*/
+
+@keyframes lu-asomar {
+    from {
+        opacity: 0;
+        transform: translate3d(-50%, 0.75rem, 0);
+    }
+}
+
+.nube-slider-home .swiper-text {
+    animation: lu-asomar 700ms var(--lu-entrada) 150ms backwards;
 }
 
 /*============================================================================
@@ -2036,12 +3381,24 @@ footer a:hover {
   dentro de su division de 1px y no la pisa.
 ==============================================================================*/
 
+/* transform Y opacity, no el shorthand: las fotos de la grilla llegan con
+   lazyload y .fade-in (transition: opacity .2s en style-critical). El
+   shorthand con transform solo la pisaba y la foto aparecia de golpe — y
+   de paso rompia el fundido a la segunda foto (product_hover), que el
+   base hace con opacity. */
 .item-image img {
-    transition: transform 420ms var(--lu-entrada);
+    transition-property: transform, opacity;
+    transition-duration: 420ms, 200ms;
+    transition-timing-function: var(--lu-entrada), ease;
 }
 
-.item-product:hover .item-image img {
-    transform: scale(1.04);
+/* Solo con mouse de verdad: en un telefono el hover se dispara al tocar y
+   la foto quedaba agrandada (y con la segunda foto encima) hasta que se
+   tocaba otra cosa. */
+@media (hover: hover) and (pointer: fine) {
+    .item-product:hover .item-image img {
+        transform: scale(1.04);
+    }
 }
 
 /* El nombre se subraya en vez de cambiar de color: el turquesa sobre papel da
@@ -2078,7 +3435,11 @@ footer a:hover {
     }
 
     .item-image img,
-    .item-product:hover .item-image img {
+    .item-product:hover .item-image img,
+    .textbanner-image-background,
+    .textbanner-link:hover .textbanner-image-background,
+    .instafeed-link .instafeed-img,
+    .instafeed-link:hover .instafeed-img {
         transition: none;
         transform: none;
     }
@@ -2087,5 +3448,21 @@ footer a:hover {
     .transition-soft-slow,
     .bar-progress-active {
         transition-duration: 0.01ms;
+    }
+
+    /* El texto del hero aparece sin subir; la notificacion, sin desplazarse */
+    .nube-slider-home .swiper-text {
+        animation: none;
+    }
+
+    .notification-hidden,
+    .notification-visible {
+        transform: none;
+        transition-property: opacity;
+    }
+
+    /* El parpadeo gris mientras carga una foto es movimiento continuo */
+    .placeholder-fade {
+        animation: none;
     }
 }

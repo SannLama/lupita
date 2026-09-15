@@ -133,7 +133,7 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
     .align-items-center { align-items: center; }
     .justify-content-md-center { justify-content: center; }
     .col-md-8 { flex: 0 0 100%; max-width: 100%; padding: 0 .75rem; }
-    .text-center { text-align: center; }
+    .text-center { text-align: center !important; }
     .text-right { text-align: right; }
     .position-relative { position: relative; }
     .m-0 { margin: 0; }
@@ -257,6 +257,121 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
     .no-gutters > .col { padding: 0; }
     .container-fluid { width: 100%; padding: 0 15px; }
     .img-fluid { max-width: 100%; height: auto; }
+
+    /* Theme base: titulos por clase (style-critical). Importan porque varias
+       piezas llegan con class="h1"/"h5"/"h6" y no con el elemento: el nombre
+       en compra rapida, el total de la notificacion, los subtotales. */
+    h1, .h1 { font-size: 28px; font-weight: 700; }
+    h2, .h2 { font-size: 24px; font-weight: 700; }
+    h3, .h3 { font-size: 20px; font-weight: 700; }
+    h4, .h4 { font-size: 18px; font-weight: 700; }
+    h5, .h5 { font-size: 16px; font-weight: 700; }
+    h6, .h6 { font-size: 14px; font-weight: 700; }
+    p { margin-top: 0; line-height: 22px; }
+    @media (min-width: 768px) { .h4-md { font-size: 18px; font-weight: 700; } }
+
+    /* Theme base: WhatsApp flotante y notificacion del carrito
+       (style-critical + style-async), tal cual, para ver lo que la hoja
+       les cambia encima. */
+    .btn-whatsapp { position: fixed; bottom: 10px; right: 10px; z-index: 100; color: #fff;
+                    background-color: #4dc247; box-shadow: 2px 2px 6px rgba(0,0,0,.4); border-radius: 50%; }
+    .btn-whatsapp svg { width: 45px; height: 45px; padding: 10px; fill: #fff; vertical-align: middle; }
+    .notification { padding: 10px; text-align: center; }
+    .notification-floating { position: absolute; top: 100%; right: 15px; z-index: 2000;
+                             width: calc(100% - 30px); margin-top: -20px; }
+    .notification-floating .notification { box-shadow: 0 0 5px 0 rgba(0,0,0,.1), 0 2px 3px 0 rgba(0,0,0,.06); }
+    @media (min-width: 768px) { .notification-floating .notification { width: 350px; } }
+    .notification-hidden { transition: all .1s cubic-bezier(.16,.68,.43,.99); transform: rotatex(90deg); pointer-events: none; }
+    .notification-visible { transition: all .5s cubic-bezier(.16,.68,.43,.99); transform: rotatex(0deg); }
+    .notification-close { position: absolute; top: 5px; right: 10px; z-index: 1; font-size: 20px; cursor: pointer; }
+    .notification-fixed-bottom { position: fixed; bottom: 0; left: 0; z-index: 999; width: 100%; }
+    .notification-secondary { padding: 12px 0; background: #e8e8e4; color: rgba(10,10,10,.8); border-bottom: 1px solid rgba(10,10,10,.1); }
+    .mb-md-0 { }
+    .float-right { float: right; }
+    .col-3 { flex: 0 0 25%; max-width: 25%; }
+    .col-9 { flex: 0 0 75%; max-width: 75%; }
+    .col-auto { flex: 0 0 auto; width: auto; max-width: 100%; }
+    .pr-0 { padding-right: 0; }
+    .mr-3 { margin-right: 1rem !important; }
+    .mb-3 { margin-bottom: 1rem !important; }
+    .mt-2 { margin-top: .5rem; }
+
+    /* Theme base: banners y modulos (style-critical). Ojo con el padding-top
+       100%: el base arma el alto de la foto asi, y la hoja lo tiene que
+       apagar para que el aspect-ratio mande. */
+    .textbanner { position: relative; margin-bottom: 20px; overflow: hidden; }
+    .textbanner-image { position: relative; padding-top: 100%; background-size: cover; }
+    .textbanner-image-background { position: absolute; top: 0; width: 100%; height: 100%; object-fit: cover; }
+    .textbanner-text { position: relative; padding: 0 5% 45px 5%; text-align: center; }
+    .textbanner-text.over-image { position: absolute; top: 50%; left: 50%; z-index: 9; width: 100%;
+                                  color: #fff; transform: translate(-50%, -50%); }
+    .textbanner-title { margin-bottom: 15px; line-height: 34px; }
+    .textbanner-paragraph { display: -webkit-box; margin-bottom: 15px; line-height: 18px; overflow: hidden;
+                            text-overflow: ellipsis; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+    @media (min-width: 768px) { .order-md-2 { order: 2; } }
+
+    /* Theme base: bienvenida, servicios e Instagram (style-critical + async) */
+    .section-welcome-home { padding: 70px 0; text-align: center; }
+    .welcome-title { margin-bottom: 15px; text-transform: uppercase; }
+    .welcome-text { line-height: 18px; }
+    @media (min-width: 768px) { .offset-md-2 { margin-left: 16.666667%; }
+                                .col-md-8 { flex: 0 0 66.666667%; max-width: 66.666667%; } }
+    .section-informative-banners { padding: 50px 0; text-align: center; }
+    .service-icon { margin: 10px 0; }
+    .service-title { margin: 0 0 5px 0; }
+    .service-pagination { position: relative; margin-top: 5px; }
+    .swiper-wrapper { display: flex; }
+    .service-item-container { flex: 0 0 100%; max-width: 100%; }
+    @media (min-width: 768px) { .service-item-container.col-md { flex: 1 0 0%; max-width: 100%; } }
+    .swiper-pagination-bullet { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #000; opacity: .2; margin: 0 4px; }
+    .swiper-pagination-bullet-active { opacity: 1; }
+    .col-md-auto { flex: 0 0 100%; max-width: 100%; }
+    @media (min-width: 768px) { .col-md-auto { flex: 0 0 auto; width: auto; max-width: 100%; } }
+    .instafeed-user { display: inline-block; margin: 0 0 0 5px; line-height: 24px; vertical-align: top; }
+    .instafeed-link { position: relative; display: block; padding-top: 100%; overflow: hidden; }
+    .instafeed-link .instafeed-img { position: absolute; top: 0; width: 100%; height: 100%; object-fit: cover;
+                                     transition: all .8s ease; }
+    .col-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+    .icon-3x { width: 3em; height: 3em; }
+
+    /* Theme base: paginas institucionales y migas */
+    .user-content ul { padding-left: 20px; }
+    .user-content ul li { margin-bottom: 10px; line-height: 22px; }
+    .page-header-text { margin: .5rem 0 0 0; font-size: 12px; text-align: center; }
+    @media (min-width: 768px) { .justify-content-md-center { justify-content: center; } }
+
+    /* Theme base: pagina del carrito (Bootstrap + style-critical). Las
+       utilidades llevan !important como en Bootstrap 4, porque justamente
+       eso es lo que la hoja tiene que pelear. */
+    .col-1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
+    .col-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+    .col-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+    .col-10 { flex: 0 0 83.333333%; max-width: 83.333333%; }
+    @media (min-width: 768px) {
+      .col-md-1 { flex: 0 0 8.333333%; max-width: 8.333333%; }
+      .col-md-11 { flex: 0 0 91.666667%; max-width: 91.666667%; }
+      .col-md-3 { flex: 0 0 25%; max-width: 25%; }
+      .col-md-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+      .col-md-6 { flex: 0 0 50%; max-width: 50%; }
+      .col-md-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+      .position-sticky-md { position: sticky !important; }
+      .text-md-center { text-align: center !important; }
+      .text-md-left { text-align: left !important; }
+      .justify-content-md-end { justify-content: flex-end !important; }
+      .justify-content-md-center { justify-content: center !important; }
+      .float-md-none { float: none !important; }
+      .mt-md-0 { margin-top: 0 !important; }
+      .mb-md-0 { margin-bottom: 0 !important; }
+    }
+    .justify-content-end { justify-content: flex-end !important; }
+    .align-items-md-center { align-items: center; }
+    .m-auto { margin: auto !important; }
+    .mx-0 { margin-left: 0 !important; margin-right: 0 !important; }
+    .mb-5 { margin-bottom: 3rem !important; }
+    .mb-2 { margin-bottom: .5rem !important; }
+    .mt-4 { margin-top: 1.5rem !important; }
+    .text-right { text-align: right !important; }
+    .btn-block { display: block; width: 100%; }
   </style>
   <link rel="stylesheet" href="lupita.css">
 </head>`
@@ -271,7 +386,7 @@ function adBar(texto) {
 
 /* Cabecera real del theme: snipplets/header/header.tpl mas la barra de aviso.
    Las tres columnas (hamburguesa / logo / utilidades) son las del base. */
-const CABECERA = (settings) => `
+const CABECERA = (settings, extra = '') => `
     ${settings.ad_bar === '1' && settings.ad_text_es ? `
     <section class="section-advertising">
       <div class="container">
@@ -305,7 +420,7 @@ const CABECERA = (settings) => `
               </div>
             </div>
           </div>
-        </div>
+        </div>${extra}
       </div>
     </header>`
 
@@ -317,6 +432,8 @@ const ICONO = {
   bolsa: '<svg class="icon-inline" viewBox="0 0 448 512" aria-hidden="true"><path d="M352 128h-32V96a96 96 0 00-192 0v32H96a32 32 0 00-32 32v288a32 32 0 0032 32h256a32 32 0 0032-32V160a32 32 0 00-32-32zM160 96a64 64 0 01128 0v32H160V96zm192 352H96V160h320v288z"/></svg>',
   cerrar: '<svg class="icon-inline" viewBox="0 0 352 512" aria-hidden="true"><path d="M242 256l100-100a16 16 0 000-23l-23-23a16 16 0 00-23 0L196 210 96 110a16 16 0 00-23 0l-23 23a16 16 0 000 23l100 100-100 100a16 16 0 000 23l23 23a16 16 0 0023 0l100-100 100 100a16 16 0 0023 0l23-23a16 16 0 000-23L242 256z"/></svg>',
   filtro: '<svg class="icon-inline" viewBox="0 0 512 512" aria-hidden="true"><path d="M487 24H25a24 24 0 00-17 41l180 180v163a24 24 0 0010 20l80 55a24 24 0 0038-20V245L496 65a24 24 0 00-9-41zM288 224v240l-64-44V224L32 56h448L288 224z"/></svg>',
+  whatsapp: '<svg class="icon-inline icon-2x" viewBox="0 0 448 512" aria-hidden="true"><path d="M380 105A221 221 0 0 0 32 371L0 486l118-31a221 221 0 0 0 106 27c122 0 224-99 224-221 0-59-25-114-68-156zm-156 340c-33 0-65-9-94-26l-7-4-70 18 19-68-4-7a184 184 0 1 1 156 87zm101-138c-6-3-33-16-38-18s-9-3-12 3-14 18-17 21-6 4-12 1-23-9-44-27c-16-15-27-33-30-38s0-9 2-11l8-10c3-3 4-6 6-9s1-7 0-10-12-30-17-41c-4-11-9-9-12-9h-11a21 21 0 0 0-15 7c-5 6-20 20-20 48s21 56 23 60 41 62 99 87c38 16 51 18 68 15 11-2 33-13 38-26s5-24 3-26-5-4-11-7z"/></svg>',
+  instagram: '<svg class="icon-inline icon-3x align-top svg-icon-text" viewBox="0 0 448 512" aria-hidden="true"><path d="M224 141a115 115 0 1 0 0 230 115 115 0 0 0 0-230zm0 190a75 75 0 1 1 0-150 75 75 0 0 1 0 150zm146-195a27 27 0 1 1-54 0 27 27 0 0 1 54 0zm76 27c-2-36-10-68-36-94s-58-34-94-36c-37-2-148-2-185 0-36 2-68 10-94 36S3 127 1 163c-2 37-2 148 0 185 2 36 10 68 36 94s58 34 94 36c37 2 148 2 185 0 36-2 68-10 94-36s34-58 36-94c2-37 2-148 0-185zm-48 225a76 76 0 0 1-43 43c-30 12-100 9-133 9s-103 3-133-9a76 76 0 0 1-43-43c-12-30-9-100-9-133s-3-103 9-133a76 76 0 0 1 43-43c30-12 100-9 133-9s103-3 133 9a76 76 0 0 1 43 43c12 30 9 100 9 133s3 103-9 133z"/></svg>',
   tacho: '<svg class="icon-inline" viewBox="0 0 448 512" aria-hidden="true"><path d="M432 80h-98l-16-33a32 32 0 00-29-18H159a32 32 0 00-29 18l-16 33H16a16 16 0 000 32h16l21 359a48 48 0 0048 45h246a48 48 0 0048-45l21-359h16a16 16 0 000-32zM159 64h130l8 16H151l8-16zm188 416H101a16 16 0 01-16-15L64 112h320l-21 353a16 16 0 01-16 15z"/></svg>',
 }
 
@@ -495,7 +612,13 @@ ${EN_CARRITO.map(rengloncarrito).join('')}
     </form>
   </div>`
 
+/* whatsapp-chat.tpl: el boton flotante, en todas las paginas. El numero es
+   un pendiente de la clienta, asi que el href no va a ningun lado. */
+const WHATSAPP = `
+  <a href="#" class="js-btn-fixed-bottom btn-whatsapp" aria-label="Comunicate por WhatsApp">${ICONO.whatsapp}</a>`
+
 const PANELES = `
+${WHATSAPP}
   <div id="nav-hamburger" class="js-modal modal modal-nav-hamburger modal-docked-small modal-left transition-fade" style="display:none">
     <div class="modal-with-fixed-footer">
       <div class="modal-scrollable-area">
@@ -918,6 +1041,17 @@ const SLIDES = [
   { titulo: '3 y 6 cuotas', desc: 'Sin interes con todas las tarjetas', boton: 'Comprar ahora', foto: 'img/hero-04.jpg', color: 'white' },
 ]
 
+/* banner-services.tpl: tres renglones de demo. Los iconos son los del base
+   (truck, credit-card, lock) en trazo equivalente. */
+const SERVICIOS = [
+  { titulo: 'Envíos a todo el país', texto: 'Por Andreani o Correo Argentino. Retiro gratis en los tres locales.',
+    icono: '<svg class="icon-inline icon-w-20 icon-2x service-icon" viewBox="0 0 640 512" aria-hidden="true"><path d="M624 352h-16V243c0-13-5-25-14-34l-77-77c-9-9-21-14-34-14h-51V64c0-18-14-32-32-32H32C14 32 0 46 0 64v288c0 18 14 32 32 32h16a96 96 0 0 0 192 0h160a96 96 0 0 0 192 0h32c9 0 16-7 16-16v-16c0-9-7-16-16-16zM144 464a48 48 0 1 1 0-96 48 48 0 0 1 0 96zm288-160H272v-32h160v32zm0-64H272v-32h160v32zm64 224a48 48 0 1 1 0-96 48 48 0 0 1 0 96zm64-96h-8a96 96 0 0 0-112-46V160h51l77 77v131z"/></svg>' },
+  { titulo: '3 y 6 cuotas sin interés', texto: 'Con todas las tarjetas. Y 20% off pagando en efectivo en el local.',
+    icono: '<svg class="icon-inline icon-w-18 icon-2x service-icon" viewBox="0 0 576 512" aria-hidden="true"><path d="M528 32H48C22 32 0 54 0 80v352c0 26 22 48 48 48h480c26 0 48-22 48-48V80c0-26-22-48-48-48zm-480 48h480c9 0 16 7 16 16v48H32V96c0-9 7-16 16-16zm480 352H48c-9 0-16-7-16-16V256h512v160c0 9-7 16-16 16zM128 336v32h96v-32h-96zm160 0v32h160v-32H288z"/></svg>' },
+  { titulo: 'Compra protegida', texto: 'Pagás con Mercado Pago y tu compra queda cubierta hasta que la tenés en la mano.',
+    icono: '<svg class="icon-inline icon-w-14 icon-2x service-icon" viewBox="0 0 448 512" aria-hidden="true"><path d="M400 224h-24v-72a152 152 0 0 0-304 0v72H48c-26 0-48 22-48 48v192c0 26 22 48 48 48h352c26 0 48-22 48-48V272c0-26-22-48-48-48zm-104 0H152v-72a72 72 0 0 1 144 0v72zm104 240H48V272h352v192z"/></svg>' },
+]
+
 function paginaHome(settings) {
   const slides = SLIDES.map(
     (s, i) => `
@@ -968,9 +1102,9 @@ function paginaHome(settings) {
 <body class="template-home">
   <style>
     /* Andamio: en la tienda esto lo hace Swiper. */
-    .swiper-wrapper { position: relative; height: 100%; }
-    .swiper-slide { position: absolute; inset: 0; opacity: 0; z-index: 0; }
-    .swiper-slide.activo { opacity: 1; z-index: 1; }
+    .nube-slider-home .swiper-wrapper { position: relative; height: 100%; }
+    .nube-slider-home .swiper-slide { position: absolute; inset: 0; opacity: 0; z-index: 0; }
+    .nube-slider-home .swiper-slide.activo { opacity: 1; z-index: 1; }
     .swiper-button-prev, .swiper-button-next { position: absolute; top: 50%; transform: translateY(-50%);
       color: #F4F4F0; font: 400 1.5rem 'Roboto Mono', monospace; mix-blend-mode: difference;
       cursor: pointer; user-select: none; padding: 1rem; }
@@ -1035,12 +1169,94 @@ ${CABECERA(settings)}
     </div>
   </section>
 
+
+  <!-- home_order_position_5 = informatives -> banner-services.tpl. Los tres
+       textos son de demo: la clienta los escribe desde el panel. -->
+  <section class="section-informative-banners" data-store="banner-services">
+    <div class="container">
+      <div class="row">
+        <div class="js-informative-banners swiper-container">
+          <div class="swiper-wrapper">${SERVICIOS.map((s) => `
+            <div class="service-item-container col-md swiper-slide p-0 px-md-3">
+              <div class="service-item row justify-content-md-center text-md-left">
+                <div class="col-md-auto">${s.icono}</div>
+                <div class="col">
+                  <h3 class="service-title">${s.titulo}</h3>
+                  <p>${s.texto}</p>
+                </div>
+              </div>
+            </div>`).join('')}
+          </div>
+          <div class="js-informative-banners-pagination service-pagination swiper-pagination swiper-pagination-black">
+            <span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- home_order_position_3 = modules -> home-modules.tpl, con modules_full.
+       Un modulo con la foto a la derecha (module_align = right). -->
+  <section class="section-home-modules" data-store="home-image-text-module">
+    <div class="container-fluid p-0">
+      <a class="module-with-text-link" href="categoria.html" title="Tres locales, un solo perchero">
+        <div class="row no-gutters align-items-center">
+          <div class="col-md order-md-2">
+            <div class="textbanner">
+              <div class="textbanner-image">
+                <img src="${imagenSrc('img/hero-03.jpg', 'MODULO', 800, 1000)}" class="textbanner-image-background" alt="Tres locales, un solo perchero">
+              </div>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="textbanner-text">
+              <div class="h1 textbanner-title">Tres locales, un solo perchero</div>
+              <div class="textbanner-paragraph">Lo que ves en la tienda es lo que hay colgado en España 137, en Loria 198 y en Banfield. Comprás online y lo retirás en el local que te quede más cerca, o te lo mandamos. Este texto es de demo: el real lo escribe la clienta desde el panel.</div>
+              <button class="btn btn-primary btn-small">Conocé los locales</button>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- home_order_position_6 = welcome -> home-welcome-message.tpl -->
+  <section class="section-welcome-home" data-store="home-welcome-message">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <h2 class="welcome-title">Ropa de mujer, al sur de la ciudad</h2>
+          <p class="welcome-text">Multimarca, en Lomas de Zamora y Banfield desde antes de Instagram. Frase de demo: la real la escribe la clienta desde el panel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- home_order_position_4 = instafeed -> home-instafeed.tpl. Las nueve
+       fotos las trae la plataforma con el token de Instagram; aca son las
+       de prueba repetidas. -->
+  <section class="section-instafeed-home" data-store="home-instagram-feed">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <a target="_blank" href="https://www.instagram.com/ahilupitaok" class="instafeed-title" aria-label="Instagram de Ahi! Lupita">
+            ${ICONO.instagram}
+            <h2 class="h2 h1-md mt-2 instafeed-user">ahilupitaok</h2>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="instagram-feed" class="js-ig-success row no-gutters">${['img/hero-01.jpg', 'img/hero-02.jpg', 'img/hero-03.jpg', 'img/hero-04.jpg', 'img/hero-02.jpg', 'img/hero-03.jpg', 'img/hero-04.jpg', 'img/hero-01.jpg', 'img/hero-03.jpg'].map((f) => `
+      <div class="col-4"><a class="instafeed-link" href="https://www.instagram.com/ahilupitaok" target="_blank" aria-label="Publicación de Instagram de Ahi! Lupita"><img class="instafeed-img w-100 fade-in lazyloaded" src="${f}" alt=""></a></div>`).join('')}
+    </div>
+  </section>
+
 ${PIE}
 ${PANELES}
 
   <script>
-    const slides = [...document.querySelectorAll('.swiper-slide')]
-    const bullets = [...document.querySelectorAll('.swiper-pagination-bullet')]
+    const slides = [...document.querySelectorAll('.nube-slider-home .swiper-slide')]
+    const bullets = [...document.querySelectorAll('.nube-slider-home .swiper-pagination-bullet')]
     let i = 0
 
     function mostrar(n) {
@@ -1060,6 +1276,254 @@ ${PANELES}
     document.querySelector('.swiper-button-prev').addEventListener('click', () => manual(i - 1))
     bullets.forEach((b, n) => b.addEventListener('click', () => manual(n)))
   </script>
+</body>
+</html>
+`
+}
+
+/* ---------------------------------------------------------------------------
+   7b. Pagina del carrito
+   Replica templates/cart.tpl + cart-item-ajax.tpl (cart_page = true) +
+   cart-totals.tpl (cart_page = true), con las clases y las utilidades de
+   Bootstrap que traen — incluidos los mb-5 con !important que la hoja
+   tiene que pisar.
+   --------------------------------------------------------------------------- */
+
+const renglonCarritoPagina = (p, i, arr) => `
+        <div class="js-cart-item cart-item js-cart-item-shippable row align-items-md-center mx-0 ${i === arr.length - 1 ? 'mb-2' : 'mb-5'}" data-item-id="${p.i}" data-component="cart.line-item">
+          <div class="col-2 col-md-1 px-0">
+            <a href="producto.html?p=${p.i}"><img src="${foto(p.foto, '', 200, 300)}" class="img-fluid" alt=""></a>
+          </div>
+          <div class="col-10 col-md-11">
+            <div class="row align-items-center">
+              <h6 class="font-weight-normal col-12 col-md-6 h4-md mb-2 mb-md-0" data-component="line-item.name">
+                <a href="producto.html?p=${p.i}">${p.nombre}</a>
+                <small>${p.variante}</small>
+              </h6>
+              <div class="cart-item-quantity col-7 col-md-3" data-component="line-item.subtotal">
+                <div class="form-group float-md-none m-auto form-quantity w-auto mb-2">
+                  <div class="row m-0 justify-content-md-center align-items-center">
+                    <span class="js-cart-quantity-btn cart-item-btn btn">&#8722;</span>
+                    <input class="js-cart-quantity-input cart-item-input form-control" type="number" value="${p.cant}" aria-label="Cantidad">
+                    <span class="js-cart-quantity-btn cart-item-btn btn">+</span>
+                  </div>
+                </div>
+              </div>
+              <h6 class="js-cart-item-subtotal cart-item-subtotal col-5 col-md-3 text-right text-md-center h4-md font-weight-bold">${pesos(p.sub)}</h6>
+            </div>
+          </div>
+          <div class="col-1 cart-item-delete text-right">
+            <button type="button" class="btn h6 h5-md m-0" aria-label="Quitar">${ICONO.tacho}</button>
+          </div>
+        </div>`
+
+function paginaCarrito(settings) {
+  return `${CABEZA('Carrito')}
+<body class="template-cart">
+${CABECERA(settings)}
+
+  <section class="page-header mt-3" data-store="page-title">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <div class="breadcrumbs">
+            <a class="crumb" href="home.html" title="Ahi! Lupita">Inicio</a>
+            <span class="divider">></span>
+            <span class="crumb active">Carrito de compras</span>
+          </div>
+          <h1>Carrito de Compras</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="shoppingCartPage" class="container" data-store="cart-page">
+    <form action="#" method="post" class="cart-body" data-store="cart-form" data-component="cart">
+      <div class="cart-body">
+        <div class="js-ajax-cart-list cart-row">${EN_CARRITO.map(renglonCarritoPagina).join('')}
+        </div>
+        <div class="cart-row">
+          <div class="js-subtotal-price subtotal-price hidden"></div>
+          <div class="divider d-none d-md-block"></div>
+          <div class="container p-0">
+            <div class="row">
+              <div class="col-12 col-md-5">
+                <div class="js-fulfillment-info js-allows-non-shippable">
+                  <div class="js-visible-on-cart-filled js-has-new-shipping js-shipping-calculator-container container-fluid">
+                    <div id="cart-shipping-container" class="row">
+                      <div class="col-12 px-0">
+                        <div class="form-group">
+                          <label class="form-label" for="cp">Calculá el envío</label>
+                          <div style="display:flex;gap:1px">
+                            <input id="cp" class="form-control" type="text" placeholder="Tu código postal" aria-label="Código postal">
+                            <input type="submit" class="btn btn-default" value="Calcular" style="flex:none">
+                          </div>
+                        </div>
+                        <div class="alert alert-info">Retiro gratis en los tres locales.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-7">
+                <div id="cart-sticky-summary" class="position-sticky-md container-fluid">
+                  <div class="row justify-content-md-end mt-4 mt-md-0">
+                    <div class="col-12 col-md-auto">
+                      <div class="js-visible-on-cart-filled h5 row no-gutters justify-content-end justify-content-md-center mb-1" data-store="cart-subtotal">
+                        <span class="col col-md-auto">Subtotal <small>(sin envío)</small>:</span>
+                        <strong class="js-cart-subtotal col col-md-auto text-right">${pesos(TOTAL_CARRITO)}</strong>
+                      </div>
+                      <div class="js-total-promotions">
+                        <span class="js-total-promotions-detail-row row" id="all">
+                          <span class="col">20% OFF en todos los productos:</span>
+                          <span class="col text-right">-${pesos(Math.round(TOTAL_CARRITO * 0.2))}</span>
+                        </span>
+                      </div>
+                      <div class="js-cart-total-container js-visible-on-cart-filled mb-3 clear-both" data-store="cart-total">
+                        <div class="h2 row no-gutters text-primary mb-0 justify-content-end justify-content-md-center">
+                          <span class="col col-md-auto mr-1">Total:</span>
+                          <span class="js-cart-total col col-md-auto text-right">${pesos(Math.round(TOTAL_CARRITO * 0.8))}</span>
+                        </div>
+                        <div class="total-price hidden">Total: ${pesos(TOTAL_CARRITO)}</div>
+                        <div class="installments mt-1 font-weight-bold text-right">3 cuotas sin interes de ${pesos(Math.round(TOTAL_CARRITO * 0.8 / 3))}</div>
+                      </div>
+                      <div class="js-visible-on-cart-filled">
+                        <input id="go-to-checkout" class="btn btn-primary btn-block mb-3" type="submit" name="go_to_checkout" value="Iniciar Compra">
+                        <div class="row mb-2">
+                          <div class="text-center w-100">
+                            <a href="categoria.html" class="btn btn-link">Ver más productos</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+${PIE}
+${PANELES}
+</body>
+</html>
+`
+}
+
+/* ---------------------------------------------------------------------------
+   7c. Pagina institucional y muestrario de piezas sueltas
+   page.tpl (page-header con migas + .user-content) tal como lo arma el
+   base, y debajo las piezas que no tienen pagina propia donde verse: la
+   notificacion de "agregado al carrito" (fija a la vista, en la tienda se
+   despliega bajo la cabecera), la busqueda sin resultados y los avisos.
+   --------------------------------------------------------------------------- */
+
+const NOTIFICACION = `
+        <div class="js-alert-added-to-cart notification-floating notification-visible" style="display:block">
+          <div class="notification notification-primary position-relative col-12 float-right">
+            <div class="h6 text-center mb-3 mr-3"><strong>¡Ya agregamos tu producto al carrito!</strong></div>
+            <div class="js-cart-notification-close notification-close">${ICONO.cerrar}</div>
+            <div class="js-cart-notification-item row" data-store="cart-notification-item">
+              <div class="col-3 pr-0 notification-img">
+                <img src="${foto('#8C9AA3', '', 200, 300)}" class="js-cart-notification-item-img img-fluid" alt="">
+              </div>
+              <div class="col-9 text-left">
+                <div class="mb-1">
+                  <span class="js-cart-notification-item-name">Vestido midi satinado con tajo</span>
+                  <span class="js-cart-notification-item-variant-container">(<span class="js-cart-notification-item-variant">M / Negro</span>)</span>
+                </div>
+                <div class="mb-1">
+                  <span class="js-cart-notification-item-quantity">1</span><span> x </span><span class="js-cart-notification-item-price">${pesos(74500)}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row text-primary h5 font-weight-normal mt-2 mb-3">
+              <span class="col-auto text-left"><strong>Total</strong> (<span class="js-cart-widget-amount">2</span> <span class="js-cart-counts-plural">productos):</span></span>
+              <strong class="js-cart-total col text-right">${pesos(TOTAL_CARRITO)}</strong>
+            </div>
+            <a href="#" class="js-panel btn btn-primary btn-medium w-100 d-inline-block" data-toggle="#modal-cart">Ver carrito</a>
+          </div>
+        </div>`
+
+function paginaPagina(settings) {
+  return `${CABEZA('Cambios y devoluciones')}
+<body class="template-page">
+${CABECERA(settings, NOTIFICACION)}
+
+  <section class="page-header mt-3" data-store="page-title">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <div class="breadcrumbs">
+            <a class="crumb" href="home.html" title="Ahi! Lupita">Inicio</a>
+            <span class="divider">></span>
+            <span class="crumb active">Cambios y devoluciones</span>
+          </div>
+          <h1>Cambios y devoluciones</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="user-content">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-md-8">
+          <p>Texto de demo: el real lo escribe la clienta desde el panel. Tenés 30 días desde que recibís tu compra para cambiarla en cualquiera de los tres locales, con la prenda sin uso y con la etiqueta puesta. Si comprás online y el talle no te queda, lo cambiás en el local o lo coordinamos por WhatsApp.</p>
+          <h2>Cómo hacer un cambio</h2>
+          <ul>
+            <li>Escribinos por WhatsApp con el número de pedido.</li>
+            <li>Acercate al local que te quede más cómodo, o pedí el retiro a domicilio.</li>
+            <li>Elegís otra prenda o te queda un crédito para usar cuando quieras.</li>
+          </ul>
+          <h3>Tabla de talles</h3>
+          <table>
+            <thead><tr><th>Talle</th><th>Busto</th><th>Cintura</th><th>Cadera</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>84 cm</td><td>64 cm</td><td>90 cm</td></tr>
+              <tr><td>2</td><td>88 cm</td><td>68 cm</td><td>94 cm</td></tr>
+              <tr><td>3</td><td>92 cm</td><td>72 cm</td><td>98 cm</td></tr>
+              <tr><td>4</td><td>96 cm</td><td>76 cm</td><td>102 cm</td></tr>
+            </tbody>
+          </table>
+          <p>Las devoluciones con reintegro de dinero se hacen únicamente sobre compras online y dentro de los 10 días de recibida la compra, según la <a href="#">Ley de Defensa del Consumidor</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Muestrario: busqueda sin resultados (search.tpl) -->
+  <section class="category-body">
+    <div class="container">
+      <p class="text-center">No hubo resultados para tu búsqueda</p>
+    </div>
+  </section>
+
+  <!-- Muestrario: banner de cookies (notification.tpl, fijo al pie) -->
+  <div class="js-notification js-notification-cookie-banner notification notification-fixed-bottom notification-above notification-secondary" style="display:block">
+    <div class="container text-center text-md-left">
+      <div class="row align-items-md-center">
+        <div class="col-12 col-md-7 offset-md-2 mb-3 mb-md-0 text-foreground">
+          Al navegar por este sitio <strong>aceptás el uso de cookies</strong> para agilizar tu experiencia de compra.
+        </div>
+        <div class="col-md-auto">
+          <a href="#" class="js-notification-close js-acknowledge-cookies btn btn-primary btn-medium px-4 py-2 d-inline-block">Entendido</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Muestrario: los cuatro avisos -->
+  <div class="container" style="padding-top:2rem">
+    <div class="alert alert-info">El carrito de compras está vacío.</div>
+    <div class="alert alert-success" style="margin-top:1rem">¡Listo! Aplicamos el cupón de descuento.</div>
+    <div class="alert alert-warning" style="margin-top:1rem">¡Uy! No tenemos más stock de este producto para agregarlo al carrito.</div>
+    <div style="margin-top:1rem"><span class="label label-secondary">Envío gratis</span> <span class="label label-accent">20% OFF</span> <span class="label">Nuevo</span> <span class="label label-sale">Oferta</span></div>
+  </div>
+${PIE}
+${PANELES}
 </body>
 </html>
 `
@@ -1116,10 +1580,12 @@ function paginaDispositivos() {
   nav a { color:#0A0A0A; letter-spacing:.06em; text-transform:uppercase; margin-right:1rem; }
 </style>
 </head><body>
-<nav><a href="home.html">Home</a><a href="categoria.html">Categoria</a><a href="producto.html">Producto</a></nav>
+<nav><a href="home.html">Home</a><a href="categoria.html">Categoria</a><a href="producto.html">Producto</a><a href="carrito.html">Carrito</a><a href="pagina.html">Pagina</a></nav>
 ${fila('Home', 'home.html')}
 ${fila('Categoria', 'categoria.html')}
 ${fila('Producto', 'producto.html')}
+${fila('Carrito', 'carrito.html')}
+${fila('Pagina', 'pagina.html')}
 </body></html>
 `
 }
@@ -1134,6 +1600,8 @@ writeFileSync(join(SALIDA, 'lupita.css'), compilarCss(settings))
 writeFileSync(join(SALIDA, 'categoria.html'), paginaCategoria(settings))
 writeFileSync(join(SALIDA, 'producto.html'), paginaProducto(settings))
 writeFileSync(join(SALIDA, 'home.html'), paginaHome(settings))
+writeFileSync(join(SALIDA, 'carrito.html'), paginaCarrito(settings))
+writeFileSync(join(SALIDA, 'pagina.html'), paginaPagina(settings))
 writeFileSync(join(SALIDA, 'dispositivos.html'), paginaDispositivos())
 
 /* Fotos reales del hero (ver imagenSrc): se copian tal cual a out/img. */

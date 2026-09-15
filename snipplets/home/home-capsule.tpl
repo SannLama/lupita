@@ -19,6 +19,7 @@
 		<div class="capsule-media">
 			<video
 				class="capsule-video"
+				id="capsule-video"
 				autoplay
 				muted
 				loop
@@ -27,6 +28,19 @@
 			>
 				<source src="{{ settings.capsule_video_url }}" type="video/mp4">
 			</video>
+			{# El video sigue en loop bajo prefers-reduced-motion si no se corta con
+			   JS: no hay forma de pausarlo solo con CSS. Un fondo en loop continuo
+			   es justo el caso que la guia marca como riesgo. #}
+			<script>
+				(function () {
+					var v = document.getElementById('capsule-video');
+					if (v && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+						v.removeAttribute('autoplay');
+						v.pause();
+						v.currentTime = 0;
+					}
+				})();
+			</script>
 			{% if settings.capsule_title or settings.capsule_description or settings.capsule_button %}
 				<div class="swiper-text swiper-{{ settings.capsule_color }}">
 					{% if settings.capsule_title %}
