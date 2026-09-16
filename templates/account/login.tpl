@@ -67,8 +67,6 @@
 				{% endembed %}
 			</div>
 		</div>
-		{% if 'mandatory' not in store.customer_accounts %}
-			<p class="mt-3 text-center">{{ "¿No tenés cuenta aún?" | translate }} <strong>{{ "Crear cuenta" | translate | a_tag(store.customer_register_url, '', 'btn-link-primary') }}</strong></p>
-		{% endif %}
+		{# Sin link a "Crear cuenta" (Santiago, 2026-09-15) #}
 	</div>
 </section>

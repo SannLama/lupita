@@ -203,6 +203,15 @@ const CABEZA = (titulo) => `<!DOCTYPE html>
     .modal-right { right: -100%; }
     .modal-left.modal-show { left: 0; }
     .modal-right.modal-show { right: 0; }
+    /* style-async: ventanas centradas (guia de talles, popup del home, pais de entrega) */
+    .modal-bottom { top: 100%; left: 0; }
+    .modal-bottom.modal-show { top: 0; }
+    .modal-centered { width: 100%; height: 100%; }
+    @media (min-width: 768px) {
+      .modal-centered { width: 80%; left: 10%; height: auto; bottom: auto; margin: 5% auto; }
+      .modal-centered-small { left: 50%; width: 30%; height: auto; max-height: 80%; margin: 0; }
+    }
+    .modal-bottom.modal-show.modal-centered-small { top: 50%; bottom: auto; left: 50%; height: auto; transform: translate(-50%, -50%); }
     .modal-overlay { position: fixed; inset: 0; background: rgba(10,10,10,.45); z-index: 1045;
                      opacity: 0; transition: opacity .34s ease; }
     .modal-overlay.visible { opacity: 1; }
@@ -568,7 +577,7 @@ const TOTAL_CARRITO = EN_CARRITO.reduce((a, p) => a + p.sub, 0)
 const rengloncarrito = (p) => `
         <div class="js-cart-item cart-item js-cart-item-shippable form-row" data-item-id="${p.i}" data-component="cart.line-item">
           <div class="col-2">
-            <a href="producto.html?p=${p.i}"><img src="${foto(p.foto, '', 200, 300)}" class="img-fluid" alt=""></a>
+            <a href="producto.html?p=${p.i}"><img src="${fotoProducto(p.i)}" class="img-fluid" alt=""></a>
           </div>
           <div class="col-10">
             <div class="w-100">
@@ -679,8 +688,7 @@ ${r.subitems.map((s) => `                  <li><a class="nav-list-link" href="ca
       <div class="modal-footer p-0">
         <div class="nav-secondary">
           <ul class="nav-account">
-            <li class="nav-accounts-item"><a href="#" class="nav-accounts-link">Crear cuenta</a></li>
-            <li class="nav-accounts-item"><a href="#" class="nav-accounts-link">Iniciar sesión</a></li>
+            <li class="nav-accounts-item"><a href="login.html" class="nav-accounts-link">Iniciar sesión</a></li>
           </ul>
         </div>
       </div>
@@ -692,7 +700,7 @@ ${r.subitems.map((s) => `                  <li><a class="nav-list-link" href="ca
       <span class="modal-close">${ICONO.cerrar}</span>
     </div>
     <div class="modal-body">
-      <form class="js-search-container js-search-form" action="#" method="get">
+      <form class="js-search-container js-search-form" action="busqueda.html" method="get">
         <div class="form-group m-0">
           <input class="js-search-input form-control search-input" autocomplete="off" type="search" name="q" placeholder="Buscar" aria-label="Buscador">
           <button type="submit" class="btn search-input-submit" aria-label="Buscar">${ICONO.lupa}</button>
@@ -732,6 +740,27 @@ ${CARRITO}
     <a href="#" class="js-panel lu-fav-aviso-link" data-toggle="#modal-favoritos">Ver favoritos</a>
   </div>
 
+  <!-- snipplets/grid/quick-shop.tpl (quick_shop): la tienda la llena con la
+       prenda tocada; aca el script de abajo copia nombre y precio de la tarjeta -->
+  <div id="quickshop-modal" class="js-modal modal modal-quickshop modal-right transition-slide modal-docked-md" style="display:none">
+    <div class="js-modal-close modal-header"><span class="modal-close">${ICONO.cerrar}</span>Compra rápida</div>
+    <div class="modal-body">
+      <div class="js-product-container js-quickshop-container js-quickshop-modal js-quickshop-modal-shell">
+        <div class="js-item-variants">
+          <div class="js-item-name h1 mb-1"></div>
+          <div class="item-price-container mb-4"><span class="js-price-display h4"></span></div>
+          <div class="js-product-variants js-product-quickshop-variants text-left form-row">
+            <div class="js-product-variants-group col-12 mb-2 text-center">
+              <div class="text-center"><label class="form-label mb-3">Talle</label></div>
+              <div class="text-center">${['1', '2', '3', '4'].map((t, j) => `<a class="js-insta-variant btn btn-variant${j === 0 ? ' selected' : ''}${j === 3 ? ' btn-variant-no-stock' : ''}"><span class="btn-variant-content" data-name="${t}">${t}</span></a>`).join('')}</div>
+            </div>
+          </div>
+          <input type="submit" class="js-addtocart btn btn-primary btn-block" value="Agregar al carrito">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="js-modal-overlay modal-overlay" style="display:none"></div>
 
   <script>
@@ -742,7 +771,10 @@ ${CARRITO}
     // Al cerrar, store.js espera 500ms antes de esconderlo; lo mismo aca.
     const velo = document.querySelector('.modal-overlay')
     function abrir(sel) {
-      const m = document.querySelector(sel)
+      const m = sel && document.querySelector(sel)
+      // Sin destino no hay nada que abrir: antes tiraba "Cannot read properties
+      // of null" (el link de la guia de talles apuntaba a una ventana ausente)
+      if (!m) return
       m.style.display = 'block'
       velo.style.display = 'block'
       void m.offsetWidth
@@ -763,8 +795,65 @@ ${CARRITO}
     }))
     document.querySelectorAll('.js-modal-close').forEach(b => b.addEventListener('click', cerrar))
     velo.addEventListener('click', cerrar)
+
+    // Lo que en la tienda hace store.js y el harness tenia solo como marcado
+    // (por eso "a veces no funcionaba"): variantes, muestras, flechas de fotos
+    // y compra rapida. En fase de captura: la tarjeta tiene un onclick que
+    // navega a la ficha, y los clics de adentro no tienen que llegarle.
+    document.addEventListener('click', (e) => {
+      const variante = e.target.closest('.js-insta-variant')
+      if (variante) {
+        e.preventDefault()
+        const grupo = variante.closest('.js-product-variants-group') || variante.parentElement
+        grupo.querySelectorAll('.js-insta-variant').forEach(o => o.classList.remove('selected'))
+        variante.classList.add('selected')
+        return
+      }
+      const muestra = e.target.closest('.js-color-variant')
+      if (muestra) {
+        e.preventDefault(); e.stopPropagation()
+        muestra.parentElement.querySelectorAll('.js-color-variant').forEach(o => o.classList.remove('selected'))
+        muestra.classList.add('selected')
+        return
+      }
+      const flecha = e.target.closest('.item-image .item-slider-controls-container')
+      if (flecha) {
+        e.preventDefault(); e.stopPropagation()
+        const caja = flecha.closest('.item-image')
+        const img = caja.querySelector('.js-item-image')
+        const fotos = JSON.parse(img.dataset.fotos || '[]')
+        if (fotos.length < 2) return
+        const actual = Number(img.dataset.foto || 0)
+        const paso = flecha.classList.contains('swiper-button-prev') ? -1 : 1
+        const nueva = (actual + paso + fotos.length) % fotos.length
+        img.dataset.foto = nueva
+        img.src = fotos[nueva]
+        const cont = caja.querySelector('.item-slider-pagination')
+        if (cont) cont.textContent = (nueva + 1) + ' / ' + fotos.length
+        return
+      }
+      const rapida = e.target.closest('.js-quickshop-modal-open')
+      if (rapida) {
+        e.preventDefault(); e.stopPropagation()
+        const tarjeta = rapida.closest('.js-item-product')
+        const modal = document.querySelector('#quickshop-modal')
+        if (!modal || !tarjeta) return
+        modal.querySelector('.js-item-name').textContent = tarjeta.querySelector('.js-item-name').textContent
+        modal.querySelector('.js-price-display').textContent = tarjeta.querySelector('.js-price-display').textContent
+        abrir('#quickshop-modal')
+      }
+    }, true)
   </script>
   <script src="lupita-favoritos.js"></script>
+  <!-- El JS de movimiento: layout.tpl lo incluye en TODAS las paginas de la tienda. Hasta el 2026-09-16 aca solo lo cargaban las pantallas nuevas, y home/categoria/producto se veian sin animaciones. -->
+  <script src="lupita-motion.js"></script>
+  <!-- Carrito y compra de mentira (_harness/carrito-demo.js): lo que en la tienda hacen store.js y el checkout -->
+  <script>
+    window.__CARRITO_SEMILLA = ${JSON.stringify(EN_CARRITO.map((p) => ({ nombre: p.nombre, variante: p.variante, precio: Math.round(p.sub / p.cant), cant: p.cant, foto: fotoProducto(p.i) })))}
+    window.__ICONO_TACHO = ${JSON.stringify(ICONO.tacho)}
+    window.__FOTO_GENERICA = ${JSON.stringify(fotoProducto(0))}
+  </script>
+  <script src="carrito-demo.js"></script>
 ${(() => {
   /* snipplets/volver-arriba.tpl tal cual, sin el comentario Twig */
   const p = join(RAIZ, 'snipplets', 'volver-arriba.tpl')
@@ -789,7 +878,8 @@ const PIE = `
           <div class="newsletter section-footer lu-canal">
             <h3>${leerDefaults().lupita_canal_titulo_es}</h3>
             <p>${leerDefaults().lupita_canal_texto_es}</p>
-            <a href="#" target="_blank" rel="noopener" class="btn lu-canal-btn">${leerDefaults().lupita_canal_boton_es}</a>
+            <!-- el canal todavia no existe: en el harness lleva al perfil de Instagram -->
+            <a href="https://www.instagram.com/ahilupitaok" target="_blank" rel="noopener" class="btn lu-canal-btn">${leerDefaults().lupita_canal_boton_es}</a>
           </div>
         </div>
       </div>
@@ -808,8 +898,8 @@ const PIE = `
             <li class="footer-menu-item"><a class="footer-menu-link" href="medios-de-pago.html">Medios de pago</a></li>
             <li class="footer-menu-item"><a class="footer-menu-link" href="sobre-nosotros.html">Sobre nosotros</a></li>
             <li class="footer-menu-item"><a class="footer-menu-link" href="preguntas-frecuentes.html">Preguntas frecuentes</a></li>
-            <li class="footer-menu-item"><a class="footer-menu-link" href="#">Envíos</a></li>
-            <li class="footer-menu-item"><a class="footer-menu-link" href="#">Cambios y devoluciones</a></li>
+            <li class="footer-menu-item"><a class="footer-menu-link" href="preguntas-frecuentes.html">Envíos</a></li>
+            <li class="footer-menu-item"><a class="footer-menu-link" href="pagina.html">Cambios y devoluciones</a></li>
           </ul>
         </div>
       </div>
@@ -843,7 +933,7 @@ const PIE = `
           <!-- Replica aproximada de component('claim-info'): el HTML real no esta publicado -->
           <div class="mt-2">
             <span class="d-inline-block mb-1">Defensa de las y los consumidores. Para reclamos</span>
-            <a href="#" class="lu-reclamo-link">ingresá acá</a>
+            <a href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank" rel="noopener" class="lu-reclamo-link">ingresá acá</a>
             <span class="mx-1 d-none d-md-inline-block">/</span>
             <a href="contacto.html" class="lu-arrepentimiento-link">Botón de arrepentimiento</a>
           </div>
@@ -881,6 +971,20 @@ function pesos(n) {
 }
 
 /** SVG plano como data URI: sin red, y proporcion 2:3 como una foto de catalogo. */
+/* Fotos de producto del harness (2026-09-15, "poné fotos en los mockups"):
+   recortes 2:3 de las fotos de campaña y de cuadros de los videos de la marca,
+   en _harness/img/productos/p01..p14.jpg. Cada prenda toma un "look" de tres
+   fotos: principal, detalle y espalda. Solo para mirar: en la tienda las fotos
+   las carga la clienta en cada producto. */
+/* La tabla va adentro de la funcion y no como const del modulo: CARRITO y
+   PANELES se arman al cargar el archivo, antes de esta linea, y una const
+   todavia no existiria ("Cannot access 'LOOKS' before initialization"). */
+function fotoProducto(i, vista = 0) {
+  const LOOKS = [[1, 2, 9], [3, 4, 10], [5, 6, 11], [7, 8, 13], [9, 3, 10], [13, 14, 7], [2, 1, 12], [4, 3, 11], [6, 5, 1], [8, 7, 14], [10, 11, 4], [14, 13, 12]]
+  const n = LOOKS[((i % LOOKS.length) + LOOKS.length) % LOOKS.length][vista]
+  return 'img/productos/p' + String(n).padStart(2, '0') + '.jpg'
+}
+
 function foto(color, texto, w = 400, h = 600) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${color}"/><text x="${w / 2}" y="${h / 2}" font-family="monospace" font-size="${Math.round(w / 26)}" fill="rgba(255,255,255,.55)" text-anchor="middle">${texto}</text></svg>`
   return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg)
@@ -924,7 +1028,7 @@ function pagosHtml(tamano) {
 
 /** Replica snipplets/favoritos/boton.tpl. Nace hidden como en la tienda. */
 function corazon(p, i, clase) {
-  return `<button type="button" class="js-fav lu-fav ${clase}" hidden aria-pressed="false" aria-label="Guardar en favoritos" data-fav-id="demo-${i}" data-fav-nombre="${p.nombre}" data-fav-url="producto.html?p=${i}" data-fav-imagen="${foto(p.foto, 'FOTO ' + String(i + 1).padStart(2, '0'), 120, 180)}" data-fav-precio="${pesos(p.precio)}">${ICONO.corazonVacio}${ICONO.corazonLleno}</button>`
+  return `<button type="button" class="js-fav lu-fav ${clase}" hidden aria-pressed="false" aria-label="Guardar en favoritos" data-fav-id="demo-${i}" data-fav-nombre="${p.nombre}" data-fav-url="producto.html?p=${i}" data-fav-imagen="${fotoProducto(i)}" data-fav-precio="${pesos(p.precio)}">${ICONO.corazonVacio}${ICONO.corazonLleno}</button>`
 }
 
 /** Replica el DOM de snipplets/grid/item.tpl (clases reales, verificadas). */
@@ -933,8 +1037,12 @@ function corazon(p, i, clase) {
 const COLORES_DEMO = [['#1C1C1C', '#C8B89A', '#6B7F99'], ['#F4F4F0', '#8C2F39'], null]
 const CHEVRON = (d) => `<svg class="icon-inline icon-w-8 icon-2x svg-icon-text" viewBox="0 0 320 512" aria-hidden="true"><path d="${d === 'izq' ? 'M34.5 239L228.9 44.7c9.4-9.4 24.6-9.4 33.9 0l22.7 22.7c9.4 9.4 9.4 24.5 0 33.9L131.5 256l154 154.8c9.3 9.4 9.3 24.5 0 33.9l-22.7 22.7c-9.4 9.4-24.6 9.4-33.9 0L34.5 273c-9.3-9.4-9.3-24.6 0-34z' : 'M285.5 273L91.1 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.7-22.7c-9.4-9.4-9.4-24.5 0-33.9L188.5 256 34.5 101.3c-9.3-9.4-9.3-24.5 0-33.9l22.7-22.7c9.4-9.4 24.6-9.4 33.9 0L285.5 239c9.4 9.4 9.4 24.6 0 34z'}"/></svg>`
 
-function tarjeta(p, i) {
-  const cuota = Math.round(p.precio / 3)
+/* carrusel: el component product-item-image solo arma flechas y contador en
+   secciones y busqueda (item.tpl: template == 'category' or 'search', y nunca
+   con slide_item). Los destacados del home son slide_item: sin carrusel. Con
+   .map(tarjeta) el tercer argumento es el array, asi que queda el default. */
+function tarjeta(p, i, { carrusel = true } = {}) {
+  const cuota = Math.round(p.precio / 6)
   const colores = COLORES_DEMO[i % 3]
   return `
         <div class="js-item-product col-6 col-md-3 item item-product" data-product-type="list"
@@ -942,11 +1050,11 @@ function tarjeta(p, i) {
           <div class="item-image mb-2">
             ${corazon(p, i, 'lu-fav-tarjeta')}
             ${p.etiqueta ? `<span class="item-label${p.etiqueta === 'OFERTA' ? ' item-label-sale' : ''}">${p.etiqueta}</span>` : ''}
-            <img class="js-item-image" src="${foto(p.foto, 'FOTO ' + String(i + 1).padStart(2, '0'))}" alt="${p.nombre}">
-            <!-- product_item_slider: controles y paginacion del component product-item-image -->
+            <img class="js-item-image" src="${fotoProducto(i)}" alt="${p.nombre}"${carrusel ? ` data-fotos='${JSON.stringify([fotoProducto(i, 0), fotoProducto(i, 1), fotoProducto(i, 2)])}'` : ''}>
+            ${carrusel ? `<!-- product_item_slider: controles y paginacion del component product-item-image -->
             <div class="swiper-button-prev item-slider-controls-container d-none d-md-block">${CHEVRON('izq')}</div>
             <div class="swiper-button-next item-slider-controls-container d-none d-md-block">${CHEVRON('der')}</div>
-            <div class="swiper-pagination item-slider-pagination font-small d-md-none">1 / 3</div>
+            <div class="swiper-pagination item-slider-pagination font-small d-md-none">1 / 3</div>` : ''}
             ${colores ? `<!-- item-colors.tpl (product_color_variants) -->
             <div class="js-item-colors item-colors">
               <a href="producto.html?p=${i}" class="item-colors-bullet item-colors-bullet-text d-md-none w-auto px-2">${colores.length} colores</a>
@@ -956,12 +1064,15 @@ function tarjeta(p, i) {
           <div class="item-description">
             <a href="producto.html?p=${i}" class="item-link">
               <div class="js-item-name item-name mb-1">${p.nombre}</div>
-              <div class="item-price-container mb-1">
+              <div class="item-price-container mb-1 lu-tarjeta">
+                <span class="lu-tarjeta-rotulo">Con tarjeta:</span>
                 ${p.antes ? `<span class="item-price-compare">${pesos(p.antes)}</span> ` : ''}
                 <span class="js-price-display item-price">${pesos(p.precio)}</span>
               </div>
             </a>
-            <span class="item-installments">3 cuotas sin interes de ${pesos(cuota)}</span>
+            <!-- DEDUCIDO: component('payment-discount-price') no esta publicado; clases que le pasa item.tpl -->
+            <div class="lu-efectivo lu-efectivo-item"><span class="lu-efectivo-precio">${pesos(Math.round(p.precio * 0.8))}</span> <span class="lu-efectivo-medio">con Efectivo</span></div>
+            <span class="item-installments lu-cuotas">6 cuotas sin interés de <strong>${pesos(cuota)}</strong></span>
           </div>
           <!-- quick_shop: disparador del modal de compra rapida -->
           <div class="item-actions mt-2">
@@ -1053,7 +1164,7 @@ ${PANELES}
    Replica el DOM de templates/product.tpl + snipplets/product/*.
    --------------------------------------------------------------------------- */
 
-function paginaProducto(settings) {
+function paginaProducto(settings, { tallesAbierto = false } = {}) {
   const galeria = PRODUCTOS.map(
     (p, i) => `
     <div class="ficha" data-p="${i}" hidden>
@@ -1061,11 +1172,11 @@ function paginaProducto(settings) {
       <div class="row section-single-product">
         <div class="col-12 col-md-7 px-0 px-md-3">
           <div class="product-image-container col-12 p-0">
-            <img class="product-slider-image" src="${foto(p.foto, 'FOTO PRINCIPAL', 800, 1000)}" alt="${p.nombre}">
+            <img class="product-slider-image" src="${fotoProducto(i, 0)}" alt="${p.nombre}">
           </div>
           <div class="tiras">
-            <img src="${foto(p.foto, 'DETALLE', 400, 500)}" alt="">
-            <img src="${foto('#C9C3B7', 'ESPALDA', 400, 500)}" alt="">
+            <img src="${fotoProducto(i, 1)}" alt="${p.nombre}, detalle">
+            <img src="${fotoProducto(i, 2)}" alt="${p.nombre}, espalda">
           </div>
         </div>
         <div class="col">
@@ -1093,11 +1204,37 @@ function paginaProducto(settings) {
                 ${['1', '2', '3', '4'].map((t, j) => `<a class="js-insta-variant btn btn-variant${j === 1 ? ' selected' : ''}${j === 3 ? ' btn-variant-no-stock' : ''}"><span class="btn-variant-content" data-name="${t}">${t}</span></a>`).join('')}
               </div>
             </div>
+            <!-- guia de talles (settings.size_guide_url + pagina) -->
+            <div class="col-12 mt-2 mb-4 text-center text-md-left">
+              <a data-toggle="#size-guide-modal" class="js-panel btn-link" href="#">${ICONO.regla || ''}Guía de talles</a>
+            </div>
           </div>
 
           <div class="lu-comprar">
             <input type="submit" class="js-addtocart btn btn-primary btn-block" value="Agregar al carrito">
             ${corazon(PRODUCTOS[0], 0, 'lu-fav-ficha')}
+          </div>
+
+          <!-- product-quantity.tpl con last_product: aviso de ultima unidad -->
+          <div class="col-12 col-md-8 text-center text-md-left px-0">
+            <div class="h6 text-accent font-weight-bold my-md-2 mb-4 lu-ultimo">${settings.last_product_text_es}</div>
+          </div>
+
+          <!-- shipping-calculator.tpl con product_detail (settings.shipping_calculator_product_page) -->
+          <div id="product-shipping-container" class="product-shipping-calculator list">
+            <div class="product-shipping-calculator mb-2 w-100" data-store="shipping-calculator" style="margin-top:0;padding-top:0;border-top:0">
+              <div class="js-shipping-calculator-form shipping-calculator-form">
+                <div class="form-group form-row align-items-center mb-3">
+                  <div class="col-12 mb-2">${ICONO.camion || ''}<span>Medios de envío</span></div>
+                  <div class="col-5"><input type="tel" class="form-control js-shipping-input" placeholder="Tu código postal" aria-label="Tu código postal"></div>
+                  <span class="col-6"><button class="js-calculate-shipping btn btn-default btn-block">Calcular</button></span>
+                  <div class="col-12"><a class="font-small text-primary mt-3 mb-2 d-block" href="https://www.correoargentino.com.ar/formularios/cpa" target="_blank" rel="noopener">No sé mi código postal</a></div>
+                </div>
+              </div>
+              <div class="js-shipping-calculator-response list list-readonly">
+                <ul class="list-unstyled"><li class="list-item">Retiro en tienda — España 137, Lomas de Zamora (Las Lomitas) — Gratis</li><li class="list-item">Envío a domicilio (demo) — llega en 3 a 5 días hábiles</li></ul>
+              </div>
+            </div>
           </div>
 
           <div class="product-description user-content">
@@ -1133,6 +1270,24 @@ ${CABECERA(settings)}
     ${galeria}
   </div>
 
+  <!-- product-related.tpl -> component products-section (HTML aproximado: el
+       real lo arma la plataforma con estas clases). -->
+  <section class="js-related-products section-products-related my-3">
+    <div class="container">
+      <div class="h3 text-center">${settings.products_related_title_es || 'Te puede interesar'}</div>
+      <div class="position-relative swiper-container-horizontal">
+        <div class="js-swiper-related swiper-container">
+          <div class="swiper-wrapper row" style="margin:0">${PRODUCTOS.slice(4, 8).map((p, i) => tarjeta(p, i + 4, { carrusel: false })).join('')}</div>
+        </div>
+        <div class="lu-relacionados-controles" style="display:flex;align-items:center;gap:.75rem;margin-top:1rem">
+          <div class="js-swiper-related-prev swiper-button-prev swiper-button-disabled" style="position:static">${CHEVRON('izq')}</div>
+          <div class="js-swiper-related-pagination swiper-pagination" style="position:static;width:auto"><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span><span class="swiper-pagination-bullet"></span></div>
+          <div class="js-swiper-related-next swiper-button-next" style="position:static">${CHEVRON('der')}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <script>
     // Muestra la prenda que se clickeo en la grilla (?p=N)
     const n = Number(new URLSearchParams(location.search).get('p') || 0)
@@ -1145,13 +1300,9 @@ ${CABECERA(settings)}
     // CSS que acota el h1 — se le pone solo a la visible: repetirlo doce veces
     // seria HTML invalido.
     elegida.querySelector('.detalle').id = 'single-product'
-
-    // Selector de talle
-    elegida.querySelectorAll('.lu-talle').forEach(b => b.addEventListener('click', () => {
-      elegida.querySelectorAll('.lu-talle').forEach(o => o.classList.remove('activo'))
-      b.classList.add('activo')
-    }))
+    // Talles y colores: los maneja el script de PANELES (como store.js en la tienda)
   </script>
+${modalTalles(tallesAbierto)}
 ${PIE}
 ${PANELES}
 </body>
@@ -1169,14 +1320,15 @@ ${PANELES}
 /* `color` replica el selector de color de texto que la clienta tiene en el
    panel por slide (blanco/negro, ver home-slider.tpl -> slide.color). La foto
    de playa (hero-01) es clara justo donde cae el titulo: con blanco se pierde
-   (probado en pantalla el 2026-09-11), asi que va en negro. */
+   (probado en pantalla el 2026-09-11), asi que iba en negro. El 2026-09-16
+   Santiago pidio cambiarlo: va en blanco. */
 /* Las piezas de campana con titulo impreso pasaron por aca el 2026-09-15 y
    Santiago prefirio volver a estas: ahora van en la galeria de campanas,
    debajo de los videos (home-campanas.tpl). */
 const SLIDES = [
-  { titulo: 'Nueva temporada', desc: 'Primavera 26 · Ya en las tres tiendas', boton: 'Ver lo nuevo', foto: 'img/hero-01.jpg', color: 'black' },
+  { titulo: 'New Season', desc: 'SS’ 26 · Ya en las tres tiendas', boton: 'Ver lo nuevo', foto: 'img/hero-01.jpg', color: 'white' },
   { titulo: '20% off', desc: 'Abonando en efectivo', boton: 'Ver la tienda', foto: 'img/hero-02.jpg', color: 'white' },
-  { titulo: 'Ahi! Lupita', desc: 'Ropa de mujer en tres tiendas', boton: 'Ver la tienda', foto: 'img/hero-03.jpg', color: 'white' },
+  { titulo: 'Ahi! Lupita', desc: 'Asesorándolas por más de 40 años', boton: 'Ver la tienda', foto: 'img/hero-03.jpg', color: 'white' },
   { titulo: '3 y 6 cuotas', desc: 'Sin interes con todas las tarjetas', boton: 'Comprar ahora', foto: 'img/hero-04.jpg', color: 'white' },
 ]
 
@@ -1190,6 +1342,16 @@ const SERVICIOS = [
   { titulo: 'Compra protegida', texto: 'Pagás con Mercado Pago y tu compra queda cubierta hasta que la tenés en la mano.',
     icono: '<svg class="icon-inline icon-w-14 icon-2x service-icon" viewBox="0 0 448 512" aria-hidden="true"><path d="M400 224h-24v-72a152 152 0 0 0-304 0v72H48c-26 0-48 22-48 48v192c0 26 22 48 48 48h352c26 0 48-22 48-48V272c0-26-22-48-48-48zm-104 0H152v-72a72 72 0 0 1 144 0v72zm104 240H48V272h352v192z"/></svg>' },
 ]
+
+/* snipplets/home/cinta-video.tpl: el mismo marcado, cuatro copias */
+function cintaVideo(src, poster, clase) {
+  const copias = Array.from({ length: 4 }, (_, i) => `
+          <div class="lu-cinta-panel"><video class="lu-cinta-video ${clase}" autoplay muted loop playsinline preload="auto" poster="${poster}" tabindex="-1"><source src="${src}" type="video/mp4"></video></div>`).join('')
+  return `<div class="lu-cinta" data-motion="cinta" aria-hidden="true">
+        <div class="lu-cinta-pista">${copias}
+        </div>
+      </div>`
+}
 
 function paginaHome(settings) {
   const slides = SLIDES.map(
@@ -1210,7 +1372,7 @@ function paginaHome(settings) {
     `<span class="swiper-pagination-bullet${i === 0 ? ' swiper-pagination-bullet-active' : ''}"></span>`
   ).join('')
 
-  const destacados = PRODUCTOS.slice(0, 4).map(tarjeta).join('')
+  const destacados = PRODUCTOS.slice(0, 4).map((p, i) => tarjeta(p, i, { carrusel: false })).join('')
 
   /* home_order_position_2 = categories -> home-banners.tpl del base, 3
      banners con foto que la clienta carga desde el panel (Diseño -> Banners
@@ -1320,9 +1482,7 @@ ${CABECERA(settings)}
       <!-- El video de Santiago convertido con ffmpeg (1920, 30 fps, H.264, sin
            audio, faststart): de 36 MB .mov a ~3 MB. En la tienda va por
            cover_video_url, alojado afuera. Titulo: Sea of Dreams. -->
-      <video class="cover-image-background" autoplay muted loop playsinline preload="auto" poster="video/portada-poster.jpg">
-        <source src="video/portada.mp4" type="video/mp4">
-      </video>
+      ${cintaVideo('video/portada.mp4', 'video/portada-poster.jpg', 'cover-image-background')}
       <div class="swiper-text swiper-white">
         <div class="swiper-title h1">Sea of Dreams</div>
       </div>
@@ -1334,9 +1494,7 @@ ${CABECERA(settings)}
        capsule_video_url, alojado afuera. -->
   <section class="section-capsule-home">
     <div class="capsule-media">
-      <video class="capsule-video" autoplay muted loop playsinline preload="auto" poster="video/capsula-poster.jpg">
-        <source src="video/capsula.mp4" type="video/mp4">
-      </video>
+      ${cintaVideo('video/capsula.mp4', 'video/capsula-poster.jpg', 'capsule-video')}
       <div class="swiper-text swiper-white">
         <div class="swiper-title h1">City Moves</div>
       </div>
@@ -1465,7 +1623,7 @@ ${PANELES}
 const renglonCarritoPagina = (p, i, arr) => `
         <div class="js-cart-item cart-item js-cart-item-shippable row align-items-md-center mx-0 ${i === arr.length - 1 ? 'mb-2' : 'mb-5'}" data-item-id="${p.i}" data-component="cart.line-item">
           <div class="col-2 col-md-1 px-0">
-            <a href="producto.html?p=${p.i}"><img src="${foto(p.foto, '', 200, 300)}" class="img-fluid" alt=""></a>
+            <a href="producto.html?p=${p.i}"><img src="${fotoProducto(p.i)}" class="img-fluid" alt=""></a>
           </div>
           <div class="col-10 col-md-11">
             <div class="row align-items-center">
@@ -1602,7 +1760,7 @@ const NOTIFICACION = `
             <div class="js-cart-notification-close notification-close">${ICONO.cerrar}</div>
             <div class="js-cart-notification-item row" data-store="cart-notification-item">
               <div class="col-3 pr-0 notification-img">
-                <img src="${foto('#8C9AA3', '', 200, 300)}" class="js-cart-notification-item-img img-fluid" alt="">
+                <img src="${fotoProducto(1)}" class="js-cart-notification-item-img img-fluid" alt="">
               </div>
               <div class="col-9 text-left">
                 <div class="mb-1">
@@ -1725,9 +1883,21 @@ function paginaDispositivos() {
         </div>
       </figure>`
 
+  /* 2026-09-15: una pagina por vez (?p=), con menu para cambiar. Antes cargaba
+     las 14 filas juntas: cientos de iframes, lento y trabado en el navegador. */
+  const PAGINAS_DISP = [
+    ['Home', 'home.html'], ['Categoría', 'categoria.html'], ['Producto', 'producto.html'],
+    ['Guía de talles', 'guia-talles.html'], ['Carrito', 'carrito.html'], ['Checkout (simulación)', 'checkout.html'],
+    ['Búsqueda', 'busqueda.html'], ['Sin resultados', 'busqueda-vacia.html'], ['Sobre nosotros', 'sobre-nosotros.html'],
+    ['Preguntas frecuentes', 'preguntas-frecuentes.html'], ['Medios de pago', 'medios-de-pago.html'], ['Cómo comprar', 'como-comprar.html'],
+    ['Cambios y devoluciones', 'pagina.html'], ['Contacto', 'contacto.html'], ['Iniciar sesión', 'login.html'],
+    ['Blog', 'blog.html'], ['Nota', 'nota.html'], ['404', '404.html'], ['Tienda cerrada', 'contrasena.html'],
+    ['Popup del canal', 'canal.html?clave=nada'],
+  ]
   const fila = (titulo, pagina) => `
     <h2>${titulo}</h2>
     <div class="banco">${DISPOSITIVOS.map((d) => marco(pagina, d)).join('')}</div>`
+  void fila
 
   return `<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
@@ -1744,25 +1914,37 @@ function paginaDispositivos() {
                margin-bottom:.4rem; white-space:nowrap; }
   .visor { overflow:hidden; border:1px solid #0A0A0A; background:#F4F4F0; }
   .visor iframe { border:0; transform-origin:top left; display:block; }
-  nav { margin-bottom:1rem; }
-  nav a { color:#0A0A0A; letter-spacing:.06em; text-transform:uppercase; margin-right:1rem; }
+  nav { margin-bottom:1rem; display:flex; flex-wrap:wrap; gap:.4rem; }
+  nav a { color:#0A0A0A; letter-spacing:.06em; text-transform:uppercase; padding:.35rem .55rem;
+          border:1px solid #0A0A0A; text-decoration:none; background:#F4F4F0; }
+  nav a[aria-current="page"] { background:#6BB3B9; border-color:#6BB3B9; }
+  .abrir { color:#0A0A0A; margin-left:.75rem; font-weight:400; text-transform:none; letter-spacing:0; }
 </style>
 </head><body>
-<nav><a href="home.html">Home</a><a href="categoria.html">Categoria</a><a href="producto.html">Producto</a><a href="carrito.html">Carrito</a><a href="pagina.html">Pagina</a><a href="busqueda.html">Busqueda</a><a href="busqueda-vacia.html">Sin resultados</a><a href="404.html">404</a><a href="contacto.html">Contacto</a><a href="contrasena.html">Contrasena</a><a href="blog.html">Blog</a><a href="nota.html">Nota</a></nav>
-${fila('Home', 'home.html')}
-${fila('Categoria', 'categoria.html')}
-${fila('Producto', 'producto.html')}
-${fila('Carrito', 'carrito.html')}
-${fila('Pagina', 'pagina.html')}
-${fila('Busqueda', 'busqueda.html')}
-${fila('Sin resultados', 'busqueda-vacia.html')}
-${fila('404', '404.html')}
-${fila('Contacto', 'contacto.html')}
-${fila('Contrasena', 'contrasena.html')}
-${fila('Blog', 'blog.html')}
-${fila('Nota', 'nota.html')}
-${fila('Sobre nosotros', 'sobre-nosotros.html')}
-${fila('Preguntas frecuentes', 'preguntas-frecuentes.html')}
+<nav id="menu">${PAGINAS_DISP.map(([t, p]) => `<a href="?p=${encodeURIComponent(p)}" data-p="${p}">${t}</a>`).join('')}</nav>
+<h2 id="titulo"></h2>
+<div class="banco" id="banco"></div>
+<script>
+  // Plantilla de un marco por dispositivo; la pagina elegida sale de ?p=
+  var DISPOSITIVOS = ${JSON.stringify(DISPOSITIVOS)};
+  var PAGINAS = ${JSON.stringify(PAGINAS_DISP)};
+  var p = new URLSearchParams(location.search).get('p') || 'home.html';
+  var elegida = PAGINAS.filter(function (x) { return x[1] === p })[0] || PAGINAS[0];
+  document.getElementById('titulo').innerHTML = elegida[0] + '<a class="abrir" href="' + elegida[1] + '" target="_blank" rel="noopener">abrir sola ↗</a>';
+  document.title = elegida[0] + ' en dispositivos — harness Ahí! Lupita';
+  document.querySelectorAll('#menu a').forEach(function (a) { if (a.getAttribute('data-p') === elegida[1]) a.setAttribute('aria-current', 'page') });
+  var banco = document.getElementById('banco');
+  DISPOSITIVOS.forEach(function (d) {
+    var fig = document.createElement('figure'); fig.style.margin = '0';
+    var cap = document.createElement('figcaption'); cap.textContent = d.rotulo; fig.appendChild(cap);
+    var visor = document.createElement('div'); visor.className = 'visor';
+    visor.style.width = Math.round(d.ancho * d.escala) + 'px'; visor.style.height = Math.round(d.alto * d.escala) + 'px';
+    var fr = document.createElement('iframe');
+    fr.width = d.ancho; fr.height = d.alto; fr.style.transform = 'scale(' + d.escala + ')'; fr.loading = 'lazy';
+    fr.src = elegida[1];
+    visor.appendChild(fr); fig.appendChild(visor); banco.appendChild(fig);
+  });
+</script>
 </body></html>
 `
 }
@@ -1793,12 +1975,11 @@ ${CABECERA(settings)}
       <span class="lu-rotulo lu-micro">Quizás te interesen los siguientes productos.</span>
     </div>
     <div class="container" style="padding:0">
-      <div class="js-product-table row">${PRODUCTOS.slice(0, 4).map(tarjeta).join('')}</div>
+      <div class="js-product-table row">${PRODUCTOS.slice(0, 4).map((p, i) => tarjeta(p, i, { carrusel: false })).join('')}</div>
     </div>
   </section>
 ${PIE}
 ${PANELES}
-${MOTION}
 </body>
 </html>
 `
@@ -1827,7 +2008,6 @@ ${RIEL}`
   </section>
 ${PIE}
 ${PANELES}
-${MOTION}
 </body>
 </html>
 `
@@ -1876,7 +2056,6 @@ ${campo('name', 'Nombre', 'text')}${campo('email', 'Email', 'email')}${campo('ph
   </section>
 ${PIE}
 ${PANELES}
-${MOTION}
 </body>
 </html>
 `
@@ -1928,7 +2107,7 @@ const NOTAS = [
 function notaItem(n, i) {
   return `
       <div class="post-item lu-post">
-        <div class="post-item-image-container lu-post-imagen"><a href="nota.html"><img class="post-item-image lu-post-img" src="${foto(n.foto, 'NOTA ' + (i + 1), 600, 800)}" alt="${n.titulo}"></a></div>
+        <div class="post-item-image-container lu-post-imagen"><a href="nota.html"><img class="post-item-image lu-post-img" src="${fotoProducto(i + 3, 0)}" alt="${n.titulo}"></a></div>
         <div class="post-item-title lu-post-titulo"><a href="nota.html">${n.titulo}</a></div>
         <p class="post-item-summary lu-post-resumen">${n.resumen}</p>
         <a href="nota.html" class="lu-post-leer">Leer más</a>
@@ -1949,7 +2128,6 @@ ${CABECERA(settings)}
 </div>
 ${PIE}
 ${PANELES}
-${MOTION}
 </body>
 </html>
 `
@@ -1967,7 +2145,7 @@ ${CABECERA(settings)}
   </div></div></div></section>
   <div class="blog-post-page lu-nota">
     <span class="lu-nota-fecha">15 de septiembre de 2026</span>
-    <img class="img-fluid lu-nota-img" src="${foto(n.foto, 'FOTO DE LA NOTA', 1200, 800)}" alt="">
+    <img class="img-fluid lu-nota-img" src="img/hero-02.jpg" alt="">
     <div class="user-content lu-nota-cuerpo">
       <p>[ Demo: el texto lo escribe la clienta desde el panel. ] Un blazer con hombros marcados ordena cualquier look: arriba de una remera básica, con un jean wide leg, o cerrado como si fuera un vestido.</p>
       <h2>Para el trabajo</h2>
@@ -1980,7 +2158,6 @@ ${CABECERA(settings)}
 </div>
 ${PIE}
 ${PANELES}
-${MOTION}
 </body>
 </html>
 `
@@ -2124,6 +2301,204 @@ writeFileSync(join(SALIDA, 'sobre-nosotros.html'), paginaSobre(settings))
 writeFileSync(join(SALIDA, 'preguntas-frecuentes.html'), paginaFaq(settings))
 writeFileSync(join(SALIDA, 'medios-de-pago.html'), paginaLupita(settings, 'pagos'))
 writeFileSync(join(SALIDA, 'como-comprar.html'), paginaLupita(settings, 'comprar'))
+
+/* Ventanas abiertas para mirarlas: guia de talles sobre la ficha y popup sobre
+   el home. Replican snipplets/modal.tpl con las clases que les pasan
+   product-variants.tpl y home-popup.tpl, ya con .modal-show. */
+const VELO_ABIERTO = `<div class="modal-overlay visible" style="display:block"></div>`
+/* La ventana de la guia vive dentro de la ficha (cerrada, la abre el link);
+   guia-talles.html la genera abierta. Declaracion: paginaProducto la usa. */
+function modalTalles(abierto) {
+  return `
+  <div id="size-guide-modal" class="js-modal js-fullscreen-modal modal modal- modal-bottom transition-slide modal-centered transition-soft${abierto ? ' modal-show' : ''}" style="display:${abierto ? 'block' : 'none'}">
+    <div class="js-modal-close js-fullscreen-modal-close modal-header"><span class="modal-close">${ICONO.cerrar}</span>Guía de talles</div>
+    <div class="modal-body">
+      <div class="user-content">
+        <p>Demo: la tabla real la escribe la clienta en la página "Guía de talles" de Tiendanube.</p>
+        <table><thead><tr><th>Talle</th><th>Busto</th><th>Cintura</th><th>Cadera</th></tr></thead>
+        <tbody><tr><td>1</td><td>84 cm</td><td>64 cm</td><td>90 cm</td></tr><tr><td>2</td><td>88 cm</td><td>68 cm</td><td>94 cm</td></tr><tr><td>3</td><td>92 cm</td><td>72 cm</td><td>98 cm</td></tr><tr><td>4</td><td>96 cm</td><td>76 cm</td><td>102 cm</td></tr></tbody></table>
+      </div>
+    </div>
+  </div>${abierto ? VELO_ABIERTO : ''}`
+}
+const MODAL_POPUP = `
+  <div id="home-modal" class="js-modal modal modal-centered-small modal-bottom transition-slide modal-centered transition-soft modal-show" style="display:block">
+    <div class="js-modal-close modal-header"><span class="modal-close">${ICONO.cerrar}</span></div>
+    <div class="modal-body">
+      <div class="text-center"><img src="img/slider-sea-of-dreams.jpg" class="modal-img-full" alt=""></div>
+      <div class="align-items-center">
+        <div class="col-12"><h3 class="text-center mt-3">Nueva temporada en las tiendas</h3></div>
+        <div class="col-12 newsletter">
+          <form class="js-news-form" action="#" method="post">
+            <div class="input-append">
+              <input class="form-control" type="email" name="email" placeholder="Email" aria-label="Email">
+              <input type="submit" class="btn newsletter-btn js-news-send" value="Enviar">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>${VELO_ABIERTO}`
+writeFileSync(join(SALIDA, 'guia-talles.html'), paginaProducto(settings, { tallesAbierto: true }))
+
+/* Carrito de mentira, checkout de simulacion y login (ver _harness/carrito-demo.js) */
+writeFileSync(join(SALIDA, 'carrito-demo.js'), readFileSync(join(RAIZ, '_harness', 'carrito-demo.js'), 'utf8'))
+{
+  const semilla = `<script>
+    window.__CARRITO_SEMILLA = ${JSON.stringify(EN_CARRITO.map((p) => ({ nombre: p.nombre, variante: p.variante, precio: Math.round(p.sub / p.cant), cant: p.cant, foto: fotoProducto(p.i) })))}
+  </script>
+  <script src="carrito-demo.js"></script>`
+  const radio = (grupo, valor, texto, detalle, marcado) => `
+            <label class="lu-checkout-opcion"><input type="radio" name="${grupo}" value="${valor}"${marcado ? ' checked' : ''}> <span><strong>${texto}</strong>${detalle ? `<small>${detalle}</small>` : ''}</span></label>`
+  const d = leerDefaults()
+  const checkout = `${CABEZA('Finalizar compra')}
+<body class="lu-checkout-demo">
+  <style>
+    .lu-checkout-demo { background: var(--lu-papel); color: var(--lu-tinta); }
+    /* display:grid/flex de las clases le ganaba al atributo hidden: el
+       formulario seguia visible despues de finalizar y la fila de descuento
+       en $0 no se escondia */
+    .lu-checkout-demo [hidden] { display: none !important; }
+    .lu-checkout-aviso { margin: 0; padding: .6rem 1rem; background: var(--lu-acento); font-family: var(--lu-micro); font-size: .66rem; letter-spacing: var(--lu-track); text-transform: uppercase; text-align: center; }
+    .lu-checkout-cabecera { display: flex; align-items: center; justify-content: space-between; padding: .75rem clamp(1rem, 4vw, 2.5rem); border-bottom: 2px solid var(--lu-acento); }
+    .lu-checkout-cabecera a { color: var(--lu-tinta); }
+    .lu-checkout-grilla { display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 70rem; margin: 0 auto; padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2.5rem); }
+    @media (min-width: 900px) { .lu-checkout-grilla { grid-template-columns: 7fr 5fr; } }
+    .lu-checkout-paso { margin: 0 0 1.75rem; padding: 0 0 1.5rem; border-bottom: 1px solid var(--lu-linea); }
+    .lu-checkout-paso h2 { margin: 0 0 1rem; font-family: var(--lu-micro); font-size: .72rem; letter-spacing: var(--lu-track); text-transform: uppercase; }
+    .lu-checkout-opcion { display: flex; gap: .75rem; align-items: flex-start; padding: .85rem; margin: 0 0 1px; border: 1px solid var(--lu-linea); cursor: pointer; font-family: var(--lu-texto); }
+    .lu-checkout-opcion:has(input:checked) { border-color: var(--lu-acento); box-shadow: inset 0 0 0 1px var(--lu-acento); }
+    .lu-checkout-opcion small { display: block; color: var(--lu-gris); font-size: .8rem; }
+    .lu-checkout-resumen { position: sticky; top: 1rem; align-self: start; padding: 1.25rem; border: 1px solid var(--lu-linea); }
+    .lu-checkout-resumen ul { list-style: none; margin: 0 0 1rem; padding: 0; }
+    .lu-checkout-item { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem 0; border-bottom: 1px solid var(--lu-linea); font-family: var(--lu-texto); font-size: .9rem; }
+    .lu-checkout-fila { display: flex; justify-content: space-between; padding: .3rem 0; font-family: var(--lu-texto); font-size: .9rem; }
+    .lu-checkout-total { margin-top: .5rem; padding-top: .75rem; border-top: 2px solid var(--lu-acento); font-size: 1.15rem; font-weight: 700; }
+    .lu-checkout-listo { max-width: 40rem; margin: 0 auto; padding: clamp(2rem, 6vw, 4rem) 1rem; text-align: center; }
+    .lu-checkout-listo h1 { font-family: var(--lu-macro); font-weight: 400; font-size: clamp(2.75rem, 7vw, 4.5rem); margin: 0 0 1rem; }
+    .lu-checkout-listo ul { list-style: none; padding: 0; text-align: left; margin: 1.5rem 0; }
+  </style>
+  <p class="lu-checkout-aviso">Simulación del harness · en la tienda este paso es el checkout de Tiendanube (no lo arma el theme)</p>
+  <header class="lu-checkout-cabecera">
+    <a href="home.html" class="lu-logo-marca" title="Ahí! Lupita">${readFileSync(join(RAIZ, 'snipplets', 'svg', 'logo-lupita.tpl'), 'utf8').replace(/\{#[\s\S]*?#\}/g, '').replace('{{ svg_custom_class }}', '').replace('{{ store.name }}', 'Ahí! Lupita').trim()}</a>
+    <a href="carrito.html" class="btn-link">Volver al carrito</a>
+  </header>
+
+  <form id="lu-checkout-form" action="#" method="post" class="lu-checkout-grilla">
+    <div>
+      <section class="lu-checkout-paso">
+        <h2>1 · Contacto</h2>
+        <div class="form-group"><label class="form-label" for="co-email">Email</label><input id="co-email" class="form-control" type="email" name="email" required placeholder="tu@email.com"></div>
+      </section>
+      <section class="lu-checkout-paso">
+        <h2>2 · Entrega</h2>
+        ${radio('entrega', 'retiro', 'Retiro en tienda', 'Gratis · ' + d.lupita_horarios_es, true)}
+        <div id="lu-checkout-tiendas" class="form-group mt-3">
+          <label class="form-label" for="co-tienda">Tienda</label>
+          <select id="co-tienda" class="form-control form-select">${[d.lupita_tienda_1_es, d.lupita_tienda_2_es, d.lupita_tienda_3_es].filter(Boolean).map((t) => `<option>${t}</option>`).join('')}</select>
+        </div>
+        ${radio('entrega', 'domicilio', 'Envío a domicilio', 'Demo: $ 6.500, llega en 3 a 5 días hábiles', false)}
+        <div id="lu-checkout-cp" class="form-group mt-3" hidden><label class="form-label" for="co-cp">Código postal</label><input id="co-cp" class="form-control" type="text" name="cp" placeholder="1832"></div>
+      </section>
+      <section class="lu-checkout-paso">
+        <h2>3 · Pago</h2>
+        ${radio('pago', 'efectivo', d.lupita_pago_efectivo_cifra_es + ' · Efectivo', 'Pagás al retirar en la tienda', true)}
+        ${radio('pago', 'tarjeta', d.lupita_pago_tarjetas_cifra_es + ' · Tarjeta', d.lupita_pago_tarjetas_es, false)}
+        ${radio('pago', 'transferencia', d.lupita_pago_transferencia_cifra_es + ' · Transferencia', d.lupita_pago_transferencia_es, false)}
+        ${radio('pago', 'amex', 'American Express', d.lupita_pago_amex_es, false)}
+      </section>
+    </div>
+    <aside class="lu-checkout-resumen" aria-label="Resumen de la compra">
+      <span class="lu-rotulo lu-micro">Tu compra</span>
+      <ul id="lu-checkout-resumen"></ul>
+      <div class="lu-checkout-fila"><span>Subtotal</span><span id="lu-checkout-subtotal"></span></div>
+      <div class="lu-checkout-fila" id="lu-checkout-fila-descuento"><span>Descuento</span><span id="lu-checkout-descuento"></span></div>
+      <div class="lu-checkout-fila"><span>Envío</span><span id="lu-checkout-envio"></span></div>
+      <div class="lu-checkout-fila lu-checkout-total"><span>Total</span><span id="lu-checkout-total"></span></div>
+      <input type="submit" class="btn btn-primary btn-block mt-3" value="Finalizar compra">
+    </aside>
+  </form>
+
+  <section id="lu-checkout-listo" class="lu-checkout-listo" hidden>
+    <h1>¡Gracias por tu compra!</h1>
+    <p>Pedido <strong class="js-numero"></strong> (simulación) · <span class="js-entrega-final"></span></p>
+    <ul class="js-resumen-final"></ul>
+    <p>Total: <strong class="js-total-final"></strong></p>
+    <a href="home.html" class="btn btn-primary">Volver a la tienda</a>
+  </section>
+  ${semilla}
+</body>
+</html>
+`
+  writeFileSync(join(SALIDA, 'checkout.html'), checkout)
+
+  const login = `${CABEZA('Iniciar sesión')}
+<body class="template-account">
+${CABECERA(settings)}
+  <section class="page-header mt-3" data-store="page-title">
+    <div class="container"><div class="row"><div class="col text-center"><h1>Iniciar sesión</h1></div></div></div>
+  </section>
+  <section class="account-page">
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-md-6">
+          <form id="lu-login-form" action="#" method="post" class="form" data-store="account-login">
+            <div class="form-group"><label class="form-label" for="login-email">Email</label><input id="login-email" class="form-control" type="email" name="email"></div>
+            <div class="form-group"><label class="form-label" for="login-pass">Contraseña</label><input id="login-pass" class="form-control" type="password" name="password"><a href="#" class="btn-link btn-link-primary font-small">¿Olvidaste tu contraseña?</a></div>
+            <input type="submit" class="btn btn-primary btn-block" value="Iniciar sesión">
+          </form>
+          <!-- Sin "Crear cuenta" (login.tpl, 2026-09-15) -->
+        </div>
+      </div>
+    </div>
+  </section>
+${PIE}
+${PANELES}
+</body>
+</html>
+`
+  writeFileSync(join(SALIDA, 'login.html'), login)
+}
+
+/* Popup del canal de Instagram (snipplets/popup-canal.tpl): canal.html es el
+   home con la ventana y el script REAL del tpl (se copia tal cual), para que la
+   prueba de funciones mida lo mismo que va a correr en la tienda. No se suma
+   a todas las paginas: a los 6 s taparia cada captura del harness. */
+{
+  const tpl = readFileSync(join(RAIZ, 'snipplets', 'popup-canal.tpl'), 'utf8')
+  const script = (tpl.match(/<script>[\s\S]*?<\/script>/) || [''])[0]
+  const d = leerDefaults()
+  const svg = (n) => readFileSync(join(RAIZ, 'snipplets', 'svg', n + '.tpl'), 'utf8').replace('{{ svg_custom_class }}', 'icon-inline').trim()
+  /* Solo harness: ?clave=nada|1h|15d deja la clave de "ya lo cerro" preparada
+     ANTES de que corra el script real, para probar el recuerdo con una
+     captura por caso (las pruebas con iframes en Edge headless eran inestables:
+     srcdoc que no recarga, onload doble, cargas que no llegaban). */
+  const semilla = `
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search).get('clave'), K = 'lupita-canal-popup';
+      try {
+        if (q === 'nada') localStorage.removeItem(K);
+        else if (q === '1h') localStorage.setItem(K, String(Date.now() - 3600e3));
+        else if (q === '15d') localStorage.setItem(K, String(Date.now() - 15 * 864e5));
+      } catch (e) {}
+    })();
+  </script>`
+  const popup = `${semilla}
+  <div class="js-lu-canal-popup lu-canal-popup" role="dialog" aria-modal="true" aria-labelledby="lu-canal-popup-titulo" hidden>
+    <div class="lu-canal-popup-caja">
+      <button type="button" class="js-lu-canal-cerrar lu-canal-popup-cerrar" aria-label="Cerrar">${svg('times')}</button>
+      <span class="lu-canal-popup-red">${svg('instagram')} Canal de difusión</span>
+      <p class="lu-canal-popup-titulo" id="lu-canal-popup-titulo">${d.lupita_canal_titulo_es}</p>
+      <p class="lu-canal-popup-texto">${d.lupita_canal_texto_es}</p>
+      <a href="#" target="_blank" rel="noopener" class="js-lu-canal-unirme btn lu-canal-btn lu-canal-popup-btn">${d.lupita_canal_boton_es}</a>
+      <button type="button" class="js-lu-canal-cerrar lu-canal-popup-despues">Ahora no</button>
+    </div>
+  </div>
+  ${script}`
+  writeFileSync(join(SALIDA, 'canal.html'), paginaHome(settings).replace('</body>', popup + '\n</body>'))
+}
+writeFileSync(join(SALIDA, 'popup.html'), paginaHome(settings).replace('</body>', MODAL_POPUP + '\n</body>'))
 writeFileSync(join(SALIDA, 'lupita-motion.js'), motionJs())
 {
   const p = join(RAIZ, 'static', 'js', 'lupita-favoritos.js.tpl')

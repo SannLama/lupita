@@ -7,10 +7,11 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
         {# Fuentes fijas de Lupita: el panel solo carga font_headings y font_rest.
-           Archivo Black (marca), Roboto Mono (rotulos) y Caveat (subtitulos) no
-           se eligen desde el panel, asi que se cargan aca. Antes del 2026-09-15
+           Archivo Black (marca) y Bodoni Moda (subtitulos) no se eligen desde
+           el panel, asi que se cargan aca. Roboto Mono (rotulos) se saco el
+           2026-09-16: los rotulos pasaron a font_rest. Antes del 2026-09-15
            Archivo Black no se cargaba en ningun lado. #}
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bodoni+Moda:opsz,wght@6..96,400..700&family=Roboto+Mono:wght@400;700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bodoni+Moda:opsz,wght@6..96,400..700&display=swap" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -186,6 +187,9 @@
         <script type="text/javascript">
             {% include "static/js/lupita-favoritos.js.tpl" %}
         </script>
+
+        {# Popup para unirse al canal de difusion de Instagram (una vez cada 14 dias) #}
+        {% include "snipplets/popup-canal.tpl" %}
 
         {# Google reCAPTCHA on register page #}
 

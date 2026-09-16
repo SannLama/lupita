@@ -1390,8 +1390,140 @@ están en el programa y los trae Tiendanube. Auditoría contra el base:
   link en Detalle de producto; el carrusel solo aparece en secciones y
   búsqueda, en prendas con más de una foto y sin filtros aplicados (regla del
   base).
+- **Destacados del home sin carrusel:** `home-featured-products.tpl` incluye
+  `item.tpl` con `slide_item`, y el base nunca arma el carrusel por prenda ahí.
+  El harness le había puesto flechas a todas las tarjetas y en el home se
+  veían como cuadraditos de color a los costados de la foto (Santiago lo
+  marcó); `tarjeta()` ahora recibe `{ carrusel }` y el home y la 404 van sin.
 - **Sin verificar sin tienda:** el swipe real del carrusel, el cambio de foto
   al tocar una muestra de color y el modal de compra rápida con variantes.
+
+### Funciones de la ficha y del home (2026-09-15)
+
+Santiago: "seguí con las funciones de la página". Lo que todavía salía con
+el estilo del base (bloque `#Funciones de la ficha y del home`):
+
+- **Productos relacionados / complementarios** (`product-related.tpl`,
+  component `products-section`): sección con regla, título en Great Vibes al
+  ras, flechas cuadradas de 1px (hover turquesa), puntos cuadrados con el
+  activo en turquesa. Las tarjetas son `slide_item`, sin carrusel por prenda.
+- **Última unidad** (`last_product`): `product-quantity.tpl` suma la clase
+  `lu-ultimo`; rótulo mono en turquesa con tinta. `.text-accent` ya era tinta.
+- **Guía de talles:** link con la regla en tinta y ventana
+  `#size-guide-modal` en papel con 1px, sin sombra; la tabla usa el estilo de
+  `.user-content`. Aparece solo con `size_guide_url` y variante "Talle".
+- **Calculador de envío en la ficha:** rótulo "Medios de envío" en mono,
+  campo 58% / botón 42%, "No sé mi código postal" subrayado, resultados en
+  renglones de 1px, spinner con puntos turquesa cuadrados.
+- **Popup del home** (`home_promotional_popup`, apagado por defecto): imagen
+  a sangre, frase en Great Vibes, suscripción con el mismo campo y botón del
+  pie, cierre en un cuadrado de papel.
+- **Harness:** la ficha suma calculador, aviso y link de guía; debajo,
+  relacionados (HTML aproximado del component). Páginas nuevas
+  `guia-talles.html` y `popup.html` con la ventana abierta, y el andamio copia
+  las reglas de ventanas centradas de `style-async`.
+- **Sin verificar sin tienda:** HTML real del component `products-section` y
+  de la respuesta del calculador (la arma store.js); posición real de las
+  ventanas centradas (el harness la aproxima).
+
+### Funciones que "a veces no funcionaban", sin crear cuenta y popup del canal (2026-09-15)
+
+**Diagnóstico (con evidencia, no a ojo).** `_harness/out/prueba-funciones.html`
+carga cada página del harness con un recolector de errores, hace clic en cada
+interacción y anota OK/FALLA. Primera corrida:
+
+- `producto.html`: el link "Guía de talles" (`.js-panel`) apuntaba a
+  `#size-guide-modal`, que no existía en la página → `TypeError: Cannot read
+  properties of null (reading 'style')` en `abrir()`, una vez por ficha.
+- Talles, colores, muestras de la grilla, flechas de fotos y compra rápida:
+  **marcado real de Tiendanube sin comportamiento**. En la tienda lo hace
+  `store.js`; el harness no tenía nada, así que tocarlos no hacía nada.
+- Paneles, favoritos y volver arriba: OK en las 10 páginas.
+
+**Arreglo (harness).** `abrir()` ignora destinos inexistentes; un listener en
+fase de captura replica lo de `store.js` (talle/color `.selected`, muestra de
+la grilla, flechas que rotan las fotos de `data-fotos` y actualizan "1 / 3",
+compra rápida que copia nombre y precio al `#quickshop-modal` nuevo) sin que
+el clic llegue al `onclick` de la tarjeta; la guía de talles vive cerrada
+dentro de la ficha (`modalTalles()`). Segunda corrida: **todo OK, cero
+errores**, en home, categoría, producto, carrito, búsqueda, preguntas,
+medios de pago, contacto, 404 y sobre nosotros.
+
+**Trampas de la propia prueba (anotadas para no repetirlas):** reasignar
+`srcdoc` a un iframe ya navegado no recarga en Edge headless (onload no
+llega y se mide el documento viejo); con `src`, si el iframe se agrega antes
+de fijar `src`, `onload` llega dos veces (about:blank + la página); y con
+`src` antes de agregarlo, algunas cargas no llegaban. Tras tres arreglos
+fallidos de esa prueba se cambió el enfoque: **una captura por caso, sin
+iframes**, de `canal.html?clave=nada|1h|15d` (un script solo del harness deja
+la clave preparada antes del script real). Resultado: nada → aparece, 1h → no
+aparece, 15d → aparece.
+
+**Sin "Crear cuenta".** Fuera de `navigation-panel.tpl` y de `login.tpl`
+(queda "Iniciar sesión"). El checkout de Tiendanube puede ofrecer crear
+cuenta si está activada en el panel: hay que desactivarla ahí.
+
+**Popup del canal de difusión de Instagram** (`snipplets/popup-canal.tpl`,
+incluido en `layout.tpl`): a los 6 s, una vez cada 14 días por visitante
+(`localStorage` `lupita-canal-popup`), no se abre encima de otra ventana
+(reintenta), Escape/clic afuera/"Ahora no" lo cierran, foco al botón y vuelve
+al elemento anterior. Sale solo con `lupita_canal_url` cargado y la casilla
+`lupita_canal_popup`. Textos: "Unite a nuestro canal de difusión" / "Unirme
+en Instagram". Verificado: oculto al entrar, aparece a los 6 s con foco,
+"Ahora no" lo cierra y lo guarda; con la clave de hace 1 hora no aparece; con
+una de 15 días vuelve a aparecer. En el harness va en `canal.html` (en todas
+las páginas taparía las capturas).
+
+### "No me deja seguir la compra" (2026-09-15)
+
+**Causa (con evidencia).** Relevamiento automático de todas las páginas del
+harness: en cada una, el formulario del carrito lateral y el del buscador
+mandaban a `#`, "Agregar al carrito" de la ficha y de compra rápida era un
+`submit` sin formulario, no existía checkout, y había links a `#` ("Unirme en
+Instagram", "Envíos", "Cambios y devoluciones", "ingresá acá", "Iniciar
+sesión", "No sé mi código postal"). **El theme real no estaba roto:**
+`store.js` busca el botón y su placeholder con `find` dentro del contenedor
+del producto (no por hermanos), así que `.lu-comprar` no afecta el agregar al
+carrito; los medios de pago del carrito son solo marcado.
+
+**Arreglo (harness).** `_harness/carrito-demo.js` (se copia a `out/`):
+carrito en `localStorage` (`harness-carrito`) que se pinta en el panel, la
+página del carrito y el contador; agrega desde la ficha y la compra rápida
+con talle y color elegidos (con talle sin stock avisa y no agrega; misma
+variante suma cantidad); aviso "¡Ya agregamos tu producto al carrito!"
+(`cart_open_type = show_notification`); más/menos, cantidad y Quitar;
+"Calcular" con resultado de demo; "Iniciar compra" → `checkout.html`.
+`checkout.html` es una **simulación marcada como tal** (en la tienda ese paso
+es de Tiendanube): contacto, retiro en una de las tres tiendas o envío,
+pago con los descuentos reales, resumen que recalcula y confirmación que
+vacía el carrito. `login.html` para "Iniciar sesión" (sin crear cuenta).
+Links del pie y del calculador con destino real.
+
+**Verificado:** `producto.html?auto=compra` recorre solo elegir talle sin
+stock (no agrega), elegir talle y color, agregar dos veces, carrito, iniciar
+compra, completar y finalizar: termina en "¡Gracias por tu compra!" con
+2 × Campera (Talle 3 / Color 2), $ 179.800 − 20% efectivo = $ 143.840.
+`?auto=agregar` muestra el aviso y el contador en 1. La prueba de funciones
+sigue en OK en las 10 páginas, sin errores. Trampa encontrada en el camino:
+`display: grid` de una clase le gana a `[hidden]` (el formulario no se
+ocultaba al finalizar) → `[hidden] { display: none !important }`.
+
+### Fotos en los mockups del harness (2026-09-15)
+
+Santiago: "poné fotos en los mockups para ver". Los rectángulos grises de
+producto pasan a fotos reales de la marca: 14 recortes 2:3 (800×1200) en
+`_harness/img/productos/p01..p14.jpg`, sacados con ffmpeg de las cuatro
+fotos del carrusel (encuadre entero y uno más cerrado) y de cuadros de los
+videos Sea of Dreams y City Moves. `fotoProducto(i, vista)` asigna a cada
+prenda un "look" de tres fotos (principal, detalle, espalda) y se usa en
+tarjetas y su carrusel, ficha, carrito (panel, página y semilla del
+checkout), aviso de agregado, corazón de favoritos y blog. Los logos de pago
+y envío siguen siendo rótulos grises (no son fotos). Las fotos no se
+corresponden con cada prenda de demo: son para ver el diseño con imágenes
+reales; en la tienda las fotos las carga la clienta en cada producto.
+Trampa: la tabla de looks no puede ser `const` de módulo (CARRITO se arma
+antes al cargar el archivo): va adentro de la función. El carrito de demo
+pasó a la clave `harness-carrito-v2` para no mostrar los grises guardados.
 
 ## Etapa 2 (cuando haya tienda)
 

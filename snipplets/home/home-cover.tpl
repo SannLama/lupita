@@ -15,28 +15,12 @@
 	<section class="section-cover-home" data-store="home-cover">
 		<div class="cover-image">
 			{% if settings.cover_video_url %}
-				<video
-					class="cover-image-background"
-					id="cover-video"
-					autoplay
-					muted
-					loop
-					playsinline
-					preload="auto"
-					{% if 'cover.jpg' | has_custom_image %}poster="{{ 'cover.jpg' | static_url | settings_image_url('1080p') }}"{% endif %}
-				>
-					<source src="{{ settings.cover_video_url }}" type="video/mp4">
-				</video>
-				<script>
-					(function () {
-						var v = document.getElementById('cover-video');
-						if (v && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-							v.removeAttribute('autoplay');
-							v.pause();
-							v.currentTime = 0;
-						}
-					})();
-				</script>
+				{# Desde el 2026-09-16 el video va repetido en una cinta que corre #}
+				{% set lu_poster = '' %}
+				{% if 'cover.jpg' | has_custom_image %}
+					{% set lu_poster = 'cover.jpg' | static_url | settings_image_url('large') %}
+				{% endif %}
+				{% include 'snipplets/home/cinta-video.tpl' with {video_url: settings.cover_video_url, poster_url: lu_poster, clase_video: 'cover-image-background'} %}
 			{% else %}
 				<img
 					src="{{ 'cover.jpg' | static_url | settings_image_url('xlarge') }}"

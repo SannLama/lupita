@@ -810,6 +810,9 @@ Página de inicio
 	i18n_input
 		name = lupita_canal_boton
 		description = Canal de difusión: texto del botón
+	checkbox
+		name = lupita_canal_popup
+		description = Mostrar una ventana invitando a unirse al canal (una vez cada 14 días por visitante, a los 6 segundos; solo si el link está cargado)
 	collapse
 		title = Medios de pago de Lupita
 	description

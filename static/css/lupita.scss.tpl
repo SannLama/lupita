@@ -37,7 +37,10 @@
     --lu-macro: {{ settings.font_headings }};
     --lu-texto: {{ settings.font_rest }};
     --lu-sub: "Bodoni Moda", serif;
-    --lu-micro: "Roboto Mono", monospace;
+    /* Rotulos: hasta el 2026-09-16 eran Roboto Mono, la maquina de escribir
+       del brutalismo. Santiago pidio sacarla por la estetica romantica: pasan
+       a la misma letra del texto, en versal espaciada. */
+    --lu-micro: {{ settings.font_rest }};
 
     /* El logotipo y la navegacion NO siguen font_headings a proposito, desde
        el 2026-09-11: Santiago pidio una tipografia "romantica y delicada"
@@ -397,17 +400,10 @@ hr,
     color: var(--lu-gris);
 }
 
-/* Los corchetes solo cuando encabeza una seccion */
+/* Los corchetes que encabezaban las secciones se sacaron el 2026-09-16
+   (estetica romantica, pedido de Santiago) */
 .lu-seccion-titulo .lu-rotulo {
     white-space: nowrap;
-}
-
-.lu-seccion-titulo .lu-rotulo::before {
-    content: "[ ";
-}
-
-.lu-seccion-titulo .lu-rotulo::after {
-    content: " ]";
 }
 
 /*============================================================================
@@ -983,20 +979,11 @@ hr,
     text-decoration: underline;
 }
 
-/* Corchetes alrededor del contador de la bolsa: la sintaxis tecnica que el
-   resto del theme usa en los rotulos, aplicada al unico numero que cambia. */
+/* Contador de la bolsa: hasta el 2026-09-16 iba entre corchetes; ahora es
+   un circulito turquesa (ver #Contadores, al final de la hoja) */
 .cart-widget-amount {
     font-family: var(--lu-micro);
-    letter-spacing: var(--lu-track);
     font-size: 0.62rem;
-}
-
-.cart-widget-amount::before {
-    content: "\00a0[";
-}
-
-.cart-widget-amount::after {
-    content: "]";
 }
 
 /* Rotulos al lado de los iconos: un menu hamburguesa sin palabra es la parte
@@ -1345,6 +1332,138 @@ footer .contact-item {
     color: var(--lu-tinta);
 }
 
+/* Popup del canal de difusion (snipplets/popup-canal.tpl): velo de tinta,
+   caja de papel con regla turquesa arriba, entra subiendo medio centimetro */
+.lu-canal-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 1060;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: color-mix(in srgb, var(--lu-tinta) 45%, transparent);
+    opacity: 0;
+    transition: opacity 220ms var(--lu-entrada);
+}
+
+.lu-canal-popup-visible {
+    opacity: 1;
+}
+
+.lu-canal-popup-caja {
+    position: relative;
+    width: min(26rem, 100%);
+    padding: clamp(1.5rem, 5vw, 2.25rem);
+    border-top: 4px solid var(--lu-acento);
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    text-align: left;
+    transform: translateY(0.5rem);
+    transition: transform 220ms var(--lu-entrada);
+}
+
+.lu-canal-popup-visible .lu-canal-popup-caja {
+    transform: none;
+}
+
+.lu-canal-popup-cerrar {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: var(--lu-tinta);
+    cursor: pointer;
+}
+
+.lu-canal-popup-cerrar svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    fill: currentColor;
+}
+
+.lu-canal-popup-cerrar:hover {
+    background-color: var(--lu-acento);
+}
+
+.lu-canal-popup-red {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--lu-micro);
+    font-size: 0.66rem;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+}
+
+.lu-canal-popup-red svg {
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
+}
+
+.lu-canal-popup-titulo {
+    margin: 0.75rem 0 0.5rem;
+    font-family: var(--lu-macro);
+    font-size: clamp(2rem, 7vw, 2.6rem);
+    line-height: 1.1;
+}
+
+.lu-canal-popup-texto {
+    margin: 0 0 1.25rem;
+    font-family: var(--lu-texto);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.lu-canal-popup .lu-canal-popup-btn {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0.85rem 1rem;
+    border: 0;
+    border-radius: 0;
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    font-family: var(--lu-texto);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    text-decoration: none;
+}
+
+.lu-canal-popup .lu-canal-popup-btn:hover {
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+.lu-canal-popup-despues {
+    display: block;
+    margin: 0.75rem auto 0;
+    padding: 0.35rem 0.5rem;
+    border: 0;
+    background: transparent;
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-canal-popup,
+    .lu-canal-popup-caja {
+        transition: none;
+    }
+}
+
 /* Los logos de pago y envio vienen en los colores de cada marca y son una
    fuga de color en una paleta de tres. En gris se leen igual. */
 .footer-payments-shipping-logos img {
@@ -1505,6 +1624,15 @@ footer a:hover {
     inset: 0;
     background-color: color-mix(in srgb, var(--lu-tinta) 22%, transparent);
     pointer-events: none;
+    transition: opacity 320ms var(--lu-entrada);
+}
+
+/* Al pasar el mouse el velo se va y la foto queda limpia (pedido de
+   Santiago, 2026-09-16). Solo con mouse, por lo mismo que la escala. */
+@media (hover: hover) and (pointer: fine) {
+    .section-banners-home .textbanner-link:hover .textbanner-image::after {
+        opacity: 0;
+    }
 }
 
 .section-banners-home .textbanner-title {
@@ -1637,16 +1765,6 @@ footer a:hover {
     letter-spacing: var(--lu-track);
     font-size: 0.66rem;
     color: var(--lu-tinta);
-}
-
-/* Corchetes: la misma sintaxis tecnica de los rotulos y del contador de la
-   bolsa. El espacio despues del \00a0 cierra el escape. */
-.filter-link::before {
-    content: "[\00a0 ";
-}
-
-.filter-link::after {
-    content: "\00a0 ]";
 }
 
 .filter-link:hover {
@@ -2647,6 +2765,10 @@ body:not(.template-product):not(.template-category) .page-header {
     height: 1.35rem;
     padding: 0;
     fill: var(--lu-tinta);
+    /* Centrado optico (pedido de Santiago, 2026-09-16): la caja del icono ya
+       estaba al centro exacto del circulo, pero la colita del globo tira el
+       peso hacia abajo a la izquierda. Se corre un poco al reves. */
+    transform: translate(0.08em, -0.08em);
 }
 
 /* Al pasar el mouse crece un poco y sigue turquesa con el icono en tinta:
@@ -3933,6 +4055,238 @@ footer .lu-reclamo-link {
     padding-inline: 0.4rem;
 }
 
+/*============================================================================
+  #Funciones de la ficha y del home (2026-09-15)
+  Lo que el base todavia mostraba con su estilo de fabrica: productos
+  relacionados (component products-section en product-related.tpl), aviso de
+  ultima unidad (product-quantity.tpl, .lu-ultimo), guia de talles (link +
+  #size-guide-modal), calculador de envio en la ficha
+  (.product-shipping-calculator) y popup del home (#home-modal). Solo forma y
+  color: la posicion y la mecanica son del base y de store.js.
+==============================================================================*/
+
+/* Relacionados / complementarios: seccion con regla y titulo macro al ras */
+.section-products-related {
+    margin: 0 !important;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    border-top: 1px solid var(--lu-linea);
+}
+
+.section-products-related .h3 {
+    margin: 0 0 clamp(1.25rem, 3vw, 2rem);
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    text-align: left !important;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.section-products-related .swiper-button-prev,
+.section-products-related .swiper-button-next {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-top: 0;
+    border: 1px solid var(--lu-tinta);
+    border-radius: 0;
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-products-related .swiper-button-prev::after,
+.section-products-related .swiper-button-next::after {
+    display: none;
+}
+
+.section-products-related .swiper-button-prev svg,
+.section-products-related .swiper-button-next svg {
+    width: 0.55rem;
+    height: 1rem;
+    fill: currentColor;
+}
+
+.section-products-related .swiper-button-prev:hover,
+.section-products-related .swiper-button-next:hover {
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+}
+
+.section-products-related .swiper-button-disabled {
+    opacity: 0.3;
+}
+
+.section-products-related .swiper-pagination-bullet {
+    width: 0.45rem;
+    height: 0.45rem;
+    margin: 0 0.2rem;
+    border-radius: 0;
+    background-color: var(--lu-tinta);
+    opacity: 0.25;
+}
+
+.section-products-related .swiper-pagination-bullet-active {
+    background-color: var(--lu-acento);
+    opacity: 1;
+}
+
+/* Ultima unidad: rotulo en turquesa con tinta, no una linea de texto suelta */
+.lu-ultimo {
+    display: inline-block;
+    margin: 0.5rem 0 1rem !important;
+    padding: 0.4rem 0.65rem;
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta) !important;
+    font-family: var(--lu-micro);
+    font-size: 0.66rem !important;
+    font-weight: 700;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+/* Guia de talles: link en la voz del texto con la regla en tinta */
+a[data-toggle="#size-guide-modal"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+a[data-toggle="#size-guide-modal"] svg {
+    fill: currentColor;
+    margin-right: 0 !important;
+}
+
+/* Ventanas centradas (guia de talles, pais de entrega, popup): papel, 1px,
+   sin sombra ni redondeo, con el mismo encabezado que los paneles */
+#size-guide-modal,
+#home-modal,
+.modal-centered-small {
+    border: 1px solid var(--lu-tinta);
+    border-radius: 0;
+    box-shadow: none;
+    background-color: var(--lu-papel);
+}
+
+#size-guide-modal .modal-body {
+    padding: clamp(1rem, 3vw, 1.75rem);
+}
+
+#size-guide-modal .user-content table {
+    width: 100%;
+}
+
+/* Calculador de envio en la ficha: rotulo, campo y resultados en renglones */
+.product-shipping-calculator {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--lu-linea);
+}
+
+.product-shipping-calculator .shipping-calculator-form .col-12.mb-2 {
+    display: flex;
+    align-items: center;
+    font-family: var(--lu-micro);
+    font-size: 0.66rem;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+    color: var(--lu-tinta);
+}
+
+.product-shipping-calculator .shipping-calculator-form svg {
+    fill: currentColor;
+}
+
+/* El base reparte col-5 (campo) / col-6 (boton): en 390 el campo cortaba
+   "Tu código postal". Mitad y mitad, y en computadora vuelve al reparto base. */
+.product-shipping-calculator .shipping-calculator-form .col-5 {
+    flex: 0 0 58%;
+    max-width: 58%;
+}
+
+.product-shipping-calculator .shipping-calculator-form .col-6 {
+    flex: 0 0 42%;
+    max-width: 42%;
+}
+
+.product-shipping-calculator .js-calculate-shipping {
+    padding: 0.7rem 0.5rem;
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.product-shipping-calculator .font-small.text-primary,
+.shipping-calculator-form a.font-small {
+    font-family: var(--lu-texto);
+    font-size: 0.8rem;
+    color: var(--lu-tinta) !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.product-shipping-calculator .list-readonly .list-item {
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--lu-linea);
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+}
+
+.shipping-spinner-container .spinner-ellipsis .point {
+    border-radius: 0;
+    background-color: var(--lu-acento);
+}
+
+/* Popup del home: imagen a sangre, frase macro, suscripcion como el pie */
+#home-modal {
+    max-width: min(26rem, calc(100vw - 2rem));
+}
+
+#home-modal .modal-body {
+    padding: 0 0 1.25rem;
+}
+
+#home-modal .modal-img-full {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+#home-modal h3 {
+    padding-inline: 1.25rem;
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 6vw, 2.5rem);
+    line-height: 1.15;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--lu-tinta);
+}
+
+#home-modal .newsletter {
+    padding-inline: 1.25rem;
+}
+
+#home-modal .modal-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 3;
+    border: 0;
+    background-color: var(--lu-papel);
+    padding: 0.6rem;
+}
+
 .modal-quickshop,
 .modal-quickshop .modal-body {
     background-color: var(--lu-papel);
@@ -4374,6 +4728,10 @@ footer .lu-reclamo-link {
     .instafeed-link:hover .instafeed-img {
         transition: none;
         transform: none;
+    }
+
+    .section-banners-home .textbanner-image::after {
+        transition: none;
     }
 
     .transition-soft,
@@ -5025,6 +5383,48 @@ body #modal-cart .js-cart-total-container .h2.lu-tarjeta {
     color: var(--lu-tinta);
 }
 
+/* Lo mismo en la tarjeta de producto de la grilla (2026-09-16), a escala de
+   una columna angosta: tarjeta chica y apagada, efectivo grande en turquesa,
+   y abajo las 6 cuotas con el valor de cada una. */
+.item-price-container.lu-tarjeta {
+    opacity: 0.6;
+}
+
+.item-price-container.lu-tarjeta .lu-tarjeta-rotulo,
+.item-price-container.lu-tarjeta .item-price,
+.item-price-container.lu-tarjeta .price-compare,
+.item-price-container.lu-tarjeta .item-price-compare {
+    font-family: var(--lu-texto);
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    /* esta adentro del <a> de la tarjeta: sin esto toma el azul del link */
+    color: var(--lu-tinta);
+}
+
+.lu-efectivo.lu-efectivo-item {
+    margin: 0.15rem 0 0;
+}
+
+.lu-efectivo.lu-efectivo-item .lu-efectivo-precio {
+    font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+    white-space: nowrap;
+}
+
+.lu-efectivo.lu-efectivo-item .lu-efectivo-medio {
+    font-size: 0.8rem;
+}
+
+.item-installments.lu-cuotas {
+    font-family: var(--lu-texto);
+    font-size: 0.78rem;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--lu-tinta);
+    min-height: 0;
+}
+
 /*============================================================================
   #Subtitulos
   Bodoni Moda en su peso fino y con las ligaduras discrecionales, las
@@ -5202,31 +5602,11 @@ h5,
         margin-left: 0.55rem;
     }
 
-    /* .utilities-item delante: el bloque #Favoritos, mas abajo en la hoja,
-       le ganaba por orden a .lu-favs-cantidad sola */
-    .utilities-item .cart-widget-amount::before,
-    .utilities-item .lu-favs-cantidad::before {
-        content: "\00a0";
-    }
-
-    .utilities-item .cart-widget-amount::after,
-    .utilities-item .lu-favs-cantidad::after {
-        content: none;
-    }
 }
 
 .lu-favs-cantidad {
     font-family: var(--lu-micro);
     font-size: 0.62rem;
-    letter-spacing: var(--lu-track);
-}
-
-.lu-favs-cantidad::before {
-    content: "\00a0[";
-}
-
-.lu-favs-cantidad::after {
-    content: "]";
 }
 
 /* Panel */
@@ -5594,4 +5974,359 @@ h5,
     .lu-arriba-visible {
         transform: none;
     }
+}
+
+/*============================================================================
+  #Formas redondeadas (2026-09-16)
+  Santiago: "no quiero tantos cuadrados, se busca una estetica romantica".
+  El reset brutalista de arriba (90 grados en todo) queda como base y esta
+  seccion, al final para ganar por orden, redondea con tres medidas:
+    --lu-radio         fotos, tarjetas, paneles y ventanas
+    --lu-radio-chico   campos de formulario, avisos, cajas de texto
+    --lu-radio-pildora botones, chips, talles, etiquetas: capsula entera
+  Lo que va de borde a borde (hero, portada, capsula en video, barras) sigue
+  recto: redondear algo que toca los bordes de la pantalla no se ve.
+==============================================================================*/
+
+:root {
+    --lu-radio: 18px;
+    --lu-radio-chico: 10px;
+    --lu-radio-pildora: 999px;
+}
+
+/* Botones y todo lo que se toca: capsula */
+body .btn,
+body .btn-primary,
+body .btn-secondary,
+body .swiper-btn,
+body .btn-variant,
+body .chip,
+body .js-remove-filter.chip,
+body .badge,
+body .pill,
+body .label,
+body .item-label,
+body .lu-canal .lu-canal-btn,
+body .lu-canal-popup .lu-canal-popup-btn,
+body .lu-favs-whatsapp,
+body .lu-arriba,
+body .bar-progress,
+body .bar-progress-active,
+body #shoppingCartPage .btn:not(.btn-link),
+body #shoppingCartPage #go-to-checkout {
+    border-radius: var(--lu-radio-pildora);
+}
+
+/* Los links con forma de boton subrayado no llevan caja: no se tocan */
+body .btn-link {
+    border-radius: 0;
+}
+
+/* Circulos: favoritos, flechas de los carruseles, puntos y muestras */
+body .lu-fav,
+body .lu-fav-tarjeta,
+body .lu-fav-ficha,
+body .lu-fav-rapida,
+body .item-slider-controls-container,
+body .section-products-related .swiper-button-prev,
+body .section-products-related .swiper-button-next,
+body .nube-slider-home .swiper-pagination-bullet,
+body .service-pagination .swiper-pagination-bullet,
+body .section-products-related .swiper-pagination-bullet,
+body .item-colors .item-colors-bullet,
+body .checkbox-container .checkbox-color,
+body .shipping-spinner-container .spinner-ellipsis .point {
+    border-radius: 50%;
+}
+
+/* "3 colores" en mobile es texto: capsula, no circulo */
+body .item-colors .item-colors-bullet-text {
+    border-radius: var(--lu-radio-pildora);
+}
+
+/* Campos */
+body input:not([type="checkbox"]):not([type="radio"]),
+body select,
+body textarea,
+body .form-control,
+body .newsletter .form-control,
+body .cart-item-input.form-control,
+body .category-controls select,
+body .category-controls .form-control {
+    border-radius: var(--lu-radio-chico);
+}
+
+body input[type="checkbox"] {
+    border-radius: 5px;
+}
+
+/* Fotos y tarjetas: overflow hidden para que la foto, el velo y el zoom
+   del hover respeten la curva */
+body .item-image,
+body .textbanner-image,
+body .section-home-modules .textbanner-image,
+body .lu-campana,
+body .lu-sobre-foto,
+body .lu-nota-img,
+body .lu-favs-foto,
+body .instafeed-link,
+body .card {
+    border-radius: var(--lu-radio);
+    overflow: hidden;
+}
+
+body .lu-faq-caja,
+body .lu-pagos-compacto,
+body .lu-pagos-grande,
+body .lu-pagos-amex,
+body .alert,
+body .notification {
+    border-radius: var(--lu-radio-chico);
+}
+
+/* Ventanas centradas: todas las esquinas. Hojas desde abajo: solo arriba.
+   Paneles laterales (carrito, menu) tocan el borde: solo el lado de adentro. */
+body .modal-content,
+body #size-guide-modal,
+body #home-modal,
+body .modal-centered-small {
+    border-radius: var(--lu-radio);
+}
+
+body .modal-bottom-sheet {
+    border-radius: var(--lu-radio) var(--lu-radio) 0 0;
+}
+
+body .modal-right {
+    border-radius: var(--lu-radio) 0 0 var(--lu-radio);
+}
+
+body .modal-left {
+    border-radius: 0 var(--lu-radio) var(--lu-radio) 0;
+}
+
+body .modal-header,
+body .modal-footer {
+    border-radius: 0;
+}
+
+/* #Contadores (2026-09-16): la bolsa y favoritos ya no dicen [2] entre
+   corchetes. El numero va en un circulito turquesa con tinta (8,27:1),
+   pegado al icono. Si esta en cero se ve igual: el base lo imprime siempre. */
+body .utilities-item .cart-widget-amount,
+body .utilities-item .lu-favs-cantidad,
+body .cart-widget-amount,
+body .lu-favs-cantidad {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    margin-left: 0.2rem;
+    padding: 0 0.3rem;
+    border-radius: var(--lu-radio-pildora);
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1;
+}
+
+/* Ficha: reglas con id o dos clases que le ganaban a las de arriba */
+body #single-product .js-addtocart,
+body .lu-comprar .btn-block,
+body .lu-ultimo {
+    border-radius: var(--lu-radio-pildora);
+}
+
+body .btn-variant.btn-variant-color .btn-variant-content {
+    border-radius: 50%;
+}
+
+/* Fotos de la ficha y miniaturas del carrito, cada una con su curva.
+   .tiras solo existe en el harness (la tienda usa el slider) */
+body .product-slider-image,
+body.template-product .tiras img {
+    border-radius: var(--lu-radio);
+}
+
+body .cart-item img {
+    border-radius: var(--lu-radio-chico);
+}
+
+/*============================================================================
+  #Cinta de video (2026-09-16)
+  snipplets/home/cinta-video.tpl: seis copias del video en fila, corriendo
+  sin fin. La pista mide dos tandas iguales y se corre -50%: el final cae
+  sobre una imagen identica al principio. Lineal, como toda cinta continua.
+  La pausa fuera de pantalla la pone lupita-motion (.lu-cinta-quieta).
+==============================================================================*/
+
+/* Sin cortes a la vista (Santiago, 2026-09-16: "se ve el fondo blanco"):
+   las copias van pegadas, sin curva ni aire. El espejo en una de cada dos
+   se probo y Santiago lo saco: la union entre copias es un corte directo. */
+.cover-image .lu-cinta,
+.capsule-media .lu-cinta {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background-color: var(--lu-tinta);
+}
+
+.lu-cinta-pista {
+    display: flex;
+    width: max-content;
+    height: 100%;
+    animation: lu-cinta 18s linear infinite;
+    will-change: transform;
+}
+
+.lu-cinta-quieta .lu-cinta-pista {
+    animation-play-state: paused;
+}
+
+/* Dos copias por tanda de 55vw cubren 110vw: nunca asoma el final de la
+   pista. Tope alto (90rem) para que alcance tambien en pantallas de 2560. */
+.lu-cinta-panel {
+    flex: none;
+    width: clamp(17rem, 55vw, 90rem);
+    height: 100%;
+}
+
+body .lu-cinta-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+/* Velo sobre toda la cinta: el titulo en papel se lee sobre cualquier cuadro */
+.lu-cinta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--lu-tinta) 18%, transparent);
+    pointer-events: none;
+}
+
+@keyframes lu-cinta {
+    to {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-cinta-pista {
+        animation: none;
+    }
+}
+
+/*============================================================================
+  #Hover y respuesta (2026-09-16)
+  Mas vida al pasar el mouse, sin tocar colores (sigue la regla de Santiago:
+  nada se oscurece, el estado es turquesa con tinta). Solo transform, solo
+  con mouse, y sin movimiento con prefers-reduced-motion.
+==============================================================================*/
+
+/* Presionar: todo boton se hunde apenas. Tambien en celular: es respuesta
+   al toque, no un hover. El de WhatsApp tiene su propio crecimiento. */
+body .btn:not(.btn-link):not(.btn-whatsapp),
+body .lu-fav,
+body .btn-variant {
+    transition-property: transform, background-color, border-color, color;
+    transition-duration: 140ms;
+    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+body .btn:not(.btn-link):not(.btn-whatsapp):active,
+body .lu-fav:active,
+body .btn-variant:active {
+    transform: scale(0.96);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    /* Tarjeta de producto: la foto sube un poco, ademas del zoom de adentro */
+    .item-product .item-image {
+        transition: transform 280ms var(--lu-entrada);
+    }
+
+    .item-product:hover .item-image {
+        transform: translate3d(0, -6px, 0);
+    }
+
+    /* Botones con relleno: suben 2px */
+    body .btn-primary:hover,
+    body .swiper-btn:hover,
+    body .btn-variant:hover {
+        transform: translate3d(0, -2px, 0);
+    }
+
+    /* Corazon y flechas de las fotos */
+    body .lu-fav:hover,
+    body .item-slider-controls-container:hover {
+        transform: scale(1.1);
+    }
+
+    body .item-slider-controls-container {
+        transition: transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    /* Categorias con foto: el nombre sube cuando se va el velo */
+    .section-banners-home .textbanner-title {
+        transition: transform 420ms var(--lu-entrada);
+    }
+
+    .section-banners-home .textbanner-link:hover .textbanner-title {
+        transform: translate3d(0, -8px, 0);
+    }
+
+    /* Campanas e Instagram: la foto respira como las de producto */
+    .lu-campana img,
+    .instafeed-link img {
+        transition: transform 420ms var(--lu-entrada);
+    }
+
+    .lu-campana:hover img,
+    .instafeed-link:hover img {
+        transform: scale(1.04);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body .btn:not(.btn-link):not(.btn-whatsapp):active,
+    body .lu-fav:active,
+    body .btn-variant:active,
+    .item-product:hover .item-image,
+    body .btn-primary:hover,
+    body .swiper-btn:hover,
+    body .btn-variant:hover,
+    body .lu-fav:hover,
+    body .item-slider-controls-container:hover,
+    .section-banners-home .textbanner-link:hover .textbanner-title,
+    .lu-campana:hover img,
+    .instafeed-link:hover img {
+        transform: none;
+    }
+}
+
+/* Las tres categorias con foto iban pegadas por 1px de linea: con curvas
+   esa linea asoma en las esquinas. Pasan a fotos sueltas con aire. */
+body .section-banners-home .row {
+    background-color: transparent;
+    gap: 0.5rem;
+}
+
+/* El +/- y la cantidad son una sola pieza: la capsula es el contenedor, y
+   el campo y los signos de adentro quedan sin curva propia */
+body .cart-item-quantity .row {
+    border-radius: var(--lu-radio-pildora);
+    overflow: hidden;
+}
+
+body .cart-item-btn.btn,
+body .cart-item-input.form-control {
+    border-radius: 0;
 }

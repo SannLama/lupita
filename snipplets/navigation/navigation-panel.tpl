@@ -20,9 +20,9 @@
         <ul class="nav-account" data-store="account-links">
             <span class="h4">{% include "snipplets/svg/user.tpl" with {svg_custom_class: "icon-inline icon-w-14 svg-icon-text"} %}</span>
             {% if not customer %}
-                {% if 'mandatory' not in store.customer_accounts %}
-                <li class="nav-accounts-item">{{ "Crear cuenta" | translate | a_tag(store.customer_register_url, '', 'nav-accounts-link') }}</li>
-                {% endif %}
+                {# Sin "Crear cuenta" (Santiago, 2026-09-15): la invitacion es al canal de
+                   difusion de Instagram (snipplets/popup-canal.tpl). Queda "Iniciar sesión"
+                   para quien ya tenga cuenta. #}
                 <li class="nav-accounts-item">{{ "Iniciar sesión" | translate | a_tag(store.customer_login_url, '', 'nav-accounts-link') }}</li>
             {% else %}
                 <li class="nav-accounts-item">{{ "¡Hola, {1}!" | t(customer.name) | a_tag(store.customer_home_url, {class: 'nav-accounts-link'}) }}</li>

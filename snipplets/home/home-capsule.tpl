@@ -17,30 +17,14 @@
 {% if has_capsule %}
 	<section class="section-capsule-home" data-store="home-capsule">
 		<div class="capsule-media">
-			<video
-				class="capsule-video"
-				id="capsule-video"
-				autoplay
-				muted
-				loop
-				playsinline
-				{% if 'capsule-poster.jpg' | has_custom_image %}poster="{{ 'capsule-poster.jpg' | static_url | settings_image_url('xlarge') }}"{% endif %}
-			>
-				<source src="{{ settings.capsule_video_url }}" type="video/mp4">
-			</video>
-			{# El video sigue en loop bajo prefers-reduced-motion si no se corta con
-			   JS: no hay forma de pausarlo solo con CSS. Un fondo en loop continuo
-			   es justo el caso que la guia marca como riesgo. #}
-			<script>
-				(function () {
-					var v = document.getElementById('capsule-video');
-					if (v && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-						v.removeAttribute('autoplay');
-						v.pause();
-						v.currentTime = 0;
-					}
-				})();
-			</script>
+			{# Desde el 2026-09-16 el video va repetido en una cinta que corre.
+			   Con movimiento reducido la cinta queda quieta y en pausa (ver el
+			   snipplet): un fondo en loop continuo es el caso que la guia marca. #}
+			{% set lu_poster = '' %}
+			{% if 'capsule-poster.jpg' | has_custom_image %}
+				{% set lu_poster = 'capsule-poster.jpg' | static_url | settings_image_url('large') %}
+			{% endif %}
+			{% include 'snipplets/home/cinta-video.tpl' with {video_url: settings.capsule_video_url, poster_url: lu_poster, clase_video: 'capsule-video'} %}
 			{% if settings.capsule_title or settings.capsule_description or settings.capsule_button %}
 				<div class="swiper-text swiper-{{ settings.capsule_color }}">
 					{% if settings.capsule_title %}

@@ -82,9 +82,10 @@ module_01_title_es = Elegilo online, probátelo en la tienda
 module_01_button_es = Conocé las tiendas
 module_01_url_es = https://www.google.com/maps/@/data=!3m1!4b1!4m2!11m1!2sinv9q_LHRx2sR1pcYf9xew?g_ep=CAISEjI2LjI1LjMuOTMyMTI1MTg3MBgBILffASpdLDk0Mjk3Njk5LDk0MjMxMTg4LDk0MjgwNTY4LDQ3MDcxNzA0LDk0MjE4NjQxLDEwMDgwODY1OSw5NDI4MjEzNCw5NDI4Njg2OSwxMDA4MjAyNDIsMTAwODA0OTc1QgJBUg%3D%3D
 module_01_description_es = Guardá con el corazón lo que te guste y vení a probártelo a cualquiera de nuestras tiendas, con asesoramiento personalizado. Si preferís, te lo mandamos a tu casa.
-lupita_canal_titulo_es = Unite a nuestro canal
-lupita_canal_texto_es = Enterate antes que nadie de los ingresos nuevos, las cápsulas y las promos.
-lupita_canal_boton_es = Unirme al canal
+lupita_canal_titulo_es = Unite a nuestro canal de difusión
+lupita_canal_texto_es = Enterate antes que nadie de los ingresos nuevos, las cápsulas y las promos, directo en tu Instagram.
+lupita_canal_boton_es = Unirme en Instagram
+lupita_canal_popup = 1
 welcome_message_es = Las últimas tendencias, cerca tuyo
 welcome_text_es = Tienda multimarca en Lomas de Zamora y Banfield: diseño que se renueva todo el tiempo, precios accesibles y asesoramiento personalizado en nuestras tiendas.
 lupita_comprar_1_titulo_es = Elegí tu prenda
