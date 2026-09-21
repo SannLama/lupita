@@ -20,6 +20,8 @@ decidir. Estan abajo, en "Las tres letras chicas".
 
 ## Puesta en produccion
 
+*(La version tildable de esto esta en `docs/CHECKLIST-SUBIDA.md`.)*
+
 No hay nada que "conectar": **esto es la tienda**. No hay una API en el medio —
 los `.tpl` los renderiza el servidor de Tiendanube, asi que subir el theme *es*
 el deploy.
@@ -817,6 +819,11 @@ blog no se puede ver en una captura.
    directo sobre la imagen, la zona de abajo al centro tiene que ser oscura.
    Conviene decirselo antes de que las saquen, no despues.
 
+5b. **Tabla de talles real** para el asesor: hoy `lupita_talle_*` trae numeros
+   de ejemplo (ver "Guia de asesoramiento"). Y confirmar que el catalogo lleve
+   ocasion y talle en nombre, etiquetas o variantes, o la busqueda del asesor
+   no encuentra nada.
+
 6a. **Portada "Sea of Dreams" — video y título listos (Santiago, 2026-09-15).**
    Pasó de foto a video: `cover_video_url` (link directo a un `.mp4`),
    `cover.jpg` como póster, título opcional. El .mov (36 MB, 4K 60 fps) quedó
@@ -1524,6 +1531,45 @@ reales; en la tienda las fotos las carga la clienta en cada producto.
 Trampa: la tabla de looks no puede ser `const` de módulo (CARRITO se arma
 antes al cargar el archivo): va adentro de la función. El carrito de demo
 pasó a la clave `harness-carrito-v2` para no mostrar los grises guardados.
+
+### Guia de asesoramiento: "Ayudame a elegir" (2026-09-18)
+
+Pedido de Santiago: un boton flotante que abre un mini-quiz y lleva a la
+busqueda. **Sin IA y sin backend**: es HTML + un `<script>` chico adentro de
+`snipplets/asesor.tpl`, enganchado en `layouts/layout.tpl` justo despues del
+chat de WhatsApp. Se apaga con el checkbox `lupita_asesor_activo` y no aparece
+en la pagina de contraseña.
+
+**Como funciona.** Tres pasos: ocasion (casual, salida, fiesta, trabajo), talle
+(S, M, L, XL) y, si tocan "No estoy segura", busto/cintura/cadera en cm. Al
+terminar manda a `store.search_url?q=<ocasion> <talle>`, la misma busqueda
+nativa del header. No filtra nada por su cuenta: **depende de que los
+productos tengan la ocasion y el talle en el nombre, la descripcion, las
+etiquetas o las variantes**, que es lo que indexa la busqueda de Tiendanube.
+Si el catalogo no los trae, la busqueda vuelve vacia.
+
+**El calculo del talle.** Cada medida cae en S, M, L o XL segun tres limites en
+cm (hasta cuanto es S, M, L; mas que eso es XL) y gana el talle que mas medidas
+votan; en empate, el mas grande. Los limites salen de `lupita_talle_*` en el
+panel (grupo "Talle segun medidas"), con estos numeros de ejemplo:
+
+| Medida | S hasta | M hasta | L hasta |
+|---|---|---|---|
+| Busto | 87 | 93 | 99 |
+| Cintura | 67 | 73 | 79 |
+| Cadera | 93 | 99 | 105 |
+
+⚠️ **Son numeros de ejemplo, no la tabla de la marca.** Hay que pedirsela a la
+clienta y cargarla antes de publicar; el resultado ya dice "es una guia
+aproximada", pero no conviene que un numero inventado decida un talle.
+
+**Verificado:** el harness (`render.mjs`) inyecta el mismo `<script>` que sale
+de `asesor.tpl` y corre en `/asesor.html`. **Sin verificar hasta que exista la
+tienda:** que `store.search_url` y el filtro `json_encode` de `data-limites`
+rindan lo mismo en Twig real, que la busqueda encuentre por ocasion/talle con
+el catalogo real, y el foco y el `Escape` con teclado. Los textos nuevos no
+estan en `config/translations.txt` (igual que los demas del theme): salen en
+castellano por defecto.
 
 ## Etapa 2 (cuando haya tienda)
 
