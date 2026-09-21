@@ -471,6 +471,7 @@ const ICONO = {
   cerrar: '<svg class="icon-inline" viewBox="0 0 352 512" aria-hidden="true"><path d="M242 256l100-100a16 16 0 000-23l-23-23a16 16 0 00-23 0L196 210 96 110a16 16 0 00-23 0l-23 23a16 16 0 000 23l100 100-100 100a16 16 0 000 23l23 23a16 16 0 0023 0l100-100 100 100a16 16 0 0023 0l23-23a16 16 0 000-23L242 256z"/></svg>',
   filtro: '<svg class="icon-inline" viewBox="0 0 512 512" aria-hidden="true"><path d="M487 24H25a24 24 0 00-17 41l180 180v163a24 24 0 0010 20l80 55a24 24 0 0038-20V245L496 65a24 24 0 00-9-41zM288 224v240l-64-44V224L32 56h448L288 224z"/></svg>',
   whatsapp: '<svg class="icon-inline icon-2x" viewBox="0 0 448 512" aria-hidden="true"><path d="M380 105A221 221 0 0 0 32 371L0 486l118-31a221 221 0 0 0 106 27c122 0 224-99 224-221 0-59-25-114-68-156zm-156 340c-33 0-65-9-94-26l-7-4-70 18 19-68-4-7a184 184 0 1 1 156 87zm101-138c-6-3-33-16-38-18s-9-3-12 3-14 18-17 21-6 4-12 1-23-9-44-27c-16-15-27-33-30-38s0-9 2-11l8-10c3-3 4-6 6-9s1-7 0-10-12-30-17-41c-4-11-9-9-12-9h-11a21 21 0 0 0-15 7c-5 6-20 20-20 48s21 56 23 60 41 62 99 87c38 16 51 18 68 15 11-2 33-13 38-26s5-24 3-26-5-4-11-7z"/></svg>',
+  comentarios: '<svg class="icon-inline" viewBox="0 0 576 512" aria-hidden="true"><path d="M532 386.2c27.5-27.1 44-61.1 44-98.2 0-80-76.5-146.1-176.2-157.9C368.3 72.5 294.3 32 208 32 93.1 32 0 103.6 0 192c0 37 16.5 71 44 98.2-15.3 30.7-37.3 54.5-37.7 54.9-6.3 6.7-8.1 16.5-4.4 25 3.6 8.5 12 14 21.2 14 53.5 0 96.7-20.2 125.2-38.8 9.2 2.1 18.7 3.7 28.4 4.9C208.1 407.6 281.8 448 368 448c20.8 0 40.8-2.4 59.8-6.8C456.3 459.7 499.4 480 553 480c9.2 0 17.5-5.5 21.2-14 3.6-8.5 1.9-18.3-4.4-25-.4-.3-22.5-24.1-37.8-54.8zm-392.8-92.3L122.1 305c-14.1 9.1-28.5 16.3-43.1 21.4 2.7-4.7 5.4-9.7 8-14.8l15.5-31.1L77.7 256C64.2 242.6 48 220.7 48 192c0-60.7 73.3-112 160-112s160 51.3 160 112-73.3 112-160 112c-16.5 0-33-1.9-49-5.6l-19.8-4.5zM498.3 352l-24.7 24.4 15.5 31.1c2.6 5.1 5.3 10.1 8 14.8-14.6-5.1-29-12.3-43.1-21.4l-17.1-11.1-19.9 4.6c-16 3.7-32.5 5.6-49 5.6-54 0-102.2-20.1-131.3-49.7C338 339.5 416 272.9 416 192c0-3.4-.4-6.7-.7-10C479.7 196.5 528 238.8 528 288c0 28.7-16.2 50.6-29.7 64z"/></svg>',
   instagram: '<svg class="icon-inline icon-3x align-top svg-icon-text" viewBox="0 0 448 512" aria-hidden="true"><path d="M224 141a115 115 0 1 0 0 230 115 115 0 0 0 0-230zm0 190a75 75 0 1 1 0-150 75 75 0 0 1 0 150zm146-195a27 27 0 1 1-54 0 27 27 0 0 1 54 0zm76 27c-2-36-10-68-36-94s-58-34-94-36c-37-2-148-2-185 0-36 2-68 10-94 36S3 127 1 163c-2 37-2 148 0 185 2 36 10 68 36 94s58 34 94 36c37 2 148 2 185 0 36-2 68-10 94-36s34-58 36-94c2-37 2-148 0-185zm-48 225a76 76 0 0 1-43 43c-30 12-100 9-133 9s-103 3-133-9a76 76 0 0 1-43-43c-12-30-9-100-9-133s-3-103 9-133a76 76 0 0 1 43-43c30-12 100-9 133-9s103-3 133 9a76 76 0 0 1 43 43c12 30 9 100 9 133s3 103-9 133z"/></svg>',
   corazon: '<svg class="icon-inline" viewBox="0 0 512 512" aria-hidden="true"><path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"/></svg>',
   corazonVacio: '<svg class="lu-fav-vacio" aria-hidden="true" viewBox="0 0 512 512"><path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"/></svg>',
@@ -660,8 +661,67 @@ ${EN_CARRITO.map(rengloncarrito).join('')}
 const WHATSAPP = `
   <a href="https://wa.me/5491128622903" target="_blank" rel="noopener" class="js-btn-fixed-bottom btn-whatsapp" aria-label="Comunicate por WhatsApp">${ICONO.whatsapp}</a>`
 
+/* asesor.tpl: boton flotante de la guia de asesoramiento, en todas las
+   paginas igual que whatsapp-chat.tpl. El script se copia tal cual del tpl
+   real (igual que popup-canal.tpl) para que la prueba mida lo mismo que va a
+   correr en la tienda. La ventana arranca oculta: al no abrirse sola, no hace
+   falta excluirla de ninguna pagina ni captura. */
+/* El resultado del calculo de talle tiene 2 textos con {{ "..." | translate }}
+   adentro del script real: aca no hay Twig para resolverlos, asi que se
+   reemplazan por su texto literal (misma idea que "d.lupita_canal_titulo_es"
+   mas abajo para el popup del canal). */
+const ASESOR_SCRIPT = (readFileSync(join(RAIZ, 'snipplets', 'asesor.tpl'), 'utf8').match(/<script>[\s\S]*?<\/script>/) || [''])[0]
+  .replace(/\{\{\s*"([^"]*)"\s*\|\s*translate\s*\}\}/g, '$1')
+const ASESOR = `
+  <button type="button" class="js-lu-asesor-abrir btn-asesor" aria-haspopup="dialog" aria-controls="lu-asesor-popup" aria-label="Ayudame a elegir">${ICONO.comentarios}</button>
+  <div id="lu-asesor-popup" class="js-lu-asesor-popup lu-asesor-popup" role="dialog" aria-modal="true" aria-labelledby="lu-asesor-titulo-1" data-buscar="categoria.html" data-limites='{"busto":[87,93,99],"cintura":[67,73,79],"cadera":[93,99,105]}' hidden>
+    <div class="lu-asesor-caja">
+      <button type="button" class="js-lu-asesor-cerrar lu-asesor-cerrar" aria-label="Cerrar">${ICONO.cerrar}</button>
+      <span class="lu-asesor-etiqueta">Ayudame a elegir</span>
+      <div class="js-lu-asesor-paso lu-asesor-paso" data-paso="1">
+        <p class="lu-asesor-titulo" id="lu-asesor-titulo-1">¿Para qué ocasión buscás algo?</p>
+        <div class="lu-asesor-opciones" role="group" aria-label="Ocasión">
+          <button type="button" class="js-lu-asesor-opcion lu-asesor-opcion" data-valor="casual">Casual</button>
+          <button type="button" class="js-lu-asesor-opcion lu-asesor-opcion" data-valor="salida">Salida</button>
+          <button type="button" class="js-lu-asesor-opcion lu-asesor-opcion" data-valor="fiesta">Fiesta</button>
+          <button type="button" class="js-lu-asesor-opcion lu-asesor-opcion" data-valor="trabajo">Trabajo</button>
+        </div>
+      </div>
+      <div class="js-lu-asesor-paso lu-asesor-paso" data-paso="2" hidden>
+        <button type="button" class="js-lu-asesor-volver lu-asesor-volver" data-volver="1">&larr; Volver</button>
+        <p class="lu-asesor-titulo" id="lu-asesor-titulo-2">¿Qué talle usás?</p>
+        <div class="lu-asesor-opciones" role="group" aria-label="Talle">
+          <button type="button" class="js-lu-asesor-opcion lu-asesor-opcion" data-valor="s">S</button>
+          <button type="button" class="js-lu-asesor-opcion lu-asesor-opcion" data-valor="m">M</button>
+          <button type="button" class="js-lu-asesor-opcion lu-asesor-opcion" data-valor="l">L</button>
+          <button type="button" class="js-lu-asesor-opcion lu-asesor-opcion" data-valor="xl">XL</button>
+          <button type="button" class="js-lu-asesor-sin-talle lu-asesor-opcion">No estoy segura</button>
+        </div>
+      </div>
+      <div class="js-lu-asesor-paso lu-asesor-paso" data-paso="3" hidden>
+        <button type="button" class="js-lu-asesor-volver lu-asesor-volver" data-volver="2">&larr; Volver</button>
+        <p class="lu-asesor-titulo" id="lu-asesor-titulo-3">Pasame tus medidas (en cm)</p>
+        <div class="js-lu-asesor-medidas lu-asesor-medidas">
+          <label class="lu-asesor-campo">Busto
+            <input type="number" inputmode="numeric" min="0" class="js-lu-asesor-medida form-control" data-medida="busto">
+          </label>
+          <label class="lu-asesor-campo">Cintura
+            <input type="number" inputmode="numeric" min="0" class="js-lu-asesor-medida form-control" data-medida="cintura">
+          </label>
+          <label class="lu-asesor-campo">Cadera
+            <input type="number" inputmode="numeric" min="0" class="js-lu-asesor-medida form-control" data-medida="cadera">
+          </label>
+        </div>
+        <button type="button" class="js-lu-asesor-calcular btn lu-asesor-calcular">Ver mi talle</button>
+        <p class="js-lu-asesor-resultado lu-asesor-resultado" hidden></p>
+      </div>
+    </div>
+  </div>
+  ${ASESOR_SCRIPT}`
+
 const PANELES = `
 ${WHATSAPP}
+${ASESOR}
   <div id="nav-hamburger" class="js-modal modal modal-nav-hamburger modal-docked-small modal-left transition-fade" style="display:none">
     <div class="modal-with-fixed-footer">
       <div class="modal-scrollable-area">
@@ -1329,7 +1389,7 @@ const SLIDES = [
   { titulo: 'New Season', desc: 'SS’ 26 · Ya en las tres tiendas', boton: 'Ver lo nuevo', foto: 'img/hero-01.jpg', color: 'white' },
   { titulo: '20% off', desc: 'Abonando en efectivo', boton: 'Ver la tienda', foto: 'img/hero-02.jpg', color: 'white' },
   { titulo: 'Ahi! Lupita', desc: 'Asesorándolas por más de 40 años', boton: 'Ver la tienda', foto: 'img/hero-03.jpg', color: 'white' },
-  { titulo: '3 y 6 cuotas', desc: 'Sin interes con todas las tarjetas', boton: 'Comprar ahora', foto: 'img/hero-04.jpg', color: 'white' },
+  { titulo: '3 y 6 cuotas', desc: 'En tarjetas bancarizadas', boton: 'Comprar ahora', foto: 'img/hero-04.jpg', color: 'white' },
 ]
 
 /* banner-services.tpl: tres renglones de demo. Los iconos son los del base
@@ -1337,7 +1397,7 @@ const SLIDES = [
 const SERVICIOS = [
   { titulo: 'Envíos a todo el país', texto: 'Por Andreani o Correo Argentino. Retiro gratis en las tres tiendas.',
     icono: '<svg class="icon-inline icon-w-20 icon-2x service-icon" viewBox="0 0 640 512" aria-hidden="true"><path d="M624 352h-16V243c0-13-5-25-14-34l-77-77c-9-9-21-14-34-14h-51V64c0-18-14-32-32-32H32C14 32 0 46 0 64v288c0 18 14 32 32 32h16a96 96 0 0 0 192 0h160a96 96 0 0 0 192 0h32c9 0 16-7 16-16v-16c0-9-7-16-16-16zM144 464a48 48 0 1 1 0-96 48 48 0 0 1 0 96zm288-160H272v-32h160v32zm0-64H272v-32h160v32zm64 224a48 48 0 1 1 0-96 48 48 0 0 1 0 96zm64-96h-8a96 96 0 0 0-112-46V160h51l77 77v131z"/></svg>' },
-  { titulo: '3 y 6 cuotas sin interés', texto: 'Con todas las tarjetas. Y 20% off pagando en efectivo en la tienda.',
+  { titulo: '3 y 6 cuotas sin interés', texto: 'En tarjetas bancarizadas. Y 20% off pagando en efectivo en la tienda.',
     icono: '<svg class="icon-inline icon-w-18 icon-2x service-icon" viewBox="0 0 576 512" aria-hidden="true"><path d="M528 32H48C22 32 0 54 0 80v352c0 26 22 48 48 48h480c26 0 48-22 48-48V80c0-26-22-48-48-48zm-480 48h480c9 0 16 7 16 16v48H32V96c0-9 7-16 16-16zm480 352H48c-9 0-16-7-16-16V256h512v160c0 9-7 16-16 16zM128 336v32h96v-32h-96zm160 0v32h160v-32H288z"/></svg>' },
   { titulo: 'Compra protegida', texto: 'Pagás con Mercado Pago y tu compra queda cubierta hasta que la tenés en la mano.',
     icono: '<svg class="icon-inline icon-w-14 icon-2x service-icon" viewBox="0 0 448 512" aria-hidden="true"><path d="M400 224h-24v-72a152 152 0 0 0-304 0v72H48c-26 0-48 22-48 48v192c0 26 22 48 48 48h352c26 0 48-22 48-48V272c0-26-22-48-48-48zm-104 0H152v-72a72 72 0 0 1 144 0v72zm104 240H48V272h352v192z"/></svg>' },
@@ -2497,6 +2557,18 @@ ${PANELES}
   </div>
   ${script}`
   writeFileSync(join(SALIDA, 'canal.html'), paginaHome(settings).replace('</body>', popup + '\n</body>'))
+}
+/* Guia de asesoramiento (snipplets/asesor.tpl): asesor.html es el home con la
+   ventana ya abierta en el paso 1, para poder ver y capturar el mini-quiz sin
+   tener que simular el clic del boton flotante. Reemplaza la instancia normal
+   (la de PANELES, que esta en todas las paginas) en vez de sumar una segunda:
+   dos "lu-asesor-popup" en la misma pagina duplican el id y el querySelector
+   del script solo engancha la primera, dejando la abierta sin JS. */
+{
+  const abierta = ASESOR
+    .replace('class="js-lu-asesor-popup lu-asesor-popup"', 'class="js-lu-asesor-popup lu-asesor-popup lu-asesor-popup-visible"')
+    .replace(' hidden>', '>')
+  writeFileSync(join(SALIDA, 'asesor.html'), paginaHome(settings).replace(ASESOR, abierta))
 }
 writeFileSync(join(SALIDA, 'popup.html'), paginaHome(settings).replace('</body>', MODAL_POPUP + '\n</body>'))
 writeFileSync(join(SALIDA, 'lupita-motion.js'), motionJs())

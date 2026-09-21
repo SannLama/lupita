@@ -103,6 +103,11 @@ h2,
 .lu-macro {
     font-family: var(--lu-macro);
     font-weight: 400;
+    /* Great Vibes tiene un solo peso (ver mas abajo, .welcome-title): el
+       navegador la "engordaba a mano" con font-weight 700 y quedaba rota.
+       Un trazo fino del mismo color le suma cuerpo sin ese efecto (pedido
+       de Santiago 2026-09-18: se perdia en la pagina). */
+    -webkit-text-stroke: 0.7px currentColor;
     text-transform: none;
     letter-spacing: 0;
     line-height: 1.15;
@@ -1345,6 +1350,16 @@ footer .contact-item {
     background-color: color-mix(in srgb, var(--lu-tinta) 45%, transparent);
     opacity: 0;
     transition: opacity 220ms var(--lu-entrada);
+}
+
+/* El "display: flex" de arriba le gana a la regla nativa del navegador para
+   [hidden] (misma especificidad, pero esta hoja va despues): sin esto, los
+   primeros 6 segundos de CUALQUIER pagina quedaban con una capa invisible
+   tapando toda la pantalla, comiendose los clics. Encontrado probando el
+   asesor en el navegador real, 2026-09-18 (nunca se habia clickeado esta
+   ventana en vivo, solo capturas). */
+.lu-canal-popup[hidden] {
+    display: none;
 }
 
 .lu-canal-popup-visible {
@@ -2814,6 +2829,257 @@ body:not(.template-product):not(.template-category) .page-header {
         right: 0.75rem;
         width: 2.75rem;
         height: 2.75rem;
+    }
+}
+
+/*============================================================================
+  #Guia de asesoramiento
+  Segundo boton flotante, apilado arriba del de WhatsApp (snipplets/asesor.tpl).
+  Mismo circulo, colores invertidos (tinta de fondo, icono en papel) para que
+  no compita con el turquesa, que queda reservado al de WhatsApp.
+==============================================================================*/
+
+.btn-asesor {
+    position: fixed;
+    bottom: 4.75rem;
+    right: 1rem;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    border: 0;
+    border-radius: 50%;
+    box-shadow: none;
+    cursor: pointer;
+    transition: transform 180ms var(--lu-entrada);
+}
+
+.btn-asesor svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: var(--lu-papel);
+}
+
+.btn-asesor:hover,
+.btn-asesor:active {
+    background-color: var(--lu-acento);
+    transform: scale(1.12);
+}
+
+.btn-asesor:hover svg,
+.btn-asesor:active svg {
+    fill: var(--lu-tinta);
+}
+
+.btn-asesor:focus-visible {
+    outline-color: var(--lu-tinta);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-asesor:hover,
+    .btn-asesor:active {
+        transform: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .btn-asesor {
+        bottom: 4.1rem;
+        right: 0.75rem;
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+}
+
+/* Ventana del mini-quiz: mismo tratamiento que el popup del canal (velo de
+   tinta, caja de papel con regla turquesa arriba, entra subiendo). */
+.lu-asesor-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 1060;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background-color: color-mix(in srgb, var(--lu-tinta) 45%, transparent);
+    opacity: 0;
+    transition: opacity 220ms var(--lu-entrada);
+}
+
+/* El "display: flex" de arriba le gana a la regla nativa del navegador para
+   [hidden] (misma especificidad, pero esta hoja va despues): sin esto, el
+   popup "cerrado" quedaba como una capa invisible tapando toda la pantalla y
+   comiendose los clics (encontrado probando el flujo real, 2026-09-18). */
+.lu-asesor-popup[hidden] {
+    display: none;
+}
+
+.lu-asesor-popup-visible {
+    opacity: 1;
+}
+
+.lu-asesor-caja {
+    position: relative;
+    width: min(24rem, 100%);
+    padding: clamp(1.5rem, 5vw, 2.25rem);
+    border-top: 4px solid var(--lu-acento);
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    text-align: left;
+    transform: translateY(0.5rem);
+    transition: transform 220ms var(--lu-entrada);
+}
+
+.lu-asesor-popup-visible .lu-asesor-caja {
+    transform: none;
+}
+
+.lu-asesor-cerrar {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: var(--lu-tinta);
+    cursor: pointer;
+}
+
+.lu-asesor-cerrar svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    fill: currentColor;
+}
+
+.lu-asesor-cerrar:hover {
+    background-color: var(--lu-acento);
+}
+
+.lu-asesor-etiqueta {
+    display: inline-block;
+    font-family: var(--lu-micro);
+    font-size: 0.66rem;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+}
+
+.lu-asesor-titulo {
+    margin: 0.5rem 0 1rem;
+    font-family: var(--lu-texto);
+    font-weight: 600;
+    font-size: 1.1rem;
+    line-height: 1.4;
+}
+
+.lu-asesor-opciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.lu-asesor-opcion {
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    color: var(--lu-tinta);
+    border: 1px solid var(--lu-tinta);
+    border-radius: var(--lu-radio-pildora);
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 140ms var(--lu-entrada), color 140ms var(--lu-entrada);
+}
+
+.lu-asesor-opcion:hover {
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+}
+
+.lu-asesor-volver {
+    display: inline-block;
+    margin: 0 0 1rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+/* Paso 3 del asesor: medidas para calcular el talle */
+.lu-asesor-medidas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.lu-asesor-campo {
+    flex: 1 1 6rem;
+    font-family: var(--lu-micro);
+    font-size: 0.62rem;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+    color: var(--lu-tinta);
+}
+
+.lu-asesor-campo .form-control {
+    display: block;
+    width: 100%;
+    margin-top: 0.35rem;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid var(--lu-tinta);
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.95rem;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.lu-asesor-calcular {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0.85rem 1rem;
+    border: 0;
+    border-radius: 0;
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    font-family: var(--lu-texto);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.lu-asesor-calcular:hover {
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+.lu-asesor-resultado {
+    margin: 1rem 0 0;
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-asesor-popup,
+    .lu-asesor-caja {
+        transition: none;
     }
 }
 

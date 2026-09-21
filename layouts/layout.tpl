@@ -131,6 +131,10 @@
 
         {% snipplet "whatsapp-chat.tpl" %}
 
+        {# Guia de asesoramiento: mini-quiz de ocasion + talle que lleva a la busqueda #}
+
+        {% snipplet "asesor.tpl" %}
+
         {# Volver arriba: aparece al bajar mas de una pantalla #}
 
         {% snipplet "volver-arriba.tpl" %}

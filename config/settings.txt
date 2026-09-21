@@ -813,6 +813,40 @@ Página de inicio
 	checkbox
 		name = lupita_canal_popup
 		description = Mostrar una ventana invitando a unirse al canal (una vez cada 14 días por visitante, a los 6 segundos; solo si el link está cargado)
+	checkbox
+		name = lupita_asesor_activo
+		description = Mostrar un botón flotante con una guía corta (ocasión + talle) que ayuda a elegir y lleva a la búsqueda
+	title
+		title = Talle según medidas (dentro del asesor)
+	description
+		description = Cuando alguien toca "No estoy segura" en el asesor, le pedimos busto/cintura/cadera y calculamos el talle con estos límites en centímetros. Son números de ejemplo: cambialos cuando tengas la tabla real de la marca.
+	text
+		name = lupita_talle_busto_s
+		description = Busto: hasta cuántos cm es talle S (ejemplo: 87)
+	text
+		name = lupita_talle_busto_m
+		description = Busto: hasta cuántos cm es talle M (ejemplo: 93)
+	text
+		name = lupita_talle_busto_l
+		description = Busto: hasta cuántos cm es talle L; más que esto se toma como XL (ejemplo: 99)
+	text
+		name = lupita_talle_cintura_s
+		description = Cintura: hasta cuántos cm es talle S (ejemplo: 67)
+	text
+		name = lupita_talle_cintura_m
+		description = Cintura: hasta cuántos cm es talle M (ejemplo: 73)
+	text
+		name = lupita_talle_cintura_l
+		description = Cintura: hasta cuántos cm es talle L; más que esto se toma como XL (ejemplo: 79)
+	text
+		name = lupita_talle_cadera_s
+		description = Cadera: hasta cuántos cm es talle S (ejemplo: 93)
+	text
+		name = lupita_talle_cadera_m
+		description = Cadera: hasta cuántos cm es talle M (ejemplo: 99)
+	text
+		name = lupita_talle_cadera_l
+		description = Cadera: hasta cuántos cm es talle L; más que esto se toma como XL (ejemplo: 105)
 	collapse
 		title = Medios de pago de Lupita
 	description
