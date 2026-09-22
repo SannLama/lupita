@@ -6363,6 +6363,87 @@ body:has(.js-home-sections-container > .lu-pagos-grande:last-of-type) footer {
 }
 
 /*============================================================================
+  #Aviso de cookies (propio, 2026-09-22)
+  Reemplaza al js-notification-cookie-banner del base, que corria pero
+  jQuery nunca lo dejaba visible (ver snipplets/aviso-cookies.tpl). Franja
+  angosta al pie, papel con regla de tinta arriba, igual criterio que el
+  resto de los avisos del theme. `right` deja el aire de la columna de
+  botones flotantes (WhatsApp/asesor/volver arriba) libre para que no se
+  tapen entre si. */
+.lu-cookies[hidden] {
+    display: none !important;
+}
+
+.lu-cookies {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 15;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem clamp(1.25rem, 3.5vw, 2.5rem);
+    padding-right: clamp(5rem, 15vw, 6rem);
+    background-color: var(--lu-papel);
+    border-top: 1px solid var(--lu-linea);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.5rem);
+    transition: opacity 200ms, transform 200ms, visibility 0s linear 200ms;
+}
+
+.lu-cookies-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 200ms, transform 200ms, visibility 0s;
+}
+
+.lu-cookies-texto {
+    margin: 0;
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    max-width: 60ch;
+}
+
+.lu-cookies-boton {
+    flex: none;
+    padding: 0.6rem 1.5rem;
+    border: 1px solid var(--lu-tinta);
+    border-radius: var(--lu-radio-pildora, 999px);
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    cursor: pointer;
+    transition: background-color 120ms, color 120ms;
+}
+
+.lu-cookies-boton:hover {
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+.lu-cookies-boton:focus-visible {
+    outline: 2px solid var(--lu-tinta);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-cookies,
+    .lu-cookies-visible {
+        transform: none;
+    }
+}
+
+/*============================================================================
   #Formas redondeadas (2026-09-16)
   Santiago: "no quiero tantos cuadrados, se busca una estetica romantica".
   El reset brutalista de arriba (90 grados en todo) queda como base y esta
