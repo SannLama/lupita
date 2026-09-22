@@ -157,7 +157,7 @@
 
 {# Product form, includes: Variants, CTA and Shipping calculator #}
 
- <form id="product_form" class="js-product-form" method="post" action="{{ store.cart_url }}" data-store="product-form-{{ product.id }}">
+ <form id="product_form" class="js-product-form" method="post" action="{{ store.cart_url }}" data-store="product-form-{{ product.id }}" data-nombre-producto="{{ product.name }}">
 	<input type="hidden" name="add_to_cart" value="{{product.id}}" />
  	{% if product.variations %}
         {% include "snipplets/product/product-variants.tpl" with {show_size_guide: true} %}
@@ -216,7 +216,9 @@
     }) }}
 
     {% set state = store.is_catalog ? 'catalog' : (product.available ? product.display_price ? 'cart' : 'contact' : 'nostock') %}
-    {% set texts = {'cart': "Agregar al carrito", 'contact': "Consultar precio", 'nostock': "Sin stock", 'catalog': "Consultar"} %}
+    {# No se vende online (aviso en la barra de arriba): "Agregar al carrito" pasa a
+       abrir WhatsApp con la prenda y la variante, via static/js/lupita-comprar-whatsapp.js.tpl #}
+    {% set texts = {'cart': "Consultar por WhatsApp", 'contact': "Consultar precio", 'nostock': "Sin stock", 'catalog': "Consultar"} %}
 
     {# Add to cart CTA #}
 

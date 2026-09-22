@@ -139,6 +139,10 @@
 
         {% snipplet "volver-arriba.tpl" %}
 
+        {# Aviso de cookies propio: el del base corre pero no queda visible #}
+
+        {% snipplet "aviso-cookies.tpl" %}
+
         {# Footer #}
 
         {% snipplet "footer.tpl" %}
@@ -191,6 +195,11 @@
         <script type="text/javascript">
             {% include "static/js/lupita-favoritos.js.tpl" %}
         </script>
+
+        {# No se vende online (aviso en la barra de arriba): el submit del formulario
+           de producto abre WhatsApp en vez de ir al carrito. Sin envolver en otro
+           <script>: este include ya trae el suyo propio (como titulo-al-salir.tpl). #}
+        {% include "static/js/lupita-comprar-whatsapp.js.tpl" %}
 
         {# Popup para unirse al canal de difusion de Instagram (una vez cada 14 dias) #}
         {% include "snipplets/popup-canal.tpl" %}

@@ -99,7 +99,7 @@
             {# Hidden product form to update item image and variants: Also this is used for quickshop popup #}
             
             <div class="js-item-variants hidden">
-                <form class="js-product-form" method="post" action="{{ store.cart_url }}">
+                <form class="js-product-form" method="post" action="{{ store.cart_url }}" data-nombre-producto="{{ product.name }}">
                     <input type="hidden" name="add_to_cart" value="{{product.id}}" />
                     {% if product.variations %}
                         {% include "snipplets/product/product-variants.tpl" with {quickshop: true} %}
@@ -108,7 +108,8 @@
                         {% include "snipplets/product/product-quantity.tpl" with {quickshop: true} %}
                     {% endif %}
                     {% set state = store.is_catalog ? 'catalog' : (product.available ? product.display_price ? 'cart' : 'contact' : 'nostock') %}
-                    {% set texts = {'cart': "Agregar al carrito", 'contact': "Consultar precio", 'nostock': "Sin stock", 'catalog': "Consultar"} %}
+                    {# No se vende online: ver static/js/lupita-comprar-whatsapp.js.tpl #}
+                    {% set texts = {'cart': "Consultar por WhatsApp", 'contact': "Consultar precio", 'nostock': "Sin stock", 'catalog': "Consultar"} %}
 
                     {# Add to cart CTA #}
 
@@ -178,8 +179,9 @@
             {% set quickshop_button_classes = 'btn btn-primary btn-small px-4 mb-1 mx-auto' %}
 
             {% set state = store.is_catalog ? 'catalog' : (product.available ? product.display_price ? 'cart' : 'contact' : 'nostock') %}
-            {% set texts = {'cart': "Agregar al carrito", 'contact': "Consultar precio", 'nostock': "Sin stock", 'catalog': "Consultar"} %}
-            
+            {# No se vende online: ver static/js/lupita-comprar-whatsapp.js.tpl #}
+            {% set texts = {'cart': "Consultar por WhatsApp", 'contact': "Consultar precio", 'nostock': "Sin stock", 'catalog': "Consultar"} %}
+
             <div class="item-actions mt-2">
 
                 {% if product.isSubscribable() %}
@@ -193,13 +195,13 @@
 
                         {# Open quickshop popup if has variants #}
 
-                        <a data-toggle="#quickshop-modal" data-modal-url="modal-fullscreen-quickshop" class="js-quickshop-modal-open {% if slide_item %}js-quickshop-slide{% endif %} js-modal-open js-fullscreen-modal-open {{ quickshop_button_classes }}" title="{{ 'Compra rápida de' | translate }} {{ product.name }}" aria-label="{{ 'Compra rápida de' | translate }} {{ product.name }}" data-component="product-list-item.add-to-cart" data-component-value="{{product.id}}">{{ 'Agregar al carrito' | translate }}</a>
+                        <a data-toggle="#quickshop-modal" data-modal-url="modal-fullscreen-quickshop" class="js-quickshop-modal-open {% if slide_item %}js-quickshop-slide{% endif %} js-modal-open js-fullscreen-modal-open {{ quickshop_button_classes }}" title="{{ 'Compra rápida de' | translate }} {{ product.name }}" aria-label="{{ 'Compra rápida de' | translate }} {{ product.name }}" data-component="product-list-item.add-to-cart" data-component-value="{{product.id}}">{{ 'Consultar por WhatsApp' | translate }}</a>
                     {% else %}
 
                         {# If not variants add directly to cart #}
-                        <form class="js-product-form" method="post" action="{{ store.cart_url }}">
+                        <form class="js-product-form" method="post" action="{{ store.cart_url }}" data-nombre-producto="{{ product.name }}">
                             <input type="hidden" name="add_to_cart" value="{{product.id}}" />
-                            
+
 
                             <input type="number" name="quantity" value="1" class="js-quantity-input hidden" aria-label="{{ 'Cambiar cantidad' | translate }}" >
 
