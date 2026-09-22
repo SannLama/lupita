@@ -80,13 +80,13 @@
             </div>
             <div class="col-md-9 copyright text-center text-md-right pt-4 pt-md-0">
                 {{ "Copyright {1} - {2}. Todos los derechos reservados." | translate( (store.business_name ? store.business_name : store.name) ~ (store.business_id ? ' - ' ~ store.business_id : ''), "now" | date('Y') ) }}
+                {# El link de arrepentimiento va chico y al final, sin negrita ni renglon propio (Santiago, 2026-09-15) #}
                 {{ component('claim-info', {
 						container_classes: "mt-2",
 						divider_classes: "mx-1 d-none d-md-inline-block",
 						text_classes: {text_consumer_defense: 'd-inline-block mb-1'},
 						link_classes: {
 							link_consumer_defense: "lu-reclamo-link",
-							{# Chico y al final, sin negrita ni renglon propio (Santiago, 2026-09-15) #}
 							link_order_cancellation: "lu-arrepentimiento-link",
 						},
 					}) 

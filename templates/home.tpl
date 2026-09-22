@@ -35,6 +35,16 @@
 
 	{% endfor %}
 
+	{# Una tienda que viene de otro theme guarda posiciones con nombres ajenos
+	   ('institutional', 'new', 'sale'...) que ocupan el lugar de las nuestras:
+	   lo que no entro en ninguna posicion sale igual, en el orden de defaults. #}
+	{% for section_select in ['slider', 'products', 'informatives', 'categories', 'modules', 'instafeed', 'welcome', 'video', 'cover', 'capsule', 'payments'] %}
+		{% if section_select not in newArray %}
+			{% include 'snipplets/home/home-section-switch.tpl' %}
+			{% set newArray = newArray|merge([section_select]) %}
+		{% endif %}
+	{% endfor %}
+
 	{#  **** Hidden Sections ****  #}
 	{% if show_component_help %}
 		<div style="display:none">

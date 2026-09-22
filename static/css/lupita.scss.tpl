@@ -1,5 +1,5 @@
 {#/*============================================================================
-  lupita.scss.tpl — Sistema visual de Ahi! Lupita
+  lupita.scss.tpl - Sistema visual de Ahi! Lupita
   Brutalismo suizo (Swiss Industrial Print) sobre el theme base de Tiendanube.
 
   Se carga DESPUES de style-async en layouts/layout.tpl, asi gana la cascada
@@ -30,23 +30,23 @@
     /* Desde el 2026-09-15: cuatro voces. Titulos y texto los elige la clienta
        en el panel (font_headings = Great Vibes, font_rest = Instrument Sans);
        subtitulos, rotulos y marca son fijos y se cargan con un <link> propio
-       en layout.tpl y password.tpl — el panel solo carga las dos elegidas.
+       en layout.tpl y password.tpl - el panel solo carga las dos elegidas.
        Great Vibes reemplaza a Liza Pro y Bodoni Moda a Bigilla (que a su
        vez habia reemplazado a Caveat/Brown Sugar), las dos pagas: con
        licencia web, se cambian aca y en el @font-face, nada mas. */
-    --lu-macro: {{ settings.font_headings }};
-    --lu-texto: {{ settings.font_rest }};
+    --lu-macro: {{ settings.font_headings | raw }};
+    --lu-texto: {{ settings.font_rest | raw }};
     --lu-sub: "Bodoni Moda", serif;
     /* Rotulos: hasta el 2026-09-16 eran Roboto Mono, la maquina de escribir
        del brutalismo. Santiago pidio sacarla por la estetica romantica: pasan
        a la misma letra del texto, en versal espaciada. */
-    --lu-micro: {{ settings.font_rest }};
+    --lu-micro: {{ settings.font_rest | raw }};
 
     /* El logotipo y la navegacion NO siguen font_headings a proposito, desde
        el 2026-09-11: Santiago pidio una tipografia "romantica y delicada"
        para los titulos grandes (hero, portada, secciones), y font_headings
        paso a ser Italiana para eso. Pero el logotipo es identidad de marca,
-       no un titulo de contenido — sigue fijo en la Archivo Black de siempre
+       no un titulo de contenido - sigue fijo en la Archivo Black de siempre
        aunque la clienta cambie font_headings desde el panel. Fijo a
        proposito, no via variable: ver #Cabecera. */
     --lu-marca: "Archivo Black", sans-serif;
@@ -91,7 +91,7 @@ body {
 
 /* Macro: --lu-macro es Great Vibes desde el 2026-09-15 (antes Italiana, y
    antes Archivo Black). Es una script ligada: en MAYUSCULAS no se lee, y el
-   tracking separa letras que tienen que tocarse — minuscula normal y
+   tracking separa letras que tienen que tocarse - minuscula normal y
    letter-spacing 0. El interlineado se abre para que los adornos de un
    renglon no pisen el de abajo.
 
@@ -194,7 +194,7 @@ h5 {
     /* En un monitor grande la grilla quedaba encajonada por el max-width del
        container, con franjas muertas a los costados y las fotos chicas contra
        la pantalla. El layout ya marca el body con template-<pagina>, asi que se
-       suelta el ancho solo donde manda la grilla — sin recurrir a 100vw, que
+       suelta el ancho solo donde manda la grilla - sin recurrir a 100vw, que
        mete scroll horizontal cuando hay barra de desplazamiento. */
     .template-category .container,
     .template-search .container {
@@ -311,7 +311,7 @@ a:hover {
     font-size: 0.62rem;
 }
 
-/* OFERTA: mismo bug que tenia el boton del hero — el turquesa de fondo pide
+/* OFERTA: mismo bug que tenia el boton del hero - el turquesa de fondo pide
    texto en tinta, no en papel (8.27:1 contra 2.17:1). */
 .item-label-sale,
 .label-sale {
@@ -394,8 +394,8 @@ hr,
     }
 }
 
-/* Rotulo tecnico. Autonomo a proposito: tambien se usa suelto — el "TALLE" de
-   la ficha de producto, por ejemplo — y antes solo funcionaba dentro de
+/* Rotulo tecnico. Autonomo a proposito: tambien se usa suelto - el "TALLE" de
+   la ficha de producto, por ejemplo - y antes solo funcionaba dentro de
    .lu-seccion-titulo, asi que en esos lugares salia en minusculas. */
 .lu-rotulo {
     font-family: var(--lu-micro);
@@ -421,7 +421,7 @@ hr,
     padding-bottom: clamp(2rem, 5vw, 4rem);
 }
 
-/* El nombre del producto usa h1, y el h1 del sistema es tamaño portada
+/* El nombre del producto usa h1, y el h1 del sistema es tamano portada
    (hasta 9rem). Una prenda con ese cuerpo es absurda: se acota aca. */
 #single-product h1 {
     font-size: clamp(1.5rem, 3vw, 2.5rem);
@@ -467,7 +467,7 @@ hr,
 
 /* La descripcion es el unico texto largo del theme: va en minusculas y con
    interlineado ancho. Mayusculas y tracking sirven para metadatos, no para
-   parrafos — un texto de venta en versales no lo lee nadie. */
+   parrafos - un texto de venta en versales no lo lee nadie. */
 .product-description,
 .product-description p {
     font-family: var(--lu-texto);
@@ -490,8 +490,8 @@ hr,
 /*============================================================================
   #Hero: el slider de la home
   Las fotos se pasan solas (autoplay en config/defaults.txt y el delay en
-  static/js/store.js.tpl). El marcado es el del base — snipplets/home/
-  home-slider.tpl — y todo esto lo restila por sus clases.
+  static/js/store.js.tpl). El marcado es el del base - snipplets/home/
+  home-slider.tpl - y todo esto lo restila por sus clases.
 ==============================================================================*/
 
 .nube-slider-home {
@@ -519,10 +519,10 @@ hr,
     display: block;
 }
 
-/* El texto se apoya directo sobre la foto, sin nada atras — decision de
+/* El texto se apoya directo sobre la foto, sin nada atras - decision de
    Santiago el 2026-09-10. Antes iba dentro de un bloque macizo de tinta.
 
-   ⚠️ Esto depende de la foto: si la campana es clara justo donde cae el
+   (!) Esto depende de la foto: si la campana es clara justo donde cae el
    titulo, el texto se pierde. Probado con fotos reales el 2026-09-11: en una
    foto de playa clara (cielo y arena) el titulo crema casi desaparece.
 
@@ -604,8 +604,8 @@ hr,
 
 /*  Contador tipo "01 / 04" en lugar de los puntitos del base.
     Los bullets siguen en el marcado: cada uno incrementa un contador, el
-    activo muestra su numero, y el ::after del contenedor —que se renderiza
-    despues de todos los hijos— muestra el total. Asi no hay que tocar el .tpl. */
+    activo muestra su numero, y el ::after del contenedor -que se renderiza
+    despues de todos los hijos- muestra el total. Asi no hay que tocar el .tpl. */
 .nube-slider-home .swiper-pagination {
     counter-reset: lu-slide;
     position: absolute;
@@ -669,12 +669,12 @@ hr,
   #Portada
   home_order_position_8 = cover -> home-cover.tpl (nuevo, no viene del
   base): una sola foto a pantalla completa con un titulo grande y sin
-  carrusel. Idea de Santiago (referencia Lara Casa) — 2026-09-11.
+  carrusel. Idea de Santiago (referencia Lara Casa) - 2026-09-11.
 
   Mas baja que el hero (56vh/72vh contra 72vh/88vh) a proposito: si va
   cerca del hero en la pagina, misma altura hubiera leido como "otro slide
   mas" en vez de una pausa distinta. El texto reusa las clases del hero
-  (swiper-text, swiper-white/black) — ver la regla compartida mas arriba —
+  (swiper-text, swiper-white/black) - ver la regla compartida mas arriba -
   asi hereda el mismo arreglo de contraste sin duplicar CSS.
 ==============================================================================*/
 
@@ -707,8 +707,8 @@ hr,
 /*============================================================================
   #Capsula
   home_order_position_9 = capsule -> home-capsule.tpl (nuevo, no viene del
-  base): video en loop, sin sonido, de fondo — la marca lo pidio para su
-  capsula actual ("The Trip"). Idea de Santiago — 2026-09-11.
+  base): video en loop, sin sonido, de fondo - la marca lo pidio para su
+  capsula actual ("The Trip"). Idea de Santiago - 2026-09-11.
 
   Comparte alto con la Portada (.capsule-media agrupado arriba con
   .cover-image) para que las dos "pausas graficas" del home midan lo mismo.
@@ -769,6 +769,9 @@ hr,
 .section-cover-home .cover-image .swiper-text,
 .section-capsule-home .capsule-media .swiper-text {
     top: 50%;
+    /* El base deja .swiper-text en opacity 0 y solo lo prende dentro de
+       .swiper-slide-active: aca no hay carrusel, asi que se prende a mano. */
+    opacity: 1;
     bottom: auto;
     transform: translate(-50%, -50%);
 }
@@ -776,7 +779,7 @@ hr,
 /*============================================================================
   #Barra de aviso
   El renglon que corona la pagina, y el unico lugar donde el mejor dato de la
-  marca — 20% en efectivo, 3 y 6 cuotas — esta antes que cualquier foto.
+  marca - 20% en efectivo, 3 y 6 cuotas - esta antes que cualquier foto.
 
   Iba en negativo (papel sobre tinta) hasta el 2026-09-10: Santiago pidio sacar
   el negro. Queda como rotulo tecnico sobre papel, separado de la cabecera por
@@ -839,7 +842,7 @@ hr,
     line-height: 1.3;
 }
 
-/* Separador entre mensajes: un punto de tinta, no el "—" que la clienta usa
+/* Separador entre mensajes: un punto de tinta, no el "-" que la clienta usa
    para cortar el texto en el panel. */
 .ad-msg::after {
     content: "\2022";
@@ -1000,7 +1003,7 @@ hr,
    aparecia como un cuadrito seguido de USCAR. */
 @media (min-width: 768px) {
     .utilities-link[data-toggle="#nav-hamburger"]::after {
-        content: "\00a0 {{ 'Menú' | translate }}";
+        content: "\00a0 Men\0000fa";
     }
 
     .utilities-link[data-toggle="#nav-search"]::after {
@@ -1120,8 +1123,8 @@ hr,
     color: var(--lu-tinta);
 }
 
-/* Foco: el campo se tiñe, la regla no cambia de color. Antes pasaba a
-   turquesa, que contra el papel da 2.17:1 — un indicador de foco pide 3:1
+/* Foco: el campo se tine, la regla no cambia de color. Antes pasaba a
+   turquesa, que contra el papel da 2.17:1 - un indicador de foco pide 3:1
    (WCAG 1.4.11), asi que el cambio se veia menos que el estado normal. */
 .search-input:focus {
     outline: none;
@@ -1129,7 +1132,7 @@ hr,
 }
 
 /* La cruz azul que Chrome/Edge le agregan solos a input[type=search] al
-   escribir (Santiago, 2026-09-15: "sacá la cruz azul"). Se borra con la
+   escribir (Santiago, 2026-09-15: "saca la cruz azul"). Se borra con la
    tecla Escape o a mano; no hace falta un boton extra. */
 .search-input::-webkit-search-cancel-button,
 .search-input::-webkit-search-decoration {
@@ -1290,7 +1293,7 @@ footer .contact-item {
     color: var(--lu-tinta);
 }
 
-/* Mismo criterio que el buscador: se tiñe el campo, la regla sigue en tinta */
+/* Mismo criterio que el buscador: se tine el campo, la regla sigue en tinta */
 .newsletter .form-control:focus {
     outline: none;
     background-color: color-mix(in srgb, var(--lu-tinta) 5%, var(--lu-papel));
@@ -1534,7 +1537,7 @@ footer a:hover {
 }
 
 /* El separador del base es un bloquecito centrado (col-2 offset-5). Aca es una
-   regla al ancho completo — pero fina y en linea, no en tinta: abajo viene el
+   regla al ancho completo - pero fina y en linea, no en tinta: abajo viene el
    riel de secciones con su propio borde y dos reglas macizas juntas se leen
    como un error de imprenta. */
 .category-header .divider {
@@ -1548,16 +1551,16 @@ footer a:hover {
 /*============================================================================
   #Categorias con foto
   home_order_position_2 = categories -> home-banners.tpl del base: 3 fotos
-  con titulo y link que la clienta carga desde el panel (Diseño -> Banners de
+  con titulo y link que la clienta carga desde el panel (Diseno -> Banners de
   categorias), sin tocar codigo. Estaba sin restylar (Bootstrap de fabrica,
   bordes redondeados). Idea de Santiago (referencia con 3 fotos y categoria
-  superpuesta) — 2026-09-11.
+  superpuesta) - 2026-09-11.
 
   Desde el 2026-09-15 (pedido de Santiago): sin el chip de tinta. La palabra
   va centrada sobre la foto, en la tipografia de titulo (Great Vibes) y en
   papel. Como el home-banners.tpl del base no trae selector de color de
   texto por foto, un velo plano de tinta al 22% sobre la imagen asegura que
-  se lea aunque la foto sea clara ahi — plano, sin degradado ni sombra.
+  se lea aunque la foto sea clara ahi - plano, sin degradado ni sombra.
 ==============================================================================*/
 
 .section-banners-home .row {
@@ -1812,7 +1815,7 @@ footer a:hover {
 /*============================================================================
   #Panel de filtros
   Lo que queda adentro del modal despues de sacarle las secciones: talle,
-  color, precio. Un filtro no es una decision de marca, es una tarea — asi que
+  color, precio. Un filtro no es una decision de marca, es una tarea - asi que
   todo micro, sin tipografia macro que compita con el catalogo.
 ==============================================================================*/
 
@@ -1920,7 +1923,7 @@ footer a:hover {
 }
 
 /* El "Filtrado por:" del base no tiene clase propia, asi que se le agrego
-   .lu-aplicados al contenedor — una palabra en filters.tpl, nada mas. */
+   .lu-aplicados al contenedor - una palabra en filters.tpl, nada mas. */
 .lu-aplicados {
     /* .75rem horizontal = el padding de columna de Bootstrap, que cancela el
        margen negativo de su .row y deja el renglon al ras del container. */
@@ -1963,7 +1966,7 @@ footer a:hover {
 }
 
 /* Exito (cupon aplicado, newsletter enviado): el unico aviso en turquesa,
-   y como fondo con tinta encima — la unica combinacion del acento que
+   y como fondo con tinta encima - la unica combinacion del acento que
    contrasta (8.27:1). Antes era solo un borde turquesa sobre papel, que a
    2.17:1 casi no se distinguia del aviso neutro. */
 .alert-success {
@@ -1999,8 +2002,8 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* "¡Estás a un paso de crear tu cuenta!" (register.tpl): ni informa un dato
-   neutro (.alert-info) ni frena una compra (.alert-danger) — mismo trato que
+/* "Estas a un paso de crear tu cuenta!" (register.tpl): ni informa un dato
+   neutro (.alert-info) ni frena una compra (.alert-danger) - mismo trato que
    .alert-info, borde fino sin relleno. */
 .alert-primary {
     color: var(--lu-gris);
@@ -2028,7 +2031,7 @@ footer a:hover {
    "sin redondeo, sin sombra" cuando el campo no vive solo en una linea (ver
    #Buscador, que si puede ser un renglon con regla inferior). El texto
    tipeado se queda en minuscula/mayuscula normal a proposito: un email o una
-   contraseña en VERSALITA es mas dificil de revisar antes de enviar. */
+   contrasena en VERSALITA es mas dificil de revisar antes de enviar. */
 .form-control,
 .form-select {
     display: block;
@@ -2064,7 +2067,7 @@ footer a:hover {
 }
 
 /* El base dibuja su propio dropdown (form-select-icon, .open) y ya lo
-   posiciona en style-critical.tpl — falta apagar la flecha nativa del
+   posiciona en style-critical.tpl - falta apagar la flecha nativa del
    navegador, que si no queda una al lado de la otra, y dejarle aire al
    texto para que no pise el icono. */
 .form-select {
@@ -2097,7 +2100,7 @@ footer a:hover {
 }
 
 /* "Mis datos", "Principal", "Detalles", "Productos": son rotulos tecnicos
-   que anteceden una regla, no titulos de contenido — van en la microtipo-
+   que anteceden una regla, no titulos de contenido - van en la microtipo-
    grafia del sistema (como .lu-rotulo), no en la serif macro de los h1/h2. */
 .account-page .h5 {
     font-family: var(--lu-micro);
@@ -2116,9 +2119,9 @@ footer a:hover {
     font-size: clamp(1.1rem, 3vw, 1.5rem);
 }
 
-/* Links sueltos (Editar, Ver detalle, ¿Olvidaste tu contraseña?): tinta con
+/* Links sueltos (Editar, Ver detalle, Olvidaste tu contrasena?): tinta con
    subrayado en hover, el mismo lenguaje que .filter-link. .btn-link-primary
-   es el llamado a la accion (Crear cuenta, Iniciar sesión) y se queda
+   es el llamado a la accion (Crear cuenta, Iniciar sesion) y se queda
    subrayado siempre, no solo al pasar el mouse. */
 .btn-link,
 .btn-link-primary {
@@ -2136,7 +2139,7 @@ footer a:hover {
 
 /* "Mis compras" (orders.tpl) y el detalle de una orden (order.tpl): el
    mismo contenedor con borde de 1px que usa el resto del sistema en vez de
-   la sombra/redondeo del base — .card ya viene sin ninguna de las dos por
+   la sombra/redondeo del base - .card ya viene sin ninguna de las dos por
    el reset de arriba, aca solo falta el borde y el aire interno. */
 .card {
     border: 1px solid var(--lu-linea);
@@ -2159,7 +2162,7 @@ footer a:hover {
 /*============================================================================
   #Carrito
   El panel lateral (#modal-cart) y la pagina del carrito comparten estos
-  snipplets — cart-item-ajax.tpl y cart-totals.tpl —, asi que casi todo esto
+  snipplets - cart-item-ajax.tpl y cart-totals.tpl -, asi que casi todo esto
   sirve para los dos. Lo que difiere va scopeado.
 ==============================================================================*/
 
@@ -2326,8 +2329,8 @@ footer a:hover {
 
 /*============================================================================
   #Totales del carrito
-  La unica cifra macro del panel es el TOTAL. Todo lo demas — subtotal,
-  descuentos, cuotas — es metadato alrededor.
+  La unica cifra macro del panel es el TOTAL. Todo lo demas - subtotal,
+  descuentos, cuotas - es metadato alrededor.
 ==============================================================================*/
 
 #modal-cart .cart-row {
@@ -2380,7 +2383,7 @@ footer a:hover {
 
    Fijo en --lu-marca (Archivo Black) y no en --lu-macro a proposito, desde
    que font_headings paso a Italiana (2026-09-11): es una cifra de plata, no
-   un titulo — se queda estructural, fuera del alcance que pidio Santiago
+   un titulo - se queda estructural, fuera del alcance que pidio Santiago
    ("solo los titulos grandes: hero, portada, secciones"). */
 .js-cart-total-container .h2 {
     font-family: var(--lu-marca);
@@ -2392,7 +2395,7 @@ footer a:hover {
 }
 
 /* En el panel, "TOTAL:" y la cifra en el mismo renglon no entran: en 380px la
-   cifra se partia despues del signo — $ / 219.500 —, que es exactamente el
+   cifra se partia despues del signo - $ / 219.500 -, que es exactamente el
    error que ya habiamos corregido en la grilla. Se apilan: la palabra pasa a
    rotulo y la cifra se queda con el renglon entero. */
 #modal-cart .js-cart-total-container {
@@ -2449,7 +2452,7 @@ footer a:hover {
 /* Barra de envio gratis. Sin redondeo, como todo lo demas.
 
    Y en TINTA, no en el turquesa de la marca: medido, el acento da 2.17:1
-   contra el papel — abajo del 3:1 que pide un elemento grafico que transmite
+   contra el papel - abajo del 3:1 que pide un elemento grafico que transmite
    informacion, y esta barra dice cuanto falta. Contra tinta el turquesa da
    8.27:1, asi que sirve como fondo con letras oscuras encima, no como color
    sobre papel. Ver la nota de contraste en LUPITA.md. */
@@ -2495,9 +2498,9 @@ footer a:hover {
   #Foco visible
   El base apaga el outline en varios lados y no pone nada a cambio: con
   teclado no se sabe donde se esta parado. Un rectangulo de 2px en tinta,
-  separado 2px del borde — cuadrado y sin sombra, como todo lo demas.
+  separado 2px del borde - cuadrado y sin sombra, como todo lo demas.
   :focus-visible y no :focus, para que un click con el mouse no lo dibuje.
-  Los campos de texto tienen su propio estado (borde a 2px o campo teñido)
+  Los campos de texto tienen su propio estado (borde a 2px o campo tenido)
   y no lo necesitan encima.
 ==============================================================================*/
 
@@ -2533,8 +2536,8 @@ select:focus-visible,
 /*============================================================================
   #Migas
   El base las arma con ">" entre las migas. Se las trata como un rotulo
-  tecnico, y el ">" se reemplaza por una raya vertical de 1px — la misma
-  linea que divide todo lo demas — sin tocar breadcrumbs.tpl.
+  tecnico, y el ">" se reemplaza por una raya vertical de 1px - la misma
+  linea que divide todo lo demas - sin tocar breadcrumbs.tpl.
 ==============================================================================*/
 
 .breadcrumbs {
@@ -3088,7 +3091,7 @@ body:not(.template-product):not(.template-category) .page-header {
   cart_open_type = show_notification: al agregar un producto, el base
   despliega una tarjeta debajo de la cabecera (notification-cart.tpl), con
   sombra y una rotacion 3D en el eje X. Aca es una caja de 1px en tinta
-  sobre papel, que baja medio centimetro y se funde — entrada 220ms, salida
+  sobre papel, que baja medio centimetro y se funde - entrada 220ms, salida
   mas corta, como los paneles. Mismo contenido, mismas clases.
 ==============================================================================*/
 
@@ -3183,7 +3186,7 @@ body:not(.template-product):not(.template-category) .page-header {
   notification.tpl: el banner de cookies (fijo al pie, .notification-fixed-
   bottom) y el "Segui aca tu ultima compra" (debajo de la cabecera). Los dos
   llegan con .notification-secondary, que el base pinta con un fondo apenas
-  mas oscuro y texto al 80%. Aca: papel, regla maciza de 2px y micro — el
+  mas oscuro y texto al 80%. Aca: papel, regla maciza de 2px y micro - el
   mismo trato que el pie, que es lo que tienen al lado.
 ==============================================================================*/
 
@@ -3502,8 +3505,8 @@ body:not(.template-product):not(.template-category) .page-header {
   #Bienvenida
   home_order_position_6 = welcome -> home-welcome-message.tpl: una frase
   de la marca y, si quiere, un parrafo. Es la unica seccion del home que es
-  solo texto: se queda centrada a proposito — una pausa entre bloques de
-  fotos — pero con la escala del sistema y sin el aire de 70px del base.
+  solo texto: se queda centrada a proposito - una pausa entre bloques de
+  fotos - pero con la escala del sistema y sin el aire de 70px del base.
 ==============================================================================*/
 
 .section-welcome-home {
@@ -3548,7 +3551,7 @@ body:not(.template-product):not(.template-category) .page-header {
   #Instagram
   home-instafeed.tpl. La cuenta (131 mil seguidoras, verificada) es el
   activo mas grande de la marca. El base arma el feed con col-4 flotantes:
-  con gap tres tercios no entran y la tercera foto se caia — pasa a grid.
+  con gap tres tercios no entran y la tercera foto se caia - pasa a grid.
 ==============================================================================*/
 
 .section-instafeed-home {
@@ -3602,7 +3605,7 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 /* El usuario como se escribe en Instagram (pedido de Santiago, 2026-09-15):
-   @usuario en la tipografia del sistema operativo — la que usa la app —, en
+   @usuario en la tipografia del sistema operativo - la que usa la app -, en
    negrita y en minusculas, con el tilde azul de verificada al lado. Es la
    unica pieza del theme que no usa las fuentes de Lupita: tiene que
    reconocerse como un handle de Instagram. */
@@ -3708,7 +3711,7 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .lu-tiendas-favs::after,
 .lu-tiendas-pagos::after {
-    content: "\00a0→";
+    content: "\00a0\2192";
 }
 
 .lu-tiendas-pagos {
@@ -3729,15 +3732,15 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .lu-tiendas-sobre::after {
-    content: "\00a0→";
+    content: "\00a0\2192";
 }
 
 /*============================================================================
   #Sobre nosotros (2026-09-15)
   snipplets/home/home-sobre-nosotros.tpl. Texto a la izquierda en las voces
-  del sistema — titulo en Great Vibes, la frase del asesoramiento (la
+  del sistema - titulo en Great Vibes, la frase del asesoramiento (la
   especialidad de la tienda) en Bodoni Moda, grande, con una regla turquesa
-  decorativa al costado — y tres fotos a la derecha: la primera alta, las
+  decorativa al costado - y tres fotos a la derecha: la primera alta, las
   otras dos apiladas, con divisiones de 1px como el resto del theme.
 ==============================================================================*/
 
@@ -3853,7 +3856,7 @@ body:not(.template-product):not(.template-category) .page-header {
   #Preguntas frecuentes (2026-09-15)
   snipplets/preguntas-frecuentes.tpl. Titulo en Great Vibes como "Sobre
   nosotros"; la lista son renglones de 1px (el mismo corte que el pie y el
-  carrito). La pregunta en Bodoni Moda y un "+" que gira a "×" al abrir.
+  carrito). La pregunta en Bodoni Moda y un "+" que gira a "x" al abrir.
   El boton de arrepentimiento cierra la pagina chico, en rotulo gris.
 ==============================================================================*/
 
@@ -4067,7 +4070,7 @@ footer .lu-arrepentimiento-link {
 }
 
 /* En el pie, a la medida del copyright (0.58rem): ni un punto mas grande.
-   "ingresá acá" (defensa del consumidor) llegaba en el azul del navegador. */
+   "ingresa aca" (defensa del consumidor) llegaba en el azul del navegador. */
 footer .lu-arrepentimiento-link,
 footer .lu-reclamo-link {
     font-size: 0.58rem;
@@ -4086,8 +4089,8 @@ footer .lu-reclamo-link {
   #Compra rapida
   quick_shop (apagado por defecto, la clienta lo prende desde el panel): el
   modal que abre "Agregar al carrito" desde la grilla para elegir talle.
-  Solo la tipografia — el nombre llega con class h1 (la de Bootstrap, no el
-  elemento) y el precio con h4 — y los bordes. La mecanica del modal
+  Solo la tipografia - el nombre llega con class h1 (la de Bootstrap, no el
+  elemento) y el precio con h4 - y los bordes. La mecanica del modal
   (bottom-sheet en mobile, centrado en desktop) es del base y se respeta.
 ==============================================================================*/
 
@@ -4473,7 +4476,7 @@ a[data-toggle="#size-guide-modal"] svg {
 }
 
 /* El base reparte col-5 (campo) / col-6 (boton): en 390 el campo cortaba
-   "Tu código postal". Mitad y mitad, y en computadora vuelve al reparto base. */
+   "Tu codigo postal". Mitad y mitad, y en computadora vuelve al reparto base. */
 .product-shipping-calculator .shipping-calculator-form .col-5 {
     flex: 0 0 58%;
     max-width: 58%;
@@ -4711,7 +4714,7 @@ a[data-toggle="#size-guide-modal"] svg {
     padding: 0;
 }
 
-/* TOTAL: rotulo arriba, cifra entera debajo — igual que en el panel */
+/* TOTAL: rotulo arriba, cifra entera debajo - igual que en el panel */
 .template-cart .js-cart-total-container {
     margin-top: 1.1rem;
     padding-top: 1.1rem;
@@ -4803,7 +4806,7 @@ a[data-toggle="#size-guide-modal"] svg {
   Unica animacion de carga del theme, y solo en el hero: el bloque de texto
   sube medio centimetro y se funde, 700ms, despues de que la foto ya esta.
   backwards y no both: si la animacion no corre (pestana oculta, motor sin
-  animaciones), el texto esta visible igual — el estado final es el normal.
+  animaciones), el texto esta visible igual - el estado final es el normal.
   Swiper clona los slides para el loop; los clones la corren invisibles y
   no importa. Con prefers-reduced-motion se apaga (ver #Movimiento reducido).
 ==============================================================================*/
@@ -4822,23 +4825,23 @@ a[data-toggle="#size-guide-modal"] svg {
 /*============================================================================
   #Movimiento
   Criterio: WWDC "Designing Fluid Interfaces". Se aplica la parte que sirve a
-  esta marca — respuesta inmediata, caminos simetricos, propiedades que no
+  esta marca - respuesta inmediata, caminos simetricos, propiedades que no
   disparan layout, y respeto por prefers-reduced-motion.
 
   Lo que NO se aplica, a proposito: materiales translucidos, backdrop-filter,
   sombras contextuales y esquinas redondeadas. Toda esa parte de la guia
-  contradice la direccion del theme, que es brutalismo suizo — 90 grados, sin
+  contradice la direccion del theme, que es brutalismo suizo - 90 grados, sin
   sombras y sin degradados. La fisica del movimiento es prestable; el material
   de iOS no.
 
   Y una limitacion honesta: los paneles los abre el store.js de Tiendanube con
   una clase, asi que esto son transiciones CSS. Una transicion no se puede
-  agarrar y revertir a mitad de camino — para eso hacen falta resortes en JS,
+  agarrar y revertir a mitad de camino - para eso hacen falta resortes en JS,
   que es Etapa 2 y recien se puede probar con la tienda arriba.
 ==============================================================================*/
 
 /* Curvas. Sin rebote a proposito: el rebote se justifica cuando el gesto trajo
-   inercia — un flick, un arrastre — y aca todo se abre con un toque. */
+   inercia - un flick, un arrastre - y aca todo se abre con un toque. */
 :root {
     /* Entrada: frena al llegar */
     --lu-entrada: cubic-bezier(0.16, 0.84, 0.44, 1);
@@ -4912,7 +4915,7 @@ a[data-toggle="#size-guide-modal"] svg {
     fill: var(--lu-tinta);
 }
 
-/* Las transiciones de color son cortas: acompañan, no se hacen notar. */
+/* Las transiciones de color son cortas: acompanan, no se hacen notar. */
 .btn,
 .chip,
 .utilities-link,
@@ -4928,14 +4931,14 @@ a[data-toggle="#size-guide-modal"] svg {
 
 /*============================================================================
   #Grilla: la foto respira al pasar por encima
-  Unico movimiento continuo del catalogo. Es transform puro — sin sombras ni
-  degradados — y la celda ya tiene overflow:hidden, asi que la foto crece
+  Unico movimiento continuo del catalogo. Es transform puro - sin sombras ni
+  degradados - y la celda ya tiene overflow:hidden, asi que la foto crece
   dentro de su division de 1px y no la pisa.
 ==============================================================================*/
 
 /* transform Y opacity, no el shorthand: las fotos de la grilla llegan con
    lazyload y .fade-in (transition: opacity .2s en style-critical). El
-   shorthand con transform solo la pisaba y la foto aparecia de golpe — y
+   shorthand con transform solo la pisaba y la foto aparecia de golpe - y
    de paso rompia el fundido a la segunda foto (product_hover), que el
    base hace con opacity. */
 .item-image img {
@@ -5026,7 +5029,7 @@ a[data-toggle="#size-guide-modal"] svg {
 /*============================================================================
   #404
   La cifra es el cartel: Italiana a escala de hero, al ras de la izquierda.
-  El decrypt (lupita-motion) cambia el texto, nunca el tamaño: tabular-nums
+  El decrypt (lupita-motion) cambia el texto, nunca el tamano: tabular-nums
   para que los caracteres al azar no muevan la caja.
 ==============================================================================*/
 
@@ -5252,7 +5255,7 @@ a[data-toggle="#size-guide-modal"] svg {
 
 /* Sin regla propia arriba: la pone el encabezado de pagina (#Encabezado de
    pagina). Una .template-blog .page-header {border:0} pierde contra el
-   body:not():not() de alla — 0,2,0 contra 0,3,1 — y quedaban dos lineas. */
+   body:not():not() de alla - 0,2,0 contra 0,3,1 - y quedaban dos lineas. */
 .lu-blog {
     margin-bottom: clamp(2rem, 5vw, 4rem);
 }
@@ -5499,7 +5502,7 @@ body .template-cart .cart-row .btn {
 
 /* El buscador tambien (Santiago, 2026-09-15: "no cambiaste la tipografia del
    buscar"): el campo era Archivo Black en versales y las sugerencias rotulo.
-   Mismo tamaño, voz del texto, minuscula. Cubre el panel y el de la 404. */
+   Mismo tamano, voz del texto, minuscula. Cubre el panel y el de la 404. */
 body .search-input,
 body .search-input.form-control,
 body #nav-search .modal-header,
@@ -5572,7 +5575,7 @@ body .template-cart .js-cart-total-container .h2.lu-tarjeta > span:first-child {
     color: inherit;
 }
 
-/* En Instrument Sans minuscula, los subrubros y la cuenta a 0.66–0.7rem
+/* En Instrument Sans minuscula, los subrubros y la cuenta a 0.66-0.7rem
    quedaban diminutos al lado de los rubros */
 body .nav-primary .nav-list .list-subitems .nav-list-link {
     font-size: 0.95rem;
@@ -5583,9 +5586,9 @@ body .nav-accounts-link {
 }
 
 /* Mismo problema en el carrito: subtotal, promociones, calculador de envio,
-   avisos y "Ver mas productos" venian a 0.62–0.66rem para versal mono. En
+   avisos y "Ver mas productos" venian a 0.62-0.66rem para versal mono. En
    minuscula se leian como letra chica de contrato. */
-/* El tamaño lo fijan los hijos (span/strong del renglon), no el .h5, y hay
+/* El tamano lo fijan los hijos (span/strong del renglon), no el .h5, y hay
    reglas de clase encima: se ancla en el id del panel y de la pagina. */
 body #modal-cart .cart-row .h5 :is(span, strong),
 body #modal-cart .js-total-promotions,
@@ -5617,7 +5620,7 @@ body #shoppingCartPage #go-to-checkout {
   Con "Descuento por medio de pago" prendido en el panel, el carrito muestra
   dos precios: el TOTAL (tarjeta) chico y apagado, y el precio en efectivo
   (component payment-discount-price, 20% off) grande y en el color de marca.
-  ⚠️ Pedido explicito de Santiago, avisado: #6BB3B9 sobre papel da 2,17:1 y
+  (!) Pedido explicito de Santiago, avisado: #6BB3B9 sobre papel da 2,17:1 y
   no llega ni al 3:1 de texto grande. Si hay quejas de lectura, pasar el
   numero a tinta sobre una franja turquesa (8,27:1).
 ==============================================================================*/
@@ -5718,7 +5721,7 @@ h5,
   #Favoritos (2026-09-15)
   Wishlist propia para venir a probarse las prendas al local
   (lupita-favoritos.js.tpl). Corazon sin guardar: contorno en tinta sobre
-  papel. Guardado: relleno en tinta sobre turquesa (8,27:1) — el turquesa
+  papel. Guardado: relleno en tinta sobre turquesa (8,27:1) - el turquesa
   nunca como color de un icono sobre papel. Todo nace hidden: si el
   navegador no deja guardar, no aparece nada.
 ==============================================================================*/
@@ -6174,7 +6177,7 @@ h5,
 
 /*============================================================================
   #Volver arriba (2026-09-15)
-  Encima del boton de WhatsApp (3rem + 1rem de margen), mismo tamaño, en
+  Encima del boton de WhatsApp (3rem + 1rem de margen), mismo tamano, en
   papel con borde de tinta para no confundirse con el. Invisible (y fuera
   del orden de tabulacion) hasta que se baja mas de una pantalla.
 ==============================================================================*/
