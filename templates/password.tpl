@@ -104,7 +104,14 @@
         <section class="section-password lu-cerrado">
             <div class="container">
                 <div class="lu-cerrado-logo">
-                    {{ component('logos/logo', {logo_size: 'large', logo_img_classes: 'transition-soft-slow', logo_text_classes: 'h1 m-0'}) }}
+                    {# Mismo logo "A!" del header (snipplets/svg/logo-lupita.tpl) en vez
+                       del logo de texto del base, que acá repetia "AHI! LUPITA" entero.
+                       Con la casilla apagada, vuelve el logo del panel de Tiendanube. #}
+                    {% if settings.lupita_logo_marca %}
+                        {% include "snipplets/svg/logo-lupita.tpl" %}
+                    {% else %}
+                        {{ component('logos/logo', {logo_size: 'large', logo_img_classes: 'transition-soft-slow', logo_text_classes: 'h1 m-0'}) }}
+                    {% endif %}
                 </div>
 
                 <h2 class="lu-cerrado-mensaje">{{ message }}</h2>

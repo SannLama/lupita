@@ -5237,6 +5237,22 @@ a[data-toggle="#size-guide-modal"] svg {
     color: var(--lu-tinta);
 }
 
+/* Logo "A!" (settings.lupita_logo_marca prendida): bien centrado en la
+   pantalla completa, a diferencia del resto del bloque que sigue a la
+   izquierda. Tamano propio porque este include no pasa por el wrapper
+   .lu-logo-marca del header (ahi el SVG es chico, para la cabecera). */
+.lu-cerrado-logo {
+    display: flex;
+    justify-content: center;
+}
+
+.lu-cerrado-logo .lu-logo-svg {
+    display: block;
+    height: clamp(3.5rem, 14vw, 6rem);
+    width: auto;
+    color: var(--lu-tinta);
+}
+
 .lu-cerrado-mensaje {
     font-family: var(--lu-sub);
     font-weight: 500;
@@ -5256,9 +5272,9 @@ a[data-toggle="#size-guide-modal"] svg {
 }
 
 .lu-cerrado .form-group .text-center,
-.lu-cerrado-logo,
 .lu-cerrado-logo .logo-text-container {
-    text-align: left !important; /* el logo y el link de ayuda del base vienen centrados */
+    text-align: left !important; /* el link de ayuda del base viene centrado. El logo
+    "A!" ahora se centra aparte (ver mas arriba): pedido de Santiago, 2026-09-22. */
 }
 
 .lu-cerrado .form-group .mt-4 {
