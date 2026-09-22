@@ -5,7 +5,9 @@
 {% set lu_es_sobre_nosotros = settings.lupita_about_show and (page.handle == 'sobre-nosotros' or page.name|lower == 'sobre nosotros') %}
 {# "Preguntas frecuentes" igual: snipplets/preguntas-frecuentes.tpl, que ya
    pone el contenido de la pagina adentro, antes del boton de arrepentimiento. #}
-{% set lu_es_faq = settings.lupita_faq_show and (page.handle in ['preguntas-frecuentes', 'faq'] or page.name|lower in ['preguntas frecuentes', 'faq']) %}
+{# La pagina real de la clienta se llama "FA!Q - Preguntas Frecuentes" (handle
+   faq-preguntas-frecuentes): alcanza con que el handle contenga una de las dos. #}
+{% set lu_es_faq = settings.lupita_faq_show and ('preguntas-frecuentes' in page.handle or 'faq' in page.handle) %}
 
 {# "Medios de pago" y "Cómo comprar" (2026-09-15): los links del pie llevan a
    paginas con estos nombres, que muestran el bloque de pagos del panel y los
