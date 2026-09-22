@@ -14,7 +14,7 @@
 ==============================================================================*/#}
 
 {% if settings.lupita_asesor_activo and template != 'password' %}
-    <button type="button" class="js-lu-asesor-abrir btn-asesor" aria-haspopup="dialog" aria-controls="lu-asesor-popup" aria-label="{{ 'Ayudame a elegir' | translate }}">
+    <button type="button" class="js-lu-asesor-abrir js-btn-fixed-bottom btn-asesor" aria-haspopup="dialog" aria-controls="lu-asesor-popup" aria-label="{{ 'Ayudame a elegir' | translate }}">
         {% include "snipplets/svg/comments.tpl" with {svg_custom_class: "icon-inline"} %}
     </button>
     <div id="lu-asesor-popup" class="js-lu-asesor-popup lu-asesor-popup" role="dialog" aria-modal="true" aria-labelledby="lu-asesor-titulo-1" data-buscar="{{ store.search_url }}" data-limites="{{ {'busto': [settings.lupita_talle_busto_s|default(87), settings.lupita_talle_busto_m|default(93), settings.lupita_talle_busto_l|default(99)], 'cintura': [settings.lupita_talle_cintura_s|default(67), settings.lupita_talle_cintura_m|default(73), settings.lupita_talle_cintura_l|default(79)], 'cadera': [settings.lupita_talle_cadera_s|default(93), settings.lupita_talle_cadera_m|default(99), settings.lupita_talle_cadera_l|default(105)]} | json_encode }}" hidden>

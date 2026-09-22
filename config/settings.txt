@@ -232,9 +232,6 @@ Encabezado
 			light = Color de fondo
 			dark = Color de textos
 	checkbox
-		name = head_transparent
-		description = Encabezado transparente sobre el carrusel de imágenes
-	checkbox
 		name = head_fix
 		description = Encabezado siempre visible al navegar la tienda
 	checkbox

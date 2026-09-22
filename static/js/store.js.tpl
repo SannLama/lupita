@@ -405,7 +405,8 @@ DOMContentLoaded.addEventOrExecute(() => {
 
     {# /* // Header */ #}
 
-    {% if template == 'home' and settings.head_transparent %}
+    {# Lupita: el encabezado nunca es transparente (ver snipplets/header/header.tpl) #}
+    {% if false and template == 'home' and settings.head_transparent %}
         {% if settings.slider and settings.slider is not empty %}        
 
             var $swiper_height = window.innerHeight - 100;

@@ -4,7 +4,9 @@
 
 {# Header #}
 
-{% set show_transparent_head = template == 'home' and settings.head_transparent and settings.slider and not settings.slider is empty %}
+{# El encabezado de Lupita es opaco: transparente sobre el carrusel tapaba la parte de arriba de las fotos
+   (la tienda traia head_transparent prendido del theme anterior). Se ignora el ajuste. #}
+{% set show_transparent_head = false %}
 
 <header class="js-head-main head-main {% if show_transparent_head %}head-transparent {% if settings.head_fix %}head-transparent-fixed{% else %}head-transparent-absolute{% endif %}{% endif %} head-{{ settings.head_background }} {% if settings.head_fix %}head-fix{% endif %} {% if not settings.head_fix and show_transparent_head %}head-absolute{% endif %}" data-store="head">
 
