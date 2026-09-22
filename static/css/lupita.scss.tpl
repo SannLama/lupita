@@ -589,6 +589,20 @@ hr,
     margin-top: 0.9rem;
 }
 
+/* (2026-09-21) El base fija `top: 60%` en .swiper-text y `top: 50%` en
+   .swiper-slide-active .swiper-text (style-colors). Con top y bottom a la
+   vez, top gana y el `bottom` de arriba no hacia nada: en escritorio el
+   texto quedaba colgando desde la mitad de la foto. Un nivel mas de
+   especificidad para ganarle al base sin depender del orden de carga. */
+/* Solo de 768px para arriba: en el celular los botones flotantes (asesor y
+   WhatsApp) viven abajo a la derecha y el texto al pie de la foto les
+   pasaba por debajo; a media altura, como lo deja el base, no chocan. */
+@media (min-width: 768px) {
+    .nube-slider-home .swiper-slide .swiper-text {
+        top: auto;
+    }
+}
+
 /* El unico turquesa del hero, para que el ojo sepa donde tocar.
    Texto en tinta y no en papel: turquesa+papel da 2.17:1 (ver la nota de
    contraste general), turquesa+tinta da 8.27:1. */
@@ -6095,6 +6109,43 @@ h5,
     .lu-pagos-grande .lu-pagos-lista {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+
+/* En el home (2026-09-21, pedido de Santiago): a todo el ancho, como la
+   franja de #Servicios, y sin el hueco de antes del pie. Venia en un
+   .container de 1140px entre dos piezas de borde a borde (la cinta de video
+   arriba, el pie abajo) y con su padding de abajo mas el margen de arriba
+   del pie sumaba ~170px de nada. La pagina "Medios de pago" (.lu-pagina-
+   pagos) no cambia: alla el bloque va angosto a proposito. */
+.js-home-sections-container > .lu-pagos-grande {
+    padding-bottom: 0;
+}
+
+.js-home-sections-container > .lu-pagos-grande > .container {
+    max-width: none;
+    padding: 0;
+}
+
+.js-home-sections-container > .lu-pagos-grande .lu-pagos-rotulo {
+    padding: 0 clamp(1.25rem, 3.5vw, 2.5rem);
+}
+
+.js-home-sections-container > .lu-pagos-grande .lu-pagos-item {
+    padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.25rem, 3.5vw, 2.5rem);
+}
+
+.js-home-sections-container > .lu-pagos-grande .lu-pagos-amex {
+    margin: 0;
+    border-radius: 0;
+}
+
+.js-home-sections-container > .lu-pagos-grande .lu-tiendas-pagos {
+    margin: 1.25rem clamp(1.25rem, 3.5vw, 2.5rem) clamp(2.5rem, 6vw, 4.5rem);
+}
+
+/* Si los pagos cierran el home, el pie va pegado: la seccion ya trae su aire */
+body:has(.js-home-sections-container > .lu-pagos-grande:last-of-type) footer {
+    margin-top: 0;
 }
 
 .lu-pagos-grande .lu-pagos-item {
