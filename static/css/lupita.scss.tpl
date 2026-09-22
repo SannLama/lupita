@@ -106,8 +106,10 @@ h2,
     /* Great Vibes tiene un solo peso (ver mas abajo, .welcome-title): el
        navegador la "engordaba a mano" con font-weight 700 y quedaba rota.
        Un trazo fino del mismo color le suma cuerpo sin ese efecto (pedido
-       de Santiago 2026-09-18: se perdia en la pagina). */
-    -webkit-text-stroke: 0.7px currentColor;
+       de Santiago 2026-09-18: se perdia en la pagina; 0.7px no alcanzaba
+       y seguia perdiendose contra el papel, pedido de Santiago 2026-09-22:
+       sube a 1.1px). */
+    -webkit-text-stroke: 1.1px currentColor;
     text-transform: none;
     letter-spacing: 0;
     line-height: 1.15;
@@ -730,6 +732,10 @@ hr,
 
 .section-capsule-home {
     position: relative;
+    /* Sin esto quedaba pegada a la Portada de arriba: dos videos a pantalla
+       completa espalda con espalda se leen como uno solo cortado al medio
+       (pedido de Santiago, 2026-09-22). */
+    margin-top: clamp(2.5rem, 6vw, 4.5rem);
 }
 
 .capsule-video {
