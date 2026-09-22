@@ -1208,6 +1208,11 @@ footer > .container {
     gap: 1px;
     background-color: var(--lu-linea);
     padding: 0;
+    /* Sin esto el .container de Bootstrap trae su max-width de siempre
+       (1170px) y en pantallas de PC anchas el pie queda angosto y
+       centrado, con la tira de unidades chica en vez de ir de borde
+       a borde como el resto de las secciones full-bleed del tema. */
+    max-width: none;
 }
 
 /* Flex y no grid a proposito: con grid, las columnas que sobran quedan vacias
@@ -2802,10 +2807,11 @@ body:not(.template-product):not(.template-category) .page-header {
     height: 1.35rem;
     padding: 0;
     fill: var(--lu-tinta);
-    /* Centrado optico (pedido de Santiago, 2026-09-16): la caja del icono ya
-       estaba al centro exacto del circulo, pero la colita del globo tira el
-       peso hacia abajo a la izquierda. Se corre un poco al reves. */
-    transform: translate(0.08em, -0.08em);
+    /* El ajuste "optico" anterior (translate 0.08em/-0.08em, pedido del
+       2026-09-16) corria el icono 4px hacia arriba-derecha para compensar
+       el peso visual de la colita; en la practica se veia descentrado para
+       el otro lado (Santiago, 2026-09-22). Vuelve al centro geometrico
+       exacto que ya da el flex del boton, sin transform. */
 }
 
 /* Al pasar el mouse crece un poco y sigue turquesa con el icono en tinta:
@@ -5873,6 +5879,11 @@ h5,
     display: block;
     vertical-align: 0;
     flex: none;
+    /* .icon-inline mide 1em y hereda el font-size del link (0.62rem, para el
+       rotulo "BUSCAR"/"MENU"): sin fijarlo el icono se achicaba a ~10px en vez
+       de los 14-16px que su clase icon-w-14/16 da por sentado, y de paso
+       encogia el area clickeable entera del boton. */
+    font-size: 16px;
 }
 
 .cart-widget-amount,
@@ -6245,7 +6256,12 @@ body:has(.js-home-sections-container > .lu-pagos-grande:last-of-type) footer {
 .lu-arriba {
     position: fixed;
     right: 1rem;
-    bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    /* Tercero de la columna flotante: WhatsApp (bottom 1rem, 3rem de alto)
+       + Asesor (bottom 4.75rem, 3rem de alto, hasta 7.75rem) + el mismo
+       0.75rem de aire entre ellos dos = 8.5rem. Antes estaba en 4.5rem,
+       exactamente donde arranca el boton del asesor (z-index 100 contra
+       el 25 de este), y quedaba tapado siempre. */
+    bottom: calc(8.5rem + env(safe-area-inset-bottom, 0px));
     z-index: 25;
     display: flex;
     flex-direction: column;
@@ -6264,6 +6280,16 @@ body:has(.js-home-sections-container > .lu-pagos-grande:last-of-type) footer {
     visibility: hidden;
     transform: translateY(0.5rem);
     transition: opacity 200ms, transform 200ms, visibility 0s linear 200ms;
+}
+
+/* Mismo apilado que arriba pero con los offsets mobile del asesor y
+   WhatsApp: Asesor mobile termina en 4.1rem + 2.75rem = 6.85rem, con
+   0.35rem de aire hasta el de WhatsApp; mismo aire para este. */
+@media (max-width: 767px) {
+    .lu-arriba {
+        bottom: calc(7.2rem + env(safe-area-inset-bottom, 0px));
+        right: 0.75rem;
+    }
 }
 
 .lu-arriba-visible {

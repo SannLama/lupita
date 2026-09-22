@@ -130,10 +130,12 @@ DOMContentLoaded.addEventOrExecute(() => {
 
         restoreNotifications = function(){
 
-            // Whatsapp button position
-            if (window.innerWidth < 768) {
-                $fixed_bottom_button.css("marginBottom", "10px");
-            }
+            {# Ahi! Lupita: el base solo bajaba el boton de vuelta en mobile
+               (window.innerWidth < 768); en desktop el marginBottom: 70px
+               que suben.tpl aplico al aceptar cookies se quedaba para
+               siempre, y WhatsApp/asesor quedaban corridos hacia arriba
+               aunque el aviso ya estuviera cerrado. #}
+            $fixed_bottom_button.css("marginBottom", window.innerWidth < 768 ? "10px" : "0");
 
             {# Restore notifications when Cookie Banner is closed #}
 
