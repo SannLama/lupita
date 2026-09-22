@@ -195,6 +195,9 @@
         {# Popup para unirse al canal de difusion de Instagram (una vez cada 14 dias) #}
         {% include "snipplets/popup-canal.tpl" %}
 
+        {# Titulo al salir de la pestaña: "¡No te vayas!" mientras esta afuera #}
+        {% include "snipplets/titulo-al-salir.tpl" %}
+
         {# Google reCAPTCHA on register page #}
 
         {% if template == 'account.register' %}
