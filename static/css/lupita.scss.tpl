@@ -907,6 +907,11 @@ hr,
    y las de los costados se reparten lo que sobra. */
 .head-main .row > .col:nth-child(2) {
     flex: 0 1 auto;
+    /* El .col de Bootstrap trae width: 100%, y con flex-basis auto esa es la
+       medida que toma: la columna ocupaba la fila entera y las otras dos caian
+       a renglones propios (cabecera de 141px en la tienda real, 2026-09-21).
+       El harness no copiaba esa regla, por eso no se vio antes. */
+    width: auto;
 }
 
 .head-main .row > .col:first-child,
