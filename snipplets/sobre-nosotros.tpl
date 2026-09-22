@@ -18,8 +18,14 @@
                 {% if settings.lupita_about_text %}
                     <p class="lu-sobre-parrafo">{{ settings.lupita_about_text }}</p>
                 {% endif %}
+                {% if settings.lupita_about_text and settings.lupita_about_advice %}
+                    {% include 'snipplets/svg/heart.tpl' with {svg_custom_class: 'lu-sobre-corazon'} %}
+                {% endif %}
                 {% if settings.lupita_about_advice %}
                     <p class="lu-sobre-asesoramiento">{{ settings.lupita_about_advice }}</p>
+                {% endif %}
+                {% if settings.lupita_about_advice and settings.lupita_about_closing %}
+                    {% include 'snipplets/svg/heart.tpl' with {svg_custom_class: 'lu-sobre-corazon'} %}
                 {% endif %}
                 {% if settings.lupita_about_closing %}
                     <p class="lu-sobre-cierre">{{ settings.lupita_about_closing }}</p>

@@ -3830,8 +3830,21 @@ body:not(.template-product):not(.template-category) .page-header {
     letter-spacing: var(--lu-track);
 }
 
+/* Separador entre parrafos: el mismo corazon de contorno del boton de
+   favoritos (snipplets/svg/heart.tpl), chico y en el turquesa de la marca
+   en vez de la tinta del texto, para que se lea como adorno y no como
+   parte del mensaje (pedido de Santiago, 2026-09-22). */
+.lu-sobre-corazon {
+    display: block;
+    width: 0.9rem;
+    height: 0.9rem;
+    margin: 0 0 1.75rem;
+    fill: var(--lu-acento);
+}
+
 .lu-sobre-solo-texto .lu-sobre-parrafo,
-.lu-sobre-solo-texto .lu-sobre-asesoramiento {
+.lu-sobre-solo-texto .lu-sobre-asesoramiento,
+.lu-sobre-solo-texto .lu-sobre-corazon {
     margin-inline: auto;
 }
 
