@@ -22,6 +22,14 @@
     --lu-papel: {{ settings.background_color }};
     --lu-tinta: {{ settings.text_color }};
     --lu-acento: {{ settings.accent_color }};
+    /* Blanco fijo, no papel (Santiago, 2026-09-23): el texto que va ENCIMA
+       de una foto (hero, portada, capsula, banners de categoria) usaba
+       --lu-papel para leerse "claro" -- funcionaba bien mientras el papel
+       era casi blanco (#f4f4f0). Ahora que el papel es un crema mas
+       marcado, ese mismo texto se ve crema sobre la foto, no blanco. Las
+       superficies de UI (botones, badges, fondos de modal) siguen en
+       --lu-papel a proposito: ahi el tono crema es parte del sistema. */
+    --lu-blanco: #ffffff;
 
     /* Tinta mezclada con papel: grises que no ensucian el sustrato */
     --lu-linea: color-mix(in srgb, {{ settings.text_color }} 14%, {{ settings.background_color }});
@@ -57,6 +65,23 @@
 }
 
 /*============================================================================
+  #Against
+  Fuente puntual (Santiago, 2026-09-23), no un token del sistema: solo para
+  las cifras de "Medios de pago" (20% off / 3 y 6 cuotas / 10% off). Un solo
+  peso (Regular) -- no forzar bold sintetico encima, mismo motivo que Great
+  Vibes mas abajo (.welcome-title): un peso inventado por el navegador sobre
+  una fuente de un solo corte queda roto.
+==============================================================================*/
+
+@font-face {
+    font-family: "Against";
+    src: url("{{ 'against-regular.woff2' | static_url }}") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/*============================================================================
   #Reset brutalista
   Rigidez mecanica: 90 grados en todo, sin sombras, sin degradados.
 ==============================================================================*/
@@ -77,6 +102,13 @@ textarea,
 .label {
     border-radius: 0;
     box-shadow: none;
+}
+
+/* html tambien, no solo body (Santiago, 2026-09-23): el rebote de scroll en
+   iOS muestra el fondo de <html>, y sin esto se veia blanco de fabrica un
+   instante antes/despues de la pagina real. */
+html {
+    background-color: var(--lu-papel);
 }
 
 body {
@@ -424,8 +456,12 @@ hr,
 }
 
 /* El nombre del producto usa h1, y el h1 del sistema es tamano portada
-   (hasta 9rem). Una prenda con ese cuerpo es absurda: se acota aca. */
+   (hasta 9rem). Una prenda con ese cuerpo es absurda: se acota aca. Ademas,
+   el h1 del sistema es Great Vibes (script): un nombre de producto real
+   ("DENIM ISABELLA REM528/11398 BAGGY...") en cursiva no se lee. Pasa a
+   Instrument Sans, la misma fuente del cuerpo (Santiago, 2026-09-23). */
 #single-product h1 {
+    font-family: var(--lu-texto);
     font-size: clamp(1.5rem, 3vw, 2.5rem);
     /* Positivo, como el resto de la macro: el -0.02em venia de cuando la
        macro era Archivo Black y apretaba la serif fina de Italiana. */
@@ -446,12 +482,16 @@ hr,
     }
 }
 
+/* El precio con tarjeta pasa a segundo plano (Santiago, 2026-09-23): gris y
+   mas chico que el de efectivo, mismo criterio que ya tiene el carrito y la
+   tarjeta de la grilla (#Tarjeta y efectivo, mas abajo) -- a esta pieza
+   nunca habia llegado. */
 #single-product .js-price-display {
     font-family: var(--lu-micro);
     font-weight: 700;
-    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-size: clamp(1rem, 2vw, 1.3rem);
     letter-spacing: 0.02em;
-    color: var(--lu-tinta);
+    color: var(--lu-gris);
 }
 
 #single-product .price-compare {
@@ -459,6 +499,46 @@ hr,
     text-decoration: line-through;
     color: var(--lu-gris);
     font-size: 0.9rem;
+}
+
+/* El precio en efectivo (component payment-discount-price) traia el rojo de
+   fabrica de Tiendanube -- no es nuestro CSS ni el del base theme, es un
+   <style> inline que la plataforma inyecta por JS en cada carga, con
+   !important en color/font-size/font-weight. La regla inline apunta a
+   ".js-payment-discount-price-product-container, ...-container *": pisa el
+   contenedor Y CADA SPAN hijo por separado, directo, no por herencia. Pisar
+   solo el contenedor no alcanza -- los spans de adentro (el numero, "con",
+   "Efectivo") conservan su propio rojo. Hay que repetir el mismo patron
+   contenedor+* de un lado nuestro para ganarles a los dos.
+
+   Ademas trae la clase .h6 del base, que hereda la fuente de titulos
+   (Great Vibes) -- una cifra de plata en script no se lee. Instrument
+   Sans, la del cuerpo (Santiago, 2026-09-23).
+
+   El MISMO componente (misma clase .payment-discount-price-product-
+   container, mismo <style> inline) se repite en la tarjeta de "Productos
+   destacados" del home -- .lu-efectivo/.lu-efectivo-item ya le apuntaban
+   color y tamano chico, pero sin !important nunca le ganaron al inline.
+   Color y tipografia van sueltos (cualquier instancia); el tamano va
+   aparte, uno grande para la ficha y uno chico para la tarjeta de grilla,
+   que es la escala que ya tenian esas clases desde el 16/9. */
+#single-product .payment-discount-price-product-container,
+#single-product .payment-discount-price-product-container *,
+.lu-efectivo-item.payment-discount-price-product-container,
+.lu-efectivo-item.payment-discount-price-product-container * {
+    color: var(--lu-acento) !important;
+    font-family: var(--lu-texto) !important;
+    font-weight: 700;
+}
+
+#single-product .payment-discount-price-product-container,
+#single-product .payment-discount-price-product-container * {
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem) !important;
+}
+
+.lu-efectivo-item.payment-discount-price-product-container,
+.lu-efectivo-item.payment-discount-price-product-container * {
+    font-size: clamp(1.15rem, 2.4vw, 1.5rem) !important;
 }
 
 /* El precio viejo y el nuevo son un solo bloque: sin el margen de parrafo que
@@ -555,13 +635,28 @@ hr,
 .nube-slider-home .swiper-text.swiper-white,
 .section-cover-home .swiper-text.swiper-white,
 .section-capsule-home .swiper-text.swiper-white {
-    color: var(--lu-papel);
+    color: var(--lu-blanco);
 }
 
 .nube-slider-home .swiper-text.swiper-black,
 .section-cover-home .swiper-text.swiper-black,
 .section-capsule-home .swiper-text.swiper-black {
     color: var(--lu-tinta);
+}
+
+/* Sombra en el banner principal (Santiago, 2026-09-23): con fotos claras
+   justo donde cae el titulo, la letra se perdia. Solo el hero, no
+   Portada/Capsula, que tienen su propio video de fondo mas uniforme.
+   Reforzada dos veces el mismo dia: la primera version (0 2px 10px, 0.3)
+   quedaba demasiado tenue; la segunda (dos capas) todavia se pedia mas.
+   Ahora tres capas: un borde bien pegado y oscuro para que la letra se
+   despegue de la foto incluso en el peor de los casos, una capa media, y
+   una larga y floja para el aire general. */
+.nube-slider-home .swiper-text {
+    text-shadow:
+        0 1px 4px rgba(0, 0, 0, 0.75),
+        0 2px 8px rgba(0, 0, 0, 0.55),
+        0 6px 22px rgba(0, 0, 0, 0.45);
 }
 
 .nube-slider-home .swiper-title,
@@ -596,12 +691,20 @@ hr,
    vez, top gana y el `bottom` de arriba no hacia nada: en escritorio el
    texto quedaba colgando desde la mitad de la foto. Un nivel mas de
    especificidad para ganarle al base sin depender del orden de carga. */
-/* Solo de 768px para arriba: en el celular los botones flotantes (asesor y
-   WhatsApp) viven abajo a la derecha y el texto al pie de la foto les
-   pasaba por debajo; a media altura, como lo deja el base, no chocan. */
-@media (min-width: 768px) {
-    .nube-slider-home .swiper-slide .swiper-text {
-        top: auto;
+/* (2026-09-23) Antes esto regia solo de 768px para arriba: en el celular
+   se dejaba el `top: 60%/50%` del base a proposito, para que el texto a
+   media altura no chocara con los botones flotantes (asesor y WhatsApp).
+   Santiago lo vio asi y no le gusto (texto "arriba en el medio" en vez de
+   abajo, como en escritorio). Ahora va abajo en todos los anchos, y en
+   celular se le suma un margen inferior extra para saltar la columna de
+   botones (WhatsApp 0.75rem+2.75rem + asesor hasta 6.85rem + aire). */
+.nube-slider-home .swiper-slide .swiper-text {
+    top: auto;
+}
+
+@media (max-width: 767px) {
+    .nube-slider-home .swiper-text {
+        bottom: clamp(6.5rem, 22vh, 8rem);
     }
 }
 
@@ -636,7 +739,7 @@ hr,
     font-family: var(--lu-micro);
     font-size: 0.68rem;
     letter-spacing: var(--lu-track);
-    color: var(--lu-papel);
+    color: var(--lu-blanco);
     mix-blend-mode: difference;
 }
 
@@ -857,8 +960,10 @@ hr,
     justify-content: space-around;
 }
 
+/* Menos aire entre mensajes (Santiago, 2026-09-23): 1.5rem de padding +
+   3rem antes del punto dejaba mucho hueco en la marquesina. */
 .ad-msg {
-    padding-inline: 1.5rem;
+    padding-inline: 0.75rem;
     line-height: 1.3;
 }
 
@@ -866,7 +971,7 @@ hr,
    para cortar el texto en el panel. */
 .ad-msg::after {
     content: "\2022";
-    margin-left: 3rem;
+    margin-left: 1.25rem;
 }
 
 .ad-marquee:hover .ad-marquee-track {
@@ -1019,21 +1124,28 @@ hr,
     font-size: 0.62rem;
 }
 
-/* Rotulos al lado de los iconos: un menu hamburguesa sin palabra es la parte
-   mas floja del base. El texto sale de translate, no hardcodeado, asi sigue
-   el idioma de la tienda. Solo arriba de 768, que es donde entra.
+/* Rotulo al lado del buscador: un icono solo sin palabra es la parte mas
+   floja del base. El texto sale de translate, no hardcodeado, asi sigue el
+   idioma de la tienda. Solo arriba de 768, que es donde entra.
 
    El espacio despues del \00a0 no es cosmetico: cierra el escape. Sin el,
    "\00a0B" se lee como UN codigo de seis digitos hexadecimales y BUSCAR
-   aparecia como un cuadrito seguido de USCAR. */
-@media (min-width: 768px) {
-    .utilities-link[data-toggle="#nav-hamburger"]::after {
-        content: "\00a0 Men\0000fa";
-    }
+   aparecia como un cuadrito seguido de USCAR.
 
+   El rotulo "MENU" del hamburguesa se saco (Santiago, 2026-09-23): las 3
+   lineas solas, mas grandes, ya se entienden. */
+@media (min-width: 768px) {
     .utilities-link[data-toggle="#nav-search"]::after {
         content: "\00a0 {{ 'Buscar' | translate }}";
     }
+}
+
+/* Las 3 lineas del hamburguesa, mas grandes que el resto de los iconos de
+   utilidades (Santiago, 2026-09-23): primero 16px -> 22px, y ese mismo dia,
+   con foto del monitor real, 22px -> 28px -- todavia se sentia chico.
+   Selector propio para no agrandar buscar/favoritos/carrito de paso. */
+.utilities-link[data-toggle="#nav-hamburger"] .icon-inline {
+    font-size: 28px;
 }
 
 /*============================================================================
@@ -1109,6 +1221,40 @@ hr,
 .nav-list-arrow {
     top: 1.1rem;
     right: 1.25rem;
+}
+
+/* Preview de categoria al pasar el mouse (Santiago, 2026-09-23): la foto
+   sale de "Imagen" en Categorias del panel, no es automatica (Tiendanube
+   no deja llegar a los productos de una categoria desde el menu -- ver
+   la nota de home-featured-products si hace falta el detalle). Solo
+   desktop: en el celular "pasar el mouse" no existe, y el menu ya ocupa
+   toda la pantalla. Fixed y no absolute: el cajon del menu no hace scroll
+   propio parejo con la pagina, position:fixed la deja siempre pegada al
+   borde derecho del cajon (350px, el ancho real del cajon) sin importar
+   cuanto haya scrolleado la lista de categorias. */
+.lu-nav-preview {
+    display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .lu-nav-preview {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 350px;
+        height: 100vh;
+        width: min(28vw, 420px);
+        object-fit: cover;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 180ms var(--lu-entrada);
+        z-index: 5;
+    }
+
+    .lu-nav-con-preview:hover .lu-nav-preview,
+    .lu-nav-con-preview:focus-visible .lu-nav-preview {
+        opacity: 1;
+    }
 }
 
 /* Cuenta: la unidad de abajo del panel, separada por una regla maciza. */
@@ -1190,9 +1336,15 @@ hr,
   izquierda, separada por reglas, con su rotulo tecnico.
 ==============================================================================*/
 
+/* padding-top:0 (Santiago, 2026-09-23, con foto del monitor real): el pie
+   del base trae 30px de padding arriba y abajo. El de abajo no se nota
+   (el turquesa llega hasta el borde de la pantalla igual), pero el de
+   arriba dejaba un hueco color papel entre la linea negra y el turquesa
+   del container -- la linea quedaba flotando en vez de pegada. */
 footer {
-    border-top: 2px solid var(--lu-acento);
+    border-top: 2px solid var(--lu-tinta);
     margin-top: clamp(3rem, 8vw, 6rem);
+    padding-top: 0;
 }
 
 /* Las utilidades de Bootstrap traen !important: para ganarles hace falta
@@ -1203,16 +1355,21 @@ footer .text-md-right {
     text-align: left !important;
 }
 
-/* Mismo recurso que la grilla de productos: gap de 1px sobre fondo linea. Las
+/* Mismo recurso que la grilla de productos: gap sobre fondo linea. Las
    unidades del pie quedan compartimentadas en las dos direcciones, y de paso
    dejan de ser una columna larga con medio ancho de pantalla vacio al lado.
    El auto-fit no depende del ORDEN de las filas, que es lo unico prudente:
-   social, menu y logos son opcionales y la clienta los prende y apaga. */
+   social, menu y logos son opcionales y la clienta los prende y apaga.
+
+   Con el pie en color de marca (2026-09-23): la linea entre bloques paso
+   de sacada a papel-gruesa y de vuelta a sacada, pedido de Santiago cada
+   vez -- esta vez sin gap, fondo del contenedor al mismo turquesa que los
+   bloques, para que no quede ninguna costura entre unidades. */
 footer > .container {
     display: flex;
     flex-wrap: wrap;
-    gap: 1px;
-    background-color: var(--lu-linea);
+    gap: 0;
+    background-color: var(--lu-acento);
     padding: 0;
     /* Sin esto el .container de Bootstrap trae su max-width de siempre
        (1170px) y en pantallas de PC anchas el pie queda angosto y
@@ -1228,8 +1385,12 @@ footer > .container > div {
     flex: 1 1 240px;
     min-width: 240px;
     margin: 0;
-    padding: clamp(1.25rem, 3vw, 2rem);
-    background-color: var(--lu-papel);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    /* Color de marca, no papel (Santiago, 2026-09-23): tinta sobre turquesa
+       da 8.27:1, el unico sentido en que el acento contrasta -- ver la nota
+       de contraste de #Tarjeta y efectivo, mas abajo. El texto del pie ya
+       esta en --lu-tinta, asi que no hace falta tocarlo. */
+    background-color: var(--lu-acento);
 }
 
 footer .col,
@@ -1246,6 +1407,8 @@ footer > .container > div:last-of-type {
     flex-basis: 100%;
 }
 
+/* Pie mas grande (Santiago, 2026-09-23): 0.66rem quedaba muy chico contra el
+   resto de la pagina. Sube el rotulo y, con el, la altura de todo el pie. */
 footer .contact-item,
 footer .footer-menu-item,
 footer .copyright,
@@ -1255,8 +1418,8 @@ footer .footer-menu-link {
     font-family: var(--lu-micro);
     text-transform: uppercase;
     letter-spacing: var(--lu-track);
-    font-size: 0.66rem;
-    line-height: 1.6;
+    font-size: 0.8rem;
+    line-height: 1.7;
     color: var(--lu-tinta);
 }
 
@@ -1265,6 +1428,45 @@ footer .footer-menu {
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+/* Vertical en celular (Santiago, 2026-09-23, con foto del celular real): en
+   fila con flex-wrap, los 6 items no entraban en una linea y el corte a
+   mitad de fila dejaba un punto colgando encima del siguiente renglon --
+   desprolijo. En fila queda solo de 768px para arriba, que es donde
+   Santiago lo vio bien la primera vez; abajo, lista simple, sin punto (un
+   punto al final de cada renglon vertical no tiene sentido). */
+footer .footer-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* En desktop, grilla fija de 3 en vez de flex-wrap (Santiago, 2026-09-23,
+   con foto de la laptop real): con flex-wrap cada renglon se corta donde
+   el ancho da, y con 6 items de largo dispar quedaba irregular -- "Como
+   comprar . Medios de pago" en un renglon, "Sobre nosotros" solo en el
+   siguiente, sin alinear con nada. Una grilla de 3 columnas fuerza 2 filas
+   parejas, cada item centrado en su celda. Sin el punto separador aca: en
+   una grilla ya alineada, un punto colgando en el borde de la celda no
+   suma orden, lo rompe.
+   align-items: start (Santiago, 2026-09-23, con foto del monitor real):
+   el align-items:center de la version mobile (arriba, para la lista en
+   columna) seguia aplicando aca -- items de una sola linea como "Envios"
+   quedaban centrados verticalmente en su fila y no arrancaban a la misma
+   altura que "Preguntas frecuentes" (dos lineas). Todos arriba, parejos. */
+@media (min-width: 768px) {
+    footer .footer-menu {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 1.5rem;
+        align-items: start;
+    }
+
+    footer .footer-menu-item {
+        margin: 0;
+        text-align: center;
+    }
 }
 
 footer .footer-menu-item {
@@ -1661,7 +1863,7 @@ footer a:hover {
     padding: 0 1rem;
     transform: translate(-50%, -50%);
     background-color: transparent;
-    color: var(--lu-papel);
+    color: var(--lu-blanco);
     text-align: center;
 }
 
@@ -1690,7 +1892,7 @@ footer a:hover {
     letter-spacing: 0;
     font-size: clamp(2.5rem, 5vw, 4.25rem);
     line-height: 1.1;
-    color: var(--lu-papel);
+    color: var(--lu-blanco);
 }
 
 .section-banners-home .textbanner-text .btn {
@@ -1719,8 +1921,8 @@ footer a:hover {
 .textbanner-text .btn {
     display: inline-block;
     margin-top: 0.4rem;
-    border: 1px solid var(--lu-papel);
-    color: var(--lu-papel);
+    border: 1px solid var(--lu-blanco);
+    color: var(--lu-blanco);
     background: transparent;
     padding: 0.3rem 0.6rem;
     font-family: var(--lu-micro);
@@ -2796,10 +2998,12 @@ body:not(.template-product):not(.template-category) .page-header {
     justify-content: center;
     width: 3rem;
     height: 3rem;
-    /* Circulo del color de la marca con el icono en tinta (8,27:1), pedido
-       de Santiago 2026-09-15. Antes: cuadrado de tinta con icono en papel. */
+    /* Circulo turquesa con el icono en blanco (Santiago, 2026-09-23; antes
+       era tinta, 8.27:1, pedido del 2026-09-15). Turquesa+blanco puro tiene
+       menos contraste (2.6:1 aprox, similar al turquesa+papel ya conocido)
+       pero es pedido explicito, y el icono es chico y ya reconocible. */
     background-color: var(--lu-acento);
-    color: var(--lu-tinta);
+    color: var(--lu-blanco);
     border: 0;
     border-radius: 50%;
     box-shadow: none;
@@ -2812,12 +3016,16 @@ body:not(.template-product):not(.template-category) .page-header {
     width: 1.35rem;
     height: 1.35rem;
     padding: 0;
-    fill: var(--lu-tinta);
-    /* El ajuste "optico" anterior (translate 0.08em/-0.08em, pedido del
-       2026-09-16) corria el icono 4px hacia arriba-derecha para compensar
-       el peso visual de la colita; en la practica se veia descentrado para
-       el otro lado (Santiago, 2026-09-22). Vuelve al centro geometrico
-       exacto que ya da el flex del boton, sin transform. */
+    fill: var(--lu-blanco);
+    /* (2026-09-23) El viewBox original (0 0 448 512) media 512 de alto con
+       el dibujo real metido entre 32 y 480 -- 32px de aire arriba y abajo,
+       cero a los costados. Emparejado: el flex del boton ya centraba la
+       caja del svg, pero esos 32px de aire simetrico en un viewBox mas alto
+       que ancho hacian que "meet" dejara mas hueco horizontal que vertical,
+       y a ojo el dibujo se leia corrido. El viewBox recortado a la propia
+       silueta (0 32 448 448, cuadrado) centra el dibujo real, sin
+       transform ni numeros magicos como el intento del 2026-09-16
+       (revertido el 2026-09-22 por descentrar para el otro lado). */
 }
 
 /* Al pasar el mouse crece un poco y sigue turquesa con el icono en tinta:
@@ -2834,7 +3042,7 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .btn-whatsapp:hover svg,
 .btn-whatsapp:active svg {
-    fill: var(--lu-tinta);
+    fill: var(--lu-blanco);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2852,7 +3060,7 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .btn-whatsapp:hover svg,
 .btn-whatsapp:active svg {
-    fill: var(--lu-tinta);
+    fill: var(--lu-blanco);
 }
 
 /* Abajo de 768 el boton se corre para no tapar el "Agregar al carrito"
@@ -3566,11 +3774,13 @@ body:not(.template-product):not(.template-category) .page-header {
     max-width: 22ch;
 }
 
+/* Mas grande (Santiago, 2026-09-23, con foto del monitor real): 0.82rem
+   quedaba chico al lado del titulo en Great Vibes. */
 .welcome-text {
     font-family: var(--lu-texto);
     text-transform: none;
     letter-spacing: 0.02em;
-    font-size: 0.82rem;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
     line-height: 1.7;
     color: var(--lu-gris);
     max-width: 52ch;
@@ -3636,15 +3846,25 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 /* El usuario como se escribe en Instagram (pedido de Santiago, 2026-09-15):
-   @usuario en la tipografia del sistema operativo - la que usa la app -, en
-   negrita y en minusculas, con el tilde azul de verificada al lado. Es la
-   unica pieza del theme que no usa las fuentes de Lupita: tiene que
-   reconocerse como un handle de Instagram. */
-.instafeed-user {
+   @usuario en minusculas, con el tilde azul de verificada al lado.
+   Arranco en la tipografia del sistema operativo (para que se reconociera
+   como un handle real), pero eso mismo hacia que Windows (Segoe UI) y
+   iOS/Mac (-apple-system) mostraran letras distintas segun el dispositivo
+   -- Santiago lo vio como "tipografias diferentes" entre IG y TikTok.
+   Instrument Sans fijo (2026-09-23) para los dos, sin depender del
+   sistema operativo de quien mire. Sin negrita desde el 2026-09-23.
+   El de Instagram es un <h2> y el de TikTok un <span> con las mismas clases
+   (home-instafeed.tpl): el .h2 de Bootstrap trae su propio font-weight y,
+   a igual especificidad que esta regla, le ganaba solo al <h2> -- el de
+   Instagram volvia a verse en negrita mientras que TikTok quedaba fino.
+   .instafeed-user.h2 (dos clases) le gana a .h2 (una) sin depender del
+   orden de carga, y cubre los dos por igual. */
+.instafeed-user,
+.instafeed-user.h2 {
     display: block;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-weight: 700;
+    font-family: var(--lu-texto);
+    font-weight: 400;
     font-size: clamp(1.1rem, 2.2vw, 1.5rem);
     line-height: 1.1;
     letter-spacing: -0.01em;
@@ -3660,6 +3880,16 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .instafeed-user::before {
     content: "@";
+}
+
+/* Negrita solo en el de TikTok (Santiago, 2026-09-23): con los dos en 400
+   quedaba parejo en el CSS pero no a la vista -- el icono de Instagram
+   (cuadrado + tilde de verificada) pesa mas al lado del texto que el
+   icono fino de TikTok, y por contraste el de Instagram se leia mas
+   grueso. En vez de perseguir esa ilusion optica, negrita real ahi donde
+   antes se notaba fino. */
+.lu-tiktok-title .instafeed-user {
+    font-weight: 700;
 }
 
 .instafeed-verificada {
@@ -6202,10 +6432,13 @@ body:has(.js-home-sections-container > .lu-pagos-grande:last-of-type) footer {
     background-color: var(--lu-papel);
 }
 
+/* Against, no Bodoni Moda: cifra de plata, no subtitulo editorial (Santiago,
+   2026-09-23). Las ligaduras de mas abajo eran de Bodoni, no aplican aca;
+   sin font-weight forzado -- ver la nota del @font-face, mas arriba. */
 .lu-pagos-grande .lu-pagos-cifra {
-    font-family: var(--lu-sub);
-    font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
+    font-family: "Against", var(--lu-sub);
     font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 400;
     line-height: 1;
 }
 
@@ -6258,8 +6491,19 @@ body:has(.js-home-sections-container > .lu-pagos-grande:last-of-type) footer {
     line-height: 1.4;
 }
 
+/* Against tambien aca (Santiago, 2026-09-23): el "grande" del home ya la
+   tenia, el "compacto" de la ficha y el carrito heredaba var(--lu-texto)
+   de .lu-pagos-item y quedaba con la tipografia comun en vez de la cifra
+   de plata. font-family con !important: dentro del carrito hay un reset
+   por id (body #shoppingCartPage :is(..., span, ...) / #modal-cart) que
+   fija font-family en TODOS los span/div/etc de esas pantallas -- un id
+   le gana a estas dos clases sin importar el orden en el archivo, asi que
+   sin !important esta regla nunca ganaba ahi (si funcionaba en la ficha,
+   que no tiene ese reset). Mismo recurso que ya uso el precio en efectivo
+   nativo mas arriba en este archivo. */
 .lu-pagos-compacto .lu-pagos-cifra {
     flex: none;
+    font-family: "Against", var(--lu-sub) !important;
     font-weight: 700;
     white-space: nowrap;
 }
@@ -6797,3 +7041,4 @@ body .cart-item-btn.btn,
 body .cart-item-input.form-control {
     border-radius: 0;
 }
+

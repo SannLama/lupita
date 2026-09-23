@@ -65,6 +65,17 @@
 
 {% elseif section_select == 'instafeed' %}
 
+	{# 'welcome' (Mensaje institucional) nunca tiene posicion propia en esta
+	   tienda -- 'instafeed' si la tiene, heredada del theme Rio -- asi que
+	   'welcome' siempre caia al final por el loop de respaldo de home.tpl,
+	   sin importar el orden de ese array. Va pegada arriba de instafeed
+	   (pedido de Santiago, 2026-09-23), mismo patron que campanas/capsula. #}
+	{% if show_help or (show_component_help and not has_welcome_message) %}
+		{% include 'snipplets/defaults/home/welcome_message_help.tpl' %}
+	{% else %}
+		{% include 'snipplets/home/home-welcome-message.tpl' %}
+	{% endif %}
+
 	{#  **** Instafeed ****  #}
 	{% if show_help or (show_component_help and not has_instafeed) %}
 		{% include 'snipplets/defaults/home/instafeed_help.tpl' %}

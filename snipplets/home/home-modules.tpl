@@ -49,7 +49,12 @@
                 {# 2026-09-15 (Santiago): el bloque ya no es un link entero; solo
                    el boton lleva a module_url. Asi el texto se puede leer y
                    seleccionar sin salir de la pagina. #}
-                <div class="row {% if settings.modules_full %}no-gutters{% endif %} align-items-center">               
+                {# align-items-center (Bootstrap, !important) le ganaba a
+                   nuestro align-items:stretch de abajo, que existe justo para
+                   que las dos columnas midan lo mismo: con center, la columna
+                   mas corta (el texto) dejaba ver el fondo de linea como un
+                   bloque gris arriba y abajo suyo. #}
+                <div class="row {% if settings.modules_full %}no-gutters{% endif %}">               
                     
                     <div class="col-md {% if module_align == 'right' %}order-md-2{% endif %}">
                         <div class="textbanner">
