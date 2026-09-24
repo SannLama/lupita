@@ -4038,7 +4038,7 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .section-home-modules .lu-mod-col-texto .textbanner-text {
     --lu-mod-t: min(60px, 11vw); /* 46px -> 60px (Santiago, 2026-09-24); en celular angosto se achica */
-    --lu-mod-sangria: calc(var(--lu-mod-t) * 2);
+    --lu-mod-sangria: calc(var(--lu-mod-t) * 1.6);
     color: var(--lu-papel);
 }
 
@@ -4129,6 +4129,9 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .section-home-modules .lu-mod-t2 {
+    /* Solo crece PROBATELO (60px); "en la tienda" queda en 46px como antes */
+    font-size: calc(0.7667 * var(--lu-mod-t));
+    white-space: nowrap;
     position: relative;
     z-index: 2;
     margin-top: -0.42em;
