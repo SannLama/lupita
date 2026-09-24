@@ -4082,6 +4082,30 @@ body:not(.template-product):not(.template-category) .page-header {
         z-index: 2;
     }
 
+    /* Mas angosto y mas bajo (Santiago, 2026-09-24, marcando con el
+       mouse): el turquesa ocupa ~43% del ancho y el bloque ya no sigue
+       la proporcion 4:5 de la foto, que lo hacia mas alto que la pantalla. */
+    .section-home-modules .lu-mod-col-texto {
+        flex: 0 0 43%;
+        max-width: 43%;
+    }
+
+    .section-home-modules .row > .col-md:not(.lu-mod-col-texto) {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .section-home-modules .textbanner-image {
+        aspect-ratio: auto;
+        height: clamp(420px, 68vh, 600px);
+    }
+
+    .section-home-modules .textbanner-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     /* Foto a la derecha (order-md-2): el texto queda a la izquierda y se
        estira hacia la derecha. Foto a la izquierda: al reves. */
     .section-home-modules .col-md.order-md-2 + .lu-mod-col-texto {
