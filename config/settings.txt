@@ -447,6 +447,15 @@ Página de inicio
 	i18n_input
 		name = lupita_sandwich_top_video
 		description = Link directo al video (.mp4, opcional)
+	i18n_input
+		name = lupita_sandwich_top_title
+		description = Título
+	i18n_input
+		name = lupita_sandwich_top_button
+		description = Texto del botón
+	i18n_input
+		name = lupita_sandwich_top_url
+		description = Link
 	image
 		original = sandwich-arriba.jpg
 		title = Foto (se usa si no hay video, o mientras carga)
@@ -457,6 +466,15 @@ Página de inicio
 	i18n_input
 		name = lupita_sandwich_bottom_video
 		description = Link directo al video (.mp4, opcional)
+	i18n_input
+		name = lupita_sandwich_bottom_title
+		description = Título
+	i18n_input
+		name = lupita_sandwich_bottom_button
+		description = Texto del botón
+	i18n_input
+		name = lupita_sandwich_bottom_url
+		description = Link
 	image
 		original = sandwich-abajo.jpg
 		title = Foto (se usa si no hay video, o mientras carga)

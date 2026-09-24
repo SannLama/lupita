@@ -7607,6 +7607,63 @@ body .section-banners-home .textbanner-text .btn {
     object-fit: cover;
 }
 
+/* Sandwich: sin aire entre las categorias y la franja de abajo; misma
+   dinamica que los banners (titulo Lora crema centrado + boton linea). */
+.section-banners-home:has(+ .lu-sandwich) {
+    margin-bottom: 0 !important;
+}
+
+.lu-sandwich {
+    position: relative;
+}
+
+.lu-sandwich-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    color: var(--lu-papel);
+    text-decoration: none;
+}
+
+.lu-sandwich-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.18);
+    transition: background-color 200ms;
+}
+
+.lu-sandwich-link:hover::after {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.lu-sandwich-text {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0 var(--lu-margen);
+    text-align: center;
+}
+
+.lu-sandwich-title {
+    font-family: "Lora", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(2.25rem, 5vw, 4.25rem);
+    line-height: 1.1;
+    color: var(--lu-papel);
+}
+
+.lu-sandwich-text .btn {
+    color: var(--lu-papel) !important;
+    border-color: var(--lu-papel) !important;
+}
+
 /* Esquinas rectas y pegadas entre si (Santiago, 2026-09-24): sin curva
    ni aire entre las tres fotos de categorias. */
 body .section-banners-home .textbanner,

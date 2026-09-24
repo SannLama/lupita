@@ -32,7 +32,7 @@
 
 {% elseif section_select == 'categories' %}
 
-	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_top_video, lu_sw_img: 'sandwich-arriba.jpg'} %}
+	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_top_video, lu_sw_img: 'sandwich-arriba.jpg', lu_sw_title: settings.lupita_sandwich_top_title ?: 'Jeans', lu_sw_button: settings.lupita_sandwich_top_button ?: 'Ver jeans', lu_sw_url: settings.lupita_sandwich_top_url ?: '/denimwear-zem5c/'} %}
 
 	{#  **** Categories banners ****  #}
 	{% if show_help or (show_component_help and not has_category_banners) %}
@@ -47,7 +47,7 @@
 		{% include 'snipplets/home/home-banners.tpl' with {'textoverimage': true} %}
 	{% endif %}
 
-	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_bottom_video, lu_sw_img: 'sandwich-abajo.jpg'} %}
+	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_bottom_video, lu_sw_img: 'sandwich-abajo.jpg', lu_sw_title: settings.lupita_sandwich_bottom_title ?: 'Accesorios y Complementos', lu_sw_button: settings.lupita_sandwich_bottom_button ?: 'Ver accesorios', lu_sw_url: settings.lupita_sandwich_bottom_url ?: '/accesorios-8acou/'} %}
 
 {% elseif section_select == 'welcome' %}
 
