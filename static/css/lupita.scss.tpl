@@ -7659,8 +7659,10 @@ body .section-banners-home .textbanner {
     transition: background-color 200ms;
 }
 
+/* Al pasar el mouse el velo se va y la foto vuelve a su color, como las
+   tarjetas de categoria (Santiago, 2026-09-24). */
 .lu-sandwich-link:hover::after {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0);
 }
 
 .lu-sandwich-text {
