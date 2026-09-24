@@ -670,9 +670,10 @@ hr,
     height: 100%;
     object-fit: cover;
     display: block;
-    /* Foto al 60% (Santiago, 2026-09-24): se lava contra el papel y el
-       titulo gana protagonismo. */
-    opacity: 0.6;
+    /* Oscurecida como un filtro sombra, no lavada contra el papel
+       (Santiago, 2026-09-24; antes opacity 0.6). */
+    opacity: 1;
+    filter: brightness(0.62);
 }
 
 /* El texto se apoya directo sobre la foto, sin nada atras - decision de
@@ -815,9 +816,9 @@ hr,
 .nube-slider-home .swiper-text .swiper-title {
     font-family: "Pinyon Script", "Lora", Georgia, serif;
     font-weight: 400;
-    /* Chocolate en todas las fotos; solo el nombre de la marca en turquesa
-       (Santiago, 2026-09-24). */
-    color: #2E1D21;
+    /* Crema sobre la foto oscurecida (el chocolate no se leia); el nombre
+       de la marca sigue en turquesa. */
+    color: var(--lu-papel);
     line-height: 1.05;
 }
 
@@ -827,7 +828,7 @@ hr,
 }
 
 .nube-slider-home .swiper-text .swiper-description {
-    color: #2E1D21;
+    color: var(--lu-papel);
     margin-top: 0.3rem;
 }
 
