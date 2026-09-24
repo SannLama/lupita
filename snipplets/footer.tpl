@@ -39,8 +39,10 @@
  		{% if has_footer_contact_info %}
  			<div class="row element-footer">
  				<div class="col text-center">
- 					{% include "snipplets/contact-links.tpl" %}
- 					{% include 'snipplets/tiendas-link.tpl' with {tiendas_clase: 'lu-tiendas-pie'} %}
+ 					<div class="lu-pie-contacto">
+ 						{% include "snipplets/contact-links.tpl" %}
+ 						{% include 'snipplets/tiendas-link.tpl' with {tiendas_clase: 'lu-tiendas-pie'} %}
+ 					</div>
  				</div>
 			</div>
 		{% elseif settings.lupita_tiendas_url %}

@@ -1500,6 +1500,47 @@ footer .contact-item {
     margin-bottom: 0.4rem;
 }
 
+/* Contacto del pie como lista con sangria colgante (Santiago, 2026-09-24,
+   con foto de la laptop): una direccion de dos renglones seguia debajo del
+   icono, y el horario y "Conocer las tiendas" arrancaban en otra columna.
+   Ahora: icono en una columna fija, texto en la otra, y todo lo que no
+   lleva icono (horario, link) se alinea con el texto. El bloque entero
+   queda centrado en su unidad, pero adentro va alineado a la izquierda. */
+footer .lu-pie-contacto {
+    --lu-pie-icono: 1.1rem;
+    --lu-pie-hueco: 0.75rem;
+    display: inline-block;
+    text-align: left;
+    max-width: 100%;
+}
+
+footer .lu-pie-contacto .contact-info {
+    text-align: left !important;
+}
+
+footer .lu-pie-contacto .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--lu-pie-hueco);
+    margin: 0 0 0.55rem;
+}
+
+footer .lu-pie-contacto .contact-item svg {
+    flex: 0 0 var(--lu-pie-icono);
+    width: var(--lu-pie-icono);
+    height: var(--lu-pie-icono);
+    margin: 0.2em 0 0 !important;
+}
+
+footer .lu-pie-contacto .lu-tienda-horario,
+footer .lu-pie-contacto .lu-tiendas-pie {
+    margin-left: calc(var(--lu-pie-icono) + var(--lu-pie-hueco));
+}
+
+footer .lu-pie-contacto .lu-tiendas-pie {
+    display: inline-block;
+}
+
 /* Iconos sociales: cuadrados de 1px, no circulos. */
 .social-icon {
     display: inline-flex;
