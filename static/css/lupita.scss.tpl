@@ -4073,7 +4073,7 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .section-home-modules .lu-mod-col-texto .textbanner-paragraph {
     color: var(--lu-papel);
-    font-size: 12px;
+    font-size: 16px; /* 16px (Santiago, 2026-09-24) */
     line-height: 1.5;
     max-width: 38ch;
 }
@@ -4165,7 +4165,9 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .section-welcome-home {
     padding: clamp(3rem, 8vw, 6rem) 0;
-    border-top: 1px solid var(--lu-linea);
+    /* Sin lineas arriba ni abajo (Santiago, 2026-09-24); el aire de arriba y
+       de abajo es el mismo, el texto queda centrado entre las dos secciones. */
+    border-top: 0;
     text-align: center;
 }
 
@@ -4199,7 +4201,7 @@ body:not(.template-product):not(.template-category) .page-header {
     letter-spacing: 0.02em;
     /* Sin transparencia, en el chocolate de los textos del carrusel, un poco
        mas grande y con menos interlineado (Santiago, 2026-09-24). */
-    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    font-size: 16px; /* 16px (Santiago, 2026-09-24) */
     line-height: 1.5;
     color: #2E1D21;
     opacity: 1;
@@ -4217,7 +4219,13 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .section-instafeed-home {
     padding-top: clamp(2rem, 5vw, 4rem);
-    border-top: 1px solid var(--lu-linea);
+    border-top: 0;
+}
+
+/* Despues de la bienvenida, sin relleno propio: asi el texto de la
+   bienvenida queda con el mismo aire arriba y abajo (Santiago, 2026-09-24). */
+.section-welcome-home + .section-instafeed-home {
+    padding-top: 0;
 }
 
 /* El logo de Instagram baja a la linea del usuario, a su izquierda, y crece
