@@ -1913,9 +1913,18 @@ footer a:hover {
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
-    font-size: clamp(2.5rem, 5vw, 4.25rem);
+    /* Against es ancha: con el tamano de Great Vibes "Denimwear" se cortaba
+       contra la columna (tres por fila desde 768px). */
+    font-size: clamp(2.25rem, 9vw, 3.25rem);
     line-height: 1.1;
     color: var(--lu-blanco);
+    overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+    .section-banners-home .textbanner-title {
+        font-size: clamp(1.75rem, 3vw, 3rem);
+    }
 }
 
 .section-banners-home .textbanner-text .btn {
