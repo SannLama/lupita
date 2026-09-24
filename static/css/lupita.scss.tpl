@@ -4079,7 +4079,7 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .section-home-modules .lu-mod-col-texto .textbanner-text .btn {
-    color: var(--lu-papel);
+    color: #2E1D21; /* marron; crema al pasar el mouse (Santiago, 2026-09-24) */
 }
 
 .section-home-modules .lu-mod-col-texto .textbanner-text .btn:hover,
