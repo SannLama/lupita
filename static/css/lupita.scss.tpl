@@ -4121,7 +4121,7 @@ body:not(.template-product):not(.template-category) .page-header {
 
     .section-home-modules .textbanner-image {
         aspect-ratio: auto;
-        height: clamp(500px, 80vh, 720px); /* un poco mas: 68vh quedo chico */
+        height: clamp(560px, 92vh, 820px); /* 68vh chico, 80vh todavia corto (Santiago, 2026-09-24) */
     }
 
     .section-home-modules .textbanner-image img {
