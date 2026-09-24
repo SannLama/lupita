@@ -4037,7 +4037,7 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .section-home-modules .lu-mod-col-texto .textbanner-text {
-    --lu-mod-t: min(46px, 9vw); /* 46px (Santiago, 2026-09-24); en celular angosto se achica */
+    --lu-mod-t: min(60px, 11vw); /* 46px -> 60px (Santiago, 2026-09-24); en celular angosto se achica */
     --lu-mod-sangria: calc(var(--lu-mod-t) * 2);
     color: var(--lu-papel);
 }
