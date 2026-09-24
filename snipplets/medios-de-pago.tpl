@@ -19,15 +19,14 @@
     <section class="lu-pagos lu-pagos-{{ lu_tamano }}" data-store="lupita-medios-de-pago" aria-label="{{ 'Medios de pago' | translate }}">
         {% if lu_tamano == 'grande' %}
         <div class="container">
-            <span class="lu-rotulo lu-micro lu-pagos-rotulo">{{ 'Medios de pago' | translate }}</span>
         {% endif %}
 
-            {% if lu_hay_pagos %}
+            {% if lu_hay_pagos and lu_tamano != 'grande' %}
                 <ul class="lu-pagos-lista list-unstyled">
                     {% for pago in lu_pagos if pago[0] or pago[1] %}
                         <li class="lu-pagos-item">
                             {% if pago[0] %}<span class="lu-pagos-cifra">{{ pago[0] }}</span>{% endif %}
-                            {% if pago[1] %}<span class="lu-pagos-texto">{{ pago[1] }}</span>{% endif %}
+                            {% if false %}<span class="lu-pagos-texto">{{ pago[1] }}</span>{% endif %}
                         </li>
                     {% endfor %}
                 </ul>
@@ -35,8 +34,7 @@
 
             {% if lu_hay_amex %}
                 <div class="lu-pagos-amex">
-                    <span class="lu-pagos-amex-rotulo">American Express</span>
-                    <span class="lu-pagos-amex-texto">{{ settings.lupita_pago_amex }}</span>
+                                        <span class="lu-pagos-amex-texto">{{ settings.lupita_pago_amex }}</span>
                 </div>
             {% endif %}
 

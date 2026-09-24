@@ -18,10 +18,11 @@
             <div class="{% if template != 'product' %}col text-center{% endif %} {% if template == 'product' %}text-center text-md-left{% endif %} {% if template == 'category' %}col-lg-6 offset-lg-3{% endif %}">
                 {% include 'snipplets/breadcrumbs.tpl' %}
                 <h1 {% if template == 'product' %}class="js-product-name" data-store="product-name-{{ product.id }}"{% endif %}{% if template == 'blog-post' %} data-motion="split-lines"{% endif %} >{% block page_header_text %}{% endblock %}</h1>
-                {% if template == 'category' and category.description %}
-                    <p class="page-header-text font-md-normal">{{ category.description }}</p>
-                    <div class="divider col-2 offset-5 background-primary"></div>
-                {% endif %}
+                {# Descripcion de categoria sacada (Santiago, 2026-09-23,
+                   con foto del celular real): en las categorias que trae el
+                   sistema externo, la descripcion repite el mismo nombre en
+                   gris chico debajo del titulo grande -- sobra, no suma
+                   informacion. #}
             </div>
     {% if template != 'product' %}
         </div>

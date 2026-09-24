@@ -14,7 +14,8 @@
     	<a href="tel:{{ store.phone }}" class="contact-link">{{ store.phone }}</a>
     </li>
 {% endif %}
-{% if store.email %}
+{# Mail sacado del pie y de contacto (Santiago, 2026-09-23) #}
+{% if false %}
     <li class="contact-item{% if columns %} col-6 col-md{% endif %}">
 		{% include "snipplets/svg/envelope.tpl" with {svg_custom_class: "icon-inline icon-lg icon-w mx-2 svg-icon-text"} %}
     	<a href="mailto:{{ store.email }}" class="contact-link">{{ store.email }}</a>

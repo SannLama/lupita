@@ -118,6 +118,28 @@ body {
 }
 
 /*============================================================================
+  #Margen general
+  Santiago, 2026-09-23, "margen de mas o menos 2 dedos en toda la pagina":
+  .container del base trae 15px de Bootstrap de fabrica, poco en un celular
+  ancho. Sube a un rango que en mobile ronda los 2 dedos (~30-32px) y no se
+  pasa en pantallas grandes. Las secciones que van de borde a borde a
+  proposito (footer, hero, portada, capsula) ya pisan este padding con sus
+  propias reglas mas especificas -- esto es solo el default. */
+.container {
+    padding-left: var(--lu-margen);
+    padding-right: var(--lu-margen);
+}
+
+/* 2026-09-23, segunda vuelta: 32px era ~1 dedo. Ahora ~2 dedos en
+   escritorio (96px a partir de 1600px) y 20px en celular, donde dos dedos
+   se comerian media pantalla. Solo los TEXTOS respetan el margen: fotos,
+   videos y lineas del home van de borde a borde, y los textos que caen
+   cerca del borde (modulo, medios de pago) se separan con esta variable. */
+:root {
+    --lu-margen: clamp(1.25rem, 4.5vw, 4.5rem);
+}
+
+/*============================================================================
   #Tipografia
 ==============================================================================*/
 
@@ -3680,13 +3702,16 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .section-home-modules .textbanner-text {
     position: relative;
-    padding: clamp(2rem, 5vw, 4.5rem) clamp(1.25rem, 4vw, 4rem);
+    padding: clamp(2rem, 5vw, 4.5rem) var(--lu-margen);
     text-align: left;
     color: var(--lu-tinta);
 }
 
+/* Against, no Great Vibes (Santiago, 2026-09-23): el resto de los titulos
+   cursiva del home (New Season, Las ultimas tendencias) se quedan en
+   Great Vibes -- este cambia solo, pedido puntual para este modulo. */
 .section-home-modules .textbanner-title {
-    font-family: var(--lu-macro);
+    font-family: "Against", var(--lu-macro);
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
@@ -6393,7 +6418,10 @@ h5,
    arriba, el pie abajo) y con su padding de abajo mas el margen de arriba
    del pie sumaba ~170px de nada. La pagina "Medios de pago" (.lu-pagina-
    pagos) no cambia: alla el bloque va angosto a proposito. */
+/* Sin rotulo (2026-09-23) la franja de arriba quedaba vacia, con su propia
+   linea y su padding: fuera. La linea de arriba la pone la grilla. */
 .js-home-sections-container > .lu-pagos-grande {
+    padding-top: 0;
     padding-bottom: 0;
 }
 
@@ -6403,11 +6431,19 @@ h5,
 }
 
 .js-home-sections-container > .lu-pagos-grande .lu-pagos-rotulo {
-    padding: 0 clamp(1.25rem, 3.5vw, 2.5rem);
+    padding: 0 var(--lu-margen);
 }
 
 .js-home-sections-container > .lu-pagos-grande .lu-pagos-item {
     padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.25rem, 3.5vw, 2.5rem);
+}
+
+.js-home-sections-container > .lu-pagos-grande .lu-pagos-item:first-child {
+    padding-left: var(--lu-margen);
+}
+
+.js-home-sections-container > .lu-pagos-grande .lu-pagos-item:last-child {
+    padding-right: var(--lu-margen);
 }
 
 .js-home-sections-container > .lu-pagos-grande .lu-pagos-amex {
@@ -6416,7 +6452,7 @@ h5,
 }
 
 .js-home-sections-container > .lu-pagos-grande .lu-tiendas-pagos {
-    margin: 1.25rem clamp(1.25rem, 3.5vw, 2.5rem) clamp(2.5rem, 6vw, 4.5rem);
+    margin: clamp(1.5rem, 4vw, 2.5rem) var(--lu-margen) clamp(2.5rem, 6vw, 4.5rem);
 }
 
 /* Si los pagos cierran el home, el pie va pegado: la seccion ya trae su aire */

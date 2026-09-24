@@ -27,7 +27,9 @@
 
 	{% include 'snipplets/sobre-nosotros.tpl' %}
 
-	{% if page.content %}
+	{# 2026-09-23: el contenido de la pagina era solo el collage viejo; se
+	   borro y el panel exige algo de texto, asi que aca no se muestra. #}
+	{% if false %}
 		<section class="user-content">
 			<div class="container">
 				<div class="row justify-content-md-center">
