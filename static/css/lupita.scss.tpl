@@ -73,6 +73,25 @@
   una fuente de un solo corte queda roto.
 ==============================================================================*/
 
+/* Lora (Santiago, 2026-09-24): reemplaza a Against en los titulos del home
+   (hero, portada, capsula, banners de categorias, modulo imagen+texto).
+   Regular + Italic; sin bold a proposito, los titulos van en 400. */
+@font-face {
+    font-family: "Lora";
+    src: url("{{ 'fonts/lora-regular.woff2' | static_url }}") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Lora";
+    src: url("{{ 'fonts/lora-italic.woff2' | static_url }}") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
 @font-face {
     font-family: "Against";
     src: url("{{ 'fonts/against-regular.woff2' | static_url }}") format("woff2");
@@ -684,8 +703,8 @@ hr,
 .nube-slider-home .swiper-title,
 .section-cover-home .swiper-title,
 .section-capsule-home .swiper-title {
-    /* Against en los titulos de los banners del home (Santiago, 2026-09-24). */
-    font-family: "Against", var(--lu-macro);
+    /* Lora en los titulos de los banners del home (Santiago, 2026-09-24; antes Against). */
+    font-family: "Lora", Georgia, serif;
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
@@ -2047,7 +2066,7 @@ footer a:hover {
 }
 
 .section-banners-home .textbanner-title {
-    font-family: "Against", var(--lu-macro);
+    font-family: "Lora", Georgia, serif;
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
@@ -3859,7 +3878,7 @@ body:not(.template-product):not(.template-category) .page-header {
    cursiva del home (New Season, Las ultimas tendencias) se quedan en
    Great Vibes -- este cambia solo, pedido puntual para este modulo. */
 .section-home-modules .textbanner-title {
-    font-family: "Against", var(--lu-macro);
+    font-family: "Lora", Georgia, serif;
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;

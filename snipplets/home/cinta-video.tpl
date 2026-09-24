@@ -13,7 +13,10 @@
   pausa en el primer cuadro. Fuera de pantalla se pausan (lupita-motion,
   gesto "cinta") para no decodificar cuatro videos que nadie ve.
 
-  Parametros: video_url, poster_url (opcional), clase_video.
+  Parametros: video_url, video_url_2 (opcional), poster_url (opcional),
+  clase_video. Con video_url_2 las copias se intercalan A B A B (Santiago,
+  2026-09-24: dos videos distintos a la vez); la pista corre -50% = una
+  tanda A B, asi el salto sigue cayendo sobre una imagen identica.
 ==============================================================================*/ #}
 
 <div class="lu-cinta" data-motion="cinta" aria-hidden="true">
@@ -27,10 +30,10 @@
                     loop
                     playsinline
                     preload="auto"
-                    {% if poster_url %}poster="{{ poster_url }}"{% endif %}
+                    {% if poster_url and not (video_url_2 and copia is even) %}poster="{{ poster_url }}"{% endif %}
                     tabindex="-1"
                 >
-                    <source src="{{ video_url }}" type="video/mp4">
+                    <source src="{{ (video_url_2 and copia is even) ? video_url_2 : video_url }}" type="video/mp4">
                 </video>
             </div>
         {% endfor %}

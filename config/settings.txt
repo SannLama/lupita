@@ -543,6 +543,9 @@ Página de inicio
 	i18n_input
 		name = cover_video_url
 		description = Link directo al video (.mp4, opcional)
+	i18n_input
+		name = cover_video_url_2
+		description = Link directo a un segundo video (.mp4, opcional: se intercala con el primero)
 	image
 		original = cover.jpg
 		title = Cargar imagen (JPG, GIF, PNG)

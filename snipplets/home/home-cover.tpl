@@ -20,7 +20,7 @@
 				{% if 'cover.jpg' | has_custom_image %}
 					{% set lu_poster = 'cover.jpg' | static_url | settings_image_url('large') %}
 				{% endif %}
-				{% include 'snipplets/home/cinta-video.tpl' with {video_url: settings.cover_video_url, poster_url: lu_poster, clase_video: 'cover-image-background'} %}
+				{% include 'snipplets/home/cinta-video.tpl' with {video_url: settings.cover_video_url, video_url_2: settings.cover_video_url_2, poster_url: lu_poster, clase_video: 'cover-image-background'} %}
 			{% else %}
 				<img
 					src="{{ 'cover.jpg' | static_url | settings_image_url('xlarge') }}"
