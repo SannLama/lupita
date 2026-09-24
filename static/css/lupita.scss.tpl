@@ -3866,6 +3866,15 @@ body:not(.template-product):not(.template-category) .page-header {
     fill: var(--lu-tinta);
 }
 
+/* El A! del logo en la franja de servicios: mas ancho que alto, en el
+   color de los demas iconos. */
+.service-icon.lu-service-brand {
+    width: 1.9rem;
+    height: 1.5rem;
+    fill: var(--lu-tinta);
+    color: var(--lu-tinta);
+}
+
 .service-item .service-icon-big {
     font-size: inherit;
 }

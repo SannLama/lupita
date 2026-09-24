@@ -14,6 +14,9 @@
                 {% include "snipplets/svg/whatsapp.tpl" with {svg_custom_class: "icon-inline icon-w-16 icon-2x service-icon service-icon-big"} %}
             {% elseif banner_services_icon == 'promotions' %}
                 {% include "snipplets/svg/tag.tpl" with {svg_custom_class: "icon-inline icon-w-16 icon-2x service-icon"} %}
+            {% elseif banner_services_icon == 'brand' %}
+                {# El A! del logo como icono (Santiago, 2026-09-24) #}
+                {% include "snipplets/svg/logo-lupita.tpl" with {svg_custom_class: "service-icon lu-service-brand"} %}
             {% elseif banner_services_icon == 'cash' %}
                 {% include "snipplets/svg/dollar-sign.tpl" with {svg_custom_class: "icon-inline icon-w-9 icon-2x service-icon"} %}
             {% endif %}

@@ -301,6 +301,7 @@ Página de inicio
 			whatsapp = WhatsApp
 			promotions = Promociones
 			cash = Pago en efectivo
+			brand = Logo A! de la marca
 	i18n_input
 		name = banner_services_01_title
 		description = Título
@@ -323,6 +324,7 @@ Página de inicio
 			whatsapp = WhatsApp
 			promotions = Promociones
 			cash = Pago en efectivo
+			brand = Logo A! de la marca
 	i18n_input
 		name = banner_services_02_title
 		description = Título
@@ -345,6 +347,7 @@ Página de inicio
 			whatsapp = WhatsApp
 			promotions = Promociones
 			cash = Pago en efectivo
+			brand = Logo A! de la marca
 	i18n_input
 		name = banner_services_03_title
 		description = Título
