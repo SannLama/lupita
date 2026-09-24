@@ -7587,9 +7587,17 @@ body .section-banners-home .textbanner-text .btn {
 /* Franjas de video/foto arriba y abajo de las categorias (sandwich) */
 .lu-sandwich {
     width: 100%;
-    height: clamp(320px, 70vh, 720px);
+    /* Mismo alto que Portada/Capsula (cerca del pie) */
+    height: 56vh;
+    max-height: 680px;
     overflow: hidden;
     margin: 0;
+}
+
+@media (min-width: 768px) {
+    .lu-sandwich {
+        height: 72vh;
+    }
 }
 
 .lu-sandwich-media {
