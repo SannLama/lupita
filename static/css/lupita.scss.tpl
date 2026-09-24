@@ -684,7 +684,8 @@ hr,
 .nube-slider-home .swiper-title,
 .section-cover-home .swiper-title,
 .section-capsule-home .swiper-title {
-    font-family: var(--lu-macro);
+    /* Against en los titulos de los banners del home (Santiago, 2026-09-24). */
+    font-family: "Against", var(--lu-macro);
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
@@ -1908,7 +1909,7 @@ footer a:hover {
 }
 
 .section-banners-home .textbanner-title {
-    font-family: var(--lu-macro);
+    font-family: "Against", var(--lu-macro);
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
