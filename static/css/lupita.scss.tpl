@@ -4109,6 +4109,8 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .section-home-modules .lu-mod-bang {
+    /* Aire entre la B y la A: pegadas se veian mas juntas que el resto */
+    margin-left: 0.06em;
     /* La A en crema pleno, como el "!" (el resto de la palabra queda
        traslucido). Santiago, 2026-09-24. */
     color: var(--lu-papel);
