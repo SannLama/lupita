@@ -1670,6 +1670,10 @@ footer .lu-pie-bloque .footer-menu-item,
 footer .lu-pie-bloque .contact-item,
 footer .lu-pie-item {
     margin: 0 !important;
+    /* El li del menu traia 15px de relleno del base: los links quedaban
+       corridos respecto de "NAVEGACION" (Santiago, 2026-09-24). */
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     text-align: left;
 }
 
@@ -4000,7 +4004,7 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .section-home-modules .lu-mod-col-texto .textbanner-text {
-    --lu-mod-t: clamp(2rem, 4.2vw, 3.5rem);
+    --lu-mod-t: min(46px, 9vw); /* 46px (Santiago, 2026-09-24); en celular angosto se achica */
     --lu-mod-sangria: calc(var(--lu-mod-t) * 2);
     color: var(--lu-papel);
 }
@@ -4036,8 +4040,9 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .section-home-modules .lu-mod-col-texto .textbanner-paragraph {
     color: var(--lu-papel);
-    font-size: 0.95rem;
-    max-width: 34ch;
+    font-size: 12px;
+    line-height: 1.5;
+    max-width: 38ch;
 }
 
 .section-home-modules .lu-mod-col-texto .textbanner-text .btn {
@@ -6771,6 +6776,13 @@ h5,
 .js-home-sections-container > .lu-pagos-grande .lu-pagos-amex {
     margin: 0;
     border-radius: 0;
+}
+
+/* Fuera "Conocer las tiendas" del final del home (Santiago, 2026-09-24):
+   era lo unico que quedaba de la seccion de medios de pago, y el pie va
+   pegado a la ultima seccion. Para volver, borrar esta regla. */
+.js-home-sections-container > .lu-pagos-grande {
+    display: none;
 }
 
 .js-home-sections-container > .lu-pagos-grande .lu-tiendas-pagos {
