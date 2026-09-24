@@ -4109,19 +4109,22 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .section-home-modules .lu-mod-bang {
-    position: relative;
-    display: inline-block;
+    /* La A en crema pleno, como el "!" (el resto de la palabra queda
+       traslucido). Santiago, 2026-09-24. */
+    color: var(--lu-papel);
 }
 
+/* El "!" va al lado de la A, como en el logo A!: un poco mas alto que
+   las mayusculas y apenas inclinado. */
 .section-home-modules .lu-mod-bang::after {
     content: "!";
-    position: absolute;
-    left: 50%;
-    bottom: 0.55em;
-    transform: translateX(-30%) rotate(8deg);
-    font-size: 1.55em;
+    display: inline-block;
+    margin-left: 0.02em;
+    font-size: 1.25em;
     font-weight: 600;
-    line-height: 1;
+    line-height: 0;
+    vertical-align: 0.12em;
+    transform: rotate(8deg);
     color: var(--lu-papel);
 }
 
