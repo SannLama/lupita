@@ -4141,11 +4141,9 @@ body:not(.template-product):not(.template-category) .page-header {
     }
 }
 
-/* Los banners de categorias van pegados al modulo (Santiago, 2026-09-24):
-   sin los 70px de aire entre las dos secciones. */
-.js-home-sections-container > .section-home-modules:has(+ .section-banners-home) {
-    margin-bottom: 0;
-}
+/* (2026-09-24) Estuvo pegado a los banners de categorias; Santiago pidio
+   despues el mismo aire abajo que arriba del modulo: vuelve el margin de
+   70px del base. */
 
 /* Cuando la foto y el texto se apilan (mobile), el texto queda debajo de
    la foto sin importar el lado elegido en el panel. */
