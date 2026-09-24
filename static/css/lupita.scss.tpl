@@ -625,16 +625,28 @@ hr,
   home-slider.tpl - y todo esto lo restila por sus clases.
 ==============================================================================*/
 
+.section-slider.js-home-main-slider-visibility,
+.js-home-main-slider-container {
+    /* El base le da 100vh al contenedor y la foto mide 88vh: quedaba una
+       franja vacia debajo (Santiago, 2026-09-24). La seccion mide lo que
+       mide la foto. */
+    height: auto !important;
+    min-height: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 .nube-slider-home {
     position: relative;
-    height: 72vh;
-    max-height: 900px;
+    /* Mas alto que la pantalla (Santiago, 2026-09-24): la foto sigue por
+       debajo del borde y invita a bajar. Antes 72vh/88vh con tope 900px. */
+    height: 90vh;
+    height: 90svh;
     overflow: hidden;
 }
 
 @media (min-width: 768px) {
     .nube-slider-home {
-        height: 88vh;
+        height: 110vh;
     }
 }
 
@@ -705,11 +717,9 @@ hr,
    despegue de la foto incluso en el peor de los casos, una capa media, y
    una larga y floja para el aire general. */
 .nube-slider-home .swiper-text {
-    /* Sombra en el turquesa de marca #64b2b3 (Santiago, 2026-09-24), no negra. */
-    text-shadow:
-        0 1px 4px #64b2b3,
-        0 2px 8px #64b2b3,
-        0 6px 22px rgba(100, 178, 179, 0.7);
+    /* Sin sombra (Santiago, 2026-09-24, despues de probarla negra y
+       turquesa): con la foto al 60% la letra ya se lee sola. */
+    text-shadow: none;
 }
 
 .nube-slider-home .swiper-title,
@@ -762,7 +772,10 @@ hr,
    sigue mandando el bottom de abajo (botones flotantes). */
 @media (min-width: 768px) {
     .nube-slider-home .swiper-text {
-        bottom: clamp(1.25rem, 3vh, 2.25rem);
+        /* Con el hero a 110vh el borde de abajo cae fuera de la pantalla:
+           el texto se sube ese 10vh + la cabecera, y queda cerca del pie
+           de lo que se ve al entrar. */
+        bottom: calc(10vh + 7.5rem);
         max-width: min(90vw, 60rem);
     }
 
@@ -1464,6 +1477,33 @@ footer > .container > div {
        de contraste de #Tarjeta y efectivo, mas abajo. El texto del pie ya
        esta en --lu-tinta, asi que no hace falta tocarlo. */
     background-color: var(--lu-acento);
+}
+
+/* Pie compacto (Santiago, 2026-09-24): cada fila traia 44px arriba y abajo
+   y entre logos, copyright y el sello de Data Fiscal quedaban casi 90px
+   vacios. Las columnas de arriba conservan su aire; el resto va pegado y
+   el pie termina sin espacio libre abajo. */
+footer > .container > .element-footer {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+footer > .container > .element-footer:not(.footer-payments-shipping-logos):has(.lu-pie-bloque) {
+    padding-top: clamp(2rem, 4vw, 2.75rem);
+    padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+footer > .container > .element-footer:last-child {
+    padding-bottom: 1.25rem;
+}
+
+footer .footer-payments-shipping-logos .w-100.my-2 {
+    display: none;
+}
+
+footer .footer-logo,
+footer .custom-seal {
+    margin: 0;
 }
 
 footer .col,
@@ -3711,6 +3751,12 @@ body:not(.template-product):not(.template-category) .page-header {
 .section-informative-banners {
     padding: 0;
     margin-block: clamp(2.5rem, 6vw, 5rem);
+}
+
+/* Pegada al hero, sin aire arriba (Santiago, 2026-09-24): "que no haya
+   espacio sin usar" entre la foto y lo que sigue. */
+.js-home-sections-container > .section-informative-banners {
+    margin-top: 0;
     text-align: left;
     border-top: 1px solid var(--lu-linea);
     border-bottom: 1px solid var(--lu-linea);
@@ -3954,7 +4000,7 @@ body:not(.template-product):not(.template-category) .page-header {
 }
 
 .section-home-modules .lu-mod-col-texto .textbanner-text {
-    --lu-mod-t: clamp(2.5rem, 5.5vw, 4.5rem);
+    --lu-mod-t: clamp(2rem, 4.2vw, 3.5rem);
     --lu-mod-sangria: calc(var(--lu-mod-t) * 2);
     color: var(--lu-papel);
 }
@@ -3983,7 +4029,9 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .section-home-modules .lu-mod-col-texto .textbanner-paragraph,
 .section-home-modules .lu-mod-col-texto .btn {
-    margin-left: var(--lu-mod-sangria);
+    /* + el aire propio de la "e" italica: sin esto el parrafo arrancaba
+       apenas por fuera de la letra (Santiago, 2026-09-24). */
+    margin-left: calc(var(--lu-mod-sangria) + 0.07 * var(--lu-mod-t));
 }
 
 .section-home-modules .lu-mod-col-texto .textbanner-paragraph {
@@ -4005,6 +4053,25 @@ body:not(.template-product):not(.template-category) .page-header {
 @media (max-width: 767px) {
     .section-home-modules .lu-mod-col-texto .textbanner-text {
         --lu-mod-sangria: calc(var(--lu-mod-t) * 1.2);
+    }
+}
+
+/* El cuadro turquesa se monta un poco sobre la foto (Santiago,
+   2026-09-24). Solo lado a lado; apilados no tiene sentido. */
+@media (min-width: 768px) {
+    .section-home-modules .lu-mod-col-texto {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Foto a la derecha (order-md-2): el texto queda a la izquierda y se
+       estira hacia la derecha. Foto a la izquierda: al reves. */
+    .section-home-modules .col-md.order-md-2 + .lu-mod-col-texto {
+        margin-right: calc(-1 * clamp(2rem, 5vw, 5rem));
+    }
+
+    .section-home-modules .col-md:not(.order-md-2) + .lu-mod-col-texto {
+        margin-left: calc(-1 * clamp(2rem, 5vw, 5rem));
     }
 }
 
