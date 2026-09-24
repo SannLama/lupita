@@ -527,7 +527,7 @@ DOMContentLoaded.addEventOrExecute(() => {
                             (aSlide.link ? '<a href="' + aSlide.link + '">' : '' ) +
                                 '<img src="' + aSlide.src + '" class="slider-image"/>' +
                                 '<div class="swiper-text swiper-' + aSlide.color + '">' +
-                                    (aSlide.title ? '<div class="swiper-title' + (aSlide.title.indexOf('Lupita') !== -1 ? ' lu-titulo-marca' : '') + '">' + aSlide.title + '</div>' : '' ) +
+                                    (aSlide.title ? '<div class="swiper-title' + (/Lupita|Couch/.test(aSlide.title) ? ' lu-titulo-marca' : '') + '">' + aSlide.title + '</div>' : '' ) +
                                     (aSlide.description ? '<div class="swiper-description mb-3">' + aSlide.description + '</div>' : '' ) +
                                     (aSlide.button && aSlide.link ? '<div class="btn btn-primary d-inline-block mt-3">' + aSlide.button + '</div>' : '' ) +
                                 '</div>' +

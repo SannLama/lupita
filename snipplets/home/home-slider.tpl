@@ -48,7 +48,7 @@
 								{% if has_text %}
 		                			<div class="swiper-text swiper-{{ slide.color }}">
 			                			{% if slide.title %}
-			                				{# El nombre de la marca va en turquesa, el resto en chocolate (Santiago, 2026-09-24) #}<div class="swiper-title h1{% if 'Lupita' in slide.title %} lu-titulo-marca{% endif %}">{{ slide.title }}</div>
+			                				{# El nombre de la marca va en turquesa, el resto en chocolate (Santiago, 2026-09-24) #}<div class="swiper-title h1{% if 'Lupita' in slide.title or 'Couch' in slide.title %} lu-titulo-marca{% endif %}">{{ slide.title }}</div>
 			                			{% endif %}
 			                			{% if slide.description %}
 			                				<div class="swiper-description h5 font-weight-normal mt-3">{{ slide.description }}</div>

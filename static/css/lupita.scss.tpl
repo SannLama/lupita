@@ -76,6 +76,16 @@
 /* Lora (Santiago, 2026-09-24): reemplaza a Against en los titulos del home
    (hero, portada, capsula, banners de categorias, modulo imagen+texto).
    Regular + Italic; sin bold a proposito, los titulos van en 400. */
+/* Pinyon Script (Santiago, 2026-09-24): solo los titulos del carrusel
+   del inicio. Un unico peso: nada de bold sintetico. */
+@font-face {
+    font-family: "Pinyon Script";
+    src: url("{{ 'fonts/pinyon-script-regular.woff2' | static_url }}") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 @font-face {
     font-family: "Lora";
     src: url("{{ 'fonts/lora-semibold.woff2' | static_url }}") format("woff2");
@@ -796,6 +806,8 @@ hr,
    turquesa de marca y bajada en #2E1D21, mas juntos. Pisa el claro/oscuro
    del panel solo en el carrusel. */
 .nube-slider-home .swiper-text .swiper-title {
+    font-family: "Pinyon Script", "Lora", Georgia, serif;
+    font-weight: 400;
     /* Chocolate en todas las fotos; solo el nombre de la marca en turquesa
        (Santiago, 2026-09-24). */
     color: #2E1D21;
@@ -4070,10 +4082,14 @@ body:not(.template-product):not(.template-category) .page-header {
     color: var(--lu-papel);
 }
 
-.section-home-modules .lu-mod-col-texto .textbanner-text .btn:hover {
-    background-color: var(--lu-papel);
-    border-color: var(--lu-papel);
-    color: var(--lu-tinta);
+.section-home-modules .lu-mod-col-texto .textbanner-text .btn:hover,
+.section-home-modules .lu-mod-col-texto .textbanner-text .btn:focus-visible {
+    /* Al pasar el mouse solo se va el subrayado; el boton no se rellena,
+       queda del color del fondo (Santiago, 2026-09-24). */
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--lu-papel);
+    text-decoration: none;
 }
 
 @media (max-width: 767px) {
@@ -4164,7 +4180,9 @@ body:not(.template-product):not(.template-category) .page-header {
    versales script). Tambien el h2 del base trae font-weight 700 y Great
    Vibes tiene un solo peso: el navegador la engordaba a mano. */
 .welcome-title {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    /* Misma letra que el carrusel, y algo mas grande (Santiago, 2026-09-24) */
+    font-family: "Pinyon Script", var(--lu-macro);
+    font-size: clamp(2.75rem, 6.5vw, 5rem);
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
@@ -4179,9 +4197,12 @@ body:not(.template-product):not(.template-category) .page-header {
     font-family: var(--lu-texto);
     text-transform: none;
     letter-spacing: 0.02em;
-    font-size: clamp(1rem, 1.6vw, 1.15rem);
-    line-height: 1.7;
-    color: var(--lu-gris);
+    /* Sin transparencia, en el chocolate de los textos del carrusel, un poco
+       mas grande y con menos interlineado (Santiago, 2026-09-24). */
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    line-height: 1.5;
+    color: #2E1D21;
+    opacity: 1;
     max-width: 52ch;
     margin: 0 auto;
     text-wrap: pretty;
@@ -6222,6 +6243,13 @@ body .nav-primary .nav-list .nav-list-link {
     line-height: 1.15;
 }
 
+/* Rubros principales del menu mas chicos (Santiago, 2026-09-24): de 32px
+   a ~22px. Solo el primer nivel; los subitems quedan como estaban. */
+body .nav-primary .nav-list > li > .nav-list-link,
+body .nav-primary .nav-list > li > div > .nav-list-link {
+    font-size: 1.35rem;
+}
+
 body .modal-nav-hamburger .modal-header,
 body #modal-cart .modal-header {
     font-size: 0.9rem;
@@ -7448,7 +7476,27 @@ body .btn-variant:active {
    esa linea asoma en las esquinas. Pasan a fotos sueltas con aire. */
 body .section-banners-home .row {
     background-color: transparent;
-    gap: 0.5rem;
+    gap: 0;
+}
+
+/* Letras de las tres categorias en el crema del fondo, no blanco puro
+   (Santiago, 2026-09-24): titulo, boton y su borde. */
+body .section-banners-home .textbanner-title,
+body .section-banners-home .textbanner-text .btn {
+    color: var(--lu-papel) !important;
+}
+
+body .section-banners-home .textbanner-text .btn {
+    border-color: var(--lu-papel) !important;
+}
+
+/* Esquinas rectas y pegadas entre si (Santiago, 2026-09-24): sin curva
+   ni aire entre las tres fotos de categorias. */
+body .section-banners-home .textbanner,
+body .section-banners-home .textbanner-image,
+body .section-banners-home .textbanner-image img,
+body .section-banners-home .textbanner-link {
+    border-radius: 0 !important;
 }
 
 /* El +/- y la cantidad son una sola pieza: la capsula es el contenedor, y
