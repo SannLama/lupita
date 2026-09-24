@@ -788,11 +788,18 @@ hr,
         /* El titulo queda al pie de lo que se ve al entrar y la bajada
            aparece al scrollear (Santiago, 2026-09-24). */
         bottom: calc(10vh + 3.5rem);
-        max-width: min(90vw, 60rem);
+        max-width: min(95vw, 80rem);
     }
 
     .nube-slider-home .swiper-title {
-        font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+        /* Mas grande con Pinyon Script (Santiago, 2026-09-24): antes tope 4.5rem */
+        font-size: clamp(3.5rem, 8vw, 7rem);
+    }
+}
+
+@media (max-width: 767px) {
+    .nube-slider-home .swiper-title {
+        font-size: clamp(3rem, 11vw, 5.5rem);
     }
 }
 
@@ -816,6 +823,7 @@ hr,
 
 .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
     color: var(--lu-acento);
+    white-space: nowrap; /* "Kit n' Couch" siempre en una linea (Santiago, 2026-09-24) */
 }
 
 .nube-slider-home .swiper-text .swiper-description {
