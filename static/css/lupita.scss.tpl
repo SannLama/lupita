@@ -1465,6 +1465,8 @@ hr,
    arriba dejaba un hueco color papel entre la linea negra y el turquesa
    del container -- la linea quedaba flotando en vez de pegada. */
 footer {
+    /* Sin la franja crema de 30px debajo del turquesa (Santiago, 2026-09-24) */
+    padding-bottom: 0 !important;
     border-top: 2px solid var(--lu-tinta);
     margin-top: clamp(3rem, 8vw, 6rem);
     padding-top: 0;
