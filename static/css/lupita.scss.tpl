@@ -790,6 +790,19 @@ hr,
     }
 }
 
+/* Colores del texto del hero (Santiago, 2026-09-24): titulo en el
+   turquesa de marca y bajada en #2E1D21, mas juntos. Pisa el claro/oscuro
+   del panel solo en el carrusel. */
+.nube-slider-home .swiper-text .swiper-title {
+    color: var(--lu-acento);
+    line-height: 1.05;
+}
+
+.nube-slider-home .swiper-text .swiper-description {
+    color: #2E1D21;
+    margin-top: 0.3rem;
+}
+
 /* El unico turquesa del hero, para que el ojo sepa donde tocar.
    Texto en tinta y no en papel: turquesa+papel da 2.17:1 (ver la nota de
    contraste general), turquesa+tinta da 8.27:1. */
