@@ -51,7 +51,10 @@
                 {% endfor %}
             </div>
 
-            {% if page.content %}
+            {# 2026-09-23: el contenido de la pagina (texto viejo de envios,
+               pagos y cambios) se borro; el panel exige algo de texto, asi que
+               no se muestra. Las preguntas salen de Personalizar diseno. #}
+            {% if false %}
                 <div class="user-content lu-faq-extra">{{ page.content }}</div>
             {% endif %}
 
