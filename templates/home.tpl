@@ -41,7 +41,7 @@
 	   'welcome' no esta en esta lista: se renderiza pegada arriba de
 	   'instafeed' (ver home-section-switch.tpl) porque 'instafeed' si tiene
 	   posicion propia en esta tienda y 'welcome' nunca llegaba antes. #}
-	{% for section_select in ['slider', 'products', 'informatives', 'categories', 'instafeed', 'video', 'cover', 'capsule', 'modules', 'payments'] %}
+	{% for section_select in ['slider', 'products', 'informatives', 'categories', 'instafeed', 'video', 'modules', 'payments'] %}
 		{% if section_select not in newArray %}
 			{% include 'snipplets/home/home-section-switch.tpl' %}
 			{% set newArray = newArray|merge([section_select]) %}

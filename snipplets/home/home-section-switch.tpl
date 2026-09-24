@@ -70,10 +70,25 @@
 	   'welcome' siempre caia al final por el loop de respaldo de home.tpl,
 	   sin importar el orden de ese array. Va pegada arriba de instafeed
 	   (pedido de Santiago, 2026-09-23), mismo patron que campanas/capsula. #}
+	{# Sandwich (Santiago, 2026-09-24): Portada (video) arriba y Capsula
+	   (video) abajo del mensaje de bienvenida. Cover/capsule ya no salen en
+	   el loop de respaldo de home.tpl para no duplicarse. #}
+	{% if show_help or (show_component_help and not has_cover) %}
+		{% include 'snipplets/defaults/home/cover_help.tpl' %}
+	{% else %}
+		{% include 'snipplets/home/home-cover.tpl' %}
+	{% endif %}
+
 	{% if show_help or (show_component_help and not has_welcome_message) %}
 		{% include 'snipplets/defaults/home/welcome_message_help.tpl' %}
 	{% else %}
 		{% include 'snipplets/home/home-welcome-message.tpl' %}
+	{% endif %}
+
+	{% if show_help or (show_component_help and not has_capsule) %}
+		{% include 'snipplets/defaults/home/capsule_help.tpl' %}
+	{% else %}
+		{% include 'snipplets/home/home-capsule.tpl' %}
 	{% endif %}
 
 	{#  **** Instafeed ****  #}
