@@ -7617,6 +7617,31 @@ body .section-banners-home .textbanner-text .btn {
     position: relative;
 }
 
+/* Las tarjetas de categoria traen margin-bottom 20px del base: dejaba una
+   franja crema entre la ultima y la franja de abajo (se ve en celular). */
+body .section-banners-home .textbanner {
+    margin-bottom: 0 !important;
+}
+
+/* Zoom al pasar el mouse, igual que las tarjetas de categoria */
+.lu-sandwich-media {
+    transition: transform 420ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .lu-sandwich-link:hover .lu-sandwich-media {
+        transform: scale(1.04);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-sandwich-media,
+    .lu-sandwich-link:hover .lu-sandwich-media {
+        transition: none;
+        transform: none;
+    }
+}
+
 .lu-sandwich-link {
     display: block;
     position: relative;
