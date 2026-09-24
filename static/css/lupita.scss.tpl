@@ -775,7 +775,9 @@ hr,
         /* Con el hero a 110vh el borde de abajo cae fuera de la pantalla:
            el texto se sube ese 10vh + la cabecera, y queda cerca del pie
            de lo que se ve al entrar. */
-        bottom: calc(10vh + 7.5rem);
+        /* El titulo queda al pie de lo que se ve al entrar y la bajada
+           aparece al scrollear (Santiago, 2026-09-24). */
+        bottom: calc(10vh + 3.5rem);
         max-width: min(90vw, 60rem);
     }
 
@@ -794,8 +796,14 @@ hr,
    turquesa de marca y bajada en #2E1D21, mas juntos. Pisa el claro/oscuro
    del panel solo en el carrusel. */
 .nube-slider-home .swiper-text .swiper-title {
-    color: var(--lu-acento);
+    /* Chocolate en todas las fotos; solo el nombre de la marca en turquesa
+       (Santiago, 2026-09-24). */
+    color: #2E1D21;
     line-height: 1.05;
+}
+
+.nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
+    color: var(--lu-acento);
 }
 
 .nube-slider-home .swiper-text .swiper-description {
@@ -4115,6 +4123,12 @@ body:not(.template-product):not(.template-category) .page-header {
     .section-home-modules .col-md:not(.order-md-2) + .lu-mod-col-texto {
         margin-left: calc(-1 * clamp(2rem, 5vw, 5rem));
     }
+}
+
+/* Los banners de categorias van pegados al modulo (Santiago, 2026-09-24):
+   sin los 70px de aire entre las dos secciones. */
+.js-home-sections-container > .section-home-modules:has(+ .section-banners-home) {
+    margin-bottom: 0;
 }
 
 /* Cuando la foto y el texto se apilan (mobile), el texto queda debajo de
