@@ -44,7 +44,7 @@
        licencia web, se cambian aca y en el @font-face, nada mas. */
     --lu-macro: {{ settings.font_headings | raw }};
     --lu-texto: {{ settings.font_rest | raw }};
-    --lu-sub: "Bodoni Moda", serif;
+    --lu-sub: "Lora", Georgia, serif; /* Lora Regular (Santiago, 2026-09-24; antes Bodoni Moda) */
     /* Rotulos: hasta el 2026-09-16 eran Roboto Mono, la maquina de escribir
        del brutalismo. Santiago pidio sacarla por la estetica romantica: pasan
        a la misma letra del texto, en versal espaciada. */
@@ -76,6 +76,14 @@
 /* Lora (Santiago, 2026-09-24): reemplaza a Against en los titulos del home
    (hero, portada, capsula, banners de categorias, modulo imagen+texto).
    Regular + Italic; sin bold a proposito, los titulos van en 400. */
+@font-face {
+    font-family: "Lora";
+    src: url("{{ 'fonts/lora-semibold.woff2' | static_url }}") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
 @font-face {
     font-family: "Lora";
     src: url("{{ 'fonts/lora-regular.woff2' | static_url }}") format("woff2");
@@ -640,6 +648,9 @@ hr,
     height: 100%;
     object-fit: cover;
     display: block;
+    /* Foto al 60% (Santiago, 2026-09-24): se lava contra el papel y el
+       titulo gana protagonismo. */
+    opacity: 0.6;
 }
 
 /* El texto se apoya directo sobre la foto, sin nada atras - decision de
@@ -694,10 +705,11 @@ hr,
    despegue de la foto incluso en el peor de los casos, una capa media, y
    una larga y floja para el aire general. */
 .nube-slider-home .swiper-text {
+    /* Sombra en el turquesa de marca #64b2b3 (Santiago, 2026-09-24), no negra. */
     text-shadow:
-        0 1px 4px rgba(0, 0, 0, 0.75),
-        0 2px 8px rgba(0, 0, 0, 0.55),
-        0 6px 22px rgba(0, 0, 0, 0.45);
+        0 1px 4px #64b2b3,
+        0 2px 8px #64b2b3,
+        0 6px 22px rgba(100, 178, 179, 0.7);
 }
 
 .nube-slider-home .swiper-title,
@@ -705,7 +717,7 @@ hr,
 .section-capsule-home .swiper-title {
     /* Lora en los titulos de los banners del home (Santiago, 2026-09-24; antes Against). */
     font-family: "Lora", Georgia, serif;
-    font-weight: 400;
+    font-weight: 600;
     text-transform: none;
     letter-spacing: 0;
     line-height: 1.15;
@@ -719,7 +731,7 @@ hr,
 .section-cover-home .swiper-description,
 .section-capsule-home .swiper-description {
     font-family: var(--lu-sub);
-    font-weight: 500;
+    font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
     font-size: clamp(1.25rem, 2.5vw, 1.75rem);
@@ -1443,6 +1455,10 @@ footer > .container > div {
     min-width: 240px;
     margin: 0;
     padding: clamp(1.75rem, 4vw, 2.75rem);
+    /* Costados = margen general (Santiago, 2026-09-24): el texto del pie
+       arrancaba 10px mas afuera que el menu hamburguesa del header. */
+    padding-left: var(--lu-margen);
+    padding-right: var(--lu-margen);
     /* Color de marca, no papel (Santiago, 2026-09-23): tinta sobre turquesa
        da 8.27:1, el unico sentido en que el acento contrasta -- ver la nota
        de contraste de #Tarjeta y efectivo, mas abajo. El texto del pie ya
@@ -1939,7 +1955,7 @@ footer a:hover {
 
 .category-header .page-header-text {
     font-family: var(--lu-sub);
-    font-weight: 500;
+    font-weight: 400;
     font-size: clamp(1.2rem, 2.2vw, 1.5rem);
     line-height: 1.3;
     letter-spacing: 0;
@@ -2067,7 +2083,7 @@ footer a:hover {
 
 .section-banners-home .textbanner-title {
     font-family: "Lora", Georgia, serif;
-    font-weight: 400;
+    font-weight: 600;
     text-transform: none;
     letter-spacing: 0;
     /* Against es ancha: con el tamano de Great Vibes "Denimwear" se cortaba
@@ -2098,7 +2114,7 @@ footer a:hover {
 
 .textbanner-paragraph {
     font-family: var(--lu-sub);
-    font-weight: 500;
+    font-weight: 400;
     font-size: 1.1rem;
     line-height: 1.2;
     text-transform: none;
@@ -3731,7 +3747,9 @@ body:not(.template-product):not(.template-category) .page-header {
     justify-content: flex-start;
     gap: 0.9rem;
     margin: 0;
-    padding: clamp(1.75rem, 4vw, 2.75rem) clamp(1.25rem, 3.5vw, 2.5rem);
+    /* Costados = margen general (Santiago, 2026-09-24): el icono del camion
+       quedaba mas afuera que el menu hamburguesa. */
+    padding: clamp(1.75rem, 4vw, 2.75rem) var(--lu-margen);
     text-align: left;
 }
 
@@ -3879,7 +3897,7 @@ body:not(.template-product):not(.template-category) .page-header {
    Great Vibes -- este cambia solo, pedido puntual para este modulo. */
 .section-home-modules .textbanner-title {
     font-family: "Lora", Georgia, serif;
-    font-weight: 400;
+    font-weight: 600;
     text-transform: none;
     letter-spacing: 0;
     font-size: clamp(2.25rem, 5vw, 3.75rem);
@@ -4244,6 +4262,7 @@ body:not(.template-product):not(.template-category) .page-header {
     padding-left: 1rem;
     border-left: 3px solid var(--lu-acento);
     font-family: var(--lu-sub);
+    font-weight: 400;
     font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
     font-size: clamp(1.45rem, 2.4vw, 2rem);
     line-height: 1.25;
@@ -4362,6 +4381,7 @@ body:not(.template-product):not(.template-category) .page-header {
     cursor: pointer;
     list-style: none;
     font-family: var(--lu-sub);
+    font-weight: 400;
     font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
     font-size: clamp(1.2rem, 2.2vw, 1.55rem);
     line-height: 1.25;
@@ -4480,6 +4500,7 @@ body:not(.template-product):not(.template-category) .page-header {
 
 .lu-paso-numero {
     font-family: var(--lu-sub);
+    font-weight: 400;
     font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
     font-size: clamp(2rem, 4vw, 2.75rem);
     line-height: 1;
@@ -4490,7 +4511,7 @@ body:not(.template-product):not(.template-category) .page-header {
     margin: 0 0 0.4rem;
     font-family: var(--lu-sub);
     font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
-    font-weight: 500;
+    font-weight: 400;
     font-size: clamp(1.2rem, 2.2vw, 1.55rem);
     line-height: 1.25;
     text-transform: none;
@@ -5696,7 +5717,7 @@ a[data-toggle="#size-guide-modal"] svg {
 
 .lu-cerrado-mensaje {
     font-family: var(--lu-sub);
-    font-weight: 500;
+    font-weight: 400;
     font-size: clamp(2rem, 5vw, 3.5rem);
     line-height: 1.1;
     max-width: 18ch;
@@ -6388,6 +6409,7 @@ h5,
 
 .lu-favs-titulo {
     font-family: var(--lu-sub);
+    font-weight: 400;
     font-feature-settings: "liga" 1, "dlig" 1, "hlig" 1, "ss01" 1;
     font-size: 1.75rem;
     line-height: 1.1;
