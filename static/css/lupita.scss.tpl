@@ -42,7 +42,7 @@
        Great Vibes reemplaza a Liza Pro y Bodoni Moda a Bigilla (que a su
        vez habia reemplazado a Caveat/Brown Sugar), las dos pagas: con
        licencia web, se cambian aca y en el @font-face, nada mas. */
-    --lu-macro: {{ settings.font_headings | raw }};
+    --lu-macro: "Pinyon Script", {{ settings.font_headings | raw }}; /* todos los titulos script en Pinyon (Santiago, 2026-09-24) */
     --lu-texto: {{ settings.font_rest | raw }};
     --lu-sub: "Lora", Georgia, serif; /* Lora Regular (Santiago, 2026-09-24; antes Bodoni Moda) */
     /* Rotulos: hasta el 2026-09-16 eran Roboto Mono, la maquina de escribir
