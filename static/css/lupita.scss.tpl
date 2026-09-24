@@ -75,7 +75,7 @@
 
 @font-face {
     font-family: "Against";
-    src: url("{{ 'against-regular.woff2' | static_url }}") format("woff2");
+    src: url("{{ 'fonts/against-regular.woff2' | static_url }}") format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
