@@ -4097,7 +4097,7 @@ body:not(.template-product):not(.template-category) .page-header {
 
     .section-home-modules .textbanner-image {
         aspect-ratio: auto;
-        height: clamp(420px, 68vh, 600px);
+        height: clamp(500px, 80vh, 720px); /* un poco mas: 68vh quedo chico */
     }
 
     .section-home-modules .textbanner-image img {
