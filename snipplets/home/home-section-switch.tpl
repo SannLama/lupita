@@ -32,14 +32,7 @@
 
 {% elseif section_select == 'categories' %}
 
-	{# Sandwich (Santiago, 2026-09-24): Portada (video) arriba y Capsula (video)
-	   abajo de los banners de categorias; cover/capsule salieron del loop de
-	   respaldo de home.tpl para no duplicarse. #}
-	{% if show_help or (show_component_help and not has_cover) %}
-		{% include 'snipplets/defaults/home/cover_help.tpl' %}
-	{% else %}
-		{% include 'snipplets/home/home-cover.tpl' %}
-	{% endif %}
+	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_top_video, lu_sw_img: 'sandwich-arriba.jpg'} %}
 
 	{#  **** Categories banners ****  #}
 	{% if show_help or (show_component_help and not has_category_banners) %}
@@ -54,11 +47,7 @@
 		{% include 'snipplets/home/home-banners.tpl' with {'textoverimage': true} %}
 	{% endif %}
 
-	{% if show_help or (show_component_help and not has_capsule) %}
-		{% include 'snipplets/defaults/home/capsule_help.tpl' %}
-	{% else %}
-		{% include 'snipplets/home/home-capsule.tpl' %}
-	{% endif %}
+	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_bottom_video, lu_sw_img: 'sandwich-abajo.jpg'} %}
 
 {% elseif section_select == 'welcome' %}
 

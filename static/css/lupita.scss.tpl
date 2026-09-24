@@ -2034,6 +2034,14 @@ footer a:hover {
     margin-top: 0;
 }
 
+/* El .container del titulo queda dentro de otro bloque que ya tiene el
+   margen: sumaba el margen dos veces y el titulo arrancaba mas adentro que
+   el menu hamburguesa (Santiago, 2026-09-24). */
+.category-header .page-header > .container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .category-header .page-header [class*="col"] {
     text-align: left !important;
     flex: 1 1 auto;
@@ -7574,6 +7582,21 @@ body .section-banners-home .textbanner-text .btn {
 
 body .section-banners-home .textbanner-text .btn {
     border-color: var(--lu-papel) !important;
+}
+
+/* Franjas de video/foto arriba y abajo de las categorias (sandwich) */
+.lu-sandwich {
+    width: 100%;
+    height: clamp(320px, 70vh, 720px);
+    overflow: hidden;
+    margin: 0;
+}
+
+.lu-sandwich-media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Esquinas rectas y pegadas entre si (Santiago, 2026-09-24): sin curva

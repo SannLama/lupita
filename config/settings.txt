@@ -442,6 +442,26 @@ Página de inicio
 	i18n_input
 		name = banner_03_url
 		description = Link
+	title
+		title = Video o foto arriba de las categorías
+	i18n_input
+		name = lupita_sandwich_top_video
+		description = Link directo al video (.mp4, opcional)
+	image
+		original = sandwich-arriba.jpg
+		title = Foto (se usa si no hay video, o mientras carga)
+		width = 1920
+		height = 1080
+	title
+		title = Video o foto abajo de las categorías
+	i18n_input
+		name = lupita_sandwich_bottom_video
+		description = Link directo al video (.mp4, opcional)
+	image
+		original = sandwich-abajo.jpg
+		title = Foto (se usa si no hay video, o mientras carga)
+		width = 1920
+		height = 1080
 	collapse
 		title = Productos destacados
 		backto = home_order_position
