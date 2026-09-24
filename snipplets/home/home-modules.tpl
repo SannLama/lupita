@@ -79,7 +79,7 @@
                                 {# Primera palabra en mayuscula SemiBold, el resto en italica corrida
                                    a la derecha (Santiago, 2026-09-24, con un diseno). #}
                                 {% set lu_titulo = module_title | trim | split(' ', 2) %}
-                                <div class="h1 textbanner-title"><span class="lu-mod-t1">{{ lu_titulo[0] }}</span>{% if lu_titulo[1] is defined %} <span class="lu-mod-t2">{{ lu_titulo[1] }}</span>{% endif %}</div>
+                                <div class="h1 textbanner-title">{% set lu_t1 = lu_titulo[0] | split('á') %}<span class="lu-mod-t1">{% if lu_t1 | length == 2 %}{{ lu_t1[0] }}<span class="lu-mod-bang">a</span>{{ lu_t1[1] }}{% else %}{{ lu_titulo[0] }}{% endif %}</span>{% if lu_titulo[1] is defined %} <span class="lu-mod-t2">{{ lu_titulo[1] }}</span>{% endif %}</div>
                             {% endif %}
                             {% if module_description %}
                                 <div class="textbanner-paragraph">{{ module_description }}</div>

@@ -4098,6 +4098,40 @@ body:not(.template-product):not(.template-category) .page-header {
     }
 }
 
+/* Titulo segun el diseno de Santiago (2026-09-24): PROBATELO en crema
+   traslucido; la tilde de la A se reemplaza por un "!" grande en crema
+   (el A! del logo); "en la tienda" en italica chocolate, montada sobre
+   la parte de abajo de la primera palabra. */
+.section-home-modules .lu-mod-t1 {
+    color: rgba(245, 240, 225, 0.55);
+    position: relative;
+    z-index: 1;
+}
+
+.section-home-modules .lu-mod-bang {
+    position: relative;
+    display: inline-block;
+}
+
+.section-home-modules .lu-mod-bang::after {
+    content: "!";
+    position: absolute;
+    left: 50%;
+    bottom: 0.55em;
+    transform: translateX(-30%) rotate(8deg);
+    font-size: 1.55em;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--lu-papel);
+}
+
+.section-home-modules .lu-mod-t2 {
+    position: relative;
+    z-index: 2;
+    margin-top: -0.42em;
+    color: #2E1D21;
+}
+
 /* El cuadro turquesa se monta un poco sobre la foto (Santiago,
    2026-09-24). Solo lado a lado; apilados no tiene sentido. */
 @media (min-width: 768px) {
