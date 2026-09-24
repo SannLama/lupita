@@ -73,10 +73,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md">
+                    <div class="col-md lu-mod-col-texto">
                         <div class="textbanner-text{% if textoverimage %} over-image{% endif %}">
                             {% if module_title %}
-                                <div class="h1 textbanner-title">{{ module_title }}</div>
+                                {# Primera palabra en mayuscula SemiBold, el resto en italica corrida
+                                   a la derecha (Santiago, 2026-09-24, con un diseno). #}
+                                {% set lu_titulo = module_title | trim | split(' ', 2) %}
+                                <div class="h1 textbanner-title"><span class="lu-mod-t1">{{ lu_titulo[0] }}</span>{% if lu_titulo[1] is defined %} <span class="lu-mod-t2">{{ lu_titulo[1] }}</span>{% endif %}</div>
                             {% endif %}
                             {% if module_description %}
                                 <div class="textbanner-paragraph">{{ module_description }}</div>

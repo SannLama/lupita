@@ -3942,6 +3942,72 @@ body:not(.template-product):not(.template-category) .page-header {
     color: var(--lu-tinta);
 }
 
+/*============================================================================
+  #Modulo "Probatelo en la tienda" (Santiago, 2026-09-24, con un diseno)
+  Columna de texto en turquesa con letra crema. Titulo en dos partes:
+  la primera palabra en mayuscula Lora SemiBold, el resto abajo en Lora
+  italica corrido a la derecha; parrafo y boton arrancan donde arranca
+  la italica.
+==============================================================================*/
+.section-home-modules .lu-mod-col-texto {
+    background-color: var(--lu-acento);
+}
+
+.section-home-modules .lu-mod-col-texto .textbanner-text {
+    --lu-mod-t: clamp(2.5rem, 5.5vw, 4.5rem);
+    --lu-mod-sangria: calc(var(--lu-mod-t) * 2);
+    color: var(--lu-papel);
+}
+
+.section-home-modules .lu-mod-col-texto .textbanner-title {
+    font-size: var(--lu-mod-t);
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    color: var(--lu-papel);
+    text-wrap: initial;
+}
+
+.section-home-modules .lu-mod-t1 {
+    display: block;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+}
+
+.section-home-modules .lu-mod-t2 {
+    display: block;
+    font-weight: 400;
+    font-style: italic;
+    padding-left: var(--lu-mod-sangria);
+}
+
+.section-home-modules .lu-mod-col-texto .textbanner-paragraph,
+.section-home-modules .lu-mod-col-texto .btn {
+    margin-left: var(--lu-mod-sangria);
+}
+
+.section-home-modules .lu-mod-col-texto .textbanner-paragraph {
+    color: var(--lu-papel);
+    font-size: 0.95rem;
+    max-width: 34ch;
+}
+
+.section-home-modules .lu-mod-col-texto .textbanner-text .btn {
+    color: var(--lu-papel);
+}
+
+.section-home-modules .lu-mod-col-texto .textbanner-text .btn:hover {
+    background-color: var(--lu-papel);
+    border-color: var(--lu-papel);
+    color: var(--lu-tinta);
+}
+
+@media (max-width: 767px) {
+    .section-home-modules .lu-mod-col-texto .textbanner-text {
+        --lu-mod-sangria: calc(var(--lu-mod-t) * 1.2);
+    }
+}
+
 /* Cuando la foto y el texto se apilan (mobile), el texto queda debajo de
    la foto sin importar el lado elegido en el panel. */
 @media (max-width: 767px) {
