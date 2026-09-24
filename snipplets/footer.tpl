@@ -20,7 +20,7 @@
         {# Social #}
  		{% if has_social_network %}
  			<div class="row element-footer">
- 				<div class="col text-center">{% include "snipplets/social/social-links.tpl" %}</div>
+ 				<div class="col lu-pie-bloque"><p class="lu-pie-titulo">Redes sociales</p>{% include "snipplets/social/social-links.tpl" %}</div>
 			</div>
 		{% endif %}
 
@@ -29,7 +29,7 @@
 			{# Foot Nav #}
 			{% if has_footer_menu %}
 				<div class="row element-footer">
-	 				<div class="col text-center">{% include "snipplets/navigation/navigation-foot.tpl" %}</div>
+	 				<div class="col lu-pie-bloque"><p class="lu-pie-titulo">Navegación</p>{% include "snipplets/navigation/navigation-foot.tpl" %}</div>
 				</div>
 			{% endif %}
 
@@ -38,7 +38,8 @@
 		{# Contact #}
  		{% if has_footer_contact_info %}
  			<div class="row element-footer">
- 				<div class="col text-center">
+ 				<div class="col lu-pie-bloque">
+ 					<p class="lu-pie-titulo">Tiendas</p>
  					<div class="lu-pie-contacto">
  						{% include "snipplets/contact-links.tpl" %}
  						{% include 'snipplets/tiendas-link.tpl' with {tiendas_clase: 'lu-tiendas-pie'} %}

@@ -725,6 +725,21 @@ hr,
     top: auto;
 }
 
+/* Mas abajo y un titulo algo mas chico (Santiago, 2026-09-24, con foto de
+   la laptop): con Against, "New Season" se partia en dos renglones y el
+   bloque de texto quedaba muy arriba en la foto. Solo el hero; en celular
+   sigue mandando el bottom de abajo (botones flotantes). */
+@media (min-width: 768px) {
+    .nube-slider-home .swiper-text {
+        bottom: clamp(1.25rem, 3vh, 2.25rem);
+        max-width: min(90vw, 60rem);
+    }
+
+    .nube-slider-home .swiper-title {
+        font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    }
+}
+
 @media (max-width: 767px) {
     .nube-slider-home .swiper-text {
         bottom: clamp(6.5rem, 22vh, 8rem);
@@ -1532,13 +1547,95 @@ footer .lu-pie-contacto .contact-item svg {
     margin: 0.2em 0 0 !important;
 }
 
+/* padding y no margin: el reset de margenes de la lista del pie (con
+   !important, mas abajo) se comia la sangria del horario. */
 footer .lu-pie-contacto .lu-tienda-horario,
 footer .lu-pie-contacto .lu-tiendas-pie {
-    margin-left: calc(var(--lu-pie-icono) + var(--lu-pie-hueco));
+    padding-left: calc(var(--lu-pie-icono) + var(--lu-pie-hueco));
 }
 
 footer .lu-pie-contacto .lu-tiendas-pie {
     display: inline-block;
+}
+
+/*============================================================================
+  #Pie en columnas con titulo (Santiago, 2026-09-24, con una referencia)
+  Cada bloque (redes, navegacion, tiendas) lleva un rotulo chico arriba y
+  debajo una lista vertical alineada a la izquierda, en caja normal. Pisa
+  la grilla centrada de 3 del menu y la tira de cuadrados de las redes.
+==============================================================================*/
+footer .lu-pie-bloque {
+    text-align: left;
+}
+
+footer .lu-pie-titulo {
+    font-family: var(--lu-micro);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    color: var(--lu-tinta);
+    margin: 0 0 1.1rem;
+}
+
+footer .lu-pie-lista,
+footer .lu-pie-bloque .footer-menu,
+footer .lu-pie-bloque .contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left !important;
+}
+
+footer .lu-pie-bloque .footer-menu-item,
+footer .lu-pie-bloque .contact-item,
+footer .lu-pie-item {
+    margin: 0 !important;
+    text-align: left;
+}
+
+footer .lu-pie-bloque .footer-menu-link,
+footer .lu-pie-bloque .contact-item,
+footer .lu-pie-bloque .contact-link,
+footer .lu-pie-red {
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.4;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+footer .lu-pie-red {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+footer .lu-pie-red svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex: 0 0 1.1rem;
+    margin: 0;
+    fill: currentColor;
+}
+
+footer .lu-pie-bloque .footer-menu-link:hover,
+footer .lu-pie-bloque .contact-link:hover,
+footer .lu-pie-red:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+/* El bloque de tiendas ya no se centra: queda pegado a la izquierda como
+   los otros dos. */
+footer .lu-pie-bloque .lu-pie-contacto {
+    display: block;
 }
 
 /* Iconos sociales: cuadrados de 1px, no circulos. */
