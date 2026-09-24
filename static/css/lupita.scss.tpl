@@ -4197,6 +4197,24 @@ body:not(.template-product):not(.template-category) .page-header {
    despues el mismo aire abajo que arriba del modulo: vuelve el margin de
    70px del base. */
 
+/* En celular la foto del modulo va cuadrada, 1:1 y sin curvas
+   (Santiago, 2026-09-24). */
+@media (max-width: 767px) {
+    body .section-home-modules .textbanner-image {
+        aspect-ratio: 1 / 1;
+        height: auto;
+        border-radius: 0 !important;
+        overflow: hidden;
+    }
+
+    body .section-home-modules .textbanner-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0 !important;
+    }
+}
+
 /* Cuando la foto y el texto se apilan (mobile), el texto queda debajo de
    la foto sin importar el lado elegido en el panel. */
 @media (max-width: 767px) {
