@@ -30,14 +30,15 @@
                     {{ component('logos/logo', {logo_size: 'large', logo_img_classes: 'transition-soft-slow', logo_text_classes: 'h1 m-0'}) }}
                 {% endif %}
             </div>
+            {# Menu en la misma fila que el logo, solo en computadora (2026-09-25,
+               como Napoli; Santiago pidio subirlo al nivel del logo) #}
+            <div class="col lu-nav-desk-col">{% include "snipplets/navigation/navigation-desktop.tpl" %}</div>
             <div class="col text-right">{% snipplet "header/header-utilities.tpl" %}</div>
             {% if settings.head_fix and settings.ajax_cart %}
                 {% include "snipplets/notification.tpl" with {add_to_cart: true} %}
             {% endif %}
         </div>
     </div>
-    {# Menu en fila debajo del logo, solo en computadora (2026-09-25, como Napoli) #}
-    {% include "snipplets/navigation/navigation-desktop.tpl" %}
     {% include "snipplets/notification.tpl" with {order_notification: true} %}
 </header>
 

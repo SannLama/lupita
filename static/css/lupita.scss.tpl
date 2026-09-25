@@ -9840,3 +9840,140 @@ body .btn.btn-link {
 .lu-promo-bajada {
     color: var(--lu-papel);
 }
+
+/* Menu de escritorio en la misma fila que el logo (Santiago, 2026-09-25:
+   "subi las secciones al nivel del logo"): logo a la izquierda, secciones
+   al centro, utilidades a la derecha. El panel desplegable toma de
+   referencia el encabezado (sticky, ya posicionado) y sale a todo el
+   ancho justo debajo. */
+.lu-nav-desk-col {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .js-head-main > .container > .row > .col.text-center,
+    .js-head-main > .container > .row > .col.text-right {
+        flex: 0 0 auto;
+        width: auto;
+        max-width: none;
+    }
+
+    .lu-nav-desk-col {
+        display: block;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .lu-nav-desk {
+        position: static;
+    }
+
+    .lu-nav-desk-lista {
+        padding: 0 1.5rem;
+    }
+
+    .lu-nav-desk-link {
+        padding: 1.2rem 0;
+    }
+
+    .lu-nav-desk-panel {
+        top: 100%;
+    }
+}
+
+@media (min-width: 992px) {
+    /* El contenedor del encabezado es position-relative: sin esto el panel
+       se anclaria a el y no saldria a todo el ancho */
+    .js-head-main > .container.position-relative {
+        position: static !important;
+    }
+}
+
+/* Las subcategorias del desplegable con el mismo espaciado que los items
+   del menu (Santiago, 2026-09-25): una fila centrada con el mismo gap y el
+   mismo cuerpo de letra, en vez de columnas de 12rem. */
+.lu-nav-desk-sub {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: clamp(1.5rem, 3vw, 2.75rem);
+    row-gap: 0.9rem;
+    max-width: none;
+}
+
+.lu-nav-desk-sublink {
+    font-size: 0.74rem;
+}
+
+@media (min-width: 992px) {
+    /* Todo en una fila: sin esto las secciones tomaban su ancho natural y
+       empujaban los iconos a un segundo renglon */
+    .js-head-main > .container > .row {
+        flex-wrap: nowrap;
+    }
+
+    .lu-nav-desk-col {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .lu-nav-desk-lista {
+        flex-wrap: nowrap;
+        column-gap: clamp(1rem, 2.2vw, 2.5rem);
+        padding: 0 1rem;
+    }
+
+    .lu-nav-desk-link {
+        white-space: nowrap;
+    }
+}
+
+/* Fotos del carrusel sin oscurecer (Santiago, 2026-09-25: "sacale la
+   opacidad"). Ojo: sobre fotos claras el titulo crema puede perder
+   contraste; la sombra de texto del hero sigue puesta. */
+.nube-slider-home .slider-image {
+    filter: none;
+}
+
+/* Logo un poco mas chico (Santiago, 2026-09-25) */
+.lu-logo-marca .lu-logo-svg {
+    height: 1.85rem;
+}
+
+@media (min-width: 768px) {
+    .lu-logo-marca .lu-logo-svg {
+        height: 2.25rem;
+    }
+}
+
+/* Bajada del banner de promocion con el cuerpo del texto de Probatelo
+   (Instrument Sans 16px / 24px; Santiago, 2026-09-25) */
+.lu-promo-bajada {
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+}
+
+/* Instagram y TikTok con la misma letra (Santiago, 2026-09-25): el usuario
+   de TikTok seguia en negrita porque la regla del 23/9 solo tomaba el de
+   Instagram. Los dos regulares. */
+body .instafeed-user,
+body .lu-tiktok-title .instafeed-user {
+    font-family: var(--lu-texto);
+    font-weight: 400 !important;
+    letter-spacing: -0.01em;
+}
+
+/* Carrusel: sombra marron suave en todos los textos (titulo, bajada y
+   boton) y el titulo de la marca en crema como los demas (Santiago,
+   2026-09-25). Marron = chocolate de la marca #2e1d21. */
+body .nube-slider-home .swiper-text .swiper-title,
+body .nube-slider-home .swiper-text .swiper-description,
+body .nube-slider-home .swiper-text .swiper-btn {
+    text-shadow: 0 1px 2px rgba(46, 29, 33, 0.55), 0 3px 14px rgba(46, 29, 33, 0.45);
+}
+
+body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
+    color: var(--lu-papel);
+}
