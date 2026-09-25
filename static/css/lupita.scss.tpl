@@ -9572,60 +9572,8 @@ li,
     margin-top: 0.5rem;
 }
 
-/* Todos los botones con relleno constante (Santiago, 2026-09-25): los que
-   eran solo contorno (btn-line en banners y franjas, "Conocer las tiendas"
-   de la promo y de Probatelo, "Ver perfil") pasan a fondo lleno. Sobre foto
-   o turquesa: crema con letra tinta; sobre crema: tinta con letra crema.
-   Al pasar el mouse se invierten, nunca quedan vacios. !important porque
-   las reglas de cada banner ya lo usaban para el color de la linea. */
-body .btn-line,
-body .lu-promo .btn,
-body .lu-coleccion .btn,
-body .lu-sandwich-text .btn,
-body .textbanner-text .btn,
-body .section-home-modules .btn,
-body [data-store="home-image-text-module"] .btn {
-    background-color: var(--lu-papel) !important;
-    border: 1px solid var(--lu-papel) !important;
-    color: var(--lu-tinta) !important;
-    text-decoration: none !important;
-    padding: 0.55rem 1.2rem !important;
-    border-radius: var(--lu-radio-pildora);
-}
-
-body a:hover .btn-line,
-body .btn-line:hover,
-body .lu-promo .btn:hover,
-body .textbanner-link:hover .btn,
-body .lu-sandwich-link:hover .btn,
-body .section-home-modules .btn:hover,
-body [data-store="home-image-text-module"] .btn:hover {
-    background-color: var(--lu-tinta) !important;
-    border-color: var(--lu-tinta) !important;
-    color: var(--lu-papel) !important;
-}
-
-body .btn.btn-link {
-    display: inline-block;
-    padding: 0.55rem 1.2rem;
-    border-radius: var(--lu-radio-pildora);
-    background-color: var(--lu-tinta);
-    color: var(--lu-papel);
-    text-decoration: none;
-}
-
-body .btn.btn-link:hover {
-    background-color: var(--lu-acento);
-    color: var(--lu-tinta);
-    text-decoration: none;
-}
-
-/* Los botones de los banners de categorias tenian la letra forzada en
-   crema por una regla mas especifica: con el relleno crema no se leian. */
-body .section-banners-home .textbanner .textbanner-text .btn {
-    color: var(--lu-tinta) !important;
-}
-
-body .section-banners-home .textbanner-link:hover .textbanner-text .btn {
-    color: var(--lu-papel) !important;
+/* "Gift Card" un poco mas arriba: se chocaba con el precio (Santiago,
+   2026-09-25). Antes se montaba -3.4cqi sobre el monto. */
+.lu-gift-frente .lu-gift-nombre {
+    margin-bottom: -0.6cqi;
 }
