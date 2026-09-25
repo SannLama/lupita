@@ -9371,3 +9371,43 @@ body .lu-gift-titulo {
     color: #c9a24d;
     opacity: 1;
 }
+
+/* Foil dorado del A! (Santiago, 2026-09-25: "brillo y textura"): el
+   degrade y el filtro estan definidos en gift-card.tpl (.lu-gift-defs). */
+.lu-gift-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.lu-gift-agua {
+    filter: url(#lu-gift-foil) drop-shadow(0 0.3cqi 0.6cqi rgba(60, 40, 10, 0.25));
+}
+
+.lu-gift-agua path {
+    fill: url(#lu-gift-oro);
+}
+
+/* Hamburguesa: al tocarlo no se pinta el cuadrado turquesa de
+   .utilities-link:active; cambian de color las 3 lineas (Santiago,
+   2026-09-25). Sin el resaltado gris de toque de iOS/Android. */
+.utilities-link[data-toggle="#nav-hamburger"] {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.utilities-link[data-toggle="#nav-hamburger"]:active {
+    background-color: transparent;
+}
+
+.utilities-link[data-toggle="#nav-hamburger"] .icon-inline,
+.utilities-link[data-toggle="#nav-hamburger"] .icon-inline path {
+    transition: fill 120ms var(--lu-entrada), color 120ms var(--lu-entrada);
+}
+
+.utilities-link[data-toggle="#nav-hamburger"]:active .icon-inline,
+.utilities-link[data-toggle="#nav-hamburger"]:active .icon-inline path {
+    color: var(--lu-acento);
+    fill: var(--lu-acento);
+    transition-duration: 0s;
+}

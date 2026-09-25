@@ -46,6 +46,36 @@
                     {% set lu_gc_frase = settings.lupita_gift_frase ?: 'un detalle para elegir lo que más te guste.' %}
                     <div class="lu-gift-cara lu-gift-frente">
                         <span class="lu-gift-brillo" aria-hidden="true"></span>
+                        {# Foil dorado del A! (2026-09-25): degrade de dorados, grano de
+                           ruido y una luz especular que recorre la letra. Las
+                           definiciones van aca y el CSS las aplica solo a .lu-gift-agua;
+                           el logo del encabezado no cambia. #}
+                        <svg class="lu-gift-defs" width="0" height="0" aria-hidden="true" focusable="false">
+                            <defs>
+                                <linearGradient id="lu-gift-oro" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0" stop-color="#8c6a26"/>
+                                    <stop offset="0.22" stop-color="#e2bf6c"/>
+                                    <stop offset="0.4" stop-color="#b48a3b"/>
+                                    <stop offset="0.58" stop-color="#f3dc98"/>
+                                    <stop offset="0.78" stop-color="#a47b30"/>
+                                    <stop offset="1" stop-color="#d6b25e"/>
+                                </linearGradient>
+                                <filter id="lu-gift-foil" x="-5%" y="-5%" width="110%" height="110%" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+                                    <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="7" result="ruido"/>
+                                    <feColorMatrix in="ruido" type="matrix" values="0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0.33 0.33 0.33 0 -0.35" result="grano"/>
+                                    <feComposite in="grano" in2="SourceAlpha" operator="in" result="granoIn"/>
+                                    <feBlend in="SourceGraphic" in2="granoIn" mode="multiply" result="metal"/>
+                                    <feGaussianBlur in="SourceAlpha" stdDeviation="0.006" result="relieve"/>
+                                    <feSpecularLighting in="relieve" surfaceScale="4" specularConstant="1.1" specularExponent="24" lighting-color="#fff4d2" result="luz">
+                                        <fePointLight class="js-lu-gift-luz" x="0.2" y="0.1" z="0.35">
+                                            <animate attributeName="x" values="-0.2;1.2;-0.2" dur="7s" repeatCount="indefinite"/>
+                                        </fePointLight>
+                                    </feSpecularLighting>
+                                    <feComposite in="luz" in2="SourceAlpha" operator="in" result="luzIn"/>
+                                    <feComposite in="metal" in2="luzIn" operator="arithmetic" k1="0" k2="1" k3="0.75" k4="0"/>
+                                </filter>
+                            </defs>
+                        </svg>
                         {% include "snipplets/svg/logo-lupita.tpl" with {svg_custom_class: 'lu-gift-agua'} %}
                         <div class="lu-gift-marca">
                             <p class="lu-gift-marca-nombre">{{ settings.lupita_gift_marca ?: 'Ahí!Lupita' }}</p>
@@ -227,6 +257,11 @@
         raiz.querySelector('.js-lu-gift-girar').addEventListener('click', function () {
             girar(!tarjeta.classList.contains('is-dorso'));
         });
+
+        {# Con movimiento reducido, el brillo del A! queda quieto #}
+        if (quieto) {
+            raiz.querySelectorAll('.lu-gift-defs animate').forEach(function (an) { an.remove(); });
+        }
 
         {# Inclinacion leve que sigue al puntero (solo mouse, no en celular) #}
         if (!quieto && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
