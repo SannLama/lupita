@@ -9593,3 +9593,235 @@ body .lu-promo .btn {
     color: var(--lu-acento) !important;
     border-color: var(--lu-acento) !important;
 }
+
+/* Botones en negrita y con relleno al pasar el mouse (Santiago,
+   2026-09-25). En reposo siguen de contorno; al hover se llenan con un
+   color que se lea sobre su fondo. */
+body .btn,
+body .swiper-btn {
+    font-weight: 700 !important;
+}
+
+body .btn-line,
+body .lu-promo .btn,
+body [data-store="home-image-text-module"] .btn,
+body .btn.btn-link {
+    transition: background-color 150ms var(--lu-entrada), color 150ms var(--lu-entrada), border-color 150ms var(--lu-entrada);
+}
+
+/* Sobre foto: crema con letra oscura */
+body .textbanner-link:hover .textbanner-text .btn,
+body .section-banners-home .textbanner-link:hover .textbanner-text .btn,
+body .lu-sandwich-link:hover .btn,
+body .lu-coleccion-link:hover .btn {
+    background-color: var(--lu-papel) !important;
+    border-color: var(--lu-papel) !important;
+    color: var(--lu-tinta) !important;
+}
+
+/* Banner chocolate de 20% OFF: turquesa con letra chocolate */
+body .lu-promo .btn:hover {
+    background-color: var(--lu-acento) !important;
+    border-color: var(--lu-acento) !important;
+    color: #2e1d21 !important;
+}
+
+/* Probatelo (panel turquesa): chocolate con letra crema */
+body [data-store="home-image-text-module"] .btn:hover {
+    background-color: #2e1d21 !important;
+    border-color: #2e1d21 !important;
+    color: var(--lu-papel) !important;
+    text-decoration: none !important;
+}
+
+/* "Ver perfil" sobre crema */
+body .btn.btn-link:hover {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+    text-decoration: none;
+}
+
+/* Los dos botones sin aire a los costados ("Conoce las tiendas" de
+   Probatelo y "Ver perfil"): relleno fijo para que al llenarse no quede el
+   texto pegado. En Probatelo un margen negativo igual al relleno deja el
+   texto alineado donde estaba. */
+body [data-store="home-image-text-module"] .btn {
+    padding: 0.5rem 0.9rem !important;
+    margin-left: -0.9rem !important;
+    border-radius: var(--lu-radio-pildora);
+}
+
+body .btn.btn-link {
+    padding: 0.5rem 1.1rem;
+    border-radius: var(--lu-radio-pildora);
+}
+
+/* ============================================================================
+   Menu de escritorio como Tienda Napoli (2026-09-25) -
+   snipplets/navigation/navigation-desktop.tpl. Fila centrada debajo del
+   logo en versal chica; los rubros con subcategorias despliegan un panel a
+   todo el ancho, en columnas, al pasar el mouse o con el foco del teclado.
+   Desde 992px; abajo sigue la hamburguesa, que en compu se oculta.
+   ============================================================================ */
+.lu-nav-desk {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .lu-nav-desk {
+        display: block;
+        position: relative;
+    }
+
+    .utilities-link[data-toggle="#nav-hamburger"] {
+        display: none !important;
+    }
+}
+
+.lu-nav-desk-lista {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: clamp(1.5rem, 3vw, 2.75rem);
+    margin: 0;
+    padding: 0 var(--lu-margen);
+}
+
+.lu-nav-desk-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.85rem 0 0.95rem;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.74rem;
+    line-height: 1;
+    color: var(--lu-tinta);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+
+.lu-nav-desk-link:hover,
+.lu-nav-desk-link:focus-visible,
+.lu-nav-desk-item:hover > .lu-nav-desk-link,
+.lu-nav-desk-link.is-actual {
+    color: var(--lu-tinta);
+    text-decoration: none;
+    border-bottom-color: currentColor;
+}
+
+.lu-nav-desk-flecha {
+    width: 0.6rem;
+    height: 0.6rem;
+    fill: currentColor;
+    transition: transform 180ms var(--lu-entrada);
+}
+
+.lu-nav-desk-item:hover .lu-nav-desk-flecha,
+.lu-nav-desk-item:focus-within .lu-nav-desk-flecha {
+    transform: rotate(180deg);
+}
+
+/* Panel desplegable: a todo el ancho, pegado debajo de la fila */
+.lu-nav-desk-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 30;
+    padding: 1.5rem var(--lu-margen) 1.75rem;
+    background-color: var(--lu-papel);
+    border-top: 1px solid var(--lu-linea);
+    border-bottom: 1px solid var(--lu-linea);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 160ms var(--lu-entrada), transform 160ms var(--lu-entrada), visibility 0s linear 160ms;
+}
+
+.lu-nav-desk-item:hover > .lu-nav-desk-panel,
+.lu-nav-desk-item:focus-within > .lu-nav-desk-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 160ms var(--lu-entrada), transform 160ms var(--lu-entrada), visibility 0s;
+}
+
+.lu-nav-desk-sub {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: 0.7rem 2rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.lu-nav-desk-sublink {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+.lu-nav-desk-sublink:hover,
+.lu-nav-desk-sublink.is-actual {
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.lu-nav-desk-todo {
+    color: var(--lu-gris);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-nav-desk-panel,
+    .lu-nav-desk-flecha {
+        transition: none;
+    }
+}
+
+/* Logo a la izquierda, no al centro (Santiago, 2026-09-25), solo en
+   computadora: en celular queda el encabezado de antes (hamburguesa, logo
+   al centro, utilidades a la derecha). */
+@media (min-width: 992px) {
+    .js-head-main > .container > .row > .col:first-child {
+        display: none;
+    }
+
+    .js-head-main > .container > .row > .col.text-center {
+        text-align: left !important;
+    }
+}
+
+/* Celular (Santiago, 2026-09-25): sin la lupa del buscador, y los numeros
+   de favoritos y carrito subidos a la esquina del icono, como un globito,
+   en vez de al costado. */
+@media (max-width: 767px) {
+    .utilities-item:has(> [data-toggle="#nav-search"]),
+    .utilities-link[data-toggle="#nav-search"] {
+        display: none !important;
+    }
+
+    .lu-favs-link,
+    .cart-summary > a {
+        position: relative;
+    }
+
+    body .utilities-item .lu-favs-cantidad,
+    body .utilities-item .cart-widget-amount {
+        position: absolute;
+        top: -0.55rem;
+        right: -0.6rem;
+        min-width: 1rem;
+        height: 1rem;
+        margin: 0;
+        padding: 0 0.22rem;
+        font-size: 0.58rem;
+        line-height: 1;
+    }
+}

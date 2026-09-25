@@ -35,7 +35,9 @@
                 {% include "snipplets/notification.tpl" with {add_to_cart: true} %}
             {% endif %}
         </div>
-    </div>    
+    </div>
+    {# Menu en fila debajo del logo, solo en computadora (2026-09-25, como Napoli) #}
+    {% include "snipplets/navigation/navigation-desktop.tpl" %}
     {% include "snipplets/notification.tpl" with {order_notification: true} %}
 </header>
 
