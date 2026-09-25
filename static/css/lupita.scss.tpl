@@ -10427,3 +10427,20 @@ body .lu-envios .lu-envios-titulo {
 .lu-envios-link:hover {
     color: var(--lu-acento);
 }
+
+/* Regla de tipografias de toda la web (Santiago, 2026-09-25): titulos en
+   Pinyon, subtitulos en Lora, cuerpo en Instrument Sans. Los subtitulos
+   agregados hoy pasan a Lora: nombres de los medios de pago y el aviso de
+   Envios. */
+body .lu-ml .lu-ml-nombre {
+    font-family: var(--lu-sub);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+body .lu-envios .lu-envios-titulo {
+    font-family: var(--lu-sub);
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
