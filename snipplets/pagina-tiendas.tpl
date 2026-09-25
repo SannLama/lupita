@@ -9,7 +9,7 @@
   del pie). Fotos, nombres, horarios propios y links de Maps son opcionales:
   sin link de Maps, el boton busca la direccion en Google Maps.
 
-  Lo que se escriba en el contenido de la pagina va debajo.
+  El contenido de la pagina NO se muestra (ver abajo).
 ==============================================================================*/#}
 
 {% set lu_ts = [
@@ -54,9 +54,9 @@
 			{% endfor %}
 		</ul>
 
-		{% if page.content %}
-			<div class="user-content lu-pagina-extra">{{ page.content }}</div>
-		{% endif %}
+		{# 2026-09-25: el contenido de la pagina era una imagen vieja de 2020
+		   ("Nuestros locales - Las Lomitas"); Santiago pidio borrarlo y el panel
+		   exige algo de texto, asi que aca no se muestra. #}
 	</div>
 </section>
 
