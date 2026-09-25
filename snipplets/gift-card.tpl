@@ -20,7 +20,9 @@
 {% set lu_gc_paso = settings.lupita_gift_paso | default(5000) %}
 {% set lu_gc_montos = [] %}
 {% for lu_gc_m in (settings.lupita_gift_montos | default('20000,30000,50000,100000')) | split(',') %}
-    {% set lu_gc_m = lu_gc_m | trim | replace({'.': '', '$': '', ' ': ''}) %}
+    {# replace con diccionario ({'.': ''}) tira "Inconvenientes con el servidor"
+       en Tiendanube: solo anda la forma de dos argumentos #}
+    {% set lu_gc_m = lu_gc_m | replace('.', '') | replace('$', '') | trim %}
     {% if lu_gc_m %}
         {% set lu_gc_montos = lu_gc_montos | merge([lu_gc_m]) %}
     {% endif %}
@@ -70,9 +72,9 @@
             {# El formulario #}
             <form class="lu-gift-form js-lu-gift-form" novalidate>
                 <h1 class="lu-gift-titulo">{{ settings.lupita_gift_titulo | default(page.name) }}</h1>
-                {% if settings.lupita_gift_texto %}
-                    <p class="lu-gift-bajada">{{ settings.lupita_gift_texto }}</p>
-                {% endif %}
+                {# Los textos por defecto van aca tambien: la tienda en vivo no toma
+                   defaults.txt para campos nuevos del panel #}
+                <p class="lu-gift-bajada">{{ settings.lupita_gift_texto ?: 'El regalo que siempre queda bien: elegí el monto, escribile unas palabras y quien la recibe elige lo que más le guste en cualquiera de nuestras tiendas.' }}</p>
 
                 <fieldset class="lu-gift-paso">
                     <legend class="lu-gift-paso-rotulo"><span>1</span>{{ 'Elegí el monto' | translate }}</legend>
@@ -112,9 +114,7 @@
                     {{ 'Pedir mi Gift Card por WhatsApp' | translate }}
                 </button>
 
-                {% if settings.lupita_gift_legal %}
-                    <p class="lu-gift-legal">{{ settings.lupita_gift_legal }}</p>
-                {% endif %}
+                <p class="lu-gift-legal">{{ settings.lupita_gift_legal ?: 'Se canjea en nuestras tres tiendas de Lomas de Zamora y Banfield.' }}</p>
             </form>
         </div>
 
