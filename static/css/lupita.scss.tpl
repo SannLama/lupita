@@ -9471,3 +9471,59 @@ body .lu-gift-titulo {
 .lu-gift-frente .lu-gift-para {
     font-size: 2.6cqi;
 }
+
+/* Franja de servicios del home con el formato de la franja de Envios
+   (.lu-antes-pie; Santiago, 2026-09-25): icono centrado arriba, titulo en
+   versal y texto gris centrados debajo, sin divisiones verticales. */
+.js-home-sections-container > .section-informative-banners {
+    border-bottom: 0;
+    background-color: var(--lu-papel);
+}
+
+@media (min-width: 768px) {
+    .service-item-container + .service-item-container {
+        border-left: 0;
+    }
+}
+
+.service-item {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.45rem;
+    padding: clamp(2rem, 5vw, 3rem) var(--lu-margen);
+    text-align: center;
+}
+
+.service-item > .col {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.service-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--lu-tinta);
+}
+
+.service-icon.lu-service-brand {
+    width: 2.1rem;
+    height: 1.6rem;
+}
+
+.service-title {
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.78rem;
+}
+
+.service-item p {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-align: center;
+    margin-inline: auto;
+}
