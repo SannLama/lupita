@@ -10218,3 +10218,27 @@ body .lu-promo .lu-promo-bajada {
 body [data-store="home-image-text-module"] .btn {
     margin-left: calc(-0.9rem + 0.065 * var(--lu-mod-t, 60px)) !important;
 }
+
+/* Banner de promocion invertido (Santiago, 2026-09-25): fondo turquesa de
+   la marca, "20% off" y boton en chocolate; la bajada sigue en crema, como
+   en Probatelo. Al pasar el mouse el boton se llena de chocolate con letra
+   crema (el mismo de Probatelo). */
+body .lu-promo {
+    background-color: var(--lu-acento);
+    color: #2e1d21;
+}
+
+body .lu-promo .lu-promo-cifra {
+    color: #2e1d21;
+}
+
+body .lu-promo .btn {
+    color: #2e1d21 !important;
+    border-color: #2e1d21 !important;
+}
+
+body .lu-promo .btn:hover {
+    background-color: #2e1d21 !important;
+    border-color: #2e1d21 !important;
+    color: var(--lu-papel) !important;
+}
