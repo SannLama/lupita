@@ -15,11 +15,11 @@
   Lo que se escriba en el contenido de la pagina va debajo.
 ==============================================================================*/#}
 
-{% set lu_gc_min = settings.lupita_gift_min | default(10000) %}
+{% set lu_gc_min = settings.lupita_gift_min | default(50000) %}
 {% set lu_gc_max = settings.lupita_gift_max | default(200000) %}
 {% set lu_gc_paso = settings.lupita_gift_paso | default(5000) %}
 {% set lu_gc_montos = [] %}
-{% for lu_gc_m in (settings.lupita_gift_montos | default('20000,30000,50000,100000')) | split(',') %}
+{% for lu_gc_m in (settings.lupita_gift_montos | default('50000,75000,100000,150000')) | split(',') %}
     {# replace con diccionario ({'.': ''}) tira "Inconvenientes con el servidor"
        en Tiendanube: solo anda la forma de dos argumentos #}
     {% set lu_gc_m = lu_gc_m | replace('.', '') | replace('$', '') | trim %}
@@ -189,6 +189,8 @@
         }
 
         chips.forEach(function (chip) {
+            var monto = parseInt(chip.dataset.monto, 10);
+            if (monto < min || monto > max) { chip.hidden = true; return; }
             chip.textContent = '$' + formato.format(parseInt(chip.dataset.monto, 10));
             chip.addEventListener('click', function () {
                 var n = parseInt(chip.dataset.monto, 10);
