@@ -8454,3 +8454,325 @@ body .cart-item-input.form-control {
         transform: none;
     }
 }
+
+/* ============================================================================
+   Grupo 2 del PDF "Paginas Web implementar" (2026-09-25)
+   "Quedan X", Riel de categorias, Hero con video y pagina de tiendas.
+   ============================================================================ */
+
+/* ---- "Quedan X" sobre la foto del producto ---- */
+.lu-quedan {
+    position: absolute;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 3;
+    padding: 0.28rem 0.6rem;
+    border-radius: var(--lu-radio-pildora);
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    line-height: 1.2;
+    pointer-events: none;
+}
+
+/* ---- Riel de categorias ---- */
+.lu-riel {
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+}
+
+.lu-riel-titulo {
+    margin: 0 0 clamp(1rem, 3vw, 1.75rem);
+    text-align: center;
+}
+
+.lu-riel-lista {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 62%;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.lu-riel-lista::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .lu-riel-lista {
+        grid-auto-columns: 1fr;
+        overflow-x: visible;
+    }
+}
+
+.lu-riel-item {
+    scroll-snap-align: start;
+}
+
+.lu-riel-link {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    color: var(--lu-papel);
+    text-decoration: none;
+}
+
+.lu-riel-link:hover,
+.lu-riel-link:focus {
+    color: var(--lu-papel);
+    text-decoration: none;
+}
+
+.lu-riel-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.18);
+    transition: background-color 200ms;
+    pointer-events: none;
+}
+
+.lu-riel-link:hover::after {
+    background: rgba(0, 0, 0, 0);
+}
+
+.lu-riel-foto {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 420ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .lu-riel-link:hover .lu-riel-foto {
+        transform: scale(1.04);
+    }
+}
+
+.lu-riel-nombre {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    text-underline-offset: 0.35em;
+}
+
+/* ---- Hero con video ---- */
+.lu-hero-video {
+    position: relative;
+    height: 88vh;
+    min-height: 460px;
+    max-height: 920px;
+    overflow: hidden;
+    background-color: #2e1d21;
+}
+
+.lu-hero-video-media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lu-hero-video::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+}
+
+.lu-hero-video-texto {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(3rem, 12vh, 7rem);
+    transform: translateX(-50%);
+    z-index: 2;
+    width: min(95vw, 80rem);
+    text-align: center;
+    color: var(--lu-papel);
+}
+
+.lu-hero-video-titulo {
+    margin: 0;
+    font-family: "Pinyon Script", "Lora", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    line-height: 1.05;
+    color: var(--lu-papel);
+}
+
+.lu-hero-video-bajada {
+    margin: 0.4rem 0 0;
+    font-family: var(--lu-sub);
+    font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+}
+
+.lu-hero-video-boton {
+    margin-top: 1.25rem;
+    background-color: var(--lu-acento);
+    border-color: var(--lu-acento);
+    color: var(--lu-tinta);
+}
+
+/* ---- Pagina de tiendas ---- */
+.lu-tiendas-pag {
+    border-top: 1px solid var(--lu-linea);
+    padding-block: clamp(2.5rem, 6vw, 5rem);
+}
+
+.lu-tiendas-cabecera {
+    max-width: 46rem;
+    margin: 0 auto clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+}
+
+.lu-tiendas-bajada {
+    margin: 0;
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.lu-tiendas-grilla {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 700px) {
+    .lu-tiendas-grilla {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1100px) {
+    .lu-tiendas-grilla {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.lu-tienda-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--lu-linea);
+    border-radius: var(--lu-radio-chico);
+    overflow: hidden;
+    background-color: var(--lu-papel);
+}
+
+.lu-tienda-foto {
+    margin: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.lu-tienda-foto img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lu-tienda-foto-vacia {
+    display: grid;
+    place-items: center;
+    background-color: var(--lu-acento);
+}
+
+.lu-tienda-foto-vacia .lu-tienda-logo {
+    width: 30%;
+    height: auto;
+    color: var(--lu-papel);
+}
+
+.lu-tienda-datos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex: 1;
+    padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.lu-tienda-nombre {
+    margin: 0 0 0.2rem;
+    font-family: "Lora", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    line-height: 1.2;
+}
+
+.lu-tienda-dato {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 0;
+    font-family: var(--lu-texto);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.lu-tienda-dato svg {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.2rem;
+    fill: var(--lu-tinta);
+}
+
+.lu-tienda-acciones {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+}
+
+.lu-tienda-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.72rem;
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.lu-tienda-wa svg {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--lu-tinta);
+}
+
+.lu-tiendas-pag .lu-pagina-extra {
+    margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-riel-foto,
+    .lu-riel-link:hover .lu-riel-foto {
+        transition: none;
+        transform: none;
+    }
+}

@@ -259,6 +259,30 @@ Página de inicio
 		title = Carrusel de imágenes
 		backto = home_order_position
 	subtitle
+		subtitle = Video de portada (opcional)
+	description
+		description = Si cargás un link directo a un video (.mp4), el inicio muestra ese video en loop con un título grande encima, EN LUGAR del carrusel de fotos. Vacío: se ve el carrusel de siempre.
+	i18n_input
+		name = lupita_hero_video
+		description = Link directo al video (.mp4)
+	image
+		original = hero-video.jpg
+		title = Imagen mientras carga el video (JPG, horizontal)
+		width = 1920
+		height = 1080
+	i18n_input
+		name = lupita_hero_titulo
+		description = Título sobre el video
+	i18n_input
+		name = lupita_hero_bajada
+		description = Bajada (opcional)
+	i18n_input
+		name = lupita_hero_boton
+		description = Texto del botón (opcional)
+	i18n_input
+		name = lupita_hero_url
+		description = Link del botón (opcional)
+	subtitle
 		subtitle = Imágenes para computadoras
 	gallery
 		name = slider
@@ -747,6 +771,100 @@ Página de inicio
 		name = lupita_promo_legal
 		description = Letra chica (opcional)
 	collapse
+		title = Más vendidos
+		backto = home_order_position
+	description
+		description = Carrusel de los más vendidos. Tiendanube no le pasa al diseño cuánto se vendió, así que los productos se eligen a mano, como los destacados, en la sección "Más vendidos". Sin productos ahí, no se muestra.
+	checkbox
+		name = lupita_mas_ocultar
+		description = Ocultar Más vendidos
+	i18n_input
+		name = lupita_mas_titulo
+		description = Título (vacío: Más vendidos)
+	i18n_input
+		name = lupita_mas_boton
+		description = Texto del link "Ver todo"
+	i18n_input
+		name = lupita_mas_url
+		description = Link de "Ver todo"
+	collapse
+		title = Riel de categorías
+		backto = home_order_position
+	description
+		description = Hasta seis categorías con foto y nombre encima. En computadora van en una fila; en celular se deslizan de costado. Cada una sale solo si tiene foto y nombre.
+	checkbox
+		name = lupita_riel_ocultar
+		description = Ocultar el riel
+	i18n_input
+		name = lupita_riel_titulo
+		description = Título arriba del riel (opcional)
+	image
+		original = riel-1.jpg
+		title = Categoría 1: foto (JPG, vertical)
+		width = 900
+		height = 1200
+	i18n_input
+		name = lupita_riel_1_nombre
+		description = Categoría 1: nombre
+	i18n_input
+		name = lupita_riel_1_url
+		description = Categoría 1: link
+	image
+		original = riel-2.jpg
+		title = Categoría 2: foto (JPG, vertical)
+		width = 900
+		height = 1200
+	i18n_input
+		name = lupita_riel_2_nombre
+		description = Categoría 2: nombre
+	i18n_input
+		name = lupita_riel_2_url
+		description = Categoría 2: link
+	image
+		original = riel-3.jpg
+		title = Categoría 3: foto (JPG, vertical)
+		width = 900
+		height = 1200
+	i18n_input
+		name = lupita_riel_3_nombre
+		description = Categoría 3: nombre
+	i18n_input
+		name = lupita_riel_3_url
+		description = Categoría 3: link
+	image
+		original = riel-4.jpg
+		title = Categoría 4: foto (JPG, vertical)
+		width = 900
+		height = 1200
+	i18n_input
+		name = lupita_riel_4_nombre
+		description = Categoría 4: nombre
+	i18n_input
+		name = lupita_riel_4_url
+		description = Categoría 4: link
+	image
+		original = riel-5.jpg
+		title = Categoría 5: foto (JPG, vertical)
+		width = 900
+		height = 1200
+	i18n_input
+		name = lupita_riel_5_nombre
+		description = Categoría 5: nombre
+	i18n_input
+		name = lupita_riel_5_url
+		description = Categoría 5: link
+	image
+		original = riel-6.jpg
+		title = Categoría 6: foto (JPG, vertical)
+		width = 900
+		height = 1200
+	i18n_input
+		name = lupita_riel_6_nombre
+		description = Categoría 6: nombre
+	i18n_input
+		name = lupita_riel_6_url
+		description = Categoría 6: link
+	collapse
 		title = Sobre nosotros
 	description
 		description = Página "Sobre nosotros": creala en Mi Tiendanube > Páginas con ese nombre y sumala al menú y al pie desde Menús. Estos textos y fotos le dan su diseño. Si dejás un texto vacío, ese renglón no aparece; sin fotos, el texto se muestra solo y centrado.
@@ -940,6 +1058,58 @@ Página de inicio
 	i18n_input
 		name = lupita_tiendas_url
 		description = Link a las tiendas (lista de Google Maps)
+	subtitle
+		subtitle = Página "Locales" (o "Tiendas")
+	description
+		description = La página Locales muestra las tres tiendas con foto, dirección, horario, WhatsApp y un botón "Cómo llegar". Las direcciones y el horario son los de arriba; esto es opcional.
+	i18n_input
+		name = lupita_tiendas_titulo
+		description = Título (vacío: Nuestras tiendas)
+	i18n_input
+		name = lupita_tiendas_bajada
+		description = Texto de presentación
+	image
+		original = tienda-1.jpg
+		title = Tienda 1: foto (JPG, horizontal)
+		width = 1200
+		height = 900
+	i18n_input
+		name = lupita_tienda_1_nombre
+		description = Tienda 1: nombre (ejemplo: Lomas de Zamora · España)
+	i18n_input
+		name = lupita_tienda_1_horario
+		description = Tienda 1: horario propio (vacío: el horario general)
+	i18n_input
+		name = lupita_tienda_1_maps
+		description = Tienda 1: link de Google Maps (vacío: busca la dirección)
+	image
+		original = tienda-2.jpg
+		title = Tienda 2: foto (JPG, horizontal)
+		width = 1200
+		height = 900
+	i18n_input
+		name = lupita_tienda_2_nombre
+		description = Tienda 2: nombre (ejemplo: Lomas de Zamora · España)
+	i18n_input
+		name = lupita_tienda_2_horario
+		description = Tienda 2: horario propio (vacío: el horario general)
+	i18n_input
+		name = lupita_tienda_2_maps
+		description = Tienda 2: link de Google Maps (vacío: busca la dirección)
+	image
+		original = tienda-3.jpg
+		title = Tienda 3: foto (JPG, horizontal)
+		width = 1200
+		height = 900
+	i18n_input
+		name = lupita_tienda_3_nombre
+		description = Tienda 3: nombre (ejemplo: Lomas de Zamora · España)
+	i18n_input
+		name = lupita_tienda_3_horario
+		description = Tienda 3: horario propio (vacío: el horario general)
+	i18n_input
+		name = lupita_tienda_3_maps
+		description = Tienda 3: link de Google Maps (vacío: busca la dirección)
 	checkbox
 		name = lupita_ig_verificada
 		description = Mostrar el tilde de cuenta verificada al lado del usuario de Instagram
@@ -1067,6 +1237,8 @@ Página de inicio
 			collection = Colección
 			newin = New In
 			promo = Banner de promoción
+			bestsellers = Más vendidos
+			rail = Riel de categorías
 	link
 		text = Pop-up promocional
 		linkto = home_promotional_popup
@@ -1075,6 +1247,14 @@ Listado de productos
 	meta
 		icon = list-ul
 		advanced = true
+	title
+		title = Últimas unidades
+	checkbox
+		name = lupita_quedan_ocultar
+		description = No mostrar "¡Quedan X!" en las fotos de los productos
+	text
+		name = lupita_quedan_umbral
+		description = Mostrar "¡Quedan X!" cuando quedan esta cantidad o menos (ejemplo: 3; solo productos con stock controlado)
 	title
 		title = Imagen para las categorías
 	image

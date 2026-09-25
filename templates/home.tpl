@@ -24,8 +24,8 @@
 
 <div class="js-home-sections-container">
 	{# 0..13: la 10 es "Medios de pago" (2026-09-15); 11-13 Coleccion, New In
-	   y Banner de promocion (2026-09-25) #}
-	{% for i in 0..13 %}
+	   y Banner de promocion; 14-15 Mas vendidos y Riel de categorias (2026-09-25) #}
+	{% for i in 0..15 %}
 		{% set section = 'home_order_position_' ~ i %}
 		{% set section_select = attribute(settings, section) %}
 
@@ -42,7 +42,7 @@
 	   'welcome' no esta en esta lista: se renderiza pegada arriba de
 	   'instafeed' (ver home-section-switch.tpl) porque 'instafeed' si tiene
 	   posicion propia en esta tienda y 'welcome' nunca llegaba antes. #}
-	{% for section_select in ['slider', 'collection', 'newin', 'products', 'informatives', 'categories', 'promo', 'instafeed', 'video', 'cover', 'capsule', 'modules', 'payments'] %}
+	{% for section_select in ['slider', 'collection', 'newin', 'rail', 'products', 'bestsellers', 'informatives', 'categories', 'promo', 'instafeed', 'video', 'cover', 'capsule', 'modules', 'payments'] %}
 		{% if section_select not in newArray %}
 			{% include 'snipplets/home/home-section-switch.tpl' %}
 			{% set newArray = newArray|merge([section_select]) %}

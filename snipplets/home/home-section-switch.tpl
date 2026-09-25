@@ -4,6 +4,9 @@
 	<section data-store="home-slider">
 		{% if show_help or (show_component_help and not (has_main_slider or has_mobile_slider)) %}
 			{% snipplet 'defaults/home/slider_help.tpl' %}
+		{% elseif settings.lupita_hero_video %}
+			{# Video de portada en lugar del carrusel (2026-09-25) #}
+			{% include 'snipplets/home/home-hero-video.tpl' %}
 		{% else %}
 			{% include 'snipplets/home/home-slider.tpl' %}
 			{% if has_mobile_slider %}
@@ -137,6 +140,16 @@
 
 	{#  **** New In: productos de la seccion "Novedades" (2026-09-25) ****  #}
 	{% include 'snipplets/home/home-newin.tpl' %}
+
+{% elseif section_select == 'bestsellers' %}
+
+	{#  **** Mas vendidos: productos de la seccion "Mas vendidos" (2026-09-25) ****  #}
+	{% include 'snipplets/home/home-mas-vendidos.tpl' %}
+
+{% elseif section_select == 'rail' %}
+
+	{#  **** Riel de categorias (2026-09-25) ****  #}
+	{% include 'snipplets/home/home-riel.tpl' %}
 
 {% elseif section_select == 'promo' %}
 

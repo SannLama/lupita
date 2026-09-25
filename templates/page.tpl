@@ -15,9 +15,15 @@
 {% set lu_es_pagos = page.handle == 'medios-de-pago' or page.name|lower == 'medios de pago' %}
 {% set lu_es_comprar = page.handle == 'como-comprar' or page.name|lower in ['cómo comprar', 'como comprar'] %}
 {# "Gift Card" (2026-09-25): tarjeta 2D con el monto a eleccion, snipplets/gift-card.tpl #}
+{# "Locales" / "Tiendas" (2026-09-25): las tres tiendas con fotos y Maps, snipplets/pagina-tiendas.tpl #}
+{% set lu_es_tiendas = page.handle in ['locales', 'tiendas', 'nuestras-tiendas'] %}
 {% set lu_es_gift = 'gift-card' in page.handle or 'giftcard' in page.handle or ('gift' in page.name|lower and 'card' in page.name|lower) %}
 
-{% if lu_es_gift %}
+{% if lu_es_tiendas %}
+
+	{% include 'snipplets/pagina-tiendas.tpl' %}
+
+{% elseif lu_es_gift %}
 
 	{% include 'snipplets/gift-card.tpl' %}
 

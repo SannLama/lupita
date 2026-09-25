@@ -4,3 +4,6 @@ primary
 new
 	name = Novedades
 	description = Los productos aparecen en el carrusel "New In" de la página de inicio (hasta 40 productos).
+sale
+	name = Más vendidos
+	description = Los productos aparecen en el carrusel "Más vendidos" de la página de inicio (hasta 40 productos).

@@ -53,6 +53,13 @@
                 {% else %}
                     {% include 'snipplets/labels.tpl' %}
                 {% endif %}
+                {# "Quedan X" (PDF de referencias, 2026-09-25): solo con stock
+                   controlado (product.stock es null si es ilimitado) y hasta el
+                   umbral de "Personalizar diseno > Listado de productos" #}
+                {% set lu_umbral = settings.lupita_quedan_umbral ?: 3 %}
+                {% if not settings.lupita_quedan_ocultar and product.stock is not null and product.stock > 0 and product.stock <= lu_umbral %}
+                    <span class="lu-quedan">{% if product.stock == 1 %}¡Queda 1!{% else %}¡Quedan {{ product.stock }}!{% endif %}</span>
+                {% endif %}
             {% endif %}
         {% endset %}
 
