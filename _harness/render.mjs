@@ -2360,15 +2360,16 @@ ${CABECERA(settings)}
         <div class="lu-gift-tarjeta js-lu-gift-tarjeta">
           <div class="lu-gift-cara lu-gift-frente">
             <span class="lu-gift-brillo" aria-hidden="true"></span>
-            <div class="lu-gift-arriba">
-              ${logo.trim()}
-              <span class="lu-gift-rotulo">${settings.lupita_gift_rotulo_es}</span>
+            ${logo.trim().replace('lu-gift-logo', 'lu-gift-agua')}
+            <div class="lu-gift-marca">
+              <p class="lu-gift-marca-nombre">Ahí!Lupita</p>
+              <p class="lu-gift-rotulo">Kit n'Couch</p>
             </div>
-            <p class="lu-gift-nombre">Gift Card</p>
-            <div class="lu-gift-abajo">
+            <div class="lu-gift-centro">
+              <p class="lu-gift-nombre">Gift Card</p>
               <p class="lu-gift-monto" aria-live="polite">$<span class="js-lu-gift-monto">${inicial}</span></p>
-              <p class="lu-gift-para js-lu-gift-para-frente" hidden></p>
             </div>
+            <p class="lu-gift-para js-lu-gift-para-frente" data-frase="un detalle para elegir lo que más te guste.">un detalle para elegir lo que más te guste.</p>
           </div>
           <div class="lu-gift-cara lu-gift-dorso" aria-hidden="true">
             <span class="lu-gift-banda"></span>

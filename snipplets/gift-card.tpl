@@ -39,17 +39,23 @@
             {# La tarjeta. aria-live: el monto que se lee es el de la tarjeta #}
             <div class="lu-gift-escena">
                 <div class="lu-gift-tarjeta js-lu-gift-tarjeta">
+                    {# Frente con el formato de la tarjeta "Club Ahi!Lupita" de la marca
+                       (Santiago, 2026-09-25): crema, el A! gigante de marca de agua,
+                       la marca arriba a la derecha, "Gift Card" en script montado
+                       sobre el monto en serif, y una frase al pie. #}
+                    {% set lu_gc_frase = settings.lupita_gift_frase ?: 'un detalle para elegir lo que más te guste.' %}
                     <div class="lu-gift-cara lu-gift-frente">
                         <span class="lu-gift-brillo" aria-hidden="true"></span>
-                        <div class="lu-gift-arriba">
-                            {% include "snipplets/svg/logo-lupita.tpl" with {svg_custom_class: 'lu-gift-logo'} %}
-                            <span class="lu-gift-rotulo">{{ settings.lupita_gift_rotulo | default("Kit 'n Couch") }}</span>
+                        {% include "snipplets/svg/logo-lupita.tpl" with {svg_custom_class: 'lu-gift-agua'} %}
+                        <div class="lu-gift-marca">
+                            <p class="lu-gift-marca-nombre">{{ settings.lupita_gift_marca ?: 'Ahí!Lupita' }}</p>
+                            <p class="lu-gift-rotulo">{{ settings.lupita_gift_rotulo | default("Kit n'Couch") }}</p>
                         </div>
-                        <p class="lu-gift-nombre">Gift Card</p>
-                        <div class="lu-gift-abajo">
+                        <div class="lu-gift-centro">
+                            <p class="lu-gift-nombre">Gift Card</p>
                             <p class="lu-gift-monto" aria-live="polite">$<span class="js-lu-gift-monto">{{ lu_gc_inicial }}</span></p>
-                            <p class="lu-gift-para js-lu-gift-para-frente" hidden></p>
                         </div>
+                        <p class="lu-gift-para js-lu-gift-para-frente" data-frase="{{ lu_gc_frase }}">{{ lu_gc_frase }}</p>
                     </div>
                     <div class="lu-gift-cara lu-gift-dorso" aria-hidden="true">
                         <span class="lu-gift-banda"></span>
@@ -210,8 +216,7 @@
                 el.textContent = campo.value.trim() || vacio;
                 girar(true);
                 var para = campoPara.value.trim();
-                paraFrente.hidden = !para;
-                paraFrente.textContent = para ? 'Para ' + para : '';
+                paraFrente.textContent = para ? 'Para ' + para : paraFrente.dataset.frase;
             });
             campo.addEventListener('focus', function () { girar(true); });
         }

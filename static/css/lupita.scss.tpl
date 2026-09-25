@@ -9163,3 +9163,161 @@ h6 {
     height: 0.7rem;
     align-self: center;
 }
+
+/* ============================================================================
+   Gift Card con el formato de la tarjeta "Club Ahi!Lupita" (Santiago,
+   2026-09-25, foto del diseno de la marca). Pisa el frente anterior:
+   crema con el A! gigante en blanco de marca de agua, la marca arriba a la
+   derecha en serif, "Gift Card" en script montado sobre el monto en serif y
+   una frase al pie; todo alineado a la derecha y en un turquesa algo mas
+   profundo que el de la marca (como en el diseno, y se lee mejor sobre el
+   crema). El dorso pasa a turquesa con el texto en crema, como la otra cara
+   del club.
+   ============================================================================ */
+.lu-gift-tarjeta {
+    --lu-gift-tinta: color-mix(in srgb, var(--lu-acento) 72%, var(--lu-tinta));
+}
+
+.lu-gift-frente {
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 7cqi 7cqi 6cqi;
+    text-align: right;
+    color: var(--lu-gift-tinta);
+    /* Crema con un toque de turquesa, como el diseno: sobre el crema puro
+       de la pagina el A! blanco no se distinguia */
+    background-color: color-mix(in srgb, var(--lu-papel) 86%, var(--lu-acento));
+    background-image: radial-gradient(circle at 20% 85%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 60%);
+    border: 1px solid var(--lu-linea);
+}
+
+.lu-gift-frente::after {
+    display: none;
+}
+
+.lu-gift-agua {
+    position: absolute;
+    left: -2cqi;
+    bottom: -9cqi;
+    width: auto;
+    height: 92%;
+    color: var(--lu-blanco);
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.lu-gift-marca {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.lu-gift-marca-nombre {
+    margin: 0;
+    font-family: "Lora", Georgia, serif;
+    font-weight: 600;
+    font-size: 8.4cqi;
+    line-height: 1;
+    letter-spacing: -0.015em;
+    color: var(--lu-gift-tinta);
+}
+
+.lu-gift-frente .lu-gift-rotulo {
+    margin: 0.8cqi 0 0;
+    font-family: "Lora", Georgia, serif;
+    font-weight: 600;
+    font-size: 2.7cqi;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--lu-gift-tinta);
+}
+
+.lu-gift-centro {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.lu-gift-frente .lu-gift-nombre {
+    margin: 0 4cqi -4.5cqi 0;
+    font-family: "Pinyon Script", "Lora", Georgia, serif;
+    font-size: 16cqi;
+    line-height: 1;
+    color: var(--lu-acento);
+    text-shadow: none;
+}
+
+.lu-gift-frente .lu-gift-monto {
+    position: relative;
+    font-family: "Lora", Georgia, serif;
+    font-weight: 600;
+    font-size: 10cqi;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--lu-gift-tinta);
+}
+
+.lu-gift-tarjeta.is-largo .lu-gift-frente .lu-gift-monto {
+    font-size: 8cqi;
+}
+
+.lu-gift-frente .lu-gift-para {
+    position: relative;
+    max-width: 80%;
+    margin: 0;
+    font-family: "Lora", Georgia, serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 3.3cqi;
+    line-height: 1.2;
+    text-align: right;
+    color: var(--lu-gift-tinta);
+}
+
+/* Dorso: turquesa con texto crema */
+.lu-gift-dorso {
+    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+}
+
+.lu-gift-banda {
+    background-color: color-mix(in srgb, var(--lu-papel) 85%, transparent);
+}
+
+.lu-gift-datos dt,
+.lu-gift-dorso-pie {
+    color: color-mix(in srgb, var(--lu-papel) 85%, transparent);
+}
+
+.lu-gift-datos dd {
+    border-bottom-color: color-mix(in srgb, var(--lu-papel) 55%, transparent);
+    color: var(--lu-papel);
+}
+
+.lu-gift-mensaje {
+    color: var(--lu-papel);
+}
+
+/* Todos los titulos de pagina con la escala de "Envios" (Santiago,
+   2026-09-25: "que tengan todos la misma tipografia que en envios"). La
+   fuente ya era Pinyon en todos; lo que variaba era el tamano: 80px en las
+   paginas comunes, 96 en las propias, 88 en la gift card y 140 en las
+   categorias. body delante para ganarle a las reglas de cada pagina y a las
+   media queries de categoria. La alineacion de cada pagina no cambia. */
+body .page-header h1,
+body .category-header .page-header h1,
+body .lu-sobre-titulo,
+body .lu-faq-titulo,
+body .lu-pagina-titulo,
+body .lu-gift-titulo {
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: clamp(2rem, 6vw, 5rem);
+    line-height: 1.1;
+    letter-spacing: 0;
+    text-transform: none;
+    -webkit-text-stroke: 0;
+    color: var(--lu-tinta);
+}
