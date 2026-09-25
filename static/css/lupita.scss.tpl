@@ -10258,3 +10258,9 @@ body .lu-favs-cantidad {
     font-variant-numeric: lining-nums tabular-nums;
     text-box: trim-both cap alphabetic;
 }
+
+/* Probatelo pegado a la foto de abajo, sin la franja crema de 70px que
+   dejaba el margen del base (Santiago, 2026-09-25: "que no haya espacio") */
+body .section-home-modules {
+    margin-bottom: 0 !important;
+}
