@@ -10264,3 +10264,94 @@ body .lu-favs-cantidad {
 body .section-home-modules {
     margin-bottom: 0 !important;
 }
+
+/* Pagina "Medios de pago": lista con dibujos y logos (Santiago,
+   2026-09-25; snipplets/pagos-lista.tpl). Dibujo de linea en chocolate
+   dentro de un circulo turquesa, nombre en negrita, logos oficiales en
+   fichas blancas. */
+.lu-ml {
+    max-width: 44rem;
+    margin: clamp(1.5rem, 4vw, 2.5rem) auto clamp(2.5rem, 6vw, 4rem);
+}
+
+.lu-ml-pregunta {
+    margin: 0 0 1.25rem;
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    color: var(--lu-gris);
+}
+
+.lu-ml-lista {
+    margin: 0;
+    padding: 0;
+}
+
+.lu-ml-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--lu-linea);
+}
+
+.lu-ml-item:last-child {
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+.lu-ml-dibujo {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    background-color: var(--lu-acento);
+    color: #2e1d21;
+}
+
+.lu-ml-dibujo svg {
+    width: 1.6rem;
+    height: 1.6rem;
+}
+
+.lu-ml-cuerpo {
+    flex: 1;
+    min-width: 0;
+    padding-top: 0.15rem;
+}
+
+body .lu-ml .lu-ml-nombre {
+    margin: 0 0 0.3rem;
+    font-family: var(--lu-texto);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--lu-tinta);
+}
+
+.lu-ml-texto {
+    margin: 0;
+    font-family: var(--lu-texto);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--lu-tinta);
+}
+
+.lu-ml-logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.7rem;
+}
+
+.lu-ml-logo {
+    width: auto;
+    height: 1.9rem;
+    padding: 0.2rem 0.35rem;
+    border: 1px solid var(--lu-linea);
+    border-radius: 6px;
+    background-color: #fff;
+    object-fit: contain;
+}

@@ -26,6 +26,8 @@
 
     {% if lu_tipo == 'pagos' %}
         {% include 'snipplets/medios-de-pago.tpl' with {tamano: 'grande'} %}
+        {# Lista con dibujos y logos; reemplaza el texto del contenido de la pagina (2026-09-25) #}
+        {% include 'snipplets/pagos-lista.tpl' %}
     {% else %}
         <div class="container">
             <ol class="lu-pasos list-unstyled">
@@ -44,7 +46,7 @@
         </div>
     {% endif %}
 
-    {% if page.content %}
+    {% if page.content and lu_tipo != 'pagos' %}
         <div class="container">
             <div class="user-content lu-pagina-extra">{{ page.content }}</div>
         </div>
