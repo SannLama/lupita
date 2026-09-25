@@ -9982,3 +9982,40 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
 .lu-promo-linea {
     display: block;
 }
+
+/* Desplegable del menu anclado a la seccion que se esta mirando (Santiago,
+   2026-09-25): ya no es una franja a todo el ancho. Sale justo debajo del
+   item, alineado con su texto, con las subcategorias en columna. */
+@media (min-width: 992px) {
+    .lu-nav-desk-item {
+        position: relative;
+    }
+
+    .lu-nav-desk-panel {
+        left: -1.1rem;
+        right: auto;
+        top: 100%;
+        min-width: 13rem;
+        width: max-content;
+        max-width: 22rem;
+        padding: 0.9rem 1.1rem 1rem;
+        border: 1px solid var(--lu-linea);
+        border-radius: 0 0 var(--lu-radio-chico) var(--lu-radio-chico);
+        box-shadow: 0 12px 28px -14px rgba(46, 29, 33, 0.35);
+    }
+
+    .lu-nav-desk-sub {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 0.7rem;
+        max-width: none;
+        margin: 0;
+    }
+
+    .lu-nav-desk-sublink {
+        white-space: nowrap;
+    }
+}
