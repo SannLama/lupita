@@ -10202,3 +10202,9 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
         margin-top: 2.5rem !important;
     }
 }
+
+/* Banner de promocion: los dos renglones de la bajada arrancan en el mismo
+   lugar (Santiago, 2026-09-25); el bloque sigue centrado bajo la cifra */
+body .lu-promo .lu-promo-bajada {
+    text-align: left;
+}
