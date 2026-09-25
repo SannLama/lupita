@@ -10105,3 +10105,48 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
 .service-item {
     gap: 0.95rem;
 }
+
+/* Desplegable otra vez a todo el ancho (Santiago, 2026-09-25), pero con las
+   subcategorias arrancando debajo de la seccion bajo el mouse y con el
+   mismo espaciado que las categorias del menu; si no entran, siguen en otro
+   renglon dentro de la franja. */
+@media (min-width: 992px) {
+    .lu-nav-desk-item {
+        position: static;
+    }
+
+    .lu-nav-desk-panel {
+        left: 0;
+        right: 0;
+        top: 100%;
+        width: auto;
+        min-width: 0;
+        max-width: none;
+        padding: 0.95rem 1rem 1.05rem var(--lu-nd-inicio, 1rem);
+        border-width: 1px 0;
+        border-style: solid;
+        border-color: var(--lu-linea);
+        border-radius: 0;
+        box-shadow: 0 12px 24px -18px rgba(46, 29, 33, 0.35);
+    }
+
+    .lu-nav-desk-sub {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        column-gap: clamp(1rem, 2.2vw, 2.5rem);
+        row-gap: 0.75rem;
+        max-width: none;
+        margin: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    /* La columna del menu (.col de Bootstrap) es position:relative: sin
+       esto el panel se anclaba a ella y no llegaba a todo el ancho ni
+       arrancaba justo debajo de la seccion */
+    .js-head-main .lu-nav-desk-col,
+    .js-head-main > .container > .row {
+        position: static;
+    }
+}
