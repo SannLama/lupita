@@ -37,15 +37,22 @@
         </ul>
     </nav>
     <script type="text/javascript">
-        {# El panel es una franja a todo el ancho; las subcategorias arrancan
-           debajo de la seccion bajo el mouse (--lu-nd-inicio = su x) #}
+        {# El contenido del panel se alinea con la fila del menu: arranca donde
+           arranca el primer item y termina donde termina el ultimo, asi las
+           subcategorias quedan en la misma grilla que las categorias #}
         (function () {
+            var links = document.querySelectorAll('.lu-nav-desk-lista > .lu-nav-desk-item > .lu-nav-desk-link');
+            if (!links.length) return;
+            function ajustar() {
+                var ancho = document.documentElement.clientWidth;
+                var izq = links[0].getBoundingClientRect().left;
+                var der = links[links.length - 1].getBoundingClientRect().right;
+                document.querySelectorAll('.lu-nav-desk-panel').forEach(function (p) {
+                    p.style.setProperty('--lu-nd-inicio', Math.round(izq) + 'px');
+                    p.style.setProperty('--lu-nd-fin', Math.max(16, Math.round(ancho - der)) + 'px');
+                });
+            }
             document.querySelectorAll('.lu-nav-desk-con-sub').forEach(function (li) {
-                var panel = li.querySelector('.lu-nav-desk-panel');
-                function ajustar() {
-                    var x = li.querySelector('.lu-nav-desk-link').getBoundingClientRect().left;
-                    panel.style.setProperty('--lu-nd-inicio', Math.max(16, Math.round(x)) + 'px');
-                }
                 li.addEventListener('mouseenter', ajustar);
                 li.addEventListener('focusin', ajustar);
             });

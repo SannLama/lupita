@@ -10150,3 +10150,25 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
         position: static;
     }
 }
+
+/* Contenido del desplegable alineado con la fila del menu (Santiago,
+   2026-09-25): arranca en el primer item y termina en el ultimo, con el
+   mismo gap y la misma letra que las categorias (versal 0.74rem, peso
+   normal). Ya no arranca en la seccion bajo el mouse. */
+@media (min-width: 992px) {
+    .lu-nav-desk-panel {
+        padding: 0.95rem var(--lu-nd-fin, 1rem) 1.05rem var(--lu-nd-inicio, 1rem);
+    }
+
+    .lu-nav-desk-sub {
+        column-gap: clamp(1rem, 2.2vw, 2.5rem);
+    }
+
+    .lu-nav-desk-sublink {
+        font-family: var(--lu-micro);
+        font-size: 0.74rem;
+        font-weight: 400;
+        letter-spacing: var(--lu-track);
+        text-transform: uppercase;
+    }
+}
