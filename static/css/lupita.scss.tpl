@@ -9324,3 +9324,31 @@ body .lu-gift-titulo {
     -webkit-text-stroke: 0;
     color: var(--lu-tinta);
 }
+
+/* Gift Card, ajuste con el diseno a la vista (Santiago, 2026-09-25): el
+   fondo vuelve al turquesa de antes con las letras en crema, y el A! se
+   ubica como en el diseno, midiendo contra el borde de la tarjeta: entero en
+   lo vertical (88% del alto, apenas arriba del borde de abajo) y cortado por
+   el borde izquierdo justo en el vertice de la A. */
+.lu-gift-tarjeta {
+    --lu-gift-tinta: var(--lu-papel);
+}
+
+.lu-gift-frente {
+    color: var(--lu-papel);
+    background-color: var(--lu-acento);
+    background-image: radial-gradient(circle at 25% 80%, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 60%);
+    border: 0;
+}
+
+.lu-gift-agua {
+    left: -19cqi;
+    bottom: 4cqi;
+    height: 88%;
+    color: var(--lu-papel);
+    opacity: 0.32;
+}
+
+.lu-gift-frente .lu-gift-nombre {
+    color: var(--lu-papel);
+}
