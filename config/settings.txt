@@ -1257,9 +1257,9 @@ Página de inicio
 		description = Texto de presentación
 	image
 		original = tienda-1.jpg
-		title = Tienda 1: foto (JPG, horizontal)
-		width = 1200
-		height = 900
+		title = Tienda 1: foto (JPG, vertical)
+		width = 960
+		height = 1172
 	i18n_input
 		name = lupita_tienda_1_nombre
 		description = Tienda 1: nombre (ejemplo: Lomas de Zamora · España)
@@ -1271,9 +1271,9 @@ Página de inicio
 		description = Tienda 1: link de Google Maps (vacío: busca la dirección)
 	image
 		original = tienda-2.jpg
-		title = Tienda 2: foto (JPG, horizontal)
-		width = 1200
-		height = 900
+		title = Tienda 2: foto (JPG, vertical)
+		width = 960
+		height = 1172
 	i18n_input
 		name = lupita_tienda_2_nombre
 		description = Tienda 2: nombre (ejemplo: Lomas de Zamora · España)
@@ -1285,9 +1285,9 @@ Página de inicio
 		description = Tienda 2: link de Google Maps (vacío: busca la dirección)
 	image
 		original = tienda-3.jpg
-		title = Tienda 3: foto (JPG, horizontal)
-		width = 1200
-		height = 900
+		title = Tienda 3: foto (JPG, vertical)
+		width = 960
+		height = 1172
 	i18n_input
 		name = lupita_tienda_3_nombre
 		description = Tienda 3: nombre (ejemplo: Lomas de Zamora · España)

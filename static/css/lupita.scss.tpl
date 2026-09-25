@@ -8680,7 +8680,7 @@ body .cart-item-input.form-control {
 
 .lu-tienda-foto {
     margin: 0;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 480 / 586; /* fotos verticales de las fachadas (Santiago, 2026-09-25) */
     overflow: hidden;
 }
 
