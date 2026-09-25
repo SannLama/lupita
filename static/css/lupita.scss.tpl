@@ -10172,3 +10172,11 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
         text-transform: uppercase;
     }
 }
+
+/* Subcategorias centradas dentro del ancho de la fila del menu (Santiago,
+   2026-09-25) */
+@media (min-width: 992px) {
+    .lu-nav-desk-sub {
+        justify-content: center;
+    }
+}
