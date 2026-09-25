@@ -9551,3 +9551,23 @@ li,
 .user-content {
     text-wrap: pretty;
 }
+
+/* Banner de promocion mas bajo y en el color de la marca (Santiago,
+   2026-09-25): turquesa con letras crema, como la gift card. */
+.lu-promo {
+    min-height: clamp(220px, 34vh, 360px);
+    background-color: var(--lu-acento);
+}
+
+.lu-promo-texto {
+    gap: 0.4rem;
+    padding: clamp(1.75rem, 4.5vw, 2.75rem) var(--lu-margen);
+}
+
+.lu-promo-cifra {
+    font-size: clamp(3rem, 9vw, 7rem);
+}
+
+.lu-promo-boton {
+    margin-top: 0.5rem;
+}
