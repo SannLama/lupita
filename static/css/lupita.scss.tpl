@@ -8776,3 +8776,346 @@ body .cart-item-input.form-control {
         transform: none;
     }
 }
+
+/* ============================================================================
+   Grupo 3 del PDF "Paginas Web implementar" (2026-09-25)
+   Cinta de temporada, Backstage, Shop the look y Cinta de Instagram.
+   ============================================================================ */
+
+/* ---- Cinta de temporada: texto corriendo sin fin ---- */
+.lu-temporada {
+    overflow: hidden;
+    border-block: 1px solid var(--lu-linea);
+    background-color: var(--lu-papel);
+    padding-block: 0.9rem;
+}
+
+.lu-temporada-pista {
+    display: flex;
+    width: max-content;
+    animation: lu-cinta 40s linear infinite;
+    will-change: transform;
+}
+
+.lu-cinta-quieta .lu-temporada-pista {
+    animation-play-state: paused;
+}
+
+.lu-temporada-item {
+    flex: none;
+    padding-inline: 1.5rem;
+    font-family: "Lora", Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    line-height: 1.2;
+    white-space: nowrap;
+    color: var(--lu-tinta);
+}
+
+/* ---- Backstage ---- */
+.lu-backstage-cuerpo {
+    padding: clamp(2rem, 5vw, 3.5rem) var(--lu-margen);
+}
+
+.lu-backstage-cabecera {
+    max-width: 40rem;
+    margin: 0 auto clamp(1.25rem, 3vw, 2rem);
+    text-align: center;
+}
+
+.lu-backstage-titulo {
+    margin: 0 0 0.5rem;
+}
+
+.lu-backstage-texto {
+    margin: 0;
+    font-family: var(--lu-texto);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--lu-gris);
+}
+
+.lu-backstage-lista {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 70%;
+    gap: 0.75rem;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.lu-backstage-lista::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .lu-backstage-lista {
+        grid-auto-columns: minmax(0, 22rem);
+        overflow-x: visible;
+    }
+}
+
+.lu-backstage-item {
+    scroll-snap-align: center;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border-radius: var(--lu-radio-chico);
+    background-color: var(--lu-tinta);
+}
+
+.lu-backstage-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---- Shop the look ---- */
+.lu-look {
+    padding: clamp(2rem, 5vw, 3.5rem) 0;
+}
+
+.lu-look-titulo {
+    margin: 0 0 clamp(1rem, 3vw, 1.75rem);
+    text-align: center;
+}
+
+.lu-look-lista {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 80%;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.lu-look-lista::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .lu-look-lista {
+        grid-auto-columns: 1fr;
+        overflow: visible;
+    }
+}
+
+.lu-look-item {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    scroll-snap-align: start;
+}
+
+.lu-look-foto {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.lu-look-punto {
+    position: absolute;
+    z-index: 2;
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.lu-look-punto span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    margin: -9px 0 0 -9px;
+    border: 2px solid var(--lu-papel);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6);
+    animation: lu-look-latido 2.4s ease-out infinite;
+    transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.lu-look-punto:hover span,
+.lu-look-punto[aria-expanded="true"] span {
+    transform: scale(1.15);
+    background-color: var(--lu-papel);
+}
+
+@keyframes lu-look-latido {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6); }
+    70% { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.lu-look-tarjeta {
+    position: absolute;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: min(16rem, 80%);
+    margin: 18px 0 0 -18px;
+    padding: 0.55rem;
+    border-radius: var(--lu-radio-chico);
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    text-decoration: none;
+    box-shadow: 0 10px 30px -10px rgba(10, 10, 10, 0.4);
+    animation: lu-look-aparece 200ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.lu-look-tarjeta:hover {
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+.lu-look-tarjeta-izq {
+    transform: translateX(calc(-100% + 36px));
+}
+
+.lu-look-tarjeta-arriba {
+    margin-top: 0;
+    translate: 0 calc(-100% - 18px);
+}
+
+@keyframes lu-look-aparece {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.lu-look-tarjeta img {
+    flex: none;
+    width: 3.5rem;
+    height: 4.6rem;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.lu-look-tarjeta-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.lu-look-tarjeta-nombre {
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    line-height: 1.3;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.lu-look-tarjeta-precio {
+    font-family: var(--lu-texto);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.lu-look-tarjeta-ver {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.62rem;
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.lu-look-tarjeta-cargando {
+    padding: 0.5rem 1rem;
+    font-family: var(--lu-micro);
+}
+
+/* ---- Cinta de Instagram ---- */
+.lu-igc {
+    padding-block: clamp(2rem, 5vw, 3rem);
+    text-align: center;
+}
+
+.lu-igc-titulo {
+    margin: 0 0 clamp(1rem, 3vw, 1.5rem);
+}
+
+.lu-igc-marco {
+    overflow: hidden;
+}
+
+.lu-igc-pista {
+    display: flex;
+    width: max-content;
+    gap: 2px;
+    animation: lu-cinta 45s linear infinite;
+    will-change: transform;
+}
+
+.lu-igc-marco:hover .lu-igc-pista,
+.lu-cinta-quieta .lu-igc-pista {
+    animation-play-state: paused;
+}
+
+.lu-igc-post {
+    flex: none;
+    display: block;
+    width: clamp(9rem, 22vw, 16rem);
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.lu-igc-post img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 420ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.lu-igc-post:hover img {
+    transform: scale(1.05);
+}
+
+.lu-igc-usuario {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.78rem;
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+.lu-igc-usuario:hover {
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.lu-igc-usuario svg {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--lu-tinta);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-temporada-pista,
+    .lu-igc-pista,
+    .lu-look-punto span {
+        animation: none;
+    }
+}

@@ -865,6 +865,193 @@ Página de inicio
 		name = lupita_riel_6_url
 		description = Categoría 6: link
 	collapse
+		title = Backstage
+		backto = home_order_position
+	description
+		description = Videos de backstage verticales (como un reel) con el nombre de la temporada corriendo arriba. Hasta tres links directos a .mp4. Sale si hay al menos un video o el nombre de la temporada.
+	checkbox
+		name = lupita_backstage_ocultar
+		description = Ocultar el backstage
+	i18n_input
+		name = lupita_temporada
+		description = Nombre de la temporada para la cinta (ejemplo: SS27 · Sea of Dreams ·)
+	checkbox
+		name = lupita_temporada_pie
+		description = Mostrar también la cinta de la temporada arriba del pie, en todas las páginas
+	i18n_input
+		name = lupita_backstage_titulo
+		description = Título (opcional)
+	i18n_input
+		name = lupita_backstage_texto
+		description = Texto (opcional)
+	i18n_input
+		name = lupita_backstage_video_1
+		description = Video 1 (link directo .mp4)
+	i18n_input
+		name = lupita_backstage_video_2
+		description = Video 2 (link directo .mp4)
+	i18n_input
+		name = lupita_backstage_video_3
+		description = Video 3 (link directo .mp4)
+	collapse
+		title = Shop the look
+		backto = home_order_position
+	description
+		description = Hasta tres fotos de looks con puntos sobre las prendas. De cada punto se carga el link al producto y su posición sobre la foto en porcentaje (50 y 50 es el centro). La foto, el nombre y el precio salen solos de la ficha del producto.
+	checkbox
+		name = lupita_look_ocultar
+		description = Ocultar Shop the look
+	i18n_input
+		name = lupita_look_titulo
+		description = Título (vacío: Shop the look)
+	image
+		original = look-1.jpg
+		title = Look 1: foto (JPG, vertical)
+		width = 1000
+		height = 1333
+	i18n_input
+		name = lupita_look_1_p1_url
+		description = Look 1, punto 1: link al producto
+	text
+		name = lupita_look_1_p1_x
+		description = Look 1, punto 1: % desde la izquierda (0 a 100)
+	text
+		name = lupita_look_1_p1_y
+		description = Look 1, punto 1: % desde arriba (0 a 100)
+	i18n_input
+		name = lupita_look_1_p2_url
+		description = Look 1, punto 2: link al producto
+	text
+		name = lupita_look_1_p2_x
+		description = Look 1, punto 2: % desde la izquierda (0 a 100)
+	text
+		name = lupita_look_1_p2_y
+		description = Look 1, punto 2: % desde arriba (0 a 100)
+	i18n_input
+		name = lupita_look_1_p3_url
+		description = Look 1, punto 3: link al producto
+	text
+		name = lupita_look_1_p3_x
+		description = Look 1, punto 3: % desde la izquierda (0 a 100)
+	text
+		name = lupita_look_1_p3_y
+		description = Look 1, punto 3: % desde arriba (0 a 100)
+	image
+		original = look-2.jpg
+		title = Look 2: foto (JPG, vertical)
+		width = 1000
+		height = 1333
+	i18n_input
+		name = lupita_look_2_p1_url
+		description = Look 2, punto 1: link al producto
+	text
+		name = lupita_look_2_p1_x
+		description = Look 2, punto 1: % desde la izquierda (0 a 100)
+	text
+		name = lupita_look_2_p1_y
+		description = Look 2, punto 1: % desde arriba (0 a 100)
+	i18n_input
+		name = lupita_look_2_p2_url
+		description = Look 2, punto 2: link al producto
+	text
+		name = lupita_look_2_p2_x
+		description = Look 2, punto 2: % desde la izquierda (0 a 100)
+	text
+		name = lupita_look_2_p2_y
+		description = Look 2, punto 2: % desde arriba (0 a 100)
+	i18n_input
+		name = lupita_look_2_p3_url
+		description = Look 2, punto 3: link al producto
+	text
+		name = lupita_look_2_p3_x
+		description = Look 2, punto 3: % desde la izquierda (0 a 100)
+	text
+		name = lupita_look_2_p3_y
+		description = Look 2, punto 3: % desde arriba (0 a 100)
+	image
+		original = look-3.jpg
+		title = Look 3: foto (JPG, vertical)
+		width = 1000
+		height = 1333
+	i18n_input
+		name = lupita_look_3_p1_url
+		description = Look 3, punto 1: link al producto
+	text
+		name = lupita_look_3_p1_x
+		description = Look 3, punto 1: % desde la izquierda (0 a 100)
+	text
+		name = lupita_look_3_p1_y
+		description = Look 3, punto 1: % desde arriba (0 a 100)
+	i18n_input
+		name = lupita_look_3_p2_url
+		description = Look 3, punto 2: link al producto
+	text
+		name = lupita_look_3_p2_x
+		description = Look 3, punto 2: % desde la izquierda (0 a 100)
+	text
+		name = lupita_look_3_p2_y
+		description = Look 3, punto 2: % desde arriba (0 a 100)
+	i18n_input
+		name = lupita_look_3_p3_url
+		description = Look 3, punto 3: link al producto
+	text
+		name = lupita_look_3_p3_x
+		description = Look 3, punto 3: % desde la izquierda (0 a 100)
+	text
+		name = lupita_look_3_p3_y
+		description = Look 3, punto 3: % desde arriba (0 a 100)
+	collapse
+		title = Cinta de Instagram
+		backto = home_order_position
+	description
+		description = Posteos de Instagram en una sola fila, corriendo de costado, con el usuario debajo. Las fotos se cargan acá (el feed automático necesita Instagram conectado). Todas llevan al perfil.
+	checkbox
+		name = lupita_igc_ocultar
+		description = Ocultar la cinta
+	i18n_input
+		name = lupita_igc_titulo
+		description = Título (opcional, ejemplo: Visto en Instagram)
+	image
+		original = ig-1.jpg
+		title = Posteo 1 (JPG, cuadrado)
+		width = 800
+		height = 800
+	image
+		original = ig-2.jpg
+		title = Posteo 2 (JPG, cuadrado)
+		width = 800
+		height = 800
+	image
+		original = ig-3.jpg
+		title = Posteo 3 (JPG, cuadrado)
+		width = 800
+		height = 800
+	image
+		original = ig-4.jpg
+		title = Posteo 4 (JPG, cuadrado)
+		width = 800
+		height = 800
+	image
+		original = ig-5.jpg
+		title = Posteo 5 (JPG, cuadrado)
+		width = 800
+		height = 800
+	image
+		original = ig-6.jpg
+		title = Posteo 6 (JPG, cuadrado)
+		width = 800
+		height = 800
+	image
+		original = ig-7.jpg
+		title = Posteo 7 (JPG, cuadrado)
+		width = 800
+		height = 800
+	image
+		original = ig-8.jpg
+		title = Posteo 8 (JPG, cuadrado)
+		width = 800
+		height = 800
+	collapse
 		title = Sobre nosotros
 	description
 		description = Página "Sobre nosotros": creala en Mi Tiendanube > Páginas con ese nombre y sumala al menú y al pie desde Menús. Estos textos y fotos le dan su diseño. Si dejás un texto vacío, ese renglón no aparece; sin fotos, el texto se muestra solo y centrado.
@@ -1239,6 +1426,9 @@ Página de inicio
 			promo = Banner de promoción
 			bestsellers = Más vendidos
 			rail = Riel de categorías
+			backstage = Backstage
+			shoplook = Shop the look
+			igstrip = Cinta de Instagram
 	link
 		text = Pop-up promocional
 		linkto = home_promotional_popup

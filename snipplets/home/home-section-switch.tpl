@@ -151,6 +151,21 @@
 	{#  **** Riel de categorias (2026-09-25) ****  #}
 	{% include 'snipplets/home/home-riel.tpl' %}
 
+{% elseif section_select == 'backstage' %}
+
+	{#  **** Backstage con la cinta de temporada (2026-09-25) ****  #}
+	{% include 'snipplets/home/home-backstage.tpl' %}
+
+{% elseif section_select == 'shoplook' %}
+
+	{#  **** Shop the look (2026-09-25) ****  #}
+	{% include 'snipplets/home/home-shoplook.tpl' %}
+
+{% elseif section_select == 'igstrip' %}
+
+	{#  **** Cinta de Instagram (2026-09-25) ****  #}
+	{% include 'snipplets/home/home-ig-cinta.tpl' %}
+
 {% elseif section_select == 'promo' %}
 
 	{#  **** Banner de promocion: un solo mensaje de pago (2026-09-25) ****  #}

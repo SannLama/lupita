@@ -145,6 +145,8 @@
 
         {# Franja de envios / cambios / WhatsApp justo arriba del pie (2026-09-25) #}
 
+        {% if settings.lupita_temporada_pie %}{% include "snipplets/cinta-temporada.tpl" %}{% endif %}
+
         {% include "snipplets/antes-del-pie.tpl" %}
 
         {# Footer #}
