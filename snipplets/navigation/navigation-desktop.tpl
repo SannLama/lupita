@@ -36,4 +36,21 @@
             {% endfor %}
         </ul>
     </nav>
+    <script type="text/javascript">
+        {# Si la fila de subcategorias no entra hacia la derecha, la corre a
+           la izquierda lo justo para que quede dentro de la pantalla #}
+        (function () {
+            document.querySelectorAll('.lu-nav-desk-con-sub').forEach(function (li) {
+                var panel = li.querySelector('.lu-nav-desk-panel');
+                function ajustar() {
+                    panel.style.setProperty('--lu-nd-corrida', '0px');
+                    var r = panel.getBoundingClientRect();
+                    var sobra = r.right - (document.documentElement.clientWidth - 16);
+                    if (sobra > 0) panel.style.setProperty('--lu-nd-corrida', Math.ceil(sobra) + 'px');
+                }
+                li.addEventListener('mouseenter', ajustar);
+                li.addEventListener('focusin', ajustar);
+            });
+        })();
+    </script>
 {% endif %}

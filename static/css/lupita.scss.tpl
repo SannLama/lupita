@@ -10019,3 +10019,25 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
         white-space: nowrap;
     }
 }
+
+/* Desplegable horizontal (Santiago, 2026-09-25): sigue saliendo debajo de
+   la seccion bajo el mouse, pero con las subcategorias en fila y el mismo
+   espaciado del menu. Si la fila no entra hacia la derecha, el script de
+   navigation-desktop.tpl la corre a la izquierda lo justo (--lu-nd-corrida). */
+@media (min-width: 992px) {
+    .lu-nav-desk-panel {
+        left: calc(-1.1rem - var(--lu-nd-corrida, 0px));
+        width: max-content;
+        min-width: 0;
+        max-width: calc(100vw - 2rem);
+        padding: 0.85rem 1.1rem;
+    }
+
+    .lu-nav-desk-sub {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        column-gap: clamp(1rem, 2.2vw, 2.5rem);
+        row-gap: 0;
+    }
+}
