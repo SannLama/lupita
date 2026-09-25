@@ -9411,3 +9411,37 @@ body .lu-gift-titulo {
     fill: var(--lu-acento);
     transition-duration: 0s;
 }
+
+/* Vuelven el marco fino interior y el fondo de lineas diagonales de la
+   primera version (Santiago, 2026-09-25). Capas: fondo y lineas, marco
+   (z 0), A! dorado (z 1) y textos (z 2): el marco pasa por DEBAJO del A!. */
+.lu-gift-frente {
+    background-image:
+        radial-gradient(circle at 25% 80%, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 60%),
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 2.2cqi);
+}
+
+.lu-gift-frente::after {
+    display: block;
+    content: "";
+    position: absolute;
+    inset: 2.6cqi;
+    z-index: 0;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 2.6cqi;
+    pointer-events: none;
+}
+
+.lu-gift-agua {
+    z-index: 1;
+}
+
+.lu-gift-marca,
+.lu-gift-centro,
+.lu-gift-frente .lu-gift-para {
+    z-index: 2;
+}
+
+.lu-gift-brillo {
+    z-index: 3;
+}
