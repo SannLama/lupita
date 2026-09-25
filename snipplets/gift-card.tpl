@@ -43,7 +43,8 @@
                        (Santiago, 2026-09-25): crema, el A! gigante de marca de agua,
                        la marca arriba a la derecha, "Gift Card" en script montado
                        sobre el monto en serif, y una frase al pie. #}
-                    {% set lu_gc_frase = settings.lupita_gift_frase ?: 'un detalle para elegir lo que más te guste.' %}
+                    {# Sin frase fija al pie (Santiago, 2026-09-25): solo "Para X" si se escribe #}
+                    {% set lu_gc_frase = settings.lupita_gift_frase %}
                     <div class="lu-gift-cara lu-gift-frente">
                         <span class="lu-gift-brillo" aria-hidden="true"></span>
                         {# Foil dorado del A! (2026-09-25): degrade de dorados, grano de
@@ -85,7 +86,7 @@
                             <p class="lu-gift-nombre">Gift Card</p>
                             <p class="lu-gift-monto" aria-live="polite">$<span class="js-lu-gift-monto">{{ lu_gc_inicial }}</span></p>
                         </div>
-                        <p class="lu-gift-para js-lu-gift-para-frente" data-frase="{{ lu_gc_frase }}">{{ lu_gc_frase }}</p>
+                        <p class="lu-gift-para js-lu-gift-para-frente" data-frase="{{ lu_gc_frase }}"{% if not lu_gc_frase %} hidden{% endif %}>{{ lu_gc_frase }}</p>
                     </div>
                     <div class="lu-gift-cara lu-gift-dorso" aria-hidden="true">
                         <span class="lu-gift-banda"></span>
@@ -247,6 +248,7 @@
                 girar(true);
                 var para = campoPara.value.trim();
                 paraFrente.textContent = para ? 'Para ' + para : paraFrente.dataset.frase;
+                paraFrente.hidden = !paraFrente.textContent;
             });
             campo.addEventListener('focus', function () { girar(true); });
         }

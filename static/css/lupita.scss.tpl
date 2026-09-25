@@ -9445,3 +9445,29 @@ body .lu-gift-titulo {
 .lu-gift-brillo {
     z-index: 3;
 }
+
+/* Textos de la tarjeta mas chicos (Santiago, 2026-09-25), ~25% menos */
+.lu-gift-marca-nombre {
+    font-size: 6.3cqi;
+}
+
+.lu-gift-frente .lu-gift-rotulo {
+    font-size: 2.1cqi;
+}
+
+.lu-gift-frente .lu-gift-nombre {
+    margin-bottom: -3.4cqi;
+    font-size: 12cqi;
+}
+
+.lu-gift-frente .lu-gift-monto {
+    font-size: 7.5cqi;
+}
+
+.lu-gift-tarjeta.is-largo .lu-gift-frente .lu-gift-monto {
+    font-size: 6cqi;
+}
+
+.lu-gift-frente .lu-gift-para {
+    font-size: 2.6cqi;
+}
