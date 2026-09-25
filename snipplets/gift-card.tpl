@@ -47,19 +47,19 @@
                     {% set lu_gc_frase = settings.lupita_gift_frase %}
                     <div class="lu-gift-cara lu-gift-frente">
                         <span class="lu-gift-brillo" aria-hidden="true"></span>
-                        {# Foil rosa del A! (2026-09-25; dorado hasta que Santiago lo pidio rosa): degrade de dorados, grano de
+                        {# Foil dorado del A! (2026-09-25; fue rosa un rato y volvio a dorado): degrade de dorados, grano de
                            ruido y una luz especular que recorre la letra. Las
                            definiciones van aca y el CSS las aplica solo a .lu-gift-agua;
                            el logo del encabezado no cambia. #}
                         <svg class="lu-gift-defs" width="0" height="0" aria-hidden="true" focusable="false">
                             <defs>
                                 <linearGradient id="lu-gift-oro" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0" stop-color="#b0587a"/>
-                                    <stop offset="0.22" stop-color="#f2a9c4"/>
-                                    <stop offset="0.4" stop-color="#cf7598"/>
-                                    <stop offset="0.58" stop-color="#fbd3e2"/>
-                                    <stop offset="0.78" stop-color="#b9678a"/>
-                                    <stop offset="1" stop-color="#e79ab8"/>
+                                    <stop offset="0" stop-color="#8c6a26"/>
+                                    <stop offset="0.22" stop-color="#e2bf6c"/>
+                                    <stop offset="0.4" stop-color="#b48a3b"/>
+                                    <stop offset="0.58" stop-color="#f3dc98"/>
+                                    <stop offset="0.78" stop-color="#a47b30"/>
+                                    <stop offset="1" stop-color="#d6b25e"/>
                                 </linearGradient>
                                 <filter id="lu-gift-foil" x="-5%" y="-5%" width="110%" height="110%" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
                                     <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="7" result="ruido"/>
@@ -67,7 +67,7 @@
                                     <feComposite in="grano" in2="SourceAlpha" operator="in" result="granoIn"/>
                                     <feBlend in="SourceGraphic" in2="granoIn" mode="multiply" result="metal"/>
                                     <feGaussianBlur in="SourceAlpha" stdDeviation="0.006" result="relieve"/>
-                                    <feSpecularLighting in="relieve" surfaceScale="4" specularConstant="1.1" specularExponent="24" lighting-color="#fff0f5" result="luz">
+                                    <feSpecularLighting in="relieve" surfaceScale="4" specularConstant="1.1" specularExponent="24" lighting-color="#fff4d2" result="luz">
                                         <fePointLight class="js-lu-gift-luz" x="0.2" y="0.1" z="0.35">
                                             <animate attributeName="x" values="-0.2;1.2;-0.2" dur="7s" repeatCount="indefinite"/>
                                         </fePointLight>

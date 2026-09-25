@@ -9629,27 +9629,3 @@ body .section-banners-home .textbanner .textbanner-text .btn {
 body .section-banners-home .textbanner-link:hover .textbanner-text .btn {
     color: var(--lu-papel) !important;
 }
-
-/* Banners de categorias sin sombra ni zoom (Santiago, 2026-09-25): sin el
-   velo oscuro sobre la foto y sin agrandar foto ni titulo al pasar el
-   mouse. La foto se ve tal cual. */
-body .section-banners-home .textbanner-image::after {
-    content: none;
-    display: none;
-}
-
-body .section-banners-home .textbanner-link:hover .textbanner-image-background,
-body .section-banners-home .textbanner-link:hover .textbanner-image img,
-body .section-banners-home .textbanner-link:hover .textbanner-title,
-body .section-banners-home .textbanner-image-background,
-body .section-banners-home .textbanner-image img {
-    transform: none !important;
-}
-
-/* A! de la gift card en rosa metalico (Santiago, 2026-09-25): el degrade del
-   foil pasa de dorados a rosas en gift-card.tpl; el brillo, el grano y el
-   relieve quedan igual. La sombra acompana el tono. */
-.lu-gift-agua {
-    color: #e79ab8;
-    filter: url(#lu-gift-foil) drop-shadow(0 0.3cqi 0.6cqi rgba(90, 30, 55, 0.25));
-}
