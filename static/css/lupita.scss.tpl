@@ -9589,3 +9589,19 @@ body .btn-asesor {
 body .btn-whatsapp {
     box-shadow: 0 0 0 2px var(--lu-tinta);
 }
+
+/* Banner de promocion: fondo chocolate de antes con la letra en el
+   turquesa de la marca (Santiago, 2026-09-25). Se mantiene la altura. */
+.lu-promo {
+    background-color: #2e1d21;
+    color: var(--lu-acento);
+}
+
+.lu-promo-cifra {
+    color: var(--lu-acento);
+}
+
+body .lu-promo .btn {
+    color: var(--lu-acento) !important;
+    border-color: var(--lu-acento) !important;
+}
