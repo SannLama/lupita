@@ -11,7 +11,10 @@
 			<span class="js-favs-cantidad lu-favs-cantidad">0</span>
 		</a>
 	</div>
-	{% if not store.is_catalog %}
+	{# Carrito desactivado (Santiago, 2026-09-25: "que no se pueda comprar online por
+	   ahora"). Para volver a vender online: sacar el "and false" de aca y el
+	   bloque de aviso de templates/cart.tpl. #}
+	{% if not store.is_catalog and false %}
 	<div class="utilities-item">
 		<div id="ajax-cart" class="cart-summary" data-component='cart-button'>
 		    <a {% if settings.ajax_cart and template != 'cart' %}href="#" class="js-modal-open js-fullscreen-modal-open js-toggle-cart" data-toggle="#modal-cart" data-modal-url="modal-fullscreen-cart"{% else %}href="{{ store.cart_url }}"{% endif %}>

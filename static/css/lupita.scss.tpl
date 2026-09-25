@@ -10444,3 +10444,46 @@ body .lu-envios .lu-envios-titulo {
     font-weight: 600;
     letter-spacing: 0.02em;
 }
+
+/* Carrito desactivado: aviso en /comprar/ (Santiago, 2026-09-25) */
+.lu-sin-carrito-caja {
+    max-width: 36rem;
+    margin: clamp(2rem, 5vw, 3.5rem) auto clamp(3rem, 7vw, 5rem);
+    text-align: center;
+}
+
+body .lu-sin-carrito .lu-sin-carrito-titulo {
+    margin: 1rem 0 0.75rem;
+    font-family: var(--lu-sub);
+    font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+    font-weight: 600;
+    color: var(--lu-tinta);
+}
+
+.lu-sin-carrito-texto {
+    margin: 0 0 1.75rem;
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--lu-tinta);
+}
+
+.lu-sin-carrito-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+/* El btn-line del base es crema (pensado para ir sobre foto): en el aviso
+   del carrito va en contorno chocolate */
+body .lu-sin-carrito .btn-line {
+    color: var(--lu-tinta) !important;
+    border-color: var(--lu-tinta) !important;
+    background-color: transparent !important;
+}
+
+body .lu-sin-carrito .btn-line:hover {
+    color: var(--lu-papel) !important;
+    background-color: var(--lu-tinta) !important;
+}
