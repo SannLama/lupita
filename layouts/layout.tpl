@@ -147,7 +147,8 @@
 
         {% if settings.lupita_temporada_pie %}{% include "snipplets/cinta-temporada.tpl" %}{% endif %}
 
-        {% include "snipplets/antes-del-pie.tpl" %}
+        {# Solo en la pagina Envios (Santiago, 2026-09-25: "sacalo y dejalo solo en envios") #}
+        {% if template == 'page' and page.handle == 'envios' %}{% include "snipplets/antes-del-pie.tpl" %}{% endif %}
 
         {# Footer #}
 

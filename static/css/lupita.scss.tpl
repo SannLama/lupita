@@ -9119,3 +9119,47 @@ body .cart-item-input.form-control {
         animation: none;
     }
 }
+
+/* ============================================================================
+   Titulos en Pinyon, sin Great Vibes (Santiago, 2026-09-25, con foto de
+   "Envios"): el trazo de 1.1px que se le puso a h1/h2 para que Great Vibes
+   no se perdiera (2026-09-18/22) engordaba a Pinyon y la hacia parecer
+   Great Vibes. Los titulos del carrusel no lo llevan: ahora ninguno.
+   Lo que seguia en Great Vibes venia de la base ($heading-font en .h1-.h6
+   y h6): las clases de titulo pasan a Pinyon (--lu-macro) y .h5/.h6, que el
+   base usa para precios y textos chicos, a la letra de texto.
+   ============================================================================ */
+h1,
+h2,
+.lu-macro {
+    -webkit-text-stroke: 0;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+h6 {
+    font-family: var(--lu-macro);
+}
+
+.h5,
+.h6 {
+    font-family: var(--lu-texto);
+}
+
+/* Migas: la raya del medio quedaba mas baja que el texto. Fila flex
+   centrada: la raya se alinea sola con la altura de las letras. */
+.breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0;
+    row-gap: 0.3rem;
+}
+
+.breadcrumbs .divider {
+    vertical-align: middle;
+    height: 0.7rem;
+    align-self: center;
+}
