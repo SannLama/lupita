@@ -47,7 +47,8 @@
 {% endif %}
 
 {# Show cookie validation message #}
-{% include "snipplets/notification.tpl" with {show_cookie_banner: true} %}
+{# Ahi! Lupita (2026-09-25): el aviso de cookies del base volvio a mostrarse y salian dos junto con el propio (snipplets/aviso-cookies.tpl); queda solo el propio #}
+{% include "snipplets/notification.tpl" with {show_cookie_banner: false} %}
 
 {# Hamburger panel #}
 

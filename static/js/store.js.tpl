@@ -142,7 +142,8 @@ DOMContentLoaded.addEventOrExecute(() => {
             footer.removeAttr("style");
         };
 
-        if (!window.cookieNotificationService.isAcknowledged()) {
+        {# Sin el aviso del base (header.tpl) no se corre WhatsApp ni el pie #}
+        if (document.querySelector(".js-notification-cookie-banner") && !window.cookieNotificationService.isAcknowledged()) {
             jQueryNuvem(".js-notification-cookie-banner").show();
 
             {# Offset to show legal footer #}
