@@ -788,7 +788,7 @@ hr,
            de lo que se ve al entrar. */
         /* El titulo queda al pie de lo que se ve al entrar y la bajada
            aparece al scrollear (Santiago, 2026-09-24). */
-        bottom: calc(10vh + 3.5rem);
+        bottom: calc(10vh + 7.75rem); /* + la cabecera (~85px): el nombre de la marca entero sin scrollear (Santiago, 2026-09-25) */
         max-width: min(95vw, 80rem);
     }
 
