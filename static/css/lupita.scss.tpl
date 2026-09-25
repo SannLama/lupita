@@ -10207,4 +10207,14 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
    lugar (Santiago, 2026-09-25); el bloque sigue centrado bajo la cifra */
 body .lu-promo .lu-promo-bajada {
     text-align: left;
+    /* Mas cerca de la cifra; el boton sube con ella y mantiene su distancia
+       (Santiago, 2026-09-25) */
+    margin-top: -1.5rem;
+}
+
+/* "Conoce las tiendas" de Probatelo alineado a ojo con el trazo de la P:
+   la P de Lora tiene ~0.065em de aire a la izquierda, asi que el boton se
+   corre eso mismo (Santiago, 2026-09-25) */
+body [data-store="home-image-text-module"] .btn {
+    margin-left: calc(-0.9rem + 0.065 * var(--lu-mod-t, 60px)) !important;
 }
