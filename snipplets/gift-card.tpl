@@ -16,10 +16,10 @@
 ==============================================================================*/#}
 
 {% set lu_gc_min = settings.lupita_gift_min | default(50000) %}
-{% set lu_gc_max = settings.lupita_gift_max | default(200000) %}
+{% set lu_gc_max = settings.lupita_gift_max | default(3000000) %}
 {% set lu_gc_paso = settings.lupita_gift_paso | default(5000) %}
 {% set lu_gc_montos = [] %}
-{% for lu_gc_m in (settings.lupita_gift_montos | default('50000,75000,100000,150000')) | split(',') %}
+{% for lu_gc_m in (settings.lupita_gift_montos | default('50000,100000,500000,1000000')) | split(',') %}
     {# replace con diccionario ({'.': ''}) tira "Inconvenientes con el servidor"
        en Tiendanube: solo anda la forma de dos argumentos #}
     {% set lu_gc_m = lu_gc_m | replace('.', '') | replace('$', '') | trim %}
@@ -142,33 +142,29 @@
         var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var formato = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 });
 
-        var mostrado = parseInt(rango.value, 10) || min;
-        var elegido = mostrado;
-        var animacion = null;
+        var elegido = parseInt(rango.value, 10) || min;
+        var cifraFrente = raiz.querySelector('.lu-gift-frente .lu-gift-monto');
 
+        {# Montos de 7 cifras o mas ($1.000.000) van un poco mas chicos, para que
+           no choquen con el "Para" del frente #}
         function pintarMonto(n) {
             var texto = formato.format(Math.round(n));
             montos.forEach(function (el) { el.textContent = texto; });
+            tarjeta.classList.toggle('is-largo', texto.length > 7);
         }
 
-        {# El numero corre hasta el monto nuevo (ease-out, ~420 ms). Si ya estaba
-           corriendo, sale desde donde iba: no salta. #}
-        function irA(n) {
+        {# Sutil (pedido de Santiago, 2026-09-25): el numero cambia de una, sin
+           correr. Con los montos rapidos entra con un fundido corto de abajo;
+           con la barra no se anima, porque cambia en cada paso del arrastre. #}
+        function irA(n, animar) {
             elegido = Math.min(max, Math.max(min, n));
-            if (animacion) cancelAnimationFrame(animacion);
-            if (quieto) { mostrado = elegido; pintarMonto(elegido); return; }
-            var desde = mostrado, inicio = null, dur = 420;
-            function paso(t) {
-                if (inicio === null) inicio = t;
-                var p = Math.min(1, (t - inicio) / dur);
-                mostrado = desde + (elegido - desde) * (1 - Math.pow(1 - p, 3));
-                pintarMonto(mostrado);
-                animacion = p < 1 ? requestAnimationFrame(paso) : null;
+            pintarMonto(elegido);
+            if (animar && !quieto && cifraFrente.animate) {
+                cifraFrente.animate(
+                    [{ opacity: 0.25, transform: 'translateY(0.08em)' }, { opacity: 1, transform: 'none' }],
+                    { duration: 280, easing: 'cubic-bezier(0.16, 0.84, 0.44, 1)' }
+                );
             }
-            animacion = requestAnimationFrame(paso);
-            tarjeta.classList.remove('is-latido');
-            void tarjeta.offsetWidth;
-            tarjeta.classList.add('is-latido');
         }
 
         function marcarChips() {
@@ -195,7 +191,7 @@
             chip.addEventListener('click', function () {
                 var n = parseInt(chip.dataset.monto, 10);
                 rango.value = n;
-                irA(n); marcarChips(); pintarRango(); girar(false);
+                irA(n, true); marcarChips(); pintarRango(); girar(false);
             });
         });
         raiz.querySelectorAll('.lu-gift-rango-extremos span').forEach(function (el) {
@@ -203,7 +199,7 @@
         });
 
         rango.addEventListener('input', function () {
-            irA(parseInt(rango.value, 10)); marcarChips(); pintarRango(); girar(false);
+            irA(parseInt(rango.value, 10), false); marcarChips(); pintarRango(); girar(false);
         });
 
         {# Para / De / mensaje: se escriben en el dorso y la tarjeta se da vuelta

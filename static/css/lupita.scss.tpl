@@ -7859,17 +7859,11 @@ body .cart-item-input.form-control {
     letter-spacing: -0.01em;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
-    transform-origin: left bottom;
 }
 
-.lu-gift-tarjeta.is-latido .lu-gift-monto {
-    animation: lu-gift-latido 420ms var(--lu-entrada);
-}
-
-@keyframes lu-gift-latido {
-    0% { transform: scale(1); }
-    35% { transform: scale(1.06); }
-    100% { transform: scale(1); }
+/* De $1.000.000 para arriba la cifra baja un poco (clase que pone el JS) */
+.lu-gift-tarjeta.is-largo .lu-gift-frente .lu-gift-monto {
+    font-size: 8.6cqi;
 }
 
 .lu-gift-para {
@@ -8178,9 +8172,5 @@ body .cart-item-input.form-control {
     .lu-gift-tarjeta,
     .lu-gift-chip {
         transition: none;
-    }
-
-    .lu-gift-tarjeta.is-latido .lu-gift-monto {
-        animation: none;
     }
 }

@@ -750,13 +750,13 @@ Página de inicio
 		description = Rótulo chico en la tarjeta, arriba a la derecha
 	text
 		name = lupita_gift_montos
-		description = Montos rápidos, separados por coma, sin puntos (ejemplo: 50000,75000,100000,150000; los menores al mínimo no se muestran)
+		description = Montos rápidos, separados por coma, sin puntos (ejemplo: 50000,100000,500000,1000000; los menores al mínimo no se muestran)
 	text
 		name = lupita_gift_min
 		description = Monto mínimo de la barra (ejemplo: 50000)
 	text
 		name = lupita_gift_max
-		description = Monto máximo de la barra (ejemplo: 200000)
+		description = Monto máximo de la barra (ejemplo: 3000000)
 	text
 		name = lupita_gift_paso
 		description = De a cuánto sube la barra (ejemplo: 5000)
