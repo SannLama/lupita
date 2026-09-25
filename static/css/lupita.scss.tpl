@@ -10355,3 +10355,75 @@ body .lu-ml .lu-ml-nombre {
     background-color: #fff;
     object-fit: contain;
 }
+
+/* Login: "Crea tu usuario para usar tu wishlist" entre "Olvidaste tu
+   contrasena" y el boton (Santiago, 2026-09-25) */
+.lu-login-crear {
+    margin: 0 0 1.25rem;
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--lu-tinta);
+}
+
+.lu-login-crear a {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+}
+
+/* Pagina Envios: aviso de proximamente (Santiago, 2026-09-25) */
+.lu-envios-caja {
+    max-width: 40rem;
+    margin: clamp(1rem, 3vw, 2rem) auto clamp(2.5rem, 6vw, 4rem);
+    text-align: center;
+}
+
+body .lu-envios .lu-envios-titulo {
+    margin: 0 0 1.5rem;
+    font-family: var(--lu-micro);
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    font-weight: 700;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+    color: var(--lu-tinta);
+}
+
+.lu-envios-paso {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.8rem;
+    margin: 0 0 1.5rem;
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: left;
+    color: var(--lu-tinta);
+}
+
+.lu-envios-numero {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border: 1.5px solid var(--lu-acento);
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--lu-acento);
+    text-box: trim-both cap alphabetic;
+}
+
+.lu-envios-link {
+    font-family: var(--lu-texto);
+    font-weight: 700;
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.lu-envios-link:hover {
+    color: var(--lu-acento);
+}

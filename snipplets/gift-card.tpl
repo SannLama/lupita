@@ -111,7 +111,7 @@
                 <h1 class="lu-gift-titulo">{{ settings.lupita_gift_titulo | default(page.name) }}</h1>
                 {# Los textos por defecto van aca tambien: la tienda en vivo no toma
                    defaults.txt para campos nuevos del panel #}
-                <p class="lu-gift-bajada">{{ settings.lupita_gift_texto ?: 'El regalo que siempre queda bien: elegí el monto, escribile unas palabras y quien la recibe elige lo que más le guste en cualquiera de nuestras tiendas.' }}</p>
+                <p class="lu-gift-bajada">{{ settings.lupita_gift_texto ?: 'El regalo que siempre queda bien: elegí el monto, escribile unas palabras y quien la recibe tiene asesoramiento personalizado para elegir lo que más le guste.' }}</p>
 
                 <fieldset class="lu-gift-paso">
                     <legend class="lu-gift-paso-rotulo"><span>1</span>{{ 'Elegí el monto' | translate }}</legend>
@@ -151,7 +151,7 @@
                     {{ 'Pedir mi Gift Card por WhatsApp' | translate }}
                 </button>
 
-                <p class="lu-gift-legal">{{ settings.lupita_gift_legal ?: 'Se canjea en nuestras tres tiendas de Lomas de Zamora y Banfield.' }}</p>
+                <p class="lu-gift-legal">{{ settings.lupita_gift_legal ?: 'Se canjea en nuestra tienda de Lomitas (España 137).' }}</p>
             </form>
         </div>
 

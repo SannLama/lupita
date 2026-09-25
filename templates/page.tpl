@@ -61,6 +61,20 @@
 
 	{# Institutional page  #}
 
+	{# Envios (Santiago, 2026-09-25): todavia no hay envios; el texto viejo del
+	   contenido de la pagina (compras con envio, plazos, costos, sucursal) no
+	   se muestra y en su lugar va el aviso de proximamente. #}
+	{% if page.handle == 'envios' %}
+		<section class="lu-envios" data-store="page-envios">
+			<div class="container">
+				<div class="lu-envios-caja">
+					<h2 class="lu-envios-titulo">{{ 'Próximamente envíos a todo el país' | translate }}</h2>
+					<p class="lu-envios-paso"><span class="lu-envios-numero" aria-hidden="true">1</span><span>{{ 'Agregá tus favoritos a la wishlist y vení a nuestras tiendas a probarte y asesorarte.' | translate }}</span></p>
+					<a class="lu-envios-link" href="{{ store.url }}/locales/">{{ 'Conocé nuestras tiendas' | translate }} &rarr;</a>
+				</div>
+			</div>
+		</section>
+	{% else %}
 	<section class="user-content">
 		<div class="container">
 			<div class="row justify-content-md-center">
@@ -70,5 +84,6 @@
 			</div>
 		</div>
 	</section>
+	{% endif %}
 
 {% endif %}

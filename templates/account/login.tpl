@@ -59,6 +59,10 @@
 							{% block input_help_text %}{{ '¿Olvidaste tu contraseña?' | translate }}{% endblock input_help_text %}
 						{% endembed %}
 
+						{# Crear usuario, entre "¿Olvidaste tu contraseña?" y el boton (Santiago, 2026-09-25:
+						   "crear usuario para usar wishlist"). Antes se habia sacado (2026-09-15). #}
+						<p class="lu-login-crear">{{ '¿No tenés usuario?' | translate }} <a href="{{ store.customer_register_url }}" class="btn-link-primary">{{ 'Creá tu usuario para usar tu wishlist' | translate }}</a></p>
+
 						{% if result.invalid %}
 						    <div class="alert alert-danger">{{ 'Estos datos no son correctos. ¿Chequeaste que estén bien escritos?' | translate }}</div>
 						{% endif %}
@@ -67,6 +71,6 @@
 				{% endembed %}
 			</div>
 		</div>
-		{# Sin link a "Crear cuenta" (Santiago, 2026-09-15) #}
+		{# El link a crear usuario va dentro del formulario, arriba del boton #}
 	</div>
 </section>
