@@ -10192,7 +10192,13 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
 @media (min-width: 768px) {
     body .nube-slider-home .swiper-slide .swiper-text,
     body .nube-slider-home .swiper-slide-active .swiper-text {
-        top: calc(100vh - 85px - 1rem - 1.05 * clamp(3.5rem, 8vw, 7rem));
+        top: calc(100vh - 73px - 1rem - 1.05 * clamp(3.5rem, 8vw, 7rem));
         bottom: auto;
+    }
+
+    /* La bajada bien separada del titulo, para que no asome al entrar
+       (medido: el hero arranca a 73px) */
+    body .nube-slider-home .swiper-text .swiper-description {
+        margin-top: 2.5rem !important;
     }
 }
