@@ -2337,6 +2337,85 @@ const MOVIL = `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title
 <script>document.getElementById('f').src = new URLSearchParams(location.search).get('p') || 'home.html'</script>
 </body></html>`
 
+
+/* Gift Card (templates/page.tpl con handle gift-card -> snipplets/gift-card.tpl).
+   El markup replica el del snipplet con los textos de defaults.txt; el script
+   se copia tal cual del tpl (sin los comentarios Twig), igual que el logo. */
+function paginaGift(settings) {
+  const tpl = readFileSync(join(RAIZ, 'snipplets/gift-card.tpl'), 'utf8')
+  const script = tpl.slice(tpl.indexOf('<script')).replace(/\{#[\s\S]*?#\}/g, '')
+  const logo = readFileSync(join(RAIZ, 'snipplets/svg/logo-lupita.tpl'), 'utf8')
+    .replace(/\{#[\s\S]*?#\}/g, '').replace('{{ svg_custom_class }}', 'lu-gift-logo').replace('{{ store.name }}', 'Ahi! Lupita')
+  const montos = settings.lupita_gift_montos.split(',').map(m => m.trim())
+  const inicial = montos[1]
+  return `${CABEZA('Gift Card')}
+<body class="template-page">
+${CABECERA(settings)}
+<section class="lu-gift js-lu-gift" data-store="page-gift-card"
+    data-min="${settings.lupita_gift_min}" data-max="${settings.lupita_gift_max}" data-paso="${settings.lupita_gift_paso}"
+    data-whatsapp="5491128622903" data-contacto="contacto.html">
+  <div class="container">
+    <div class="lu-gift-grilla">
+      <div class="lu-gift-escena">
+        <div class="lu-gift-tarjeta js-lu-gift-tarjeta">
+          <div class="lu-gift-cara lu-gift-frente">
+            <span class="lu-gift-brillo" aria-hidden="true"></span>
+            <div class="lu-gift-arriba">
+              ${logo.trim()}
+              <span class="lu-gift-rotulo">${settings.lupita_gift_rotulo_es}</span>
+            </div>
+            <p class="lu-gift-nombre">Gift Card</p>
+            <div class="lu-gift-abajo">
+              <p class="lu-gift-monto" aria-live="polite">$<span class="js-lu-gift-monto">${inicial}</span></p>
+              <p class="lu-gift-para js-lu-gift-para-frente" hidden></p>
+            </div>
+          </div>
+          <div class="lu-gift-cara lu-gift-dorso" aria-hidden="true">
+            <span class="lu-gift-banda"></span>
+            <dl class="lu-gift-datos">
+              <dt>Para</dt><dd class="js-lu-gift-dorso-para">&nbsp;</dd>
+              <dt>De</dt><dd class="js-lu-gift-dorso-de">&nbsp;</dd>
+            </dl>
+            <p class="lu-gift-mensaje js-lu-gift-dorso-mensaje"></p>
+            <p class="lu-gift-dorso-pie"><span>$<span class="js-lu-gift-monto">${inicial}</span></span><span>Ahí! Lupita</span></p>
+          </div>
+        </div>
+        <button type="button" class="lu-gift-girar js-lu-gift-girar">Dar vuelta la tarjeta</button>
+      </div>
+      <form class="lu-gift-form js-lu-gift-form" novalidate>
+        <h1 class="lu-gift-titulo">${settings.lupita_gift_titulo_es}</h1>
+        <p class="lu-gift-bajada">${settings.lupita_gift_texto_es}</p>
+        <fieldset class="lu-gift-paso">
+          <legend class="lu-gift-paso-rotulo"><span>1</span>Elegí el monto</legend>
+          <div class="lu-gift-montos" role="group" aria-label="Montos rápidos">
+            ${montos.map(m => `<button type="button" class="lu-gift-chip js-lu-gift-chip${m === inicial ? ' is-activo' : ''}" data-monto="${m}" aria-pressed="${m === inicial}">$${m}</button>`).join('\n            ')}
+          </div>
+          <label class="lu-gift-rango-rotulo" for="lu-gift-rango">O deslizá hasta el monto que quieras</label>
+          <input id="lu-gift-rango" class="lu-gift-rango js-lu-gift-rango" type="range" min="${settings.lupita_gift_min}" max="${settings.lupita_gift_max}" step="${settings.lupita_gift_paso}" value="${inicial}">
+          <div class="lu-gift-rango-extremos" aria-hidden="true"><span>$${settings.lupita_gift_min}</span><span>$${settings.lupita_gift_max}</span></div>
+        </fieldset>
+        <fieldset class="lu-gift-paso">
+          <legend class="lu-gift-paso-rotulo"><span>2</span>Personalizala <em>(opcional)</em></legend>
+          <div class="lu-gift-campos">
+            <label class="lu-gift-campo"><span>Para</span><input type="text" class="form-control js-lu-gift-para" maxlength="28" autocomplete="off" placeholder="Nombre de quien la recibe"></label>
+            <label class="lu-gift-campo"><span>De</span><input type="text" class="form-control js-lu-gift-de" maxlength="28" autocomplete="off" placeholder="Tu nombre"></label>
+            <label class="lu-gift-campo lu-gift-campo-ancho"><span>Mensaje</span><textarea class="form-control js-lu-gift-mensaje" rows="3" maxlength="110" placeholder="Unas palabras para acompañarla"></textarea></label>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary btn-block lu-gift-cta">Pedir mi Gift Card por WhatsApp</button>
+        <p class="lu-gift-legal">${settings.lupita_gift_legal_es}</p>
+      </form>
+    </div>
+  </div>
+</section>
+${script}
+${PIE}
+${PANELES}
+</body>
+</html>
+`
+}
+
 /* ---------------------------------------------------------------------------
    9. Escribir
    --------------------------------------------------------------------------- */
@@ -2358,6 +2437,7 @@ writeFileSync(join(SALIDA, 'contrasena.html'), paginaContrasena())
 writeFileSync(join(SALIDA, 'blog.html'), paginaBlog(settings))
 writeFileSync(join(SALIDA, 'nota.html'), paginaNota(settings))
 writeFileSync(join(SALIDA, 'sobre-nosotros.html'), paginaSobre(settings))
+writeFileSync(join(SALIDA, 'gift-card.html'), paginaGift(settings))
 writeFileSync(join(SALIDA, 'preguntas-frecuentes.html'), paginaFaq(settings))
 writeFileSync(join(SALIDA, 'medios-de-pago.html'), paginaLupita(settings, 'pagos'))
 writeFileSync(join(SALIDA, 'como-comprar.html'), paginaLupita(settings, 'comprar'))

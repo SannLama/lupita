@@ -7712,3 +7712,475 @@ body .cart-item-input.form-control {
     border-radius: 0;
 }
 
+
+/* ============================================================================
+   Gift Card (2026-09-25) - snipplets/gift-card.tpl
+   La tarjeta es un dibujo 2D con proporcion de tarjeta real (85,6 x 54 mm):
+   frente turquesa con el logo, dorso crema con Para / De / mensaje. Se da
+   vuelta con rotateY; la inclinacion que sigue al mouse la pone el JS en
+   --lu-gift-rx / --lu-gift-ry. Las medidas de adentro van en cqi (ancho de
+   la tarjeta) para que el dibujo escale entero, como una imagen.
+   ============================================================================ */
+.lu-gift {
+    border-top: 1px solid var(--lu-linea);
+    padding-block: clamp(2.5rem, 6vw, 5.5rem);
+}
+
+.lu-gift-grilla {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+}
+
+@media (min-width: 900px) {
+    .lu-gift-grilla {
+        grid-template-columns: 7fr 5fr;
+    }
+
+    .lu-gift-escena {
+        position: sticky;
+        top: 7rem;
+    }
+}
+
+.lu-gift-escena {
+    perspective: 1400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.lu-gift-tarjeta {
+    --lu-gift-rx: 0deg;
+    --lu-gift-ry: 0deg;
+    --lu-gift-giro: 0deg;
+    --lu-gift-bx: 30%;
+    --lu-gift-by: 20%;
+    position: relative;
+    width: 100%;
+    max-width: 36rem;
+    aspect-ratio: 85.6 / 54;
+    container-type: inline-size;
+    transform-style: preserve-3d;
+    transform: rotateX(var(--lu-gift-rx)) rotateY(calc(var(--lu-gift-ry) + var(--lu-gift-giro)));
+    transition: transform 650ms var(--lu-entrada);
+}
+
+.lu-gift-tarjeta.is-dorso {
+    --lu-gift-giro: 180deg;
+}
+
+.lu-gift-cara {
+    position: absolute;
+    inset: 0;
+    border-radius: 4.5cqi;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    box-shadow: 0 2.5cqi 6cqi -2cqi rgba(10, 10, 10, 0.35), 0 0 0 1px rgba(10, 10, 10, 0.06);
+}
+
+/* Frente */
+.lu-gift-frente {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 6cqi 7cqi;
+    color: var(--lu-tinta);
+    background-color: var(--lu-acento);
+    background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 2.2cqi);
+}
+
+/* Filete interior, como el borde impreso de una tarjeta */
+.lu-gift-frente::after {
+    content: "";
+    position: absolute;
+    inset: 2.6cqi;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 2.6cqi;
+    pointer-events: none;
+}
+
+.lu-gift-brillo {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--lu-gift-bx) var(--lu-gift-by), rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0) 55%);
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+}
+
+.lu-gift-arriba,
+.lu-gift-abajo {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3cqi;
+}
+
+.lu-gift-abajo {
+    align-items: flex-end;
+}
+
+.lu-gift-logo {
+    width: 13cqi;
+    height: auto;
+    color: var(--lu-papel);
+}
+
+.lu-gift-rotulo {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 2.8cqi;
+    line-height: 1;
+    color: var(--lu-tinta);
+}
+
+.lu-gift-nombre {
+    position: relative;
+    margin: 0;
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: 15cqi;
+    line-height: 1;
+    color: var(--lu-papel);
+    text-shadow: 0 0.4cqi 1.4cqi rgba(10, 10, 10, 0.18);
+}
+
+.lu-gift-monto {
+    margin: 0;
+    font-family: "Against", var(--lu-sub);
+    font-weight: 400;
+    font-size: 10.5cqi;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    transform-origin: left bottom;
+}
+
+.lu-gift-tarjeta.is-latido .lu-gift-monto {
+    animation: lu-gift-latido 420ms var(--lu-entrada);
+}
+
+@keyframes lu-gift-latido {
+    0% { transform: scale(1); }
+    35% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+}
+
+.lu-gift-para {
+    margin: 0;
+    max-width: 45%;
+    font-family: var(--lu-sub);
+    font-style: italic;
+    font-size: 3.4cqi;
+    line-height: 1.2;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+/* Dorso */
+.lu-gift-dorso {
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    padding: 0 7cqi 5cqi;
+    color: var(--lu-tinta);
+    background-color: var(--lu-papel);
+}
+
+.lu-gift-banda {
+    display: block;
+    height: 8cqi;
+    margin: 5cqi -7cqi 4cqi;
+    background-color: var(--lu-acento);
+}
+
+.lu-gift-datos {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 3cqi;
+    row-gap: 2cqi;
+    margin: 0;
+    font-size: 4.2cqi;
+}
+
+.lu-gift-datos dt {
+    font-family: var(--lu-micro);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 2.9cqi;
+    align-self: end;
+    color: var(--lu-gris);
+}
+
+.lu-gift-datos dd {
+    margin: 0;
+    padding-bottom: 0.6cqi;
+    border-bottom: 1px solid var(--lu-linea);
+    font-family: var(--lu-sub);
+    line-height: 1.2;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.lu-gift-mensaje {
+    flex: 1;
+    margin: 3cqi 0 1cqi;
+    font-family: var(--lu-macro);
+    font-size: 4.6cqi;
+    line-height: 1.15;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+
+.lu-gift-dorso-pie {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 2.9cqi;
+    color: var(--lu-gris);
+}
+
+.lu-gift-girar {
+    padding: 0.25rem 0;
+    border: 0;
+    border-bottom: 1px solid currentColor;
+    background: none;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.72rem;
+    color: var(--lu-tinta);
+    cursor: pointer;
+}
+
+/* Formulario */
+.lu-gift-titulo {
+    margin: 0 0 1rem;
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.05;
+}
+
+.lu-gift-bajada {
+    max-width: 42ch;
+    margin: 0 0 2rem;
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.lu-gift-paso {
+    min-width: 0;
+    margin: 0 0 2rem;
+    padding: 0;
+    border: 0;
+}
+
+.lu-gift-paso-rotulo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.78rem;
+}
+
+.lu-gift-paso-rotulo span {
+    display: inline-grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+    font-size: 0.72rem;
+    letter-spacing: 0;
+}
+
+.lu-gift-paso-rotulo em {
+    font-style: normal;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--lu-gris);
+}
+
+.lu-gift-montos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.lu-gift-chip {
+    min-height: 44px;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--lu-tinta);
+    border-radius: var(--lu-radio-pildora);
+    background-color: transparent;
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease, transform 160ms ease;
+}
+
+.lu-gift-chip:hover {
+    background-color: color-mix(in srgb, var(--lu-acento) 35%, transparent);
+}
+
+.lu-gift-chip:active {
+    transform: scale(0.97);
+}
+
+.lu-gift-chip.is-activo {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+.lu-gift-rango-rotulo {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    color: var(--lu-gris);
+}
+
+.lu-gift-rango {
+    --lu-gift-lleno: 0%;
+    width: 100%;
+    height: 44px;
+    margin: 0;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.lu-gift-rango::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, var(--lu-tinta) var(--lu-gift-lleno), var(--lu-linea) var(--lu-gift-lleno));
+}
+
+.lu-gift-rango::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, var(--lu-tinta) var(--lu-gift-lleno), var(--lu-linea) var(--lu-gift-lleno));
+}
+
+.lu-gift-rango::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px;
+    height: 26px;
+    margin-top: -11px;
+    border: 3px solid var(--lu-tinta);
+    border-radius: 50%;
+    background-color: var(--lu-acento);
+    transition: transform 160ms ease;
+}
+
+.lu-gift-rango::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border: 3px solid var(--lu-tinta);
+    border-radius: 50%;
+    background-color: var(--lu-acento);
+}
+
+.lu-gift-rango:active::-webkit-slider-thumb {
+    transform: scale(1.12);
+}
+
+.lu-gift-rango:focus-visible {
+    outline: 2px solid var(--lu-tinta);
+    outline-offset: 4px;
+}
+
+.lu-gift-rango-extremos {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--lu-micro);
+    font-size: 0.72rem;
+    letter-spacing: var(--lu-track);
+    color: var(--lu-gris);
+}
+
+.lu-gift-campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+}
+
+.lu-gift-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0;
+}
+
+.lu-gift-campo span {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.7rem;
+    color: var(--lu-gris);
+}
+
+.lu-gift-campo-ancho {
+    grid-column: 1 / -1;
+}
+
+.lu-gift-campo textarea {
+    resize: vertical;
+}
+
+.lu-gift-cta {
+    margin-top: 0.5rem;
+}
+
+.lu-gift-legal {
+    margin: 1rem 0 0;
+    font-family: var(--lu-texto);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--lu-gris);
+}
+
+.lu-gift .lu-pagina-extra {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+@media (max-width: 420px) {
+    .lu-gift-campos {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-gift-tarjeta,
+    .lu-gift-chip {
+        transition: none;
+    }
+
+    .lu-gift-tarjeta.is-latido .lu-gift-monto {
+        animation: none;
+    }
+}

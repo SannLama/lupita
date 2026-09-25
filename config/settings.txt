@@ -736,6 +736,34 @@ Página de inicio
 		name = lupita_comprar_5_texto
 		description = Paso 5: texto
 	collapse
+		title = Gift Card
+	description
+		description = Página "Gift Card": creala en Mi Tiendanube > Páginas con ese nombre y sumala al menú. Muestra la tarjeta dibujada; el monto que se elige se escribe en la tarjeta y el pedido se manda por WhatsApp.
+	i18n_input
+		name = lupita_gift_titulo
+		description = Título (vacío: el nombre de la página)
+	i18n_input
+		name = lupita_gift_texto
+		description = Texto de presentación
+	i18n_input
+		name = lupita_gift_rotulo
+		description = Rótulo chico en la tarjeta, arriba a la derecha
+	text
+		name = lupita_gift_montos
+		description = Montos rápidos, separados por coma, sin puntos (ejemplo: 20000,30000,50000,100000)
+	text
+		name = lupita_gift_min
+		description = Monto mínimo de la barra (ejemplo: 10000)
+	text
+		name = lupita_gift_max
+		description = Monto máximo de la barra (ejemplo: 200000)
+	text
+		name = lupita_gift_paso
+		description = De a cuánto sube la barra (ejemplo: 5000)
+	i18n_input
+		name = lupita_gift_legal
+		description = Letra chica, debajo del botón (validez, dónde se canjea)
+	collapse
 		title = Preguntas frecuentes
 	description
 		description = La página "Preguntas frecuentes": creala en Mi Tiendanube > Páginas con ese nombre y sumala a los menús. Cada pregunta se despliega al tocarla; las que queden vacías no se muestran. El segundo párrafo de cada respuesta es opcional.

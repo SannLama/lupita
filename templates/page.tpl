@@ -14,8 +14,14 @@
    pasos de compra. #}
 {% set lu_es_pagos = page.handle == 'medios-de-pago' or page.name|lower == 'medios de pago' %}
 {% set lu_es_comprar = page.handle == 'como-comprar' or page.name|lower in ['cómo comprar', 'como comprar'] %}
+{# "Gift Card" (2026-09-25): tarjeta 2D con el monto a eleccion, snipplets/gift-card.tpl #}
+{% set lu_es_gift = 'gift-card' in page.handle or 'giftcard' in page.handle or ('gift' in page.name|lower and 'card' in page.name|lower) %}
 
-{% if lu_es_faq %}
+{% if lu_es_gift %}
+
+	{% include 'snipplets/gift-card.tpl' %}
+
+{% elseif lu_es_faq %}
 
 	{% include 'snipplets/preguntas-frecuentes.tpl' %}
 
