@@ -9197,8 +9197,11 @@ h6 {
 
 .lu-gift-agua {
     position: absolute;
-    left: -2cqi;
-    bottom: -9cqi;
+    /* El borde izquierdo corta la A por la mitad, como en el diseno del
+       club (Santiago, 2026-09-25: "que la A! se vea a la mitad"): el logo
+       mide ~1.24 veces su alto de ancho y la A ocupa ~64% de eso. */
+    left: -14cqi;
+    bottom: -6cqi;
     width: auto;
     height: 92%;
     color: var(--lu-blanco);
