@@ -9527,3 +9527,27 @@ body .lu-gift-titulo {
     text-align: center;
     margin-inline: auto;
 }
+
+/* Sin palabras viudas (Santiago, 2026-09-25: "tiendas." y
+   "transferencia." quedaban solas en el ultimo renglon). Los textos cortos
+   centrados se reparten parejo entre renglones (balance); los parrafos
+   largos solo evitan dejar una palabra sola al final (pretty). */
+.service-item p,
+.service-title,
+.lu-antes-pie-texto,
+.lu-antes-pie-titulo,
+.lu-tiendas-bajada,
+.lu-gift-bajada,
+.lu-promo-bajada,
+.lu-coleccion-temporada,
+.lu-backstage-texto,
+.swiper-description,
+.textbanner-paragraph {
+    text-wrap: balance;
+}
+
+p,
+li,
+.user-content {
+    text-wrap: pretty;
+}
