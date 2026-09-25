@@ -57,7 +57,9 @@
 				r.setStart(nodo, ini);
 				r.setEnd(nodo, ini + 1);
 				var c = r.getBoundingClientRect();
-				var centro = c.left + c.width / 2;
+				{# + 0.35em de la cifra: un poco mas a la derecha que la mitad del 2
+				   (Santiago: "tampoco tanto para la izquierda") #}
+				var centro = c.left + c.width / 2 + 0.35 * parseFloat(getComputedStyle(cifra).fontSize);
 				var margen = 16;
 				var ancho = document.documentElement.clientWidth;
 				{# Con `translate` y no `transform`: el boton anima transform al
