@@ -37,16 +37,16 @@
         </ul>
     </nav>
     <script type="text/javascript">
-        {# Si la fila de subcategorias no entra hacia la derecha, la corre a
-           la izquierda lo justo para que quede dentro de la pantalla #}
+        {# La fila de subcategorias sale siempre desde la seccion; si no entra
+           hasta el borde derecho, se parte en renglones (ancho maximo = lo que
+           queda hasta el borde). No se corre a la izquierda. #}
         (function () {
             document.querySelectorAll('.lu-nav-desk-con-sub').forEach(function (li) {
                 var panel = li.querySelector('.lu-nav-desk-panel');
                 function ajustar() {
-                    panel.style.setProperty('--lu-nd-corrida', '0px');
-                    var r = panel.getBoundingClientRect();
-                    var sobra = r.right - (document.documentElement.clientWidth - 16);
-                    if (sobra > 0) panel.style.setProperty('--lu-nd-corrida', Math.ceil(sobra) + 'px');
+                    var izq = li.getBoundingClientRect().left;
+                    var disponible = document.documentElement.clientWidth - 16 - izq + 18;
+                    panel.style.setProperty('--lu-nd-max', Math.max(220, Math.floor(disponible)) + 'px');
                 }
                 li.addEventListener('mouseenter', ajustar);
                 li.addEventListener('focusin', ajustar);

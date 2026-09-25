@@ -10041,3 +10041,67 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
         row-gap: 0;
     }
 }
+
+/* Desplegable: siempre desde la seccion; si no entra, dos renglones en vez
+   de correrse a la izquierda (Santiago, 2026-09-25). El ancho maximo lo
+   pone el script (--lu-nd-max = lo que queda hasta el borde derecho). */
+@media (min-width: 992px) {
+    .lu-nav-desk-panel {
+        left: -1.1rem;
+        max-width: var(--lu-nd-max, calc(100vw - 2rem));
+    }
+
+    .lu-nav-desk-sub {
+        flex-wrap: wrap;
+        row-gap: 0.75rem;
+    }
+}
+
+/* Celular: corazon y bolsa con el tamano y el grosor de las 3 rayas del
+   menu (Santiago, 2026-09-25). Las rayas van a 28px con un trazo de ~3px;
+   corazon y bolsa suben a 26/24px (a igual caja la bolsa ocupa mas alto) y
+   un contorno en unidades del SVG lleva su trazo a ~3px. */
+@media (max-width: 767px) {
+    .lu-favs-link .icon-inline,
+    .cart-summary .icon-inline {
+        stroke: currentColor;
+        stroke-linejoin: round;
+        overflow: visible;
+    }
+
+    .lu-favs-link .icon-inline {
+        font-size: 26px;
+        stroke-width: 14px;
+    }
+
+    .cart-summary .icon-inline {
+        font-size: 24px;
+        stroke-width: 16px;
+    }
+}
+
+/* Carrusel: sombra marron POR ENCIMA de la foto y debajo del texto
+   (Santiago, 2026-09-25: "la imagen tapa a la sombra"). Degrade desde abajo,
+   donde van los textos, que se desvanece hacia arriba. */
+.nube-slider-home .swiper-slide {
+    position: relative;
+}
+
+.nube-slider-home .swiper-slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to top, rgba(46, 29, 33, 0.62) 0%, rgba(46, 29, 33, 0.28) 38%, rgba(46, 29, 33, 0) 68%);
+    pointer-events: none;
+}
+
+.nube-slider-home .swiper-text {
+    z-index: 2;
+}
+
+/* Franja de servicios (debajo del carrusel): mas aire entre el icono y el
+   titulo (Santiago, 2026-09-25) */
+.service-item {
+    gap: 0.95rem;
+}
