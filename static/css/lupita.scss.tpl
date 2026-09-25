@@ -9352,3 +9352,22 @@ body .lu-gift-titulo {
 .lu-gift-frente .lu-gift-nombre {
     color: var(--lu-papel);
 }
+
+/* "Gift Card" respeta el margen (Santiago, 2026-09-25): la cola de la "d"
+   de Pinyon se dibuja 0.334em mas alla de la caja del texto (medido con
+   measureText: 29px sobre 86.8px). Con ese mismo margen en em la tinta
+   termina justo en el margen de la tarjeta, a cualquier tamano. */
+.lu-gift-frente .lu-gift-nombre {
+    margin-right: 0.34em;
+}
+
+/* A! cortado en la mitad exacta de la A y en dorado macizo (Santiago,
+   2026-09-25). Medido en el logo (viewBox 337x271): la A ocupa del 1.1% al
+   58.8% del ancho, centro en 29.95%. Con 88% del alto de la tarjeta
+   (63.08cqi) el logo mide 55.51cqi de alto y 69.03cqi de ancho: su centro
+   de la A queda en el borde con left = -0.2995 * 69.03 = -20.67cqi. */
+.lu-gift-agua {
+    left: -20.67cqi;
+    color: #c9a24d;
+    opacity: 1;
+}
