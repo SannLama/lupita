@@ -9825,3 +9825,18 @@ body .btn.btn-link {
         line-height: 1;
     }
 }
+
+/* Banner de promocion: la cifra en la cursiva del sitio (Pinyon, sin
+   versal: una script en mayusculas no se lee) y la bajada en crema
+   (Santiago, 2026-09-25). La cifra sigue en turquesa. */
+.lu-promo-cifra {
+    font-family: "Pinyon Script", "Lora", Georgia, serif;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1.05;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+}
+
+.lu-promo-bajada {
+    color: var(--lu-papel);
+}
