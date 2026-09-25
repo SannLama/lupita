@@ -7787,7 +7787,9 @@ body .cart-item-input.form-control {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 6cqi 7cqi;
+    /* Mismo aire en los cuatro lados: filete a 3.5cqi del borde y el
+       contenido a 4.5cqi del filete (Santiago, 2026-09-25: respetar margenes) */
+    padding: 8cqi;
     color: var(--lu-tinta);
     background-color: var(--lu-acento);
     background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 2.2cqi);
@@ -7797,9 +7799,9 @@ body .cart-item-input.form-control {
 .lu-gift-frente::after {
     content: "";
     position: absolute;
-    inset: 2.6cqi;
+    inset: 3.5cqi;
     border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 2.6cqi;
+    border-radius: 2cqi;
     pointer-events: none;
 }
 
@@ -7855,7 +7857,7 @@ body .cart-item-input.form-control {
     font-family: "Against", var(--lu-sub);
     font-weight: 400;
     font-size: 10.5cqi;
-    line-height: 0.9;
+    line-height: 1;
     letter-spacing: -0.01em;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
@@ -7882,7 +7884,7 @@ body .cart-item-input.form-control {
     transform: rotateY(180deg);
     display: flex;
     flex-direction: column;
-    padding: 0 7cqi 5cqi;
+    padding: 0 8cqi 7cqi;
     color: var(--lu-tinta);
     background-color: var(--lu-papel);
 }
@@ -7890,7 +7892,7 @@ body .cart-item-input.form-control {
 .lu-gift-banda {
     display: block;
     height: 8cqi;
-    margin: 5cqi -7cqi 4cqi;
+    margin: 6cqi -8cqi 4cqi;
     background-color: var(--lu-acento);
 }
 
