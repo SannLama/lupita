@@ -788,7 +788,7 @@ hr,
            de lo que se ve al entrar. */
         /* El titulo queda al pie de lo que se ve al entrar y la bajada
            aparece al scrollear (Santiago, 2026-09-24). */
-        bottom: calc(10vh + 7.75rem); /* + la cabecera (~85px): el nombre de la marca entero sin scrollear (Santiago, 2026-09-25) */
+        bottom: calc(10vh + 3.5rem);
         max-width: min(95vw, 80rem);
     }
 
@@ -10178,5 +10178,21 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
 @media (min-width: 992px) {
     .lu-nav-desk-sub {
         justify-content: center;
+    }
+}
+
+/* Carrusel en escritorio como el viejo (Santiago, 2026-09-25): al entrar se
+   ve SOLO el titulo, apoyado al pie de la pantalla, y la bajada y el boton
+   aparecen al scrollear. Antes el bloque se anclaba por abajo, asi que la
+   altura del titulo dependia de si el slide tenia bajada/boton (el de la
+   fachada, sin bajada, quedaba cortado). Ahora se ancla por arriba: el pie
+   del titulo cae 1rem antes del borde de la pantalla en todos los slides.
+   85px = barra de anuncio + cabecera (donde empieza el hero); 1.05 = el
+   line-height del titulo; el clamp es el mismo tamano del titulo. */
+@media (min-width: 768px) {
+    body .nube-slider-home .swiper-slide .swiper-text,
+    body .nube-slider-home .swiper-slide-active .swiper-text {
+        top: calc(100vh - 85px - 1rem - 1.05 * clamp(3.5rem, 8vw, 7rem));
+        bottom: auto;
     }
 }
