@@ -13,7 +13,8 @@
 
 {% if not settings.lupita_promo_ocultar and lu_pr_cifra %}
 	{% set lu_pr_img = 'promo.jpg' | has_custom_image %}
-	{% set lu_pr_texto = settings.lupita_promo_texto ?: 'Abonando con efectivo en nuestras tres tiendas' %}
+	{# "|" parte la bajada en renglones (Santiago, 2026-09-25: dos lineas) #}
+	{% set lu_pr_texto = settings.lupita_promo_texto ?: 'Abonando con efectivo|en nuestras tiendas' %}
 	{% set lu_pr_url = settings.lupita_promo_url ?: settings.lupita_tiendas_url %}
 	{% set lu_pr_boton = settings.lupita_promo_boton ?: 'Conocer las tiendas' %}
 	{% set lu_pr_externo = lu_pr_url and 'http' in lu_pr_url and 'ahilupita' not in lu_pr_url %}
@@ -27,7 +28,7 @@
 			{% endif %}
 			<h2 class="lu-promo-cifra">{{ lu_pr_cifra }}</h2>
 			{% if lu_pr_texto %}
-				<p class="lu-promo-bajada">{{ lu_pr_texto }}</p>
+				<p class="lu-promo-bajada">{% for lu_pr_linea in lu_pr_texto | split('|') %}<span class="lu-promo-linea">{{ lu_pr_linea | trim }}</span>{% endfor %}</p>
 			{% endif %}
 			{% if lu_pr_url and lu_pr_boton %}
 				<a href="{% if lu_pr_externo %}{{ lu_pr_url }}{% else %}{{ lu_pr_url | setting_url }}{% endif %}" class="btn btn-line btn-small lu-promo-boton"{% if lu_pr_externo %} target="_blank" rel="noopener"{% endif %}>{{ lu_pr_boton }}</a>

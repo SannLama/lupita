@@ -9977,3 +9977,8 @@ body .nube-slider-home .swiper-text .swiper-btn {
 body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
     color: var(--lu-papel);
 }
+
+/* Bajada del banner de promocion en renglones separados (el "|" del texto) */
+.lu-promo-linea {
+    display: block;
+}
