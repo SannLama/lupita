@@ -8176,3 +8176,281 @@ body .cart-item-input.form-control {
         transition: none;
     }
 }
+
+/* ============================================================================
+   Grupo 1 del PDF "Paginas Web implementar" (2026-09-25)
+   Coleccion, Banner de promocion, New In y franja antes del pie.
+   ============================================================================ */
+
+/* Boton de linea sobre foto: el mismo de las franjas sandwich */
+.lu-coleccion .btn,
+.lu-promo .btn {
+    color: var(--lu-papel) !important;
+    border-color: var(--lu-papel) !important;
+    background-color: transparent !important;
+}
+
+/* ---- Coleccion: foto o video de campana con el nombre en grande ---- */
+.lu-coleccion {
+    position: relative;
+    width: 100%;
+    height: 78vh;
+    min-height: 420px;
+    max-height: 860px;
+    overflow: hidden;
+    margin: 0;
+}
+
+.lu-coleccion-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    color: var(--lu-papel);
+    text-decoration: none;
+}
+
+.lu-coleccion-link:hover,
+.lu-coleccion-link:focus {
+    color: var(--lu-papel);
+    text-decoration: none;
+}
+
+.lu-coleccion-media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 420ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.lu-coleccion-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.22);
+    pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    a.lu-coleccion-link:hover .lu-coleccion-media {
+        transform: scale(1.03);
+    }
+}
+
+.lu-coleccion-texto {
+    position: absolute;
+    left: var(--lu-margen);
+    right: var(--lu-margen);
+    bottom: clamp(2rem, 7vh, 4.5rem);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    max-width: 44rem;
+}
+
+.lu-coleccion-rotulo {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.78rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid currentColor;
+}
+
+.lu-coleccion-titulo {
+    margin: 0;
+    font-family: "Lora", Georgia, serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    color: var(--lu-papel);
+    text-wrap: balance;
+}
+
+.lu-coleccion-temporada {
+    font-family: "Lora", Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+}
+
+.lu-coleccion-boton {
+    margin-top: 0.75rem;
+}
+
+/* ---- Banner de promocion: un solo mensaje de pago ---- */
+.lu-promo {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: clamp(360px, 62vh, 640px);
+    overflow: hidden;
+    color: var(--lu-papel);
+    background-color: #2e1d21;
+    text-align: center;
+}
+
+.lu-promo-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.55);
+}
+
+.lu-promo-texto {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: clamp(3rem, 8vw, 5rem) var(--lu-margen);
+    max-width: 60rem;
+}
+
+.lu-promo-rotulo {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.78rem;
+}
+
+.lu-promo-cifra {
+    margin: 0;
+    font-family: "Against", "Lora", Georgia, serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(3.5rem, 13vw, 10rem);
+    line-height: 0.95;
+    color: var(--lu-papel);
+}
+
+.lu-promo-bajada {
+    margin: 0;
+    font-family: "Lora", Georgia, serif;
+    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+    line-height: 1.3;
+}
+
+.lu-promo-boton {
+    margin-top: 0.9rem;
+}
+
+.lu-promo-legal {
+    margin: 0.9rem 0 0;
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.66rem;
+    opacity: 0.75;
+}
+
+/* ---- New In ---- */
+.lu-newin-cabecera {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    margin-bottom: clamp(1rem, 3vw, 1.75rem);
+}
+
+.lu-newin-titulo {
+    margin: 0;
+}
+
+.lu-newin-todo {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.72rem;
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.lu-newin-todo:hover {
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+/* ---- Franja antes del pie ---- */
+.lu-antes-pie {
+    border-top: 1px solid var(--lu-linea);
+    background-color: var(--lu-papel);
+    padding: clamp(2rem, 5vw, 3rem) var(--lu-margen);
+}
+
+.lu-antes-pie-lista {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0;
+}
+
+@media (min-width: 768px) {
+    .lu-antes-pie-lista {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+}
+
+.lu-antes-pie-link,
+.lu-antes-pie-item > .lu-antes-pie-icono {
+    display: flex;
+}
+
+.lu-antes-pie-link {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    text-align: center;
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+.lu-antes-pie-link:hover {
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+.lu-antes-pie-icono svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--lu-tinta);
+}
+
+.lu-antes-pie-titulo {
+    font-family: var(--lu-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--lu-track);
+    font-size: 0.78rem;
+}
+
+.lu-antes-pie-link:hover .lu-antes-pie-titulo {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.lu-antes-pie-texto {
+    font-family: var(--lu-texto);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: var(--lu-gris);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-coleccion-media,
+    a.lu-coleccion-link:hover .lu-coleccion-media {
+        transition: none;
+        transform: none;
+    }
+}

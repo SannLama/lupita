@@ -665,6 +665,40 @@ DOMContentLoaded.addEventOrExecute(() => {
 
         {% endif %}
 
+        {% if sections.new.products %}
+            {% set columns = settings.grid_columns %}
+            {# New In (2026-09-25): mismo slider que Destacados, con sus propios controles #}
+            createSwiper('.js-swiper-newin', {
+                lazy: true,
+                loop: true,
+                spaceBetween: 30,
+                threshold: 5,
+                watchSlidesVisibility: true,
+                slideVisibleClass: 'js-swiper-slide-visible',
+                slidesPerView: {% if columns == 2 %}2{% else %}1{% endif %},
+                pagination: {
+                    el: '.js-swiper-newin-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.js-swiper-newin-next',
+                    prevEl: '.js-swiper-newin-prev',
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: {% if columns == 2 %}4{% else %}3{% endif %},
+                    }
+                },
+                {% if settings.product_color_variants or settings.quick_shop %}
+                    on: {
+                        init: function () {
+                            if (typeof updateClonedItemsIDs === "function") { updateClonedItemsIDs(".js-swiper-newin .js-item-slide.swiper-slide-duplicate"); }
+                        },
+                    }
+                {% endif %}
+            });
+        {% endif %}
+
 	{% endif %}
 
     {% if template == 'product' %}

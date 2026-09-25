@@ -668,6 +668,85 @@ Página de inicio
 		width = 1400
 		height = 740
 	collapse
+		title = Colección
+		backto = home_order_position
+	description
+		description = Banner de la colección de temporada a todo el ancho: foto o video de campaña, un rótulo chico ("New in"), el nombre de la colección en grande y la temporada debajo ("// SS27"). Sale solo cuando hay foto o video cargados.
+	checkbox
+		name = lupita_coleccion_ocultar
+		description = Ocultar este banner
+	image
+		original = coleccion.jpg
+		title = Foto de campaña (JPG, horizontal)
+		width = 1920
+		height = 1080
+	i18n_input
+		name = lupita_coleccion_video
+		description = Link directo a un video (.mp4, opcional; la foto queda de reemplazo mientras carga)
+	i18n_input
+		name = lupita_coleccion_rotulo
+		description = Rótulo chico (ejemplo: New in)
+	i18n_input
+		name = lupita_coleccion_titulo
+		description = Nombre de la colección (ejemplo: Sea of Dreams)
+	i18n_input
+		name = lupita_coleccion_temporada
+		description = Temporada (ejemplo: // SS27)
+	i18n_input
+		name = lupita_coleccion_boton
+		description = Texto del botón (opcional)
+	i18n_input
+		name = lupita_coleccion_url
+		description = Link (la categoría de la colección)
+	collapse
+		title = New In
+		backto = home_order_position
+	description
+		description = Carrusel con lo último que entró. Los productos se eligen igual que los destacados, pero en la sección "Novedades". Sin productos ahí, no se muestra.
+	checkbox
+		name = lupita_newin_ocultar
+		description = Ocultar New In
+	i18n_input
+		name = lupita_newin_titulo
+		description = Título (vacío: New In)
+	i18n_input
+		name = lupita_newin_boton
+		description = Texto del link "Ver todo"
+	i18n_input
+		name = lupita_newin_url
+		description = Link de "Ver todo" (por ejemplo, la categoría New collection)
+	collapse
+		title = Banner de promoción
+		backto = home_order_position
+	description
+		description = Un solo mensaje de pago en grande, a todo el ancho (ej. "20% OFF" o "6 cuotas sin interés"). Con foto va sobre la foto oscurecida; sin foto, sobre fondo oscuro. Si dejás la cifra o el texto vacíos, usa los de "Medios de pago de Lupita".
+	checkbox
+		name = lupita_promo_ocultar
+		description = Ocultar este banner
+	image
+		original = promo.jpg
+		title = Foto de fondo (JPG, horizontal, opcional)
+		width = 1920
+		height = 1080
+	i18n_input
+		name = lupita_promo_rotulo
+		description = Rótulo chico arriba (ejemplo: En nuestras tres tiendas)
+	i18n_input
+		name = lupita_promo_cifra
+		description = Mensaje grande (ejemplo: 20% OFF)
+	i18n_input
+		name = lupita_promo_texto
+		description = Bajada (ejemplo: Pagando en efectivo)
+	i18n_input
+		name = lupita_promo_boton
+		description = Texto del botón (vacío: Conocer las tiendas)
+	i18n_input
+		name = lupita_promo_url
+		description = Link del botón (vacío: el mapa de las tiendas)
+	i18n_input
+		name = lupita_promo_legal
+		description = Letra chica (opcional)
+	collapse
 		title = Sobre nosotros
 	description
 		description = Página "Sobre nosotros": creala en Mi Tiendanube > Páginas con ese nombre y sumala al menú y al pie desde Menús. Estos textos y fotos le dan su diseño. Si dejás un texto vacío, ese renglón no aparece; sin fotos, el texto se muestra solo y centrado.
@@ -985,6 +1064,9 @@ Página de inicio
 			cover = Portada
 			capsule = Cápsula
 			payments = Medios de pago
+			collection = Colección
+			newin = New In
+			promo = Banner de promoción
 	link
 		text = Pop-up promocional
 		linkto = home_promotional_popup
@@ -1146,6 +1228,40 @@ Pie de página
 	meta
 		icon = arrow-down
 		advanced = true
+	title
+		title = Franja antes del pie
+	subtitle
+		subtitle = Tres datos en una fila, arriba del pie, en todas las páginas. Si dejás un campo vacío, usa el texto de ejemplo.
+	checkbox
+		name = lupita_pie_ocultar
+		description = Ocultar la franja
+	i18n_input
+		name = lupita_pie_1_titulo
+		description = 1: título (ejemplo: Envíos)
+	i18n_input
+		name = lupita_pie_1_texto
+		description = 1: texto
+	i18n_input
+		name = lupita_pie_1_url
+		description = 1: link (ejemplo: /envios/)
+	i18n_input
+		name = lupita_pie_2_titulo
+		description = 2: título (ejemplo: Cambios y devoluciones)
+	i18n_input
+		name = lupita_pie_2_texto
+		description = 2: texto
+	i18n_input
+		name = lupita_pie_2_url
+		description = 2: link (ejemplo: /cambios-y-devoluciones/)
+	i18n_input
+		name = lupita_pie_3_titulo
+		description = 3: título (ejemplo: Atención personalizada)
+	i18n_input
+		name = lupita_pie_3_texto
+		description = 3: texto
+	i18n_input
+		name = lupita_pie_3_url
+		description = 3: link (vacío: tu WhatsApp)
 	title
 		title = Menúes
 	subtitle

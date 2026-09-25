@@ -128,4 +128,19 @@
 	{#  **** Medios de pago de Lupita: textos desde "Medios de pago de Lupita" ****  #}
 	{% include 'snipplets/medios-de-pago.tpl' with {tamano: 'grande'} %}
 
+{% elseif section_select == 'collection' %}
+
+	{#  **** Coleccion de temporada (2026-09-25) ****  #}
+	{% include 'snipplets/home/home-coleccion.tpl' %}
+
+{% elseif section_select == 'newin' %}
+
+	{#  **** New In: productos de la seccion "Novedades" (2026-09-25) ****  #}
+	{% include 'snipplets/home/home-newin.tpl' %}
+
+{% elseif section_select == 'promo' %}
+
+	{#  **** Banner de promocion: un solo mensaje de pago (2026-09-25) ****  #}
+	{% include 'snipplets/home/home-promo.tpl' %}
+
 {% endif %}

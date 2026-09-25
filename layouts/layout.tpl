@@ -143,6 +143,10 @@
 
         {% snipplet "aviso-cookies.tpl" %}
 
+        {# Franja de envios / cambios / WhatsApp justo arriba del pie (2026-09-25) #}
+
+        {% include "snipplets/antes-del-pie.tpl" %}
+
         {# Footer #}
 
         {% snipplet "footer.tpl" %}
