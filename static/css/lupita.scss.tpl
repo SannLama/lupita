@@ -9577,3 +9577,15 @@ li,
 .lu-gift-frente .lu-gift-nombre {
     margin-bottom: -0.6cqi;
 }
+
+/* Botones flotantes con un aro del color del otro (Santiago, 2026-09-25):
+   el del chat (chocolate) con aro turquesa, el de WhatsApp (turquesa) con
+   aro chocolate. box-shadow y no border: no cambia el tamano ni corre el
+   icono. */
+body .btn-asesor {
+    box-shadow: 0 0 0 2px var(--lu-acento);
+}
+
+body .btn-whatsapp {
+    box-shadow: 0 0 0 2px var(--lu-tinta);
+}
