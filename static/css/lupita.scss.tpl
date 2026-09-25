@@ -10242,3 +10242,19 @@ body .lu-promo .btn:hover {
     border-color: #2e1d21 !important;
     color: var(--lu-papel) !important;
 }
+
+/* Contadores (favoritos y bolsa): el numero centrado en el circulo en
+   todos los navegadores (Santiago, 2026-09-25: el de favoritos no se veia
+   centrado). Con line-height 1 el centrado depende de las metricas de la
+   fuente, que Safari/iOS lee distinto que Chrome; text-box recorta la caja
+   del texto a la altura de los numeros (del renglon de base a la versal) y
+   el flex lo centra exacto. Numeros de ancho fijo para que 1 y 0 queden
+   igual de centrados. */
+body .utilities-item .cart-widget-amount,
+body .utilities-item .lu-favs-cantidad,
+body .cart-widget-amount,
+body .lu-favs-cantidad {
+    text-align: center;
+    font-variant-numeric: lining-nums tabular-nums;
+    text-box: trim-both cap alphabetic;
+}
