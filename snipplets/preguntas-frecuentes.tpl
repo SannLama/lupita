@@ -30,6 +30,13 @@
     <div class="container">
         <div class="lu-faq-caja">
             <h1 class="lu-faq-titulo">{{ page.name }}</h1>
+        </div>
+    </div>
+
+    {% include 'snipplets/vidriera-virtual.tpl' with {lu_vv_id: 'faq'} %}
+
+    <div class="container">
+        <div class="lu-faq-caja">
 
             <div class="lu-faq-lista">
                 {% for lu_faq in lu_faqs %}

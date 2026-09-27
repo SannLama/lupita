@@ -10487,3 +10487,141 @@ body .lu-sin-carrito .btn-line:hover {
     color: var(--lu-papel) !important;
     background-color: var(--lu-tinta) !important;
 }
+
+/* Vidriera virtual (Santiago, 2026-09-27; snipplets/vidriera-virtual.tpl):
+   aviso al principio de todo lo que habla de venta online o de formas de
+   pago. Titulo en Pinyon, rotulo y texto en Instrument Sans, segun la regla
+   de tipografias. El rotulo va en tinta sobre turquesa (8.27:1). */
+.lu-vidriera-grande {
+    padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+}
+
+.lu-vidriera-caja {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 2.25rem) clamp(1.25rem, 4vw, 2.5rem);
+    border: 1.5px solid var(--lu-acento);
+    border-radius: var(--lu-radio);
+    background-color: var(--lu-papel);
+    text-align: center;
+}
+
+.lu-vidriera-rotulo {
+    display: inline-block;
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--lu-radio-pildora);
+    background-color: var(--lu-acento);
+    font-family: var(--lu-texto);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+    color: var(--lu-tinta);
+}
+
+body .lu-vidriera .lu-vidriera-titulo {
+    margin: 0.9rem 0 0.6rem;
+    font-family: var(--lu-macro);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--lu-tinta);
+}
+
+.lu-vidriera-texto {
+    max-width: 34rem;
+    margin: 0 auto 1.1rem;
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--lu-tinta);
+}
+
+.lu-vidriera-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.5rem;
+    margin: 0;
+}
+
+.lu-vidriera-link {
+    font-family: var(--lu-texto);
+    font-weight: 700;
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.lu-vidriera-link:hover,
+.lu-vidriera-link:focus-visible {
+    color: var(--lu-tinta);
+    text-decoration-thickness: 2px;
+}
+
+/* En un renglon, en la ficha de producto, arriba de los medios de pago */
+.lu-vidriera-compacto {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.6rem;
+    margin: 0 0 0.9rem;
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    color: var(--lu-tinta);
+}
+
+.lu-vidriera-compacto .lu-vidriera-rotulo {
+    padding: 0.25rem 0.7rem;
+    font-size: 0.62rem;
+}
+
+@media (max-width: 767px) {
+    .lu-vidriera-compacto {
+        justify-content: center;
+    }
+}
+
+/* Gift Card en celular: al darla vuelta se mezclaban las caras (Santiago,
+   2026-09-27). backface-visibility no alcanza en Safari de iPhone ni en
+   varios Android cuando la cara tiene hijos con filter o mix-blend-mode (el
+   A! dorado y el brillo del frente): esos hijos se pintan en su propia capa,
+   ignoran que la cara esta de espaldas y se ven espejados encima del dorso.
+   Cada cara se esconde de verdad a mitad del giro (325 ms de 650), y los
+   hijos tambien llevan backface-visibility. */
+.lu-gift-tarjeta {
+    -webkit-transform-style: preserve-3d;
+}
+
+.lu-gift-cara,
+.lu-gift-cara * {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.lu-gift-frente {
+    transform: rotateY(0deg) translateZ(0.5px);
+}
+
+.lu-gift-dorso {
+    transform: rotateY(180deg) translateZ(0.5px);
+}
+
+.lu-gift-frente,
+.lu-gift-dorso {
+    transition: visibility 0s linear 325ms;
+}
+
+.lu-gift-tarjeta.is-dorso .lu-gift-frente,
+.lu-gift-tarjeta:not(.is-dorso) .lu-gift-dorso {
+    visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-gift-frente,
+    .lu-gift-dorso {
+        transition: none;
+    }
+}

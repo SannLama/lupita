@@ -65,6 +65,7 @@
 	   contenido de la pagina (compras con envio, plazos, costos, sucursal) no
 	   se muestra y en su lugar va el aviso de proximamente. #}
 	{% if page.handle == 'envios' %}
+		{% include 'snipplets/vidriera-virtual.tpl' with {lu_vv_id: 'envios'} %}
 		<section class="lu-envios" data-store="page-envios">
 			<div class="container">
 				<div class="lu-envios-caja">

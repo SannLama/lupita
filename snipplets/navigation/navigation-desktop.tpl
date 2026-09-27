@@ -13,10 +13,15 @@
         <ul class="lu-nav-desk-lista list-unstyled">
             {% for item in navigation %}
                 {% set lu_nd_url = item.url ? (item.url | setting_url) : '#' %}
-                <li class="lu-nav-desk-item{% if item.subitems %} lu-nav-desk-con-sub{% endif %}">
-                    <a class="lu-nav-desk-link{% if item.current %} is-actual{% endif %}" href="{{ lu_nd_url }}"{% if item.subitems %} aria-haspopup="true"{% endif %}>
+                {# "New collection" despliega todas las categorias del menu
+                   (Santiago, 2026-09-27): se arman solas con los items de
+                   categoria del Menu principal, sin cargar nada en el panel #}
+                {% set lu_nd_newcol = 'new collection' in item.name | lower and not item.subitems %}
+                {% set lu_nd_desplegable = item.subitems or lu_nd_newcol %}
+                <li class="lu-nav-desk-item{% if lu_nd_desplegable %} lu-nav-desk-con-sub{% endif %}">
+                    <a class="lu-nav-desk-link{% if item.current %} is-actual{% endif %}" href="{{ lu_nd_url }}"{% if lu_nd_desplegable %} aria-haspopup="true"{% endif %}>
                         {{ item.name }}
-                        {% if item.subitems %}
+                        {% if lu_nd_desplegable %}
                             {% include "snipplets/svg/chevron-down.tpl" with {svg_custom_class: "icon-inline lu-nav-desk-flecha"} %}
                         {% endif %}
                     </a>
@@ -28,6 +33,17 @@
                                 {% endif %}
                                 {% for lu_nd_sub in item.subitems %}
                                     <li><a class="lu-nav-desk-sublink{% if lu_nd_sub.current %} is-actual{% endif %}" href="{% if lu_nd_sub.url %}{{ lu_nd_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_nd_sub.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% elseif lu_nd_newcol %}
+                        <div class="lu-nav-desk-panel">
+                            <ul class="lu-nav-desk-sub list-unstyled">
+                                {% if item.url %}
+                                    <li><a class="lu-nav-desk-sublink lu-nav-desk-todo" href="{{ lu_nd_url }}">{{ 'Ver todo' | translate }}</a></li>
+                                {% endif %}
+                                {% for lu_nd_cat in navigation if lu_nd_cat.isCategory and lu_nd_cat.name != item.name %}
+                                    <li><a class="lu-nav-desk-sublink" href="{% if lu_nd_cat.url %}{{ lu_nd_cat.url | setting_url }}{% else %}#{% endif %}">{{ lu_nd_cat.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>

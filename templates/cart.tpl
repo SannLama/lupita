@@ -19,6 +19,8 @@
     </div>
 </section>
 
+{% include 'snipplets/vidriera-virtual.tpl' with {lu_vv_id: 'carrito'} %}
+
 {% if false %}
 {% embed "snipplets/page-header.tpl" with {'breadcrumbs': true} %}
     {% block page_header_text %}{{ "Carrito de Compras" | translate }}{% endblock page_header_text %}

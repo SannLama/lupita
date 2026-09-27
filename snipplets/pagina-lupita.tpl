@@ -24,6 +24,8 @@
         <h1 class="lu-pagina-titulo">{{ page.name }}</h1>
     </div>
 
+    {% include 'snipplets/vidriera-virtual.tpl' with {lu_vv_id: lu_tipo} %}
+
     {% if lu_tipo == 'pagos' %}
         {% include 'snipplets/medios-de-pago.tpl' with {tamano: 'grande'} %}
         {# Lista con dibujos y logos; reemplaza el texto del contenido de la pagina (2026-09-25) #}

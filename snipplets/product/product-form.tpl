@@ -29,6 +29,7 @@
 </div>
 
 {# Medios de pago de Lupita, justo debajo del precio: donde se decide #}
+{% include 'snipplets/vidriera-virtual.tpl' with {lu_vv_tamano: 'compacto'} %}
 {% include 'snipplets/medios-de-pago.tpl' with {tamano: 'compacto'} %}
 
 {{ component('subscriptions/subscription-price', {
@@ -77,7 +78,7 @@
         {% set hideDiscountDisclaimer = not product.showMaxPaymentDiscountNotCombinableDisclaimer %}
 
         <div class="js-product-discount-container text-center text-md-left mb-2" {% if hideDiscountContainer %}style="display: none;"{% endif %}>
-            <span><strong class="text-accent">{{ product.maxPaymentDiscount.value }}% {{'de descuento' | translate }}</strong> {{'pagando con' | translate }} {{ product.maxPaymentDiscount.paymentProviderName }}</span>
+            <span><strong class="text-accent">{{ product.maxPaymentDiscount.value }}% {{'de descuento' | translate }}</strong> {{'abonando con' | translate }} {{ product.maxPaymentDiscount.paymentProviderName }}</span>
             <div class="js-product-discount-disclaimer font-small mt-1" {% if hideDiscountDisclaimer %}style="display: none;"{% endif %}>
                 {{ "No acumulable con otras promociones" | translate }}
             </div>

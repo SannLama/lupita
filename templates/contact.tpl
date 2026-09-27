@@ -60,6 +60,56 @@
 					<p class="mb-3" data-component="order-cancellation-disclaimer">{{ "Si te arrepentiste de una compra, podés pedir la cancelación enviando este formulario <strong>con tu número de orden.</strong> Tenés como máximo hasta 10 días corridos desde que recibiste el producto." | translate }}</p>
 				{% endif %}
 
+				{# Boton de arrepentimiento por WhatsApp (Santiago, 2026-09-27): el
+				   pedido de cancelacion llega al WhatsApp de la tienda y no al mail.
+				   El script arma el mensaje con los datos y abre wa.me; sin WhatsApp
+				   cargado en la tienda queda el formulario del base. #}
+				{% set lu_arrep_wa = (is_order_cancellation or is_order_cancellation_without_id) and store.whatsapp %}
+				{% if lu_arrep_wa %}
+					<form class="lu-arrep js-lu-arrep" data-whatsapp="{{ store.whatsapp | trim('https://wa.me/') }}" novalidate>
+						<div class="form-group">
+							<label class="form-label" for="lu-arrep-nombre">{{ 'Nombre y apellido' | translate }}</label>
+							<input class="form-control" type="text" id="lu-arrep-nombre" name="nombre" autocomplete="name" required>
+						</div>
+						<div class="form-group">
+							<label class="form-label" for="lu-arrep-orden">{{ 'Número de orden o de ticket' | translate }}</label>
+							<input class="form-control" type="text" id="lu-arrep-orden" name="orden" value="{{ last_order_id }}" required>
+						</div>
+						<div class="form-group">
+							<label class="form-label" for="lu-arrep-motivo">{{ 'Motivo (opcional)' | translate }}</label>
+							<textarea class="form-control" id="lu-arrep-motivo" name="motivo" rows="4"></textarea>
+						</div>
+						<p class="lu-arrep-error" role="alert" hidden>{{ 'Completá tu nombre y el número de orden o de ticket.' | translate }}</p>
+						<button type="submit" class="btn btn-primary btn-block">{{ 'Enviar por WhatsApp' | translate }}</button>
+					</form>
+					<script type="text/javascript">
+						(function () {
+							var form = document.querySelector('.js-lu-arrep');
+							if (!form) return;
+							form.addEventListener('submit', function (e) {
+								e.preventDefault();
+								var nombre = form.nombre.value.trim();
+								var orden = form.orden.value.trim();
+								var motivo = form.motivo.value.trim();
+								var error = form.querySelector('.lu-arrep-error');
+								if (!nombre || !orden) {
+									error.hidden = false;
+									(nombre ? form.orden : form.nombre).focus();
+									return;
+								}
+								error.hidden = true;
+								var lineas = [
+									'Hola! Quiero usar el botón de arrepentimiento y cancelar mi compra.',
+									'Nombre: ' + nombre,
+									'Orden / ticket: ' + orden
+								];
+								if (motivo) lineas.push('Motivo: ' + motivo);
+								window.open('https://wa.me/' + form.getAttribute('data-whatsapp') + '?text=' + encodeURIComponent(lineas.join('
+')), '_blank', 'noopener');
+							});
+						})();
+					</script>
+				{% else %}
 				{% embed "snipplets/forms/form.tpl" with{form_id: 'contact-form', form_custom_class: 'js-winnie-pooh-form', form_action: '/winnie-pooh', submit_name: 'contact', submit_text: 'Enviar' | translate, data_store: 'contact-form' } %}
 					{% block form_body %}
 
@@ -100,6 +150,7 @@
 
 					{% endblock %}
 				{% endembed %}
+				{% endif %}
 			</div>
 		</div>
 	</div>

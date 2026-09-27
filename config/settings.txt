@@ -1353,6 +1353,22 @@ Página de inicio
 		name = lupita_talle_cadera_l
 		description = Cadera: hasta cuántos cm es talle L; más que esto se toma como XL (ejemplo: 105)
 	collapse
+		title = Vidriera virtual
+	description
+		description = Aviso de que la web es una vidriera y la venta online llega pronto. Sale al principio de los medios de pago del inicio, de las páginas Medios de pago, Cómo comprar, Preguntas frecuentes y Envíos, del carrito y (en un renglón) en el detalle de producto. Si dejás un campo vacío, usa el texto de fábrica.
+	checkbox
+		name = lupita_vidriera_ocultar
+		description = Ocultar el aviso de vidriera virtual
+	i18n_input
+		name = lupita_vidriera_rotulo
+		description = Rótulo chico (vacío: Próximamente venta online)
+	i18n_input
+		name = lupita_vidriera_titulo
+		description = Título (vacío: ¿Qué es una vidriera virtual?)
+	i18n_input
+		name = lupita_vidriera_texto
+		description = Texto
+	collapse
 		title = Medios de pago de Lupita
 	description
 		description = Los textos del bloque de medios de pago: se muestran en la página de inicio (ordenalo desde "Página de inicio"), en el detalle de producto y en el carrito. Si dejás un campo vacío, ese renglón no aparece.

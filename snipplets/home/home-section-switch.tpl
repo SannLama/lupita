@@ -129,6 +129,8 @@
 {% elseif section_select == 'payments' %}
 
 	{#  **** Medios de pago de Lupita: textos desde "Medios de pago de Lupita" ****  #}
+	{# Vidriera virtual arriba de las formas de pago (Santiago, 2026-09-27) #}
+	{% include 'snipplets/vidriera-virtual.tpl' with {lu_vv_id: 'home'} %}
 	{% include 'snipplets/medios-de-pago.tpl' with {tamano: 'grande'} %}
 
 {% elseif section_select == 'collection' %}
