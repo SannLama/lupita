@@ -11569,3 +11569,20 @@ body .newsletter.lu-canal p {
     line-height: 1.5;
     max-width: 52ch;
 }
+
+/* Banners de categorias (Accesorios, New In, Night Out): sin el puntito en
+   reposo (Santiago, 2026-09-28). El punto sale del flujo y queda centrado y
+   en escala 0, asi el texto queda centrado; al pasar el mouse crece desde el
+   centro y llena el boton igual que en el resto. */
+[data-store="home-banner-categories"] .btn.lu-ihb .lu-ihb-punto {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -0.25em 0 0 -0.25em;
+    transform: scale(0);
+}
+
+[data-store="home-banner-categories"] .btn.lu-ihb:hover .lu-ihb-punto,
+[data-store="home-banner-categories"] .btn.lu-ihb:focus-visible .lu-ihb-punto {
+    transform: scale(100);
+}
