@@ -2,7 +2,7 @@
    menu de primer nivel. En las subcategorias no hay "New collection", asi que
    la lista solo se usa en la primera vuelta. #}
 {% set lu_nl_cats = navigation %}
-{% for item in navigation %}
+{% for item in navigation if item.name | lower not in ['envíos', 'envios'] %}
     {% if not item.subitems and 'new collection' in item.name | lower %}
         <li class="item-with-subitems" data-component="menu.item">
             <div class="js-nav-list-toggle-accordion">
@@ -14,11 +14,9 @@
                 </a>
             </div>
             <ul class="js-pages-accordion list-subitems nav-list-accordion" style="display:none;">
-                {% if item.url %}
-                    <li class="nav-item">
-                        <a class="nav-list-link {{ item.current ? 'selected' : '' }}" href="{{ item.url | setting_url }}"><strong>{{ 'Ver todo en' | translate }} {{ item.name }}</strong></a>
-                    </li>
-                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-list-link" href="{{ store.url }}/productos/"><strong>{{ 'Ver todo en' | translate }} {{ item.name }}</strong></a>
+                </li>
                 {% for lu_nl_cat in lu_nl_cats if lu_nl_cat.isCategory and lu_nl_cat.name != item.name %}
                     <li class="nav-item">
                         <a class="nav-list-link" href="{% if lu_nl_cat.url %}{{ lu_nl_cat.url | setting_url }}{% else %}#{% endif %}">{{ lu_nl_cat.name }}</a>
