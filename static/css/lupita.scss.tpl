@@ -12636,3 +12636,31 @@ body .lu-arriba {
         font-size: 1.05rem;
     }
 }
+
+/* Celular (Santiago, 2026-09-28): "Abonando en efectivo" no se monta sobre
+   el "20% off"; sin lupa en el header; corazon y bolsa mas chicos. */
+@media (max-width: 767px) {
+    body .lu-promo .lu-promo-bajada {
+        margin-top: 0.6rem;
+        white-space: normal;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    body .lu-promo .lu-promo-cifra {
+        font-size: clamp(3.5rem, 18vw, 5rem);
+        line-height: 1.15;
+    }
+
+    body .head-main .lu-lupa {
+        display: none;
+    }
+
+    body .head-main .lu-favs-link .icon-inline {
+        font-size: 21px;
+    }
+
+    body .head-main .cart-summary .icon-inline {
+        font-size: 19px;
+    }
+}
