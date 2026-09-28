@@ -12074,9 +12074,11 @@ body .js-home-sections-container > .section-informative-banners {
   grande, y sin chocar con las colas de "off": ya no sube sobre la cifra
   (antes margin-top -1.5rem) y queda en un solo renglon.
 ==============================================================================*/
+/* (mas tarde) "tampoco tan grande y juntalo mas": mas chico y pegado a la
+   cifra; asi de corto termina antes de las colas de "off" */
 body .lu-promo .lu-promo-bajada {
-    margin-top: 1.5rem;
-    font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+    margin-top: 0.25rem;
+    font-size: clamp(1.1rem, 1.5vw, 1.35rem);
     line-height: 1.25;
     white-space: nowrap;
 }
@@ -12138,11 +12140,30 @@ body footer .newsletter.lu-canal {
 }
 
 body footer > .container > .row:has(.lu-canal) {
-    padding-top: 2.25rem;
-    padding-bottom: 0.5rem;
+    padding-top: 1.75rem;
+    padding-bottom: 0;
 }
 
 body footer > .container > .element-footer:has(.lu-pie-bloque) {
-    padding-top: 1.75rem;
-    padding-bottom: 1rem;
+    padding-top: 1.25rem;
+    padding-bottom: 0.5rem;
+}
+
+/* (mas tarde, "junta mas el footer") logos de pago, "creado con" y legales
+   con menos relleno, y los titulos de columna mas cerca de sus listas */
+body footer > .container > .element-footer:not(:has(.lu-pie-bloque)) {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+body footer .lu-pie-titulo {
+    margin-bottom: 0.6rem;
+}
+
+body footer .newsletter.lu-canal h3 {
+    margin-bottom: 0.4rem;
+}
+
+body footer .newsletter.lu-canal p {
+    margin-bottom: 0.9rem;
 }

@@ -1380,7 +1380,7 @@ Página de inicio
 		description = Efectivo: texto
 	i18n_input
 		name = lupita_pago_tarjetas_cifra
-		description = Tarjetas: cifra (ej. 3 y 6 cuotas)
+		description = Tarjetas: cifra (ej. 6 cuotas)
 	i18n_input
 		name = lupita_pago_tarjetas
 		description = Tarjetas: texto

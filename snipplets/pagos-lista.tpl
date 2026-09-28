@@ -10,7 +10,7 @@
 {# [nombre, dibujo, texto, logos separados por coma] (sin diccionarios:
    el Twig de Tiendanube no los acepta, ver replace({...}) en la gift card) #}
 {% set lu_ml = [
-    ['Tarjeta de crédito', 'credito', '3 y 6 cuotas sin interés con tarjetas bancarizadas y American Express.', 'visa,mastercard,amex'],
+    ['Tarjeta de crédito', 'credito', '6 cuotas sin interés con tarjetas bancarizadas y American Express.', 'visa,mastercard,amex'],
     ['Transferencia o depósito bancario', 'transferencia', 'Conseguí un 10% OFF abonando en este medio. Se aguardará un plazo máximo de 24 hs para recibir el comprobante y poder empezar a empaquetar el producto. En caso de no recibir el comprobante de pago, la compra será cancelada.', ''],
     ['Tarjeta de débito', 'debito', '', 'visadebit,maestro'],
     ['Mercado Pago', 'mercadopago', 'Mercado Pago está afiliado a nuestra tienda ofreciendo hasta 3 pagos sin interés en todos los productos. El descuento del 10% es solo abonando con transferencia o depósito de dinero.', 'mercadopago'],
