@@ -12578,3 +12578,15 @@ html {
     object-fit: cover;
     opacity: 1;
 }
+
+/* Sin el boton del asesor (2026-09-28) la flecha de volver arriba queda justo
+   encima de WhatsApp: WhatsApp 1rem + 3rem de alto + 0.75rem de aire */
+body .lu-arriba {
+    bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+@media (max-width: 767px) {
+    body .lu-arriba {
+        bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    }
+}
