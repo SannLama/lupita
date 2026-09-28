@@ -14,7 +14,7 @@
 {% if not settings.lupita_promo_ocultar and lu_pr_cifra %}
 	{% set lu_pr_img = 'promo.jpg' | has_custom_image %}
 	{# "|" parte la bajada en renglones (Santiago, 2026-09-25: dos lineas) #}
-	{% set lu_pr_texto = settings.lupita_promo_texto ?: 'Abonando con efectivo|en nuestras tiendas' %}
+	{% set lu_pr_texto = settings.lupita_promo_texto ?: 'Abonando en efectivo' %}
 	{% set lu_pr_url = settings.lupita_promo_url ?: settings.lupita_tiendas_url %}
 	{% set lu_pr_boton = settings.lupita_promo_boton ?: 'Conocer las tiendas' %}
 	{% set lu_pr_externo = lu_pr_url and 'http' in lu_pr_url and 'ahilupita' not in lu_pr_url %}

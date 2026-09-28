@@ -10434,8 +10434,9 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
 
     /* La bajada bien separada del titulo, para que no asome al entrar
        (medido: el hero arranca a 73px) */
+    /* (2026-09-28, Santiago: "junta un poco mas esto") 2.5rem -> 1rem */
     body .nube-slider-home .swiper-text .swiper-description {
-        margin-top: 2.5rem !important;
+        margin-top: 1rem !important;
     }
 }
 
@@ -12063,6 +12064,56 @@ body {
     background-repeat: repeat;
 }
 
-body .section-informative-banners {
+body .section-informative-banners,
+body .js-home-sections-container > .section-informative-banners {
     background-color: transparent;
+}
+
+/*============================================================================
+  #Banner 20% off (Santiago, 2026-09-28): solo "Abonando en efectivo", mas
+  grande, y sin chocar con las colas de "off": ya no sube sobre la cifra
+  (antes margin-top -1.5rem) y queda en un solo renglon.
+==============================================================================*/
+body .lu-promo .lu-promo-bajada {
+    margin-top: 0.75rem;
+    font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+    line-height: 1.25;
+    white-space: nowrap;
+}
+
+/*============================================================================
+  #Cabecera en cualquier pantalla (Santiago, 2026-09-28: "en pantallas mas
+  grandes se ve todo junto las secciones del header. Fijate que en
+  cualquier pantalla se vea bien")
+  - 992 a 1199px: el menu de siete secciones no entra y se montaba sobre el
+    logo y los iconos: ahi vuelve la hamburguesa, con el logo al centro.
+  - Pantallas grandes: el menu gana aire y cuerpo con el ancho, para no
+    quedar amontonado en el medio.
+==============================================================================*/
+@media (min-width: 992px) and (max-width: 1199px) {
+    body .lu-nav-desk-col,
+    body .lu-nav-desk {
+        display: none;
+    }
+
+    body .js-head-main .utilities-link[data-toggle="#nav-hamburger"] {
+        display: inline-flex !important;
+    }
+
+    body .js-head-main > .container > .row > .col,
+    body .js-head-main > .container > .row > .col.text-center,
+    body .js-head-main > .container > .row > .col.text-right {
+        flex: 1 1 0;
+        width: auto;
+    }
+}
+
+@media (min-width: 1440px) {
+    body .lu-nav-desk-lista {
+        column-gap: clamp(2.5rem, 2.6vw, 4.5rem);
+    }
+
+    body .lu-nav-desk-link {
+        font-size: clamp(0.74rem, 0.52vw, 0.9rem);
+    }
 }
