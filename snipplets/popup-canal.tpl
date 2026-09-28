@@ -37,6 +37,8 @@
                 catch (e) { return true; }
             };
             if (visto()) return;
+            {# Si en esta visita ya salio el de vidriera virtual, el canal espera a la proxima #}
+            try { if (sessionStorage.getItem('lupita-vv-sesion')) return; } catch (e) {}
             var anterior = null;
             var cerrar = function () {
                 popup.classList.remove('lu-canal-popup-visible');

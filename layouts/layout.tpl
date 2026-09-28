@@ -208,6 +208,10 @@
            <script>: este include ya trae el suyo propio (como titulo-al-salir.tpl). #}
         {% include "static/js/lupita-comprar-whatsapp.js.tpl" %}
 
+        {# Popup "¿Que es una vidriera virtual?" al entrar (una vez cada 7 dias).
+           Va antes que el del canal: en la visita en que sale, el del canal no. #}
+        {% include "snipplets/popup-vidriera.tpl" %}
+
         {# Popup para unirse al canal de difusion de Instagram (una vez cada 14 dias) #}
         {% include "snipplets/popup-canal.tpl" %}
 

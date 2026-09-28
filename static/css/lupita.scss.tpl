@@ -10653,3 +10653,10 @@ body .newsletter.lu-canal h3 {
     line-height: 1.1;
     margin: 0 0 0.75rem;
 }
+
+/* Popup de vidriera virtual (snipplets/popup-vidriera.tpl): usa la caja del
+   popup del canal; "Conocé nuestras tiendas" es un link, no un boton, y hay
+   que centrarlo a mano. */
+.lu-vv-popup .lu-canal-popup-despues {
+    text-align: center;
+}
