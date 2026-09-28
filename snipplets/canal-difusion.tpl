@@ -8,8 +8,9 @@
 ==============================================================================*/#}
 
 {% if settings.lupita_canal_url %}
-    <div class="row justify-content-md-center">
-        <div class="col-md-8 text-center">
+    {# Alineado al margen de la pagina, como las columnas del pie (Santiago, 2026-09-28; antes centrado en col-md-8) #}
+    <div class="row">
+        <div class="col-12">
             <div class="newsletter section-footer lu-canal">
                 <h3>{{ settings.lupita_canal_titulo ? settings.lupita_canal_titulo : 'Unite a nuestro canal' | translate }}</h3>
                 {% if settings.lupita_canal_texto %}
