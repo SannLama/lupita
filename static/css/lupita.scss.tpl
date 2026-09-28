@@ -12398,26 +12398,44 @@ body .js-home-sections-container > .section-informative-banners::before {
     }
 }
 
-/* Banners de categorias en el celular apaisados, como en la compu (Santiago,
-   2026-09-28): antes cada uno ocupaba casi toda la pantalla (3/4 a lo ancho).
-   Ahora 16/10, uno debajo del otro, con titulo y boton un poco mas chicos. */
+/* Celular como la compu (Santiago, 2026-09-28): las dos franjas anchas
+   (Denimwear arriba y la de abajo) apaisadas, y Accesorios / Vestidos /
+   Night Out los tres en fila, pegados, en vertical como en la compu. */
 @media (max-width: 767px) {
-    body .section-banners-home .textbanner-image {
-        aspect-ratio: 16 / 10;
+    body .lu-sandwich {
         height: auto;
-        padding-top: 0 !important;
+        aspect-ratio: 16 / 10;
     }
 
-    body .section-banners-home .textbanner-image-background {
-        object-position: 50% 35%;
+    body .section-banners-home .row {
+        display: flex;
+        flex-wrap: nowrap;
+        margin: 0;
+    }
+
+    body .section-banners-home .row > .col-md {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: none;
+        padding: 0;
+    }
+
+    body .section-banners-home .textbanner-image {
+        aspect-ratio: 3 / 4;
+        height: auto;
+        padding-top: 0 !important;
+        border-radius: 0;
     }
 
     body .section-banners-home .textbanner-title {
-        font-size: clamp(1.9rem, 9vw, 2.6rem);
+        font-size: clamp(0.95rem, 4.6vw, 1.4rem);
+        margin-bottom: 0.35rem;
     }
 
     body .section-banners-home .textbanner-text .btn {
-        padding: 0.45rem 1.1rem;
-        font-size: 0.7rem;
+        padding: 0.3rem 0.55rem;
+        font-size: 0.5rem;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
     }
 }
