@@ -5802,39 +5802,191 @@ a[data-toggle="#size-guide-modal"] svg {
   para que los caracteres al azar no muevan la caja.
 ==============================================================================*/
 
+/* (2026-09-28) Rehecha con el formato del "not found" de 21st.dev y los
+   colores de la marca: lo de arriba (Italiana a escala de hero + decrypt)
+   quedo reemplazado. */
 .lu-404 {
-    padding-top: clamp(2rem, 6vw, 5rem);
     padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
-.lu-404-cifra {
+.lu-404-escena {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(26rem, 70vh, 40rem);
+    padding: clamp(3rem, 8vw, 5rem) 0;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* El 404 enorme de fondo, en turquesa tenue */
+.lu-404-fondo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -58%);
+    font-family: var(--lu-texto);
+    font-weight: 700;
+    font-size: clamp(12rem, 38vw, 30rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--lu-acento);
+    opacity: 0.18;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}
+
+.lu-404-contenido {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lu-404-titulo {
+    margin: 0 0 0.75rem;
     font-family: var(--lu-macro);
     font-weight: 400;
-    font-size: clamp(7rem, 42vw, 26rem);
-    line-height: 0.85;
-    letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    margin: 0.5rem 0 1.5rem;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: clamp(3rem, 9vw, 6rem);
+    line-height: 1.05;
+    color: var(--lu-tinta);
 }
 
 .lu-404-texto {
-    font-size: 0.9rem;
-    max-width: 32rem;
+    max-width: 34rem;
     margin: 0 0 2rem;
+    font-family: var(--lu-sub);
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    line-height: 1.5;
+    color: var(--lu-tinta);
+    opacity: 0.8;
 }
 
-.lu-404-buscar {
-    position: relative;
-    max-width: 32rem;
+.lu-404-form {
+    display: flex;
+    gap: 0.5rem;
+    width: min(26rem, 100%);
+    margin: 0 0 1.75rem;
 }
 
-/* El .btn del sistema trae borde y padding: la lupa del buscador es un icono
-   sobre la regla, no un boton con caja */
-.lu-404-buscar .search-input-submit {
-    border: 0;
-    background: none;
-    padding: 0.25rem;
+.lu-404-campo {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+    height: 2.75rem;
+    margin: 0;
+    padding: 0 1rem;
+    border: 1px solid var(--lu-tinta);
+    border-radius: 999px;
+    background-color: #fff;
+    cursor: text;
+}
+
+.lu-404-campo:focus-within {
+    border-color: var(--lu-acento);
+    box-shadow: 0 0 0 3px rgba(100, 178, 179, 0.35);
+}
+
+.lu-404-lupa {
+    flex: 0 0 auto;
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: var(--lu-tinta);
+    opacity: 0.55;
+}
+
+.lu-404-campo input,
+.lu-404-campo input:focus {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent;
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.95rem;
+}
+
+.lu-404-buscar-btn {
+    flex: 0 0 auto;
+    height: 2.75rem;
+    padding: 0 1.25rem;
+    border: 1px solid var(--lu-tinta);
+    border-radius: 999px;
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.lu-404-buscar-btn:hover {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+.lu-404-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.25rem;
+}
+
+.lu-404-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.75rem;
+    padding: 0 1.4rem;
+    border: 1px solid var(--lu-tinta);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+}
+
+.lu-404-volver svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 200ms ease;
+}
+
+.lu-404-volver:hover {
+    background-color: rgba(100, 178, 179, 0.2);
+}
+
+.lu-404-volver:hover svg {
+    transform: translateX(-3px);
+}
+
+body .lu-404 .lu-404-inicio {
+    display: inline-flex;
+    align-items: center;
+    height: 2.75rem;
+    margin: 0;
+    padding: 0 1.6rem;
+}
+
+.lu-404-volver:focus-visible,
+.lu-404-buscar-btn:focus-visible {
+    outline: 2px solid var(--lu-acento);
+    outline-offset: 2px;
 }
 
 .lu-404-sugeridos {
