@@ -12059,11 +12059,14 @@ body .newsletter.lu-canal p {
 ==============================================================================*/
 html,
 body {
-    /* (2026-09-28, "usa esto de textura para toda la pagina") la textura que
-       paso Santiago, tal cual, sin velo; el color de fondo es su promedio */
-    background-color: #f0e7d8;
+    /* (2026-09-28) Santiago: "la textura no es igual a esta [la imagen de
+       Probatelo]" y "repeti el patron, no lo expandas". lino-pagina.jpg es la
+       tela recortada de la propia imagen de Probatelo (espejada para que
+       empalme sin costuras) y se repite a la misma escala que tiene en esa
+       imagen: 1740 de sus 2208px = 78.8% del ancho de pantalla. */
+    background-color: #f3ecdd;
     background-image: url("{{ 'images/lino-pagina.jpg' | static_url }}");
-    background-size: 520px auto;
+    background-size: 78.8vw auto;
     background-repeat: repeat;
 }
 
@@ -12238,6 +12241,8 @@ body .js-home-sections-container > .section-informative-banners::before {
     background-repeat: repeat-y;
     background-size: 100% auto;
     background-position: left bottom;
+    /* Espejado: al derecho quedaba al reves que el de la imagen (Santiago) */
+    transform: scaleX(-1);
     pointer-events: none;
     z-index: 1;
 }
