@@ -77,8 +77,8 @@
                                 {# Tarjeta del medio con video, sin texto ni boton (Santiago, 2026-09-28).
                                    El video vive en Netlify (ahilupita-videos), como el de Portada. #}
                                 {% if banner == 'banner_02' %}
-                                <video class="textbanner-image-background lu-banner-video" autoplay muted loop playsinline preload="metadata" poster="https://ahilupita-videos.netlify.app/new-in-poster.jpg" aria-hidden="true">
-                                    <source src="https://ahilupita-videos.netlify.app/new-in.mp4" type="video/mp4">
+                                <video class="textbanner-image-background lu-banner-video" autoplay muted loop playsinline preload="metadata" poster="https://ahilupita-videos.netlify.app/new-in-2-poster.jpg" aria-hidden="true">
+                                    <source src="https://ahilupita-videos.netlify.app/new-in-2.mp4" type="video/mp4">
                                 </video>
                                 {% elseif lu_foto_theme %}
                                 <img class="textbanner-image-background{% if banner == 'banner_03' %} lu-foto-night-out{% endif %}" src="{{ lu_foto_theme | static_url }}" alt="{{ banner_title }}" loading="lazy">
