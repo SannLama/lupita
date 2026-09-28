@@ -11586,3 +11586,106 @@ body .newsletter.lu-canal p {
 [data-store="home-banner-categories"] .btn.lu-ihb:focus-visible .lu-ihb-punto {
     transform: scale(100);
 }
+
+/*============================================================================
+  #Favoritos: latido (Santiago, 2026-09-28)
+  Ver snipplets/favoritos/latido.tpl. Referencia: "Heart Favorite" de UI
+  TripleD. Al guardar, el corazon se achica, salta con rebote y larga ocho
+  particulas y un anillo; al quitarlo se achica un poco y vuelve.
+==============================================================================*/
+.lu-fav {
+    position: relative;
+    overflow: visible;
+}
+
+.lu-fav-tarjeta {
+    position: absolute;
+}
+
+.lu-fav-latido svg {
+    animation: lu-fav-latido 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes lu-fav-latido {
+    0% { transform: scale(1); }
+    20% { transform: scale(0.6); }
+    55% { transform: scale(1.35); }
+    75% { transform: scale(0.92); }
+    100% { transform: scale(1); }
+}
+
+.lu-fav-suelta svg {
+    animation: lu-fav-suelta 300ms ease;
+}
+
+@keyframes lu-fav-suelta {
+    0% { transform: scale(1); }
+    40% { transform: scale(0.75); }
+    100% { transform: scale(1); }
+}
+
+.lu-fav-ronda {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* El anillo */
+.lu-fav-ronda::before {
+    content: "";
+    position: absolute;
+    top: -1.4rem;
+    left: -1.4rem;
+    width: 2.8rem;
+    height: 2.8rem;
+    border: 2px solid var(--lu-acento);
+    border-radius: 50%;
+    opacity: 0;
+    animation: lu-fav-anillo 550ms ease-out;
+}
+
+@keyframes lu-fav-anillo {
+    0% { transform: scale(0.3); opacity: 0.9; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Las particulas: salen del centro en ocho direcciones; las pares en
+   turquesa, las impares en chocolate */
+.lu-fav-ronda i {
+    position: absolute;
+    top: -0.2rem;
+    left: -0.2rem;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background-color: var(--lu-acento);
+    opacity: 0;
+    animation: lu-fav-chispa 650ms cubic-bezier(0.2, 0.8, 0.3, 1) 60ms;
+}
+
+.lu-fav-ronda i:nth-child(odd) {
+    width: 0.3rem;
+    height: 0.3rem;
+    background-color: var(--lu-tinta);
+}
+
+@keyframes lu-fav-chispa {
+    0% { transform: rotate(var(--a)) translateY(0) scale(1); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: rotate(var(--a)) translateY(-2.1rem) scale(0.3); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-fav-latido svg,
+    .lu-fav-suelta svg {
+        animation: none;
+    }
+
+    .lu-fav-ronda {
+        display: none;
+    }
+}

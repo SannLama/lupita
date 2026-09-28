@@ -208,6 +208,9 @@
            <script>: este include ya trae el suyo propio (como titulo-al-salir.tpl). #}
         {% include "static/js/lupita-comprar-whatsapp.js.tpl" %}
 
+        {# Corazon de favoritos: latido y particulas al guardar #}
+        {% include "snipplets/favoritos/latido.tpl" %}
+
         {# Botones de texto con el hover de puntito que llena (Magic UI) #}
         {% include "snipplets/botones-hover.tpl" %}
 
