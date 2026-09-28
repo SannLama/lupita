@@ -12077,7 +12077,9 @@ body .js-home-sections-container > .section-informative-banners {
 /* (mas tarde) "tampoco tan grande y juntalo mas": mas chico y pegado a la
    cifra; asi de corto termina antes de las colas de "off" */
 body .lu-promo .lu-promo-bajada {
-    margin-top: 0.25rem;
+    /* (2026-09-28, "subilo un poco mas") sube sobre el pie de la cifra; no
+       toca las colas de off porque termina antes */
+    margin-top: -1.1rem;
     font-size: clamp(1.1rem, 1.5vw, 1.35rem);
     line-height: 1.25;
     white-space: nowrap;
