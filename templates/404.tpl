@@ -1,13 +1,5 @@
-{# Only remove this if you want to take away the theme onboarding advices #}
-{% set show_help = not has_products %}
-
-{# Here we will add an example as a help, you can delete this after you upload your products #}
-
-{% if show_help %}
-	<div id="product-example">
-		{% snipplet 'defaults/show_help_product.tpl' %}
-	</div>
-{% else %}
+{# La ayuda de Tiendanube ("Producto de ejemplo" mientras no hay productos
+   cargados) se saco (2026-09-28): tapaba la pagina de error. #}
 	{# Pagina no encontrada (Santiago, 2026-09-28): formato del "not found" de
 	   21st.dev (nevsky118) con los colores de la marca. Un 404 enorme y tenue
 	   en turquesa de fondo, el titulo en Pinyon, una frase, el buscador de la
@@ -48,4 +40,3 @@
 			</div>
 		{% endif %}
 	</section>
-{% endif %}
