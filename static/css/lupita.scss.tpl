@@ -10720,6 +10720,24 @@ body .newsletter.lu-canal h3 {
     cursor: pointer;
 }
 
+.lu-lupa-abrir .icon-inline {
+    transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Abierta: la lupa del header queda marcada (circulo turquesa) */
+.lu-lupa-abierta .lu-lupa-abrir {
+    background-color: var(--lu-acento);
+}
+
+.lu-lupa-abierta .lu-lupa-abrir .icon-inline {
+    transform: scale(0.85) rotate(-12deg);
+}
+
+/* La animacion (Santiago, 2026-09-28: "la lupa no tiene animacion"; la
+   primera version solo bajaba 12px y no se notaba): la barra nace como un
+   circulo de 3rem debajo de la lupa, cae y se estira hacia la izquierda con
+   rebote (queda anclada a la derecha). Despues aparece el texto y la X entra
+   con un saltito. Al cerrar hace el camino inverso, mas rapido. */
 .lu-lupa-form {
     position: absolute;
     top: calc(100% + 0.5rem);
@@ -10728,26 +10746,60 @@ body .newsletter.lu-canal h3 {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    width: min(26rem, calc(100vw - 1.5rem));
+    width: 3rem;
     height: 3rem;
     margin: 0;
-    padding: 0 0.4rem 0 1.1rem;
+    padding: 0 0.4rem 0 1rem;
+    overflow: hidden;
     border: 1px solid var(--lu-tinta);
     border-radius: 999px;
     background-color: var(--lu-papel);
     box-shadow: 0 12px 30px rgba(46, 29, 33, 0.14);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-0.75rem) scale(0.96);
+    transform: translateY(-1.5rem) scale(0.6);
     transform-origin: top right;
-    transition: transform 380ms cubic-bezier(0.34, 1.4, 0.64, 1), opacity 180ms ease, visibility 0s linear 380ms, border-color 150ms ease;
+    transition:
+        width 300ms cubic-bezier(0.4, 0, 1, 1),
+        transform 250ms cubic-bezier(0.4, 0, 1, 1) 150ms,
+        opacity 200ms ease 200ms,
+        visibility 0s linear 450ms,
+        border-color 150ms ease;
 }
 
 .lu-lupa-abierta .lu-lupa-form {
+    width: min(26rem, calc(100vw - 1.5rem));
     opacity: 1;
     visibility: visible;
     transform: none;
-    transition: transform 380ms cubic-bezier(0.34, 1.4, 0.64, 1), opacity 180ms ease, visibility 0s, border-color 150ms ease;
+    transition:
+        transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 150ms ease,
+        width 650ms cubic-bezier(0.34, 1.3, 0.64, 1) 180ms,
+        visibility 0s,
+        border-color 150ms ease;
+}
+
+.lu-lupa-form .lu-lupa-icono,
+.lu-lupa-form .lu-lupa-input {
+    opacity: 0;
+    transition: opacity 120ms ease;
+}
+
+.lu-lupa-abierta .lu-lupa-form .lu-lupa-icono,
+.lu-lupa-abierta .lu-lupa-form .lu-lupa-input {
+    opacity: 1;
+    transition: opacity 250ms ease 380ms;
+}
+
+.lu-lupa-form .lu-lupa-cerrar {
+    transform: scale(0) rotate(-90deg);
+    transition: transform 150ms ease, background-color 150ms ease;
+}
+
+.lu-lupa-abierta .lu-lupa-form .lu-lupa-cerrar {
+    transform: none;
+    transition: transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1) 520ms, background-color 150ms ease;
 }
 
 .lu-lupa-form:focus-within {
@@ -10815,8 +10867,9 @@ body .newsletter.lu-canal h3 {
     background-color: var(--lu-acento);
 }
 
-.lu-lupa-cerrar:active {
+.lu-lupa-abierta .lu-lupa-form .lu-lupa-cerrar:active {
     transform: scale(0.9);
+    transition-delay: 0ms;
 }
 
 .lu-lupa-cerrar svg {
@@ -10827,8 +10880,11 @@ body .newsletter.lu-canal h3 {
 
 @media (prefers-reduced-motion: reduce) {
     .lu-lupa-form,
-    .lu-lupa-abierta .lu-lupa-form {
-        transition: none;
+    .lu-lupa-abierta .lu-lupa-form,
+    .lu-lupa-form *,
+    .lu-lupa-abierta .lu-lupa-form *,
+    .lu-lupa-abrir .icon-inline {
+        transition: none !important;
     }
 }
 
