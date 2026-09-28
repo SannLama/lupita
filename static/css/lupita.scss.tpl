@@ -11801,3 +11801,59 @@ body .newsletter.lu-canal p {
         display: none;
     }
 }
+
+/*============================================================================
+  #Favoritos: corazon del header (Santiago, 2026-09-28: "no tiene animacion
+  el wishlist"). Ver snipplets/favoritos/latido.tpl.
+==============================================================================*/
+.lu-favs-link {
+    position: relative;
+    overflow: visible;
+}
+
+.lu-favs-link .icon-inline {
+    transition: color 200ms ease;
+    transform-origin: 50% 55%;
+}
+
+/* Al pasar el mouse: late como un corazon, en turquesa */
+.lu-favs-link:hover .icon-inline,
+.lu-favs-link:focus-visible .icon-inline {
+    color: var(--lu-acento);
+    fill: var(--lu-acento);
+    animation: lu-favs-pulso 1100ms ease-in-out infinite;
+}
+
+@keyframes lu-favs-pulso {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.22); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.14); }
+    60% { transform: scale(1); }
+}
+
+/* Al guardar algo (o al tocarlo): salto con rebote */
+.lu-favs-salto .icon-inline,
+.lu-favs-salto:hover .icon-inline {
+    animation: lu-fav-latido 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* El contador pega un saltito cuando sube */
+.lu-favs-cuenta-salto {
+    animation: lu-favs-cuenta 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes lu-favs-cuenta {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.6); }
+    100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-favs-link:hover .icon-inline,
+    .lu-favs-link:focus-visible .icon-inline,
+    .lu-favs-salto .icon-inline,
+    .lu-favs-cuenta-salto {
+        animation: none;
+    }
+}
