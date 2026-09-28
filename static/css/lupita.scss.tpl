@@ -10703,12 +10703,18 @@ body .newsletter.lu-canal h3 {
     position: static;
 }
 
+/* El icono mide 16px: el boton es de 40px (area comoda para el dedo) y el
+   margen negativo lo deja ocupando lo mismo en la fila. */
 .lu-lupa-abrir {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: -0.75rem;
     padding: 0;
     border: 0;
+    border-radius: 999px;
     background: transparent;
     color: var(--lu-tinta);
     cursor: pointer;

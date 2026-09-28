@@ -26,12 +26,15 @@
 				var cerrarBtn = caja.querySelector('.js-lu-lupa-cerrar');
 				var abierta = function () { return caja.classList.contains('lu-lupa-abierta'); };
 				{# El borde derecho de la barra, alineado con el del icono (en el celular, margen fijo del CSS) #}
+				{# y la parte de arriba, 8px debajo del borde inferior del header #}
 				var alinear = function () {
-					if (window.innerWidth < 768) { form.style.right = ''; return; }
 					var fila = form.offsetParent;
 					if (!fila) return;
-					var r = fila.getBoundingClientRect().right - abrirBtn.getBoundingClientRect().right - 8;
-					form.style.right = Math.max(12, r) + 'px';
+					var rf = fila.getBoundingClientRect();
+					var cab = caja.closest('header');
+					if (cab) form.style.top = (cab.getBoundingClientRect().bottom - rf.top + 8) + 'px';
+					if (window.innerWidth < 768) { form.style.right = ''; return; }
+					form.style.right = Math.max(12, rf.right - abrirBtn.getBoundingClientRect().right - 8) + 'px';
 				};
 				var abrir = function () {
 					alinear();
