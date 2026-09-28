@@ -11199,6 +11199,9 @@ body .newsletter.lu-canal h3 {
 .btn.lu-ihb:hover,
 .btn.lu-ihb:focus-visible {
     border-color: var(--lu-acento);
+    /* El base le baja la opacidad a 0.8 al pasar el mouse: el turquesa del
+       relleno se veia lavado */
+    opacity: 1 !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
