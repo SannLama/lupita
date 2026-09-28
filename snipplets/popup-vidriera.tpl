@@ -1,12 +1,14 @@
 {# /*============================================================================
   #Popup de vidriera virtual (Santiago, 2026-09-28: "que al momento de entrar
-  en la tienda te aparezca un pop up de que es una vidriera virtual")
-  Aparece al segundo de entrar, una vez cada 7 dias por visitante
-  (localStorage), en cualquier pagina menos la de contraseña. Mismos textos
-  que el bloque de vidriera virtual (Personalizar diseño > Vidriera virtual)
-  y la misma caja que el popup del canal (.lu-canal-popup). En la visita en
-  que se muestra, el del canal no sale (sessionStorage 'lupita-vv-sesion'):
-  dos ventanas seguidas al entrar es demasiado.
+  en la tienda te aparezca un pop up de que es una vidriera virtual"; despues:
+  "si refrescan la pagina que les vuelva a salir")
+  Aparece al segundo de ENTRAR a la tienda (llegando desde otro sitio, desde
+  un link directo o escribiendo la direccion) y cada vez que se recarga la
+  pagina. No sale al pasar de una pagina a otra dentro de la tienda. Todas las
+  paginas menos la de contraseña. Mismos textos que el bloque de vidriera
+  virtual (Personalizar diseño > Vidriera virtual) y la caja del popup del
+  canal (.lu-canal-popup), mas ancha. En la carga en que se muestra, el
+  popup del canal no sale (window.luVidrieraAbierta).
 ==============================================================================*/#}
 
 {% if not settings.lupita_vidriera_ocultar and template != 'password' %}
@@ -21,25 +23,30 @@
             <span class="lu-canal-popup-red">{{ lu_vv_rotulo }}</span>
             <p class="lu-canal-popup-titulo" id="lu-vv-popup-titulo">{{ lu_vv_titulo }}</p>
             <p class="lu-canal-popup-texto">{{ lu_vv_texto }}</p>
-            <button type="button" class="js-lu-vv-cerrar js-lu-vv-ok btn lu-canal-btn lu-canal-popup-btn">{{ 'Entendido' | translate }}</button>
-            <a class="lu-canal-popup-despues" href="{{ store.url }}/locales/">{{ 'Conocé nuestras tiendas' | translate }}</a>
+            <div class="lu-vv-acciones">
+                <button type="button" class="js-lu-vv-cerrar js-lu-vv-ok btn lu-canal-btn lu-canal-popup-btn">{{ 'Entendido' | translate }}</button>
+                <a class="lu-canal-popup-despues" href="{{ store.url }}/locales/">{{ 'Conocé nuestras tiendas' | translate }}</a>
+            </div>
         </div>
     </div>
     <script>
         (function () {
-            var CLAVE = 'lupita-vv-popup', DIAS = 7;
             var popup = document.querySelector('.js-lu-vv-popup');
             if (!popup) return;
+            var recarga = false, desdeAfuera = true;
             try {
-                var t = Number(localStorage.getItem(CLAVE));
-                if (t && (Date.now() - t) < DIAS * 864e5) return;
-            } catch (e) { return; }
-            try { sessionStorage.setItem('lupita-vv-sesion', '1'); } catch (e) {}
+                var nav = performance.getEntriesByType('navigation')[0];
+                recarga = nav ? nav.type === 'reload' : performance.navigation.type === 1;
+            } catch (e) {}
+            {# Sin www: el menu linkea a www.ahilupita.com.ar y la tienda abre en ahilupita.com.ar #}
+            var dominio = function (h) { return h.replace(/^www\./, ''); };
+            try { desdeAfuera = !document.referrer || dominio(new URL(document.referrer).host) !== dominio(location.host); } catch (e) {}
+            if (!recarga && !desdeAfuera) return;
+            window.luVidrieraAbierta = true;
             var anterior = null;
             var teclas = function (e) { if (e.key === 'Escape') cerrar(); };
             var cerrar = function () {
                 popup.classList.remove('lu-canal-popup-visible');
-                try { localStorage.setItem(CLAVE, String(Date.now())); } catch (e) {}
                 setTimeout(function () { popup.hidden = true; }, 220);
                 document.removeEventListener('keydown', teclas);
                 if (anterior && anterior.focus) anterior.focus();

@@ -10654,9 +10654,37 @@ body .newsletter.lu-canal h3 {
     margin: 0 0 0.75rem;
 }
 
-/* Popup de vidriera virtual (snipplets/popup-vidriera.tpl): usa la caja del
-   popup del canal; "Conocé nuestras tiendas" es un link, no un boton, y hay
-   que centrarlo a mano. */
-.lu-vv-popup .lu-canal-popup-despues {
-    text-align: center;
+/* Popup de vidriera virtual (snipplets/popup-vidriera.tpl): la caja del
+   popup del canal, mas apaisada, con el boton chico y el link al lado
+   (Santiago, 2026-09-28). */
+.lu-vv-popup .lu-canal-popup-caja {
+    width: min(44rem, 100%);
+    padding: clamp(1.5rem, 4vw, 2.25rem) clamp(1.5rem, 5vw, 3rem);
+}
+
+.lu-vv-popup .lu-canal-popup-titulo {
+    margin: 0.5rem 0;
+}
+
+.lu-vv-popup .lu-canal-popup-texto {
+    max-width: 60ch;
+}
+
+.lu-vv-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+}
+
+.lu-vv-popup .lu-canal-popup-btn {
+    display: inline-block;
+    width: auto;
+    padding: 0.6rem 1.75rem;
+    font-size: 0.8rem;
+}
+
+.lu-vv-popup .lu-vv-acciones .lu-canal-popup-despues {
+    display: inline-block;
+    margin: 0;
 }
