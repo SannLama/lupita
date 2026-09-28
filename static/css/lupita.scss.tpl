@@ -12568,3 +12568,13 @@ html {
         animation: none;
     }
 }
+
+/* Video de la tarjeta del medio: cubre la tarjeta igual que las fotos */
+.section-banners-home .lu-banner-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+}

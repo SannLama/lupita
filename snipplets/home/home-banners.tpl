@@ -52,6 +52,13 @@
                                 <a class="textbanner-link" href="{{ banner_url | setting_url }}"{% if banner_title %} title="{{ banner_title }}" aria-label="{{ banner_title }}"{% else %} title="{{ 'Banner de' | translate }} {{ store.name }}" aria-label="{{ 'Banner de' | translate }} {{ store.name }}"{% endif %}>
                             {% endif %}
                             <div class="textbanner-image{% if has_banner_text and textoverimage %} overlay{% endif %}">
+                                {# Tarjeta del medio con video, sin texto ni boton (Santiago, 2026-09-28).
+                                   El video vive en Netlify (ahilupita-videos), como el de Portada. #}
+                                {% if banner == 'banner_02' %}
+                                <video class="textbanner-image-background lu-banner-video" autoplay muted loop playsinline preload="metadata" poster="https://ahilupita-videos.netlify.app/new-in-poster.jpg" aria-hidden="true">
+                                    <source src="https://ahilupita-videos.netlify.app/new-in.mp4" type="video/mp4">
+                                </video>
+                                {% else %}
                                 <img 
                                     {% if not apply_lazy_load %}fetchpriority="high"{% endif %}
                                     {% if apply_lazy_load %}data-{% endif %}src="{{ banner_src }}"
@@ -65,6 +72,7 @@
                                 />
                                 {% if apply_lazy_load %}
                                     <div class="placeholder-fade placeholder-banner"></div>
+                                {% endif %}
                                 {% endif %}
                             </div>
                             <div class="textbanner-text{% if textoverimage %} over-image{% endif %}">
