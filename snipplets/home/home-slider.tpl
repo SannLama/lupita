@@ -12,6 +12,22 @@
 				{% else %}
 					{% set slider = settings.slider %}
 				{% endif %}
+				{# Sin repetidos (2026-09-28): en el panel quedaron los 5 slides viejos y
+				   los 5 nuevos con las mismas fotos y titulos; si un titulo vuelve a
+				   aparecer mas adelante, se muestra solo el ultimo (el nuevo). #}
+				{% set slider_limpio = [] %}
+				{% for slide in slider %}
+					{% set lu_despues = false %}
+					{% for otro in slider %}
+						{% if loop.index > loop.parent.loop.index and slide.title and otro.title == slide.title %}
+							{% set lu_despues = true %}
+						{% endif %}
+					{% endfor %}
+					{% if not lu_despues %}
+						{% set slider_limpio = slider_limpio | merge([slide]) %}
+					{% endif %}
+				{% endfor %}
+				{% set slider = slider_limpio %}
 				{% for slide in slider %}
 					{% set es_marca = slide.title and ('Lupita' in slide.title or 'Couch' in slide.title) %}
 					<div class="swiper-slide slide-container{% if es_marca %} lu-slide-marca{% endif %}">
