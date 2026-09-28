@@ -12046,3 +12046,23 @@ body .newsletter.lu-canal p {
         aspect-ratio: 4 / 5;
     }
 }
+
+/*============================================================================
+  #Fondo de lino en toda la pagina (Santiago, 2026-09-28: "proba toda la
+  pagina con la textura que te mande"). La misma textura y el mismo velo
+  crema que el panel de "Probatelo". El header y el pie mantienen su color
+  liso. La franja de servicios tenia fondo crema propio: pasa a transparente.
+==============================================================================*/
+html,
+body {
+    background-color: #efe9e1;
+    background-image:
+        linear-gradient(rgba(247, 242, 234, 0.45), rgba(247, 242, 234, 0.45)),
+        url("{{ 'images/probatelo-lino.jpg' | static_url }}");
+    background-size: auto, 260px auto;
+    background-repeat: repeat;
+}
+
+body .section-informative-banners {
+    background-color: transparent;
+}
