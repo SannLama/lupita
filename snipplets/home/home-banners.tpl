@@ -41,6 +41,8 @@
                     {% set banner_title = false %}
                     {% set banner_button_text = false %}
                     {% set banner_description = false %}
+                {% elseif banner == 'banner_03' %}
+                    {% set lu_foto_theme = 'images/night-out.jpg' %}
                 {% endif %}
                 {% set has_banner_text =  banner_title or banner_description or banner_button_text %}
 

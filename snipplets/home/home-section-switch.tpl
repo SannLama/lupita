@@ -35,7 +35,7 @@
 
 {% elseif section_select == 'categories' %}
 
-	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_top_video, lu_sw_img: 'sandwich-arriba.jpg', lu_sw_title: settings.lupita_sandwich_top_title ?: 'Denimwear', lu_sw_button: settings.lupita_sandwich_top_button ?: 'Ver Denimwear', lu_sw_url: settings.lupita_sandwich_top_url ?: '/denimwear-zem5c/'} %}
+	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_top_video, lu_sw_img: 'sandwich-arriba.jpg', lu_sw_foto_theme: 'images/denimwear.jpg', lu_sw_title: settings.lupita_sandwich_top_title ?: 'Denimwear', lu_sw_button: settings.lupita_sandwich_top_button ?: 'Ver Denimwear', lu_sw_url: settings.lupita_sandwich_top_url ?: '/denimwear-zem5c/'} %}
 
 	{#  **** Categories banners ****  #}
 	{% if show_help or (show_component_help and not has_category_banners) %}
