@@ -12439,3 +12439,61 @@ body .js-home-sections-container > .section-informative-banners::before {
         white-space: nowrap;
     }
 }
+
+/* Botones span dentro de un link (franjas anchas): el hover es del link */
+a:hover .btn.lu-ihb .lu-ihb-punto,
+a:focus-visible .btn.lu-ihb .lu-ihb-punto {
+    transform: scale(100);
+}
+
+a:hover .btn.lu-ihb .lu-ihb-texto,
+a:focus-visible .btn.lu-ihb .lu-ihb-texto {
+    transform: translateX(3rem);
+    opacity: 0;
+}
+
+a:hover .btn.lu-ihb .lu-ihb-capa,
+a:focus-visible .btn.lu-ihb .lu-ihb-capa {
+    transform: none;
+    opacity: 1;
+}
+
+/* Celular: botones y margenes de la zona de categorias (Santiago,
+   2026-09-28, "cuidado con los botones y los margenes"). iOS agrandaba el
+   texto por su cuenta (text-size-adjust) y los botones de las tarjetas
+   tocaban los bordes; las franjas tenian boton y titulo enormes. */
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+@media (max-width: 767px) {
+    body .section-banners-home .textbanner-text {
+        left: 0.5rem;
+        right: 0.5rem;
+        width: auto;
+        padding: 0;
+    }
+
+    body .section-banners-home .textbanner-text .btn {
+        max-width: 100%;
+        padding: 0.35rem 0.6rem;
+        font-size: 0.52rem;
+        letter-spacing: 0.03em;
+        overflow: hidden;
+    }
+
+    body .lu-sandwich-text {
+        padding: 0 1.25rem;
+    }
+
+    body .lu-sandwich-title {
+        font-size: clamp(1.8rem, 8.5vw, 2.4rem);
+        margin-bottom: 0.6rem;
+    }
+
+    body .lu-sandwich .btn {
+        padding: 0.55rem 1.3rem;
+        font-size: 0.66rem;
+    }
+}

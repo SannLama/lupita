@@ -94,7 +94,9 @@
             });
 
             {# 2. El resto de los botones de texto: estructura del hover #}
-            Array.prototype.forEach.call(document.querySelectorAll('a.btn, button.btn'), function (b) {
+            {# span.btn dentro de un link (franjas Denimwear / de abajo): el efecto se
+               dispara con el hover del link entero, ver CSS #}
+            Array.prototype.forEach.call(document.querySelectorAll('a.btn, button.btn, a span.btn'), function (b) {
                 if (b.classList.contains('lu-ihb') || b.classList.contains('btn-link')) return;
                 if (b.classList.contains('lu-gift-chip') || b.closest('.swiper-button-prev, .swiper-button-next')) return;
                 if (b.children.length) return;
