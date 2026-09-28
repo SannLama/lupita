@@ -12324,3 +12324,64 @@ body .js-home-sections-container > .section-informative-banners::before {
     opacity: 1;
     transform: scale(1.25);
 }
+
+/* (2026-09-28, "no esta la animacion del boton de la wishlist") el latido de
+   16px no se notaba. Ahora al pasar el mouse: aparece un circulo turquesa
+   claro detras, el corazon late mas fuerte y sale una onda que se expande. */
+.lu-favs-link::before,
+.lu-favs-link::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -9px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.lu-favs-link::before {
+    background-color: rgba(100, 178, 179, 0.22);
+    transform: scale(0);
+    transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: -1;
+}
+
+.lu-favs-link::after {
+    border: 2px solid var(--lu-acento);
+    opacity: 0;
+}
+
+.lu-favs-link:hover::before,
+.lu-favs-link:focus-visible::before {
+    transform: scale(1);
+}
+
+.lu-favs-link:hover::after,
+.lu-favs-link:focus-visible::after {
+    animation: lu-favs-onda 1100ms ease-out infinite;
+}
+
+@keyframes lu-favs-onda {
+    0% { transform: scale(0.6); opacity: 0.8; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+.lu-favs-link {
+    isolation: isolate;
+}
+
+@keyframes lu-favs-pulso {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.4); }
+    28% { transform: scale(1.05); }
+    42% { transform: scale(1.3); }
+    60% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-favs-link:hover::after {
+        animation: none;
+    }
+}
