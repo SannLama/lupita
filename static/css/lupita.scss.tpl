@@ -1059,58 +1059,35 @@ hr,
     text-decoration: underline;
 }
 
-/* Marquesina continua (2026-09-15; reemplaza al rotador que cambiaba de
-   mensaje de golpe). Ver header-advertising.tpl: dos grupos iguales, el track
-   corre -50% en loop lineal. min-width: 100vw en cada grupo evita el hueco
-   cuando los mensajes no llenan la pantalla. Se frena al pasar el mouse para
-   poder leer; con movimiento reducido queda quieta y recortada. */
-.ad-marquee {
-    overflow: hidden;
-    white-space: nowrap;
+/* Rotador de a un mensaje (Santiago, 2026-09-28, "como el de markova.com";
+   reemplaza a la marquesina continua del 15/9). Ver header-advertising.tpl:
+   todos los mensajes en la misma celda de la grilla, solo el activo visible.
+   Con movimiento reducido cambia de golpe, sin fundido. */
+.ad-rotador {
+    display: grid;
+    padding-inline: 1rem;
+    text-align: center;
 }
 
-.ad-marquee-track {
-    display: flex;
-    width: max-content;
-    animation-name: lu-ad-marquee;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
-.ad-marquee-grupo {
-    display: flex;
-    flex: 0 0 auto;
-    min-width: 100vw;
-    justify-content: space-around;
-}
-
-/* Menos aire entre mensajes (Santiago, 2026-09-23): 1.5rem de padding +
-   3rem antes del punto dejaba mucho hueco en la marquesina. */
-.ad-msg {
-    padding-inline: 0.75rem;
+.ad-rotador .ad-msg {
+    grid-area: 1 / 1;
+    align-self: center;
     line-height: 1.3;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 400ms ease, visibility 0s linear 400ms;
 }
 
-/* Separador entre mensajes: un punto de tinta, no el "-" que la clienta usa
-   para cortar el texto en el panel. */
-.ad-msg::after {
-    content: "\2022";
-    margin-left: 1.25rem;
-}
-
-.ad-marquee:hover .ad-marquee-track {
-    animation-play-state: paused;
-}
-
-@keyframes lu-ad-marquee {
-    to {
-        transform: translateX(-50%);
-    }
+.ad-rotador .ad-msg.is-activo {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 400ms ease 150ms, visibility 0s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ad-marquee-track {
-        animation: none;
+    .ad-rotador .ad-msg,
+    .ad-rotador .ad-msg.is-activo {
+        transition: none;
     }
 }
 
