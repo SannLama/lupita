@@ -10841,3 +10841,174 @@ body .newsletter.lu-canal h3 {
         transition: none;
     }
 }
+
+/*============================================================================
+  #Productos destacados en abanico (Santiago, 2026-09-28)
+  Ver snipplets/home/home-featured-products.tpl. El JS pone transform,
+  opacidad y z-index de cada carta; aca van el tamaño, la escena y las
+  curvas: la entrada con rebote largo (como el elastic de la referencia) y
+  el resto con un rebote corto.
+==============================================================================*/
+.lu-abanico-seccion {
+    padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 5vw, 4rem);
+    overflow: hidden;
+}
+
+.lu-abanico-titulo {
+    margin: 0 0 clamp(1.5rem, 4vw, 3rem);
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.1;
+    text-align: center;
+}
+
+.lu-abanico {
+    --lu-carta: clamp(8.5rem, 22vw, 16rem);
+    position: relative;
+    height: calc(var(--lu-carta) * 1.3333 + 9rem);
+    max-width: 80rem;
+    margin: 0 auto;
+    touch-action: pan-y;
+}
+
+.lu-abanico-carta {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: var(--lu-carta);
+    display: block;
+    color: var(--lu-tinta);
+    text-decoration: none;
+    transform-origin: 50% 100%;
+    opacity: 0;
+    transition: transform 550ms cubic-bezier(0.34, 1.45, 0.64, 1), opacity 300ms ease;
+    will-change: transform;
+}
+
+.lu-abanico-carta:hover,
+.lu-abanico-carta:focus {
+    color: var(--lu-tinta);
+    text-decoration: none;
+}
+
+.lu-abanico-entrando .lu-abanico-carta {
+    transition: transform 1100ms cubic-bezier(0.22, 1.6, 0.36, 1), opacity 400ms ease;
+}
+
+.lu-abanico-fuera {
+    pointer-events: none;
+}
+
+.lu-abanico-foto {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 1rem;
+    background-color: var(--lu-acento);
+    box-shadow: 0 10px 30px rgba(46, 29, 33, 0.18);
+}
+
+.lu-abanico-foto img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+}
+
+/* Nombre y precio: solo en la carta del frente (o la que tiene el mouse) */
+.lu-abanico-dato {
+    display: block;
+    padding: 0.7rem 0.25rem 0;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 250ms ease;
+}
+
+.lu-abanico-frente .lu-abanico-dato {
+    opacity: 1;
+}
+
+.lu-abanico-nombre {
+    display: block;
+    font-family: var(--lu-sub);
+    font-size: 0.95rem;
+    line-height: 1.25;
+}
+
+.lu-abanico-precio {
+    display: block;
+    margin-top: 0.15rem;
+    font-family: var(--lu-texto);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.lu-abanico-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.lu-abanico-nav[hidden] {
+    display: none;
+}
+
+.lu-abanico-flecha {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1.5px solid var(--lu-tinta);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--lu-tinta);
+    cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease;
+}
+
+.lu-abanico-flecha:hover {
+    background-color: var(--lu-tinta);
+    color: var(--lu-papel);
+}
+
+.lu-abanico-flecha svg {
+    width: 0.8rem;
+    height: 0.8rem;
+    fill: currentColor;
+}
+
+.lu-abanico-puntos {
+    display: flex;
+    gap: 0.45rem;
+}
+
+.lu-abanico-puntos span {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background-color: var(--lu-tinta);
+    opacity: 0.2;
+    transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.lu-abanico-puntos span.activo {
+    opacity: 0.8;
+    transform: scale(1.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-abanico-carta,
+    .lu-abanico-entrando .lu-abanico-carta {
+        transition: opacity 200ms ease;
+    }
+}
