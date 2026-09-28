@@ -11857,3 +11857,181 @@ body .newsletter.lu-canal p {
         animation: none;
     }
 }
+
+/*============================================================================
+  #Probatelo en la tienda (Santiago, 2026-09-28, con un diseno)
+  Ver snipplets/home/probatelo.tpl. Dos columnas a todo el ancho: el panel
+  de lino (47%) y la foto de Banfield. En el celular, una abajo de la otra.
+==============================================================================*/
+.lu-probatelo {
+    display: grid;
+    grid-template-columns: 47fr 53fr;
+    min-height: clamp(32rem, 65vw, 45rem);
+    margin: 0;
+    overflow: hidden;
+}
+
+.lu-probatelo-panel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: clamp(3rem, 7vw, 6rem) clamp(2rem, 6vw, 5rem) clamp(3rem, 7vw, 6rem) clamp(4rem, 9vw, 7.5rem);
+    background-color: #efe9e1;
+    background-repeat: repeat;
+    background-size: 260px auto;
+    overflow: hidden;
+}
+
+/* La tira de encaje, al borde izquierdo, repetida hacia abajo */
+.lu-probatelo-encaje {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3rem;
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    pointer-events: none;
+}
+
+/* Firuletes: letras script turquesa enormes y tenues, cortadas por el panel */
+.lu-probatelo-firulete {
+    position: absolute;
+    font-family: var(--lu-macro);
+    color: var(--lu-acento);
+    opacity: 0.16;
+    line-height: 1;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}
+
+.lu-probatelo-firulete-arriba {
+    top: -4.5rem;
+    left: 3.5rem;
+    font-size: clamp(8rem, 14vw, 13rem);
+}
+
+.lu-probatelo-firulete-abajo {
+    bottom: -5.5rem;
+    left: 5rem;
+    font-size: clamp(8rem, 13vw, 12rem);
+}
+
+.lu-probatelo-texto {
+    position: relative;
+    z-index: 1;
+    max-width: 30rem;
+}
+
+.lu-probatelo-titulo {
+    margin: 0 0 1.75rem;
+    color: var(--lu-acento);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1;
+}
+
+.lu-probatelo-titulo-grande {
+    display: block;
+    margin-left: -0.08em;
+    font-family: var(--lu-macro);
+    font-size: clamp(4rem, 8.5vw, 7.25rem);
+    line-height: 0.95;
+}
+
+.lu-probatelo-titulo-bajo {
+    display: block;
+    margin: -0.4em 0 0 0.6em;
+    font-family: var(--lu-sub);
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+}
+
+.lu-probatelo-en {
+    font-family: var(--lu-macro);
+    font-size: 2.2em;
+    line-height: 0.8;
+    vertical-align: -0.12em;
+    margin-right: 0.05em;
+}
+
+.lu-probatelo-texto p {
+    margin: 0 0 1.25rem;
+    font-family: var(--lu-texto);
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    line-height: 1.45;
+    color: var(--lu-tinta);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.lu-probatelo-texto strong {
+    font-weight: 700;
+}
+
+.lu-probatelo-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-family: var(--lu-texto);
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.lu-probatelo-link:hover {
+    color: var(--lu-tinta);
+    text-underline-offset: 6px;
+}
+
+.lu-probatelo-foto {
+    position: relative;
+    margin: 0;
+    min-height: 22rem;
+}
+
+.lu-probatelo-foto img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 45% 50%;
+    filter: saturate(0.9) brightness(0.92) sepia(0.12);
+}
+
+.lu-probatelo-foto figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(1.5rem, 4vw, 3.5rem);
+    text-align: center;
+    font-family: var(--lu-sub);
+    font-style: italic;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--lu-papel);
+    text-shadow: 0 1px 3px rgba(46, 29, 33, 0.6), 0 2px 16px rgba(46, 29, 33, 0.4);
+}
+
+@media (max-width: 767px) {
+    .lu-probatelo {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .lu-probatelo-panel {
+        padding: 4rem 1.5rem 3.5rem 3.75rem;
+    }
+
+    .lu-probatelo-encaje {
+        width: 2.25rem;
+    }
+
+    .lu-probatelo-foto {
+        aspect-ratio: 4 / 5;
+    }
+}

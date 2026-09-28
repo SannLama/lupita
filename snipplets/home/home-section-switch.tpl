@@ -93,7 +93,7 @@
 {% elseif section_select == 'modules' %}
 
 	{#  **** Modules banners ****  #}
-	{% if show_help or (show_component_help and not has_image_text_modules) %}
+	{% if show_help %}
 		{% include 'snipplets/defaults/home/banners_help.tpl' with {
 			banner_title: 'Módulo de imagen y texto' | translate,
 			banner_help_text: 'Podés mostrar tus últimas novedades desde' | translate,
@@ -103,7 +103,8 @@
 			banners_amount: 1} 
 		%}
 	{% else %}
-		{% include 'snipplets/home/home-modules.tpl' with {'textoverimage': false} %}
+		{# "Probatelo en la tienda" con el diseno de Santiago (2026-09-28); antes home-modules.tpl #}
+		{% include 'snipplets/home/probatelo.tpl' %}
 	{% endif %}
 
 {% elseif section_select == 'cover' %}
