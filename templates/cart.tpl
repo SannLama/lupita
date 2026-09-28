@@ -1,4 +1,6 @@
-{# Carrito desactivado (Santiago, 2026-09-25): no se vende online por ahora. Si
+{# Carrito desactivado (Santiago, 2026-09-25): no se vende online por ahora.
+   (2026-09-28) El icono de la bolsa volvio al header y trae aca; el aviso dice
+   "Proximamente la venta online". Si
    alguien llega a /comprar/ (un link viejo o un carrito que ya tenia cosas) ve
    este aviso y no puede avanzar al checkout. Para volver a vender online:
    borrar este bloque y el "if false" que envuelve el carrito original, y el "and false" de
@@ -7,7 +9,7 @@
     <div class="container">
         <div class="lu-sin-carrito-caja">
             <h1 class="lu-pagina-titulo">{{ 'Carrito' | translate }}</h1>
-            <p class="lu-sin-carrito-titulo">{{ 'Por el momento no se realiza la venta online' | translate }}</p>
+            <p class="lu-sin-carrito-titulo">{{ 'Próximamente la venta online' | translate }}</p>
             <p class="lu-sin-carrito-texto">{{ 'Guardá tus favoritos con el corazón y vení a probártelos a cualquiera de nuestras tiendas.' | translate }}</p>
             <div class="lu-sin-carrito-acciones">
                 <a class="btn btn-primary" href="{{ store.url }}/locales/">{{ 'Conocé nuestras tiendas' | translate }}</a>
