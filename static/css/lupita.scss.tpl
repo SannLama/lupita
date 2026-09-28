@@ -11398,3 +11398,13 @@ body a.btn.lu-3d:focus-visible .lu-3d-flecha {
         animation: none;
     }
 }
+
+/* Texto del bloque del canal en el pie: el gris chico de .newsletter p casi
+   no se leia sobre el turquesa (Santiago, 2026-09-28: "cuidado con los
+   colores para que no queden invisibles"). */
+body .newsletter.lu-canal p {
+    color: var(--lu-tinta);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 52ch;
+}
