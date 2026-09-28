@@ -25,6 +25,21 @@
                 {% set banner_button_text = attribute(settings,"#{banner}_button") %}
                 {% set banner_url = attribute(settings,"#{banner}_url") %}
                 {% set has_banner =  banner_show and (banner_title or banner_description or "#{banner}.jpg" | has_custom_image) %}
+                {# (2026-09-28, Santiago) Tarjeta 1 = New In con foto fija del theme;
+                   tarjeta 2 = video, sin texto ni boton. Fijado aca porque el panel no
+                   estaba a mano; los campos del panel de estas dos no se usan. #}
+                {% set lu_foto_theme = false %}
+                {% if banner == 'banner_01' %}
+                    {% set banner_title = 'New In' %}
+                    {% set banner_button_text = 'Ver New In' %}
+                    {% set banner_url = '/denim-wear-1ifcg/pantalon-denim/' %}
+                    {% set banner_description = false %}
+                    {% set lu_foto_theme = 'images/newin.jpg' %}
+                {% elseif banner == 'banner_02' %}
+                    {% set banner_title = false %}
+                    {% set banner_button_text = false %}
+                    {% set banner_description = false %}
+                {% endif %}
                 {% set has_banner_text =  banner_title or banner_description or banner_button_text %}
 
                 {# Assign priority to the first banner (no matter banner order) #}
@@ -58,6 +73,8 @@
                                 <video class="textbanner-image-background lu-banner-video" autoplay muted loop playsinline preload="metadata" poster="https://ahilupita-videos.netlify.app/new-in-poster.jpg" aria-hidden="true">
                                     <source src="https://ahilupita-videos.netlify.app/new-in.mp4" type="video/mp4">
                                 </video>
+                                {% elseif lu_foto_theme %}
+                                <img class="textbanner-image-background" src="{{ lu_foto_theme | static_url }}" alt="{{ banner_title }}" loading="lazy">
                                 {% else %}
                                 <img 
                                     {% if not apply_lazy_load %}fetchpriority="high"{% endif %}

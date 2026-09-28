@@ -50,7 +50,7 @@
 		{% include 'snipplets/home/home-banners.tpl' with {'textoverimage': true} %}
 	{% endif %}
 
-	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_bottom_video, lu_sw_img: 'sandwich-abajo.jpg', lu_sw_title: settings.lupita_sandwich_bottom_title ?: 'Accesorios y Complementos', lu_sw_button: settings.lupita_sandwich_bottom_button ?: 'Ver accesorios', lu_sw_url: settings.lupita_sandwich_bottom_url ?: '/accesorios-8acou/'} %}
+	{% include 'snipplets/home/home-sandwich.tpl' with {lu_sw_video: settings.lupita_sandwich_bottom_video, lu_sw_img: 'sandwich-abajo.jpg', lu_sw_foto_theme: 'images/accesorios-web.jpg', lu_sw_title: settings.lupita_sandwich_bottom_title ?: 'Accesorios y Complementos', lu_sw_button: settings.lupita_sandwich_bottom_button ?: 'Ver accesorios', lu_sw_url: settings.lupita_sandwich_bottom_url ?: '/accesorios-8acou/'} %}
 
 {% elseif section_select == 'welcome' %}
 
