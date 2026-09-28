@@ -11882,6 +11882,16 @@ body .newsletter.lu-canal p {
     overflow: hidden;
 }
 
+/* Velo crema sobre el lino: sin el, la textura se veia mas oscura y rosada
+   que en el diseno */
+.lu-probatelo-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(247, 242, 234, 0.45);
+    pointer-events: none;
+}
+
 /* La tira de encaje, al borde izquierdo, repetida hacia abajo */
 .lu-probatelo-encaje {
     position: absolute;
@@ -12000,8 +12010,9 @@ body .newsletter.lu-canal p {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 45% 50%;
-    filter: saturate(0.9) brightness(0.92) sepia(0.12);
+    /* Desde arriba: que se vea el cartel "AHI! LU" como en el diseno */
+    object-position: 50% 0%;
+    filter: saturate(0.9) brightness(0.95) sepia(0.1);
 }
 
 .lu-probatelo-foto figcaption {
