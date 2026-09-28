@@ -10641,3 +10641,15 @@ body .lu-vidriera .lu-vidriera-titulo {
         transition: none;
     }
 }
+
+/* Canal de difusion: el titulo del bloque de arriba del pie en Pinyon, como
+   la ventana emergente (Santiago, 2026-09-28; antes salia en Lora). */
+body .newsletter.lu-canal h3 {
+    font-family: var(--lu-macro);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    line-height: 1.1;
+    margin: 0 0 0.75rem;
+}
