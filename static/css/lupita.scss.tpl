@@ -10688,3 +10688,156 @@ body .newsletter.lu-canal h3 {
     display: inline-block;
     margin: 0;
 }
+
+/*============================================================================
+  #Lupa expandible del header (Santiago, 2026-09-28)
+  El icono se va y en su lugar crece, hacia la izquierda, una barra con
+  forma de pildora: lupa, campo y X. El crecimiento pasa un poquito de largo
+  y vuelve (curva con rebote), como el resorte del componente de referencia.
+  En el celular cubre el logo mientras esta abierta.
+==============================================================================*/
+.lu-lupa {
+    position: relative;
+}
+
+.lu-lupa-abrir {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 200ms var(--lu-entrada), opacity 150ms ease;
+}
+
+.lu-lupa-abierta .lu-lupa-abrir {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.lu-lupa-form {
+    position: absolute;
+    top: 50%;
+    right: -0.5rem;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0;
+    padding: 0 0.3rem 0 0.9rem;
+    overflow: hidden;
+    border: 1px solid var(--lu-tinta);
+    border-radius: var(--lu-radio-pildora);
+    background-color: var(--lu-papel);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%);
+    transition: width 450ms cubic-bezier(0.34, 1.4, 0.64, 1), opacity 180ms ease, visibility 0s linear 450ms;
+}
+
+.lu-lupa-abierta .lu-lupa-form {
+    width: min(20rem, calc(100vw - 2rem));
+    opacity: 1;
+    visibility: visible;
+    transition: width 450ms cubic-bezier(0.34, 1.4, 0.64, 1), opacity 180ms ease, visibility 0s;
+}
+
+.lu-lupa-icono {
+    flex: 0 0 auto;
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: var(--lu-tinta);
+    opacity: 0.6;
+}
+
+.lu-lupa-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    text-transform: none;
+    letter-spacing: 0;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.lu-lupa-input::placeholder {
+    color: var(--lu-tinta);
+    opacity: 0.5;
+}
+
+.lu-lupa-input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.lu-lupa-cerrar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    border-radius: var(--lu-radio-pildora);
+    background: transparent;
+    color: var(--lu-tinta);
+    cursor: pointer;
+    transform: scale(0);
+    transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1) 120ms, background-color 150ms ease;
+}
+
+.lu-lupa-abierta .lu-lupa-cerrar {
+    transform: scale(1);
+}
+
+.lu-lupa-cerrar:hover {
+    background-color: var(--lu-acento);
+}
+
+.lu-lupa-cerrar:active {
+    transform: scale(0.9);
+}
+
+.lu-lupa-cerrar svg {
+    width: 0.8rem;
+    height: 0.8rem;
+    fill: currentColor;
+}
+
+/* En el celular la lupa no es el ultimo icono (a la derecha estan
+   favoritos y la bolsa): la barra se ancla a la fila entera del header
+   (.container) y la cubre de lado a lado, con un margen. La .col de bootstrap
+   es position: relative y hay que soltarla para que el ancla sea la fila. */
+@media (max-width: 767px) {
+    .head-main .col.text-right,
+    .lu-lupa {
+        position: static;
+    }
+
+    .lu-lupa-form {
+        right: 0.75rem;
+    }
+
+    .lu-lupa-abierta .lu-lupa-form {
+        width: calc(100% - 1.5rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-lupa-abrir,
+    .lu-lupa-form,
+    .lu-lupa-abierta .lu-lupa-form,
+    .lu-lupa-cerrar {
+        transition: none;
+    }
+}
