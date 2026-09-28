@@ -12059,10 +12059,13 @@ body .newsletter.lu-canal p {
 ==============================================================================*/
 html,
 body {
-    background-color: #f4edde;
-    background-image:
-        linear-gradient(rgba(244, 237, 222, 0.33), rgba(244, 237, 222, 0.33)),
-        url("{{ 'images/probatelo-lino.jpg' | static_url }}");
+    /* (2026-09-28, "usa esto de textura para toda la pagina") la textura que
+       paso Santiago, tal cual, sin velo; el color de fondo es su promedio */
+    background-color: #f0e7d8;
+    background-image: url("{{ 'images/lino-pagina.jpg' | static_url }}");
+    background-size: 520px auto;
+    background-repeat: repeat;
+}}");
     background-size: auto, 260px auto;
     background-repeat: repeat;
 }
@@ -12211,4 +12214,33 @@ body footer .newsletter.lu-canal p {
 .lu-probatelo-img-link:focus-visible {
     color: var(--lu-tinta);
     text-underline-offset: 0.45em;
+}
+
+/*============================================================================
+  #Encaje continuado hacia arriba (Santiago, 2026-09-28: "esto es el encaje
+  para que lo continues para arriba"). La imagen de Probatelo trae el encaje
+  en su borde izquierdo (3.9% del ancho); la franja de las 3 cajas, que esta
+  justo arriba, lleva la misma tira en el mismo ancho, asi el encaje sube
+  sin cortes. El margen de 80px entre la franja y la imagen pasa a relleno
+  de la franja para que la tira lo cubra.
+==============================================================================*/
+body .js-home-sections-container > .section-informative-banners {
+    position: relative;
+    margin-bottom: 0;
+    padding-bottom: 80px;
+}
+
+body .js-home-sections-container > .section-informative-banners::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3.9vw;
+    background-image: url("{{ 'images/encaje-borde.png' | static_url }}");
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    background-position: left bottom;
+    pointer-events: none;
+    z-index: 1;
 }
