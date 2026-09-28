@@ -12100,6 +12100,16 @@ body .lu-promo .lu-promo-bajada {
         display: inline-flex !important;
     }
 
+    /* La columna de la hamburguesa se oculta desde 992px (logo a la
+       izquierda en compu): en este rango vuelve, con el logo al centro */
+    body .js-head-main > .container > .row > .col:first-child {
+        display: block;
+    }
+
+    body .js-head-main > .container > .row > .col.text-center {
+        text-align: center !important;
+    }
+
     body .js-head-main > .container > .row > .col,
     body .js-head-main > .container > .row > .col.text-center,
     body .js-head-main > .container > .row > .col.text-right {
@@ -12116,4 +12126,23 @@ body .lu-promo .lu-promo-bajada {
     body .lu-nav-desk-link {
         font-size: clamp(0.74rem, 0.52vw, 0.9rem);
     }
+}
+
+/*============================================================================
+  #Pie mas junto (Santiago, 2026-09-28: "junta un poco todo para que no
+  quede tanto espacio vacio"). El bloque del canal tenia 44px arriba y abajo
+  mas 70px de margen del .newsletter del base; las columnas, 44px arriba.
+==============================================================================*/
+body footer .newsletter.lu-canal {
+    margin-bottom: 0;
+}
+
+body footer > .container > .row:has(.lu-canal) {
+    padding-top: 2.25rem;
+    padding-bottom: 0.5rem;
+}
+
+body footer > .container > .element-footer:has(.lu-pie-bloque) {
+    padding-top: 1.75rem;
+    padding-bottom: 1rem;
 }
