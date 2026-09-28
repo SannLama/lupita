@@ -12060,12 +12060,12 @@ body .newsletter.lu-canal p {
 html,
 body {
     /* (2026-09-28) Santiago: "la textura no es igual a esta [la imagen de
-       Probatelo]" y "repeti el patron, no lo expandas". lino-pagina.jpg es la
+       Probatelo]" y "repeti el patron, no lo expandas". lino-tela-probatelo.jpg es la
        tela recortada de la propia imagen de Probatelo (espejada para que
        empalme sin costuras) y se repite a la misma escala que tiene en esa
        imagen: 1740 de sus 2208px = 78.8% del ancho de pantalla. */
     background-color: #f3ecdd;
-    background-image: url("{{ 'images/lino-pagina.jpg' | static_url }}");
+    background-image: url("{{ 'images/lino-tela-probatelo.jpg' | static_url }}");
     background-size: 78.8vw auto;
     background-repeat: repeat;
 }
