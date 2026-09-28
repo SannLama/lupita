@@ -78,6 +78,29 @@
 					el.setAttribute('data-lu-dx', dx);
 					el.style.translate = dx + 'px 0';
 				});
+				{# "Conoce las tiendas" arranca justo donde arranca la A de
+				   "Abonando en efectivo" (Santiago, 2026-09-28) #}
+				var bajada = sec.querySelector('.lu-promo-bajada');
+				var boton = sec.querySelector('.lu-promo-boton');
+				if (!bajada || !boton) return;
+				var linea = bajada.querySelector('.lu-promo-linea') || bajada;
+				var t = linea.firstChild;
+				while (t && (t.nodeType !== 3 || !t.textContent.trim())) t = t.nextSibling;
+				if (!t) return;
+				var i0 = t.textContent.search(/\S/);
+				var ra = document.createRange();
+				ra.setStart(t, i0);
+				ra.setEnd(t, i0 + 1);
+				var letraA = ra.getBoundingClientRect().left;
+				var antesB = parseFloat(boton.getAttribute('data-lu-dx')) || 0;
+				var bb = boton.getBoundingClientRect();
+				var izqB = bb.left - antesB;
+				var dxB = letraA - izqB;
+				dxB = Math.max(dxB, margen - izqB);
+				dxB = Math.min(dxB, ancho - margen - (bb.right - antesB));
+				dxB = Math.round(dxB);
+				boton.setAttribute('data-lu-dx', dxB);
+				boton.style.translate = dxB + 'px 0';
 			}
 			alinear();
 			if (document.fonts && document.fonts.ready) document.fonts.ready.then(alinear);
