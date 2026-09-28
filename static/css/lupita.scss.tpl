@@ -12167,3 +12167,43 @@ body footer .newsletter.lu-canal h3 {
 body footer .newsletter.lu-canal p {
     margin-bottom: 0.9rem;
 }
+
+/*============================================================================
+  #Probatelo como imagen (Santiago, 2026-09-28: "pega esta imagen ... en vez
+  de hacer todo y solamente agrega el boton"). Ver snipplets/home/probatelo.tpl.
+  El link se ubica en % sobre la imagen: arranca donde arranca el texto de
+  la imagen (10.7% del ancho) y queda debajo del ultimo parrafo (71% del alto).
+  Las reglas .lu-probatelo* de arriba quedan sin uso.
+==============================================================================*/
+.lu-probatelo-img {
+    position: relative;
+    margin: 0;
+    line-height: 0;
+}
+
+.lu-probatelo-img > img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.lu-probatelo-img-link {
+    position: absolute;
+    left: 10.7%;
+    top: 71%;
+    line-height: 1.2;
+    font-family: var(--lu-texto);
+    font-size: clamp(0.6rem, 1.05vw, 1.15rem);
+    color: var(--lu-tinta);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.lu-probatelo-img-link:hover,
+.lu-probatelo-img-link:focus-visible {
+    color: var(--lu-tinta);
+    text-underline-offset: 0.45em;
+}
