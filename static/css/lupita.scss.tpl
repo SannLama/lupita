@@ -11602,7 +11602,8 @@ body .newsletter.lu-canal p {
     position: absolute;
 }
 
-.lu-fav-latido svg {
+.lu-fav-latido > .lu-fav-vacio,
+.lu-fav-latido > .lu-fav-lleno {
     animation: lu-fav-latido 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -11614,7 +11615,8 @@ body .newsletter.lu-canal p {
     100% { transform: scale(1); }
 }
 
-.lu-fav-suelta svg {
+.lu-fav-suelta > .lu-fav-vacio,
+.lu-fav-suelta > .lu-fav-lleno {
     animation: lu-fav-suelta 300ms ease;
 }
 
@@ -11682,12 +11684,119 @@ body .newsletter.lu-canal p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .lu-fav-latido svg,
-    .lu-fav-suelta svg {
+    .lu-fav-latido > svg,
+    .lu-fav-suelta > svg {
         animation: none;
     }
 
     .lu-fav-ronda {
+        display: none;
+    }
+}
+
+/*============================================================================
+  #Favoritos: boton de la ficha (Santiago, 2026-09-28)
+  Referencia: "Star Button" de 21st.dev (M. bin Salman), con corazones y el
+  turquesa de la marca. Pildora con borde turquesa, "Guardar" y el corazon;
+  al pasar el mouse se llena de turquesa y seis corazoncitos que estaban
+  escondidos atras salen volando a distintos lugares alrededor, con brillo.
+  Guardado: queda llena, corazon blanco y dice "Guardado".
+==============================================================================*/
+.lu-comprar .lu-fav-ficha,
+.lu-fav-ficha {
+    position: relative;
+    width: auto;
+    min-width: 3.25rem;
+    gap: 0.55rem;
+    padding: 0 1.3rem;
+    border: 2px solid var(--lu-acento);
+    border-radius: 999px;
+    background-color: transparent;
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: visible;
+    transition: background-color 300ms ease, box-shadow 300ms ease, color 300ms ease;
+}
+
+.lu-fav-ficha > .lu-fav-vacio,
+.lu-fav-ficha > .lu-fav-lleno {
+    color: var(--lu-acento);
+    transition: color 300ms ease;
+}
+
+.lu-fav-rotulo {
+    order: -1;
+}
+
+.lu-fav-rotulo-guardado,
+.lu-fav-ficha[aria-pressed="true"] .lu-fav-rotulo-guardar {
+    display: none;
+}
+
+.lu-fav-ficha[aria-pressed="true"] .lu-fav-rotulo-guardado {
+    display: inline;
+}
+
+.lu-fav-ficha:hover,
+.lu-fav-ficha:focus-visible,
+.lu-fav-ficha[aria-pressed="true"] {
+    background-color: var(--lu-acento);
+    color: var(--lu-tinta);
+    box-shadow: 0 0 22px rgba(100, 178, 179, 0.55);
+}
+
+.lu-fav-ficha:hover > .lu-fav-vacio,
+.lu-fav-ficha:hover > .lu-fav-lleno,
+.lu-fav-ficha:focus-visible > .lu-fav-vacio,
+.lu-fav-ficha[aria-pressed="true"] > .lu-fav-lleno {
+    color: #fff;
+}
+
+/* Los corazoncitos: escondidos atras del boton, salen al pasar el mouse */
+.lu-fav-mini {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    width: 0.8rem !important;
+    height: 0.8rem !important;
+    margin: -0.4rem 0 0 -0.4rem;
+    fill: var(--lu-acento);
+    filter: drop-shadow(0 0 0 rgba(100, 178, 179, 0));
+    transform: translate(0, 0) scale(0.4) rotate(0deg);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 900ms cubic-bezier(0.05, 0.83, 0.43, 0.96), opacity 250ms ease, filter 600ms ease;
+}
+
+.lu-fav-mini-1 { transition-duration: 1000ms; }
+.lu-fav-mini-2 { transition-duration: 800ms; }
+.lu-fav-mini-3 { transition-duration: 900ms; }
+.lu-fav-mini-4 { transition-duration: 750ms; }
+.lu-fav-mini-5 { transition-duration: 950ms; }
+.lu-fav-mini-6 { transition-duration: 850ms; }
+
+.lu-fav-ficha:hover .lu-fav-mini,
+.lu-fav-ficha:focus-visible .lu-fav-mini {
+    opacity: 1;
+    z-index: 2;
+    filter: drop-shadow(0 0 6px rgba(100, 178, 179, 0.9));
+}
+
+.lu-fav-ficha:hover .lu-fav-mini-1, .lu-fav-ficha:focus-visible .lu-fav-mini-1 { transform: translate(-3.6rem, -2.2rem) scale(1.25) rotate(-18deg); }
+.lu-fav-ficha:hover .lu-fav-mini-2, .lu-fav-ficha:focus-visible .lu-fav-mini-2 { transform: translate(-1.3rem, -2.6rem) scale(0.8) rotate(10deg); }
+.lu-fav-ficha:hover .lu-fav-mini-3, .lu-fav-ficha:focus-visible .lu-fav-mini-3 { transform: translate(1.4rem, -2.4rem) scale(1) rotate(-8deg); }
+.lu-fav-ficha:hover .lu-fav-mini-4, .lu-fav-ficha:focus-visible .lu-fav-mini-4 { transform: translate(3.8rem, -1.6rem) scale(0.7) rotate(16deg); }
+.lu-fav-ficha:hover .lu-fav-mini-5, .lu-fav-ficha:focus-visible .lu-fav-mini-5 { transform: translate(4.4rem, 1.5rem) scale(0.9) rotate(-12deg); }
+.lu-fav-ficha:hover .lu-fav-mini-6, .lu-fav-ficha:focus-visible .lu-fav-mini-6 { transform: translate(-4.3rem, 1.4rem) scale(0.75) rotate(12deg); }
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-fav-mini {
         display: none;
     }
 }
