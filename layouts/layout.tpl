@@ -133,7 +133,8 @@
 
         {# Guia de asesoramiento: mini-quiz de ocasion + talle que lleva a la busqueda #}
 
-        {% snipplet "asesor.tpl" %}
+        {# Sacado (Santiago, 2026-09-28: "saca el de chat marron") #}
+        {% if false %}{% snipplet "asesor.tpl" %}{% endif %}
 
         {# Volver arriba: aparece al bajar mas de una pantalla #}
 
