@@ -11119,3 +11119,92 @@ body .newsletter.lu-canal h3 {
         transition: opacity 200ms ease;
     }
 }
+
+/*============================================================================
+  #Botones con hover interactivo (Santiago, 2026-09-28)
+  Ver snipplets/botones-hover.tpl (arma la estructura). Referencia:
+  "Interactive Hover Button" de Magic UI. El boton conserva sus colores de
+  siempre; lo nuevo es el puntito turquesa que al pasar el mouse crece hasta
+  llenarlo, y el texto que se va a la derecha mientras entra otro con flecha.
+==============================================================================*/
+.btn.lu-ihb {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.lu-ihb-base {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55em;
+}
+
+.lu-ihb-punto {
+    flex: 0 0 auto;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 999px;
+    background-color: var(--lu-acento);
+    transition: transform 450ms cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: -1;
+}
+
+.lu-ihb-texto {
+    display: inline-block;
+    transition: transform 300ms ease, opacity 300ms ease;
+}
+
+.lu-ihb-capa {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45em;
+    color: var(--lu-tinta);
+    opacity: 0;
+    transform: translateX(3rem);
+    transition: transform 300ms ease, opacity 300ms ease;
+    pointer-events: none;
+}
+
+.lu-ihb-flecha {
+    width: 1.1em;
+    height: 1.1em;
+    flex: 0 0 auto;
+}
+
+.btn.lu-ihb:hover .lu-ihb-punto,
+.btn.lu-ihb:focus-visible .lu-ihb-punto {
+    transform: scale(100);
+}
+
+.btn.lu-ihb:hover .lu-ihb-texto,
+.btn.lu-ihb:focus-visible .lu-ihb-texto {
+    transform: translateX(3rem);
+    opacity: 0;
+}
+
+.btn.lu-ihb:hover .lu-ihb-capa,
+.btn.lu-ihb:focus-visible .lu-ihb-capa {
+    transform: none;
+    opacity: 1;
+}
+
+/* Al pasar el mouse el boton no cambia de fondo por su cuenta (lo llena el
+   puntito): se deja el fondo y el borde que tenia en reposo. */
+.btn.lu-ihb:hover,
+.btn.lu-ihb:focus-visible {
+    border-color: var(--lu-acento);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-ihb-punto,
+    .lu-ihb-texto,
+    .lu-ihb-capa {
+        transition: none;
+    }
+}
