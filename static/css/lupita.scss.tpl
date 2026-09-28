@@ -12232,7 +12232,7 @@ body .js-home-sections-container > .section-informative-banners {
 
 body .js-home-sections-container > .section-informative-banners::before {
     /* (mas tarde) La tira sale de la propia imagen de Probatelo (sus primeros
-       110 de 2208px, 4.98% del ancho): el encaje suelto que se probo antes
+       100 de 2208px, 4.53% del ancho, sin el pie donde asoma el "Kit n Couch"): el encaje suelto que se probo antes
        tenia otro dibujo y quedaba al reves. Se apoya por abajo, justo donde
        arranca la imagen, y sigue hacia arriba. */
     content: "";
@@ -12240,8 +12240,8 @@ body .js-home-sections-container > .section-informative-banners::before {
     top: 0;
     bottom: 0;
     left: 0;
-    width: 4.98vw;
-    background-image: url("{{ 'images/encaje-probatelo.jpg' | static_url }}");
+    width: 4.53vw;
+    background-image: url("{{ 'images/encaje-probatelo-2.jpg' | static_url }}");
     background-repeat: repeat-y;
     background-size: 100% auto;
     background-position: left bottom;
