@@ -12590,3 +12590,49 @@ body .lu-arriba {
         bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
     }
 }
+
+/* Probatelo en celular: texto centrado sin imagen (ver probatelo.tpl) */
+.lu-probatelo-movil {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .lu-probatelo-img {
+        display: none;
+    }
+
+    .lu-probatelo-movil {
+        display: block;
+        padding: 3.5rem 1.5rem 3rem;
+        text-align: center;
+    }
+
+    .lu-probatelo-movil .lu-probatelo-titulo {
+        margin-bottom: 1.5rem;
+    }
+
+    .lu-probatelo-movil .lu-probatelo-titulo-grande {
+        margin-left: 0;
+        font-size: clamp(3.6rem, 17vw, 5rem);
+    }
+
+    .lu-probatelo-movil .lu-probatelo-titulo-bajo {
+        margin: -0.35em 0 0;
+        font-size: clamp(1.35rem, 6vw, 1.7rem);
+    }
+
+    .lu-probatelo-movil p {
+        max-width: 32rem;
+        margin: 0 auto 1.1rem;
+        font-family: var(--lu-texto);
+        font-size: 1rem;
+        line-height: 1.5;
+        color: var(--lu-tinta);
+        text-transform: none;
+        letter-spacing: 0;
+    }
+
+    .lu-probatelo-movil .lu-probatelo-link {
+        font-size: 1.05rem;
+    }
+}

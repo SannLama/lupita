@@ -9,6 +9,19 @@
   El texto de la imagen queda como alt, para lectores de pantalla y buscadores.
 ==============================================================================*/#}
 
+{# Celular (Santiago, 2026-09-28: "en mobile que no se vea esta imagen y que
+   el texto se estire centrado"): en vez de la imagen, el mismo texto armado
+   con letra real, centrado sobre el lino, sin la foto. #}
+<section class="lu-probatelo-movil" data-store="home-image-text-module">
+    <h2 class="lu-probatelo-titulo">
+        <span class="lu-probatelo-titulo-grande">Probátelo</span>
+        <span class="lu-probatelo-titulo-bajo"><span class="lu-probatelo-en">En</span> las tiendas</span>
+    </h2>
+    <p>Contá con nosotros y dejá la elección de tus looks en nuestras manos. Guardá en la <strong>wishlist</strong> lo que te guste y vení a probártelo a cualquiera de nuestras tiendas.</p>
+    <p>Lomitas y Banfield: accedé a un 20% de descuento abonando en efectivo o hasta 6 cuotas sin interés con tarjetas bancarizadas y American Express.</p>
+    <a class="lu-probatelo-link" href="{{ store.url }}/locales/">{{ 'Conocé nuestras tiendas' | translate }}</a>
+</section>
+
 <section class="lu-probatelo-img" data-store="home-image-text-module">
     <img src="{{ 'images/probatelo-diseno.jpg' | static_url }}" width="2208" height="1440" loading="lazy"
         alt="Probátelo en las tiendas. Contá con nosotros y dejá la elección de tus looks en nuestras manos. Guardá en la wishlist lo que te guste y vení a probártelo a cualquiera de nuestras tiendas. Lomitas y Banfield: accedé a un 20% de descuento abonando en efectivo o hasta 6 cuotas sin interés con tarjetas bancarizadas y American Express. Foto de nuestra tienda de Belgrano 1470, Banfield.">
