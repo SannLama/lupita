@@ -21,9 +21,31 @@
         var aceptado;
         try { aceptado = window.localStorage.getItem(CLAVE); } catch (e) { aceptado = '1'; }
 
-        if (!aceptado) {
+        {# (2026-09-28, "que solo salga un aviso de cookies") Si hay otro aviso de
+           cookies visible (el de la plataforma o el del base), el propio no sale
+           o se retira: se revisa al entrar y un rato despues, porque el otro
+           puede aparecer tarde. #}
+        var hayOtro = function () {
+            var fijos = document.querySelectorAll('body *');
+            for (var i = 0; i < fijos.length; i++) {
+                var e = fijos[i];
+                if (aviso.contains(e) || e.contains(aviso)) continue;
+                if (!/cookie/i.test(e.textContent || '') || (e.textContent || '').length > 600) continue;
+                var cs = getComputedStyle(e);
+                if ((cs.position === 'fixed' || cs.position === 'sticky') && cs.display !== 'none' && cs.visibility !== 'hidden' && e.getBoundingClientRect().height > 0) return true;
+            }
+            return false;
+        };
+        var cerrarPropio = function () {
+            aviso.classList.remove('lu-cookies-visible');
+            aviso.hidden = true;
+        };
+        if (!aceptado && !hayOtro()) {
             aviso.hidden = false;
             requestAnimationFrame(function () { aviso.classList.add('lu-cookies-visible'); });
+            [800, 2000, 4000].forEach(function (t) {
+                setTimeout(function () { if (!aviso.hidden && hayOtro()) cerrarPropio(); }, t);
+            });
         }
 
         boton.addEventListener('click', function () {
