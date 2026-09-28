@@ -22,7 +22,8 @@
             {% if settings.lupita_canal_texto %}
                 <p class="lu-canal-popup-texto">{{ settings.lupita_canal_texto }}</p>
             {% endif %}
-            <a href="{{ settings.lupita_canal_url }}" target="_blank" rel="noopener" class="js-lu-canal-unirme btn lu-canal-btn lu-canal-popup-btn">{{ settings.lupita_canal_boton ? settings.lupita_canal_boton : 'Unirme al canal' | translate }}</a>
+            {# Boton 3D, turquesa (ver #Boton 3D en lupita.scss.tpl) #}
+            <a href="{{ settings.lupita_canal_url }}" target="_blank" rel="noopener" class="js-lu-canal-unirme btn lu-canal-btn lu-canal-popup-btn lu-3d"><span class="lu-3d-cara"><span class="js-lu-3d-texto lu-3d-texto">{{ settings.lupita_canal_boton ? settings.lupita_canal_boton : 'Unirme al canal' | translate }}</span><svg class="lu-3d-flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></a>
             <button type="button" class="js-lu-canal-cerrar lu-canal-popup-despues">{{ 'Ahora no' | translate }}</button>
         </div>
     </div>

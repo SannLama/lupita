@@ -11253,3 +11253,148 @@ body .newsletter.lu-canal h3 {
         transition: none;
     }
 }
+
+/*============================================================================
+  #Boton 3D del canal de difusion (Santiago, 2026-09-28)
+  Referencia: "3d button" de 21st.dev (Utkarsh Pandey). Boton inclinado en
+  perspectiva, cara con brillo arriba, canto mas oscuro abajo que le da
+  espesor y un resplandor del mismo color. Al pasar el mouse se endereza un
+  poco y sube, y las letras hacen una ola; al apretarlo se hunde (el canto se
+  achica). Turquesa con letra chocolate por defecto (ventana emergente);
+  .lu-3d-oscuro, en chocolate con letra crema, para el pie turquesa.
+  Las letras las separa snipplets/botones-hover.tpl.
+==============================================================================*/
+body a.btn.lu-3d {
+    --lu-3d-arriba: #9fd8d9;
+    --lu-3d-cara: var(--lu-acento);
+    --lu-3d-abajo: #4f9d9e;
+    --lu-3d-canto: #3a7f80;
+    --lu-3d-brillo: rgba(100, 178, 179, 0.6);
+    --lu-3d-letra: var(--lu-tinta);
+    --lu-3d-relieve: rgba(255, 255, 255, 0.45);
+    display: inline-block;
+    width: auto;
+    margin: 0.5rem 0 0.9rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    perspective: 700px;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0;
+    opacity: 1 !important;
+}
+
+body a.btn.lu-3d.lu-3d-oscuro {
+    --lu-3d-arriba: #6b4c53;
+    --lu-3d-cara: #3b262b;
+    --lu-3d-abajo: var(--lu-tinta);
+    --lu-3d-canto: #140b0d;
+    --lu-3d-brillo: rgba(46, 29, 33, 0.5);
+    --lu-3d-letra: var(--lu-papel);
+    --lu-3d-relieve: rgba(0, 0, 0, 0.35);
+}
+
+body a.btn.lu-3d:hover,
+body a.btn.lu-3d:focus-visible {
+    background: none;
+    color: inherit;
+    text-decoration: none;
+}
+
+.lu-3d-cara {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7em;
+    padding: 0.95em 1.7em;
+    border-radius: 0.8rem;
+    background: linear-gradient(180deg, var(--lu-3d-arriba) 0%, var(--lu-3d-cara) 50%, var(--lu-3d-abajo) 100%);
+    color: var(--lu-3d-letra);
+    font-family: var(--lu-texto);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+    text-shadow: 0 1px 0 var(--lu-3d-relieve);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+        0 6px 0 var(--lu-3d-canto),
+        0 18px 30px -8px var(--lu-3d-brillo);
+    transform: rotateX(20deg) rotateZ(-5deg);
+    transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 200ms ease;
+}
+
+body a.btn.lu-3d:hover .lu-3d-cara,
+body a.btn.lu-3d:focus-visible .lu-3d-cara {
+    transform: rotateX(10deg) rotateZ(-3deg) translateY(-3px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -2px 0 rgba(0, 0, 0, 0.1),
+        0 8px 0 var(--lu-3d-canto),
+        0 26px 38px -8px var(--lu-3d-brillo);
+}
+
+body a.btn.lu-3d:active .lu-3d-cara {
+    transform: rotateX(20deg) rotateZ(-5deg) translateY(5px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+        0 1px 0 var(--lu-3d-canto),
+        0 8px 16px -8px var(--lu-3d-brillo);
+    transition-duration: 90ms;
+}
+
+body a.btn.lu-3d:focus-visible {
+    outline: none;
+}
+
+body a.btn.lu-3d:focus-visible .lu-3d-cara {
+    outline: 2px solid var(--lu-tinta);
+    outline-offset: 4px;
+}
+
+.lu-3d-texto {
+    display: inline-flex;
+}
+
+.lu-3d-letra {
+    display: inline-block;
+}
+
+body a.btn.lu-3d:hover .lu-3d-letra,
+body a.btn.lu-3d:focus-visible .lu-3d-letra {
+    animation: lu-3d-ola 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: calc(var(--i) * 28ms);
+}
+
+@keyframes lu-3d-ola {
+    0% { transform: translateY(0); }
+    40% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+.lu-3d-flecha {
+    width: 1.1em;
+    height: 1.1em;
+    flex: 0 0 auto;
+    transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+body a.btn.lu-3d:hover .lu-3d-flecha,
+body a.btn.lu-3d:focus-visible .lu-3d-flecha {
+    transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-3d-cara,
+    .lu-3d-flecha {
+        transition: none;
+    }
+
+    body a.btn.lu-3d:hover .lu-3d-letra,
+    body a.btn.lu-3d:focus-visible .lu-3d-letra {
+        animation: none;
+    }
+}

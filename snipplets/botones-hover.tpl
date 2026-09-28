@@ -66,6 +66,23 @@
             var tinta = variable('--lu-tinta', '#2e1d21');
             var papel = variable('--lu-papel', '#f5efe4');
 
+            {# 0. Boton 3D del canal: cada letra en su span para la ola del hover
+               (Array.from respeta las tildes). Los .lu-3d tienen hijos, asi que
+               el paso 2 no los toca. #}
+            Array.prototype.forEach.call(document.querySelectorAll('.js-lu-3d-texto'), function (t) {
+                var frase = t.textContent.trim();
+                t.setAttribute('aria-label', frase);
+                t.textContent = '';
+                Array.from(frase).forEach(function (l, i) {
+                    var s = document.createElement('span');
+                    s.className = 'lu-3d-letra';
+                    s.setAttribute('aria-hidden', 'true');
+                    s.style.setProperty('--i', i);
+                    s.textContent = l === ' ' ? '\u00a0' : l;
+                    t.appendChild(s);
+                });
+            });
+
             {# 1. "Conocé las tiendas": de boton a link subrayado #}
             Array.prototype.forEach.call(document.querySelectorAll('a.btn'), function (a) {
                 if (!TIENDAS.test(a.textContent)) return;
