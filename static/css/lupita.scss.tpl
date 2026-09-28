@@ -12738,3 +12738,9 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
         padding: 0.4rem 0.8rem;
     }
 }
+
+/* Night Out: la foto es apaisada y la tarjeta 3/4; se encuadra sobre la
+   modelo, que esta un poco a la derecha del centro (Santiago, 2026-09-28) */
+.textbanner-image-background.lu-foto-night-out {
+    object-position: 65% 50%;
+}

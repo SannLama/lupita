@@ -43,7 +43,9 @@
                     {% set banner_button_text = false %}
                     {% set banner_description = false %}
                 {% elseif banner == 'banner_03' %}
-                    {% set lu_foto_theme = 'images/night-out.jpg' %}
+                    {# Foto nueva de Night Out (Santiago, 2026-09-28), apaisada: se encuadra
+                       sobre la modelo con .lu-foto-night-out #}
+                    {% set lu_foto_theme = 'images/night-out-2.jpg' %}
                 {% endif %}
                 {% set has_banner_text =  banner_title or banner_description or banner_button_text %}
 
@@ -79,7 +81,7 @@
                                     <source src="https://ahilupita-videos.netlify.app/new-in.mp4" type="video/mp4">
                                 </video>
                                 {% elseif lu_foto_theme %}
-                                <img class="textbanner-image-background" src="{{ lu_foto_theme | static_url }}" alt="{{ banner_title }}" loading="lazy">
+                                <img class="textbanner-image-background{% if banner == 'banner_03' %} lu-foto-night-out{% endif %}" src="{{ lu_foto_theme | static_url }}" alt="{{ banner_title }}" loading="lazy">
                                 {% else %}
                                 <img 
                                     {% if not apply_lazy_load %}fetchpriority="high"{% endif %}
