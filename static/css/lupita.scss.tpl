@@ -12248,3 +12248,79 @@ body .js-home-sections-container > .section-informative-banners::before {
     pointer-events: none;
     z-index: 1;
 }
+
+/*============================================================================
+  #Probatelo: las 3 tiendas como slide (Santiago, 2026-09-28)
+  Cubre la mitad derecha de la imagen (desde el 47.1% = x 1040 de 2208), la
+  misma zona donde la imagen trae la foto de Banfield. Fundido de 900ms.
+==============================================================================*/
+.lu-locales {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 47.1%;
+    overflow: hidden;
+    line-height: 1.2;
+}
+
+.lu-local {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 900ms ease;
+}
+
+.lu-local.is-activo {
+    opacity: 1;
+}
+
+.lu-local img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* La de Banfield ya trae su direccion en la imagen: el pie queda oculto */
+.lu-local:first-child figcaption {
+    visibility: hidden;
+}
+
+.lu-local figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8.2%;
+    text-align: center;
+    font-family: var(--lu-sub);
+    font-style: italic;
+    font-size: clamp(0.8rem, 1.75vw, 2.1rem);
+    color: #f5efe4;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.lu-locales-puntos {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 3.5%;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.lu-locales-puntos span {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background-color: #f5efe4;
+    opacity: 0.45;
+    transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.lu-locales-puntos span.is-activo {
+    opacity: 1;
+    transform: scale(1.25);
+}
