@@ -10,7 +10,7 @@
         <div class="lu-sin-carrito-caja">
             <h1 class="lu-pagina-titulo">{{ 'Carrito' | translate }}</h1>
             <p class="lu-sin-carrito-titulo">{{ 'Próximamente la venta online' | translate }}</p>
-            <p class="lu-sin-carrito-texto">{{ 'Guardá tus favoritos con el corazón y vení a probártelos a cualquiera de nuestras tiendas.' | translate }}</p>
+            <p class="lu-sin-carrito-texto">{{ 'Guardalos en la wishlist y vení a probártelos a cualquiera de nuestras tiendas.' | translate }}</p>
             <div class="lu-sin-carrito-acciones">
                 <a class="btn btn-primary" href="{{ store.url }}/locales/">{{ 'Conocé nuestras tiendas' | translate }}</a>
                 {% if store.whatsapp %}

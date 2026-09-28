@@ -23,7 +23,7 @@
 	<div class="container">
 		<header class="lu-tiendas-cabecera">
 			<h1 class="lu-pagina-titulo">{{ settings.lupita_tiendas_titulo ?: 'Nuestras tiendas' }}</h1>
-			<p class="lu-tiendas-bajada">{{ settings.lupita_tiendas_bajada ?: 'Vení y probátelo: guardá tus favoritos con el corazón y te asesoramos en cualquiera de nuestras tiendas.' }}</p>
+			<p class="lu-tiendas-bajada">{{ settings.lupita_tiendas_bajada ?: 'Vení y probátelo: guardalos en la wishlist y te asesoramos en cualquiera de nuestras tiendas.' }}</p>
 		</header>
 
 		<ul class="lu-tiendas-grilla list-unstyled">
