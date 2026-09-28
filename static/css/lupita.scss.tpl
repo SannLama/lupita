@@ -10209,8 +10209,8 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
     .nube-slider-home .lu-slide-marca .slider-image {
         height: min(100%, calc(100vw * 788 / 520));
         object-position: 86% 50%;
-        -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent);
-        mask-image: linear-gradient(to bottom, #000 72%, transparent);
+        -webkit-mask-image: linear-gradient(to bottom, #000 90%, transparent);
+        mask-image: linear-gradient(to bottom, #000 90%, transparent);
     }
 }
 
@@ -10330,9 +10330,9 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
     z-index: 1;
     /* (2026-09-28, "que el degrade no sea tan largo") antes llegaba al 68%
        de la foto; ahora se apaga al 40%, justo arriba del titulo */
-    /* (2026-09-28, mas tarde) "saca el degrade": sin sombra; el titulo se
-       sostiene con su text-shadow */
-    background: none;
+    /* (2026-09-28, mas tarde) "que sea apenas, no tan alto": un velo corto
+       solo detras del titulo; se apaga al 22% de la foto */
+    background: linear-gradient(to top, rgba(46, 29, 33, 0.45) 0%, rgba(46, 29, 33, 0.18) 11%, rgba(46, 29, 33, 0) 22%);
     pointer-events: none;
 }
 
