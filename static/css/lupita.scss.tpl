@@ -11657,10 +11657,10 @@ body .newsletter.lu-canal p {
    turquesa, las impares en chocolate */
 .lu-fav-ronda i {
     position: absolute;
-    top: -0.2rem;
-    left: -0.2rem;
-    width: 0.4rem;
-    height: 0.4rem;
+    top: -0.3rem;
+    left: -0.3rem;
+    width: 0.6rem;
+    height: 0.6rem;
     border-radius: 50%;
     background-color: var(--lu-acento);
     opacity: 0;
@@ -11668,15 +11668,17 @@ body .newsletter.lu-canal p {
 }
 
 .lu-fav-ronda i:nth-child(odd) {
-    width: 0.3rem;
-    height: 0.3rem;
+    top: -0.225rem;
+    left: -0.225rem;
+    width: 0.45rem;
+    height: 0.45rem;
     background-color: var(--lu-tinta);
 }
 
 @keyframes lu-fav-chispa {
-    0% { transform: rotate(var(--a)) translateY(0) scale(1); opacity: 1; }
-    70% { opacity: 1; }
-    100% { transform: rotate(var(--a)) translateY(-2.1rem) scale(0.3); opacity: 0; }
+    0% { transform: rotate(var(--a)) translateY(-0.6rem) scale(1); opacity: 1; }
+    60% { opacity: 1; }
+    100% { transform: rotate(var(--a)) translateY(-2.8rem) scale(0.5); opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
