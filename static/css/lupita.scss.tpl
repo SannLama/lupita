@@ -11877,7 +11877,7 @@ body .newsletter.lu-canal p {
     display: flex;
     align-items: center;
     padding: clamp(3rem, 7vw, 6rem) clamp(2rem, 6vw, 5rem) clamp(3rem, 7vw, 6rem) clamp(4rem, 9vw, 7.5rem);
-    background-color: #f5f0e1;
+    background-color: #f4edde;
     background-repeat: repeat;
     background-size: 260px auto;
     overflow: hidden;
@@ -11889,7 +11889,7 @@ body .newsletter.lu-canal p {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(245, 240, 225, 0.25);
+    background-color: rgba(244, 237, 222, 0.33);
     pointer-events: none;
 }
 
@@ -12048,6 +12048,9 @@ body .newsletter.lu-canal p {
     }
 }
 
+/* (2026-09-28, mas tarde) Tono y relieve medidos sobre la tela de la imagen
+   de Probatelo (probatelo-diseno.jpg): promedio 244,237,222 y desvio 5.3;
+   el lino se llevo a ese tono y el velo al 33% deja el relieve igual. */
 /*============================================================================
   #Fondo de lino en toda la pagina (Santiago, 2026-09-28: "proba toda la
   pagina con la textura que te mande"). La misma textura y el mismo velo
@@ -12056,9 +12059,9 @@ body .newsletter.lu-canal p {
 ==============================================================================*/
 html,
 body {
-    background-color: #f5f0e1;
+    background-color: #f4edde;
     background-image:
-        linear-gradient(rgba(245, 240, 225, 0.25), rgba(245, 240, 225, 0.25)),
+        linear-gradient(rgba(244, 237, 222, 0.33), rgba(244, 237, 222, 0.33)),
         url("{{ 'images/probatelo-lino.jpg' | static_url }}");
     background-size: auto, 260px auto;
     background-repeat: repeat;
