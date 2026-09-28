@@ -11757,8 +11757,9 @@ body .newsletter.lu-canal p {
     color: #fff;
 }
 
-/* Los corazoncitos: escondidos atras del boton, salen al pasar el mouse */
-.lu-fav-mini {
+/* Los corazoncitos: escondidos atras del boton, salen al pasar el mouse.
+   .lu-fav .lu-fav-mini: .lu-fav svg (fill: currentColor) les ganaba el color. */
+.lu-fav .lu-fav-mini {
     position: absolute;
     top: 50%;
     left: 50%;
