@@ -8029,16 +8029,32 @@ body .cart-item-input.form-control {
     color: var(--lu-papel);
 }
 
+/* Slider del monto con el estilo del "price slider" de Origin UI (Santiago,
+   2026-09-28): rotulo con el monto en vivo, barra gruesa y redondeada (llena
+   en tinta, vacia en linea), perilla blanca con borde de tinta y un boton
+   "Listo" con contorno al costado. */
 .lu-gift-rango-rotulo {
     display: block;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.9rem;
     font-family: var(--lu-texto);
-    font-size: 0.9rem;
-    color: var(--lu-gris);
+    font-size: 0.95rem;
+    color: var(--lu-tinta);
+}
+
+.lu-gift-rango-rotulo strong {
+    font-weight: 600;
+}
+
+.lu-gift-rango-fila {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .lu-gift-rango {
     --lu-gift-lleno: 0%;
+    flex: 1 1 auto;
+    min-width: 0;
     width: 100%;
     height: 44px;
     margin: 0;
@@ -8049,34 +8065,42 @@ body .cart-item-input.form-control {
 }
 
 .lu-gift-rango::-webkit-slider-runnable-track {
-    height: 4px;
-    border-radius: 2px;
+    height: 8px;
+    border-radius: 999px;
     background: linear-gradient(to right, var(--lu-tinta) var(--lu-gift-lleno), var(--lu-linea) var(--lu-gift-lleno));
 }
 
 .lu-gift-rango::-moz-range-track {
-    height: 4px;
-    border-radius: 2px;
-    background: linear-gradient(to right, var(--lu-tinta) var(--lu-gift-lleno), var(--lu-linea) var(--lu-gift-lleno));
+    height: 8px;
+    border-radius: 999px;
+    background-color: var(--lu-linea);
+}
+
+.lu-gift-rango::-moz-range-progress {
+    height: 8px;
+    border-radius: 999px;
+    background-color: var(--lu-tinta);
 }
 
 .lu-gift-rango::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 26px;
-    height: 26px;
-    margin-top: -11px;
-    border: 3px solid var(--lu-tinta);
+    width: 22px;
+    height: 22px;
+    margin-top: -7px;
+    border: 2px solid var(--lu-tinta);
     border-radius: 50%;
-    background-color: var(--lu-acento);
-    transition: transform 160ms ease;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(46, 29, 33, 0.25);
+    transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .lu-gift-rango::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border: 3px solid var(--lu-tinta);
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--lu-tinta);
     border-radius: 50%;
-    background-color: var(--lu-acento);
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(46, 29, 33, 0.25);
 }
 
 .lu-gift-rango:active::-webkit-slider-thumb {
@@ -8084,8 +8108,41 @@ body .cart-item-input.form-control {
 }
 
 .lu-gift-rango:focus-visible {
-    outline: 2px solid var(--lu-tinta);
-    outline-offset: 4px;
+    outline: none;
+}
+
+.lu-gift-rango:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 4px rgba(107, 179, 185, 0.45);
+}
+
+.lu-gift-rango:focus-visible::-moz-range-thumb {
+    box-shadow: 0 0 0 4px rgba(107, 179, 185, 0.45);
+}
+
+.lu-gift-rango-ok {
+    flex: 0 0 auto;
+    height: 2.5rem;
+    padding: 0 1.25rem;
+    border: 1px solid var(--lu-linea);
+    border-radius: 0.6rem;
+    background-color: #fff;
+    color: var(--lu-tinta);
+    font-family: var(--lu-texto);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(46, 29, 33, 0.06);
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.lu-gift-rango-ok:hover {
+    border-color: var(--lu-tinta);
+    background-color: var(--lu-papel);
+}
+
+.lu-gift-rango-ok:focus-visible {
+    outline: 2px solid var(--lu-acento);
+    outline-offset: 2px;
 }
 
 .lu-gift-rango-extremos {

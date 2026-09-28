@@ -122,8 +122,16 @@
                             {% endfor %}
                         </div>
                     {% endif %}
-                    <label class="lu-gift-rango-rotulo" for="lu-gift-rango">{{ 'O deslizá hasta el monto que quieras' | translate }}</label>
-                    <input id="lu-gift-rango" class="lu-gift-rango js-lu-gift-rango" type="range" min="{{ lu_gc_min }}" max="{{ lu_gc_max }}" step="{{ lu_gc_paso }}" value="{{ lu_gc_inicial }}">
+                    {# Slider con el estilo del "price slider" de Origin UI (Santiago,
+                       2026-09-28): arriba el monto elegido en vivo, barra gruesa,
+                       perilla blanca con borde y un boton al costado que pasa al
+                       paso 2. El monto del rotulo lo actualiza pintarMonto (es un
+                       .js-lu-gift-monto mas). #}
+                    <label class="lu-gift-rango-rotulo" for="lu-gift-rango">{{ 'Deslizá hasta el monto que quieras:' | translate }} <strong>$<span class="js-lu-gift-monto">{{ lu_gc_inicial }}</span></strong></label>
+                    <div class="lu-gift-rango-fila">
+                        <input id="lu-gift-rango" class="lu-gift-rango js-lu-gift-rango" type="range" min="{{ lu_gc_min }}" max="{{ lu_gc_max }}" step="{{ lu_gc_paso }}" value="{{ lu_gc_inicial }}">
+                        <button type="button" class="lu-gift-rango-ok js-lu-gift-rango-ok">{{ 'Listo' | translate }}</button>
+                    </div>
                     <div class="lu-gift-rango-extremos" aria-hidden="true">
                         <span>${{ lu_gc_min }}</span><span>${{ lu_gc_max }}</span>
                     </div>
@@ -233,6 +241,13 @@
         });
         raiz.querySelectorAll('.lu-gift-rango-extremos span').forEach(function (el) {
             el.textContent = '$' + formato.format(parseInt(el.textContent.replace(/\D/g, ''), 10));
+        });
+
+        {# "Listo" al lado del slider: pasa al paso 2 (el campo "Para") #}
+        var listo = raiz.querySelector('.js-lu-gift-rango-ok');
+        if (listo) listo.addEventListener('click', function () {
+            campoPara.focus({ preventScroll: true });
+            campoPara.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth', block: 'center' });
         });
 
         rango.addEventListener('input', function () {
