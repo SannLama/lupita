@@ -12473,6 +12473,10 @@ html {
         right: 0.5rem;
         width: auto;
         padding: 0;
+        /* el base lo centra con left 50% + translateX(-50%): con left/right
+           fijos ese corrimiento lo sacaba de la tarjeta */
+        transform: translateY(-50%);
+        text-align: center;
     }
 
     body .section-banners-home .textbanner-text .btn {
