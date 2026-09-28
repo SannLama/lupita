@@ -10330,7 +10330,9 @@ body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
     z-index: 1;
     /* (2026-09-28, "que el degrade no sea tan largo") antes llegaba al 68%
        de la foto; ahora se apaga al 40%, justo arriba del titulo */
-    background: linear-gradient(to top, rgba(46, 29, 33, 0.62) 0%, rgba(46, 29, 33, 0.3) 20%, rgba(46, 29, 33, 0) 40%);
+    /* (2026-09-28, mas tarde) "saca el degrade": sin sombra; el titulo se
+       sostiene con su text-shadow */
+    background: none;
     pointer-events: none;
 }
 
