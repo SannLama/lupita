@@ -4,7 +4,7 @@
 	   21st.dev (nevsky118) con los colores de la marca. Un 404 enorme y tenue
 	   en turquesa de fondo, el titulo en Pinyon, una frase, el buscador de la
 	   tienda y dos salidas: volver atras o ir al inicio. #}
-	<section class="lu-404" id="404">
+	<section class="lu-404">
 		<div class="lu-404-escena">
 			<span class="lu-404-fondo" aria-hidden="true">404</span>
 			<div class="container lu-404-contenido">
