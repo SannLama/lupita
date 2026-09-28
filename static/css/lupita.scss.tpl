@@ -5857,6 +5857,13 @@ a[data-toggle="#size-guide-modal"] svg {
     color: var(--lu-tinta);
 }
 
+/* body .lu-404 p: una regla general de parrafos la pasaba a mayusculas chicas */
+body .lu-404 .lu-404-texto {
+    text-transform: none;
+    letter-spacing: 0;
+    text-align: center;
+}
+
 .lu-404-texto {
     max-width: 34rem;
     margin: 0 0 2rem;
@@ -11415,6 +11422,8 @@ body .newsletter.lu-canal h3 {
   achica). Turquesa con letra chocolate por defecto (ventana emergente);
   .lu-3d-oscuro, en chocolate con letra crema, para el pie turquesa.
   Las letras las separa snipplets/botones-hover.tpl.
+  (2026-09-28, mas tarde) Santiago pidio volver al boton anterior en el canal:
+  hoy ningun boton usa .lu-3d; queda por si se quiere reusar.
 ==============================================================================*/
 body a.btn.lu-3d {
     --lu-3d-arriba: #9fd8d9;
