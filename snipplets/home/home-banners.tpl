@@ -36,6 +36,8 @@
                     {% set banner_description = false %}
                     {% set lu_foto_theme = 'images/newin.jpg' %}
                 {% elseif banner == 'banner_02' %}
+                    {# Tocar el video lleva a SS 27 (Santiago, 2026-09-28) #}
+                    {% set banner_url = '/denim-wear-1ifcg/pantalon-denim/' %}
                     {% set banner_title = false %}
                     {% set banner_button_text = false %}
                     {% set banner_description = false %}
