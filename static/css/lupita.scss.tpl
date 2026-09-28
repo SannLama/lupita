@@ -12723,5 +12723,5 @@ body .lu-arriba {
 /* Franja Denimwear (la de arriba): la foto un poco mas arriba dentro del
    marco (Santiago, 2026-09-28) */
 .lu-sandwich-denim .lu-sandwich-media {
-    object-position: 50% 68%;
+    object-position: 50% 82%;
 }
