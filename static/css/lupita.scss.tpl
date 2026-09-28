@@ -12065,9 +12065,6 @@ body {
     background-image: url("{{ 'images/lino-pagina.jpg' | static_url }}");
     background-size: 520px auto;
     background-repeat: repeat;
-}}");
-    background-size: auto, 260px auto;
-    background-repeat: repeat;
 }
 
 body .section-informative-banners,
