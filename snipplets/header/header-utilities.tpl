@@ -1,9 +1,10 @@
 <div class="utilities-container">
-	{# Lupa que se abre en una barra redondeada con el campo y la X (Santiago,
-	   2026-09-28, con un componente React de referencia "expanding search
-	   dock"; aca es el mismo comportamiento en CSS + JS chico, sin React).
-	   Busca en la tienda (store.search_url, ?q=). El panel lateral de busqueda
-	   del base (#nav-search) queda en header.tpl pero ya no se abre. #}
+	{# Lupa del header (Santiago, 2026-09-28, con un componente React de
+	   referencia "expanding search dock", rehecho en CSS + JS sin React).
+	   Al tocarla despliega HACIA ABAJO, debajo del header, una barra con forma
+	   de pildora (lupa, campo y X); la primera version se abria de costado y
+	   tapaba el menu. Busca en la tienda (store.search_url, ?q=). El panel
+	   lateral de busqueda del base (#nav-search) queda en header.tpl sin uso. #}
 	<div class="utilities-item lu-lupa js-lu-lupa">
 		<button type="button" class="utilities-link lu-lupa-abrir js-lu-lupa-abrir" aria-label="{{ 'Buscar' | translate }}" aria-expanded="false" aria-controls="lu-lupa-form">
 			{% include "snipplets/svg/search.tpl" with {svg_custom_class: "icon-inline icon-w-16 svg-icon-text"} %}
@@ -24,7 +25,16 @@
 				var input = caja.querySelector('.js-lu-lupa-input');
 				var cerrarBtn = caja.querySelector('.js-lu-lupa-cerrar');
 				var abierta = function () { return caja.classList.contains('lu-lupa-abierta'); };
+				{# El borde derecho de la barra, alineado con el del icono (en el celular, margen fijo del CSS) #}
+				var alinear = function () {
+					if (window.innerWidth < 768) { form.style.right = ''; return; }
+					var fila = form.offsetParent;
+					if (!fila) return;
+					var r = fila.getBoundingClientRect().right - abrirBtn.getBoundingClientRect().right - 8;
+					form.style.right = Math.max(12, r) + 'px';
+				};
 				var abrir = function () {
+					alinear();
 					caja.classList.add('lu-lupa-abierta');
 					abrirBtn.setAttribute('aria-expanded', 'true');
 					input.tabIndex = 0; cerrarBtn.tabIndex = 0;
@@ -38,11 +48,12 @@
 					input.tabIndex = -1; cerrarBtn.tabIndex = -1;
 					if (devolverFoco) abrirBtn.focus();
 				};
-				abrirBtn.addEventListener('click', abrir);
+				abrirBtn.addEventListener('click', function () { abierta() ? cerrar(false) : abrir(); });
 				cerrarBtn.addEventListener('click', function () { cerrar(true); });
 				form.addEventListener('submit', function (e) { if (!input.value.trim()) { e.preventDefault(); input.focus(); } });
 				document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrar(true); });
 				document.addEventListener('click', function (e) { if (abierta() && !caja.contains(e.target) && !input.value.trim()) cerrar(false); });
+				window.addEventListener('resize', function () { if (abierta()) alinear(); });
 			})();
 		</script>
 	</div>
