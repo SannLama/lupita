@@ -8121,6 +8121,7 @@ body .cart-item-input.form-control {
 
 .lu-gift-rango-ok {
     flex: 0 0 auto;
+    min-width: 5.5rem;
     height: 2.5rem;
     padding: 0 1.25rem;
     border: 1px solid var(--lu-linea);
@@ -8145,7 +8146,10 @@ body .cart-item-input.form-control {
     outline-offset: 2px;
 }
 
+/* Los extremos terminan donde termina la barra, no bajo "Listo"
+   (5.5rem de boton + 1rem de hueco) */
 .lu-gift-rango-extremos {
+    padding-right: 6.5rem;
     display: flex;
     justify-content: space-between;
     font-family: var(--lu-micro);
