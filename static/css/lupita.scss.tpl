@@ -11204,6 +11204,60 @@ body .newsletter.lu-canal h3 {
     opacity: 1 !important;
 }
 
+/* Boton turquesa: el puntito en chocolate, si no no se ve */
+.lu-ihb-turquesa .lu-ihb-punto {
+    background-color: var(--lu-tinta);
+}
+
+/* Boton sobre fondo turquesa (el pie): el relleno turquesa se perdia contra
+   el fondo; ahi llena en chocolate y el texto que entra va en crema. */
+.lu-ihb-sobre-turquesa .lu-ihb-punto {
+    background-color: var(--lu-tinta);
+}
+
+.lu-ihb-sobre-turquesa.lu-ihb-turquesa .lu-ihb-punto {
+    background-color: var(--lu-papel);
+}
+
+.lu-ihb-sobre-turquesa .lu-ihb-capa {
+    color: var(--lu-papel);
+}
+
+.lu-ihb-sobre-turquesa.lu-ihb-turquesa .lu-ihb-capa {
+    color: var(--lu-tinta);
+}
+
+.btn.lu-ihb-sobre-turquesa:hover,
+.btn.lu-ihb-sobre-turquesa:focus-visible {
+    border-color: var(--lu-tinta);
+}
+
+/* "Conocé las tiendas": link subrayado en vez de boton (Santiago,
+   2026-09-28). El color lo pone el script (el del fondo del boton que era,
+   o el de su letra si era transparente). */
+.lu-link-tiendas {
+    display: inline-block;
+    padding: 0.35rem 0;
+    background: none;
+    border: 0;
+    font-family: var(--lu-micro);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: var(--lu-track);
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-underline-offset 200ms ease, opacity 200ms ease;
+}
+
+.lu-link-tiendas:hover,
+.lu-link-tiendas:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    opacity: 0.8;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .lu-ihb-punto,
     .lu-ihb-texto,
