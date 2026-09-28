@@ -11877,7 +11877,7 @@ body .newsletter.lu-canal p {
     display: flex;
     align-items: center;
     padding: clamp(3rem, 7vw, 6rem) clamp(2rem, 6vw, 5rem) clamp(3rem, 7vw, 6rem) clamp(4rem, 9vw, 7.5rem);
-    background-color: #efe9e1;
+    background-color: #f5f0e1;
     background-repeat: repeat;
     background-size: 260px auto;
     overflow: hidden;
@@ -11889,7 +11889,7 @@ body .newsletter.lu-canal p {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: rgba(247, 242, 234, 0.45);
+    background-color: rgba(245, 240, 225, 0.25);
     pointer-events: none;
 }
 
@@ -12056,9 +12056,9 @@ body .newsletter.lu-canal p {
 ==============================================================================*/
 html,
 body {
-    background-color: #efe9e1;
+    background-color: #f5f0e1;
     background-image:
-        linear-gradient(rgba(247, 242, 234, 0.45), rgba(247, 242, 234, 0.45)),
+        linear-gradient(rgba(245, 240, 225, 0.25), rgba(245, 240, 225, 0.25)),
         url("{{ 'images/probatelo-lino.jpg' | static_url }}");
     background-size: auto, 260px auto;
     background-repeat: repeat;
