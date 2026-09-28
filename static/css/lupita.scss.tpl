@@ -12664,3 +12664,58 @@ body .lu-arriba {
         font-size: 19px;
     }
 }
+
+@media (max-width: 767px) {
+    .lu-probatelo-movil {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100vw;
+        overflow: hidden;
+        padding: 3rem 1.25rem 5.5rem 2.75rem;
+    }
+
+    /* El encaje del borde, el mismo que baja por la pagina en compu */
+    .lu-probatelo-movil::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 2.1rem;
+        background-image: url("{{ 'images/encaje-probatelo-2.jpg' | static_url }}");
+        background-repeat: repeat-y;
+        background-size: 100% auto;
+        pointer-events: none;
+    }
+
+    .lu-probatelo-movil-titulo {
+        margin: 0 auto 1.5rem;
+        max-width: 22rem;
+    }
+
+    .lu-probatelo-movil-titulo img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    .lu-probatelo-movil p {
+        overflow-wrap: break-word;
+    }
+
+    .lu-probatelo-movil-kit {
+        position: absolute;
+        left: 1.5rem;
+        bottom: -0.5rem;
+        width: 85%;
+        height: auto;
+        opacity: 0.55;
+        pointer-events: none;
+    }
+
+    .lu-probatelo-movil > *:not(.lu-probatelo-movil-kit) {
+        position: relative;
+        z-index: 1;
+    }
+}

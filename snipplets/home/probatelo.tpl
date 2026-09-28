@@ -13,13 +13,13 @@
    el texto se estire centrado"): en vez de la imagen, el mismo texto armado
    con letra real, centrado sobre el lino, sin la foto. #}
 <section class="lu-probatelo-movil" data-store="home-image-text-module">
-    <h2 class="lu-probatelo-titulo">
-        <span class="lu-probatelo-titulo-grande">Probátelo</span>
-        <span class="lu-probatelo-titulo-bajo"><span class="lu-probatelo-en">En</span> las tiendas</span>
-    </h2>
+    {# Titulo, encaje y "Kit n' Couch" tenue recortados de la propia imagen
+       del diseno, para que sean iguales (Santiago, 2026-09-28) #}
+    <h2 class="lu-probatelo-movil-titulo"><img src="{{ 'images/probatelo-titulo.png' | static_url }}" alt="Probátelo en las tiendas" width="696" height="282"></h2>
     <p>Contá con nosotros y dejá la elección de tus looks en nuestras manos. Guardá en la <strong>wishlist</strong> lo que te guste y vení a probártelo a cualquiera de nuestras tiendas.</p>
     <p>Lomitas y Banfield: accedé a un 20% de descuento abonando en efectivo o hasta 6 cuotas sin interés con tarjetas bancarizadas y American Express.</p>
     <a class="lu-probatelo-link" href="{{ store.url }}/locales/">{{ 'Conocé nuestras tiendas' | translate }}</a>
+    <img class="lu-probatelo-movil-kit" src="{{ 'images/probatelo-kitncouch.png' | static_url }}" alt="" aria-hidden="true" width="940" height="320">
 </section>
 
 <section class="lu-probatelo-img" data-store="home-image-text-module">
