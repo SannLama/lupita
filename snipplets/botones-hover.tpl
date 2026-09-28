@@ -14,10 +14,12 @@
   quedan como estaban.
 
   Colores ("cuidado con los colores para que no queden invisibles"): el
-  script mira el fondo del boton y el de lo que tiene atras.
-  - Boton turquesa: el puntito va en chocolate (turquesa sobre turquesa no se ve).
-  - Boton sobre un fondo turquesa (el pie): el relleno es chocolate y el texto
-    que entra, crema (un relleno turquesa se perdia contra el fondo).
+  script elige, entre turquesa, chocolate y crema, el color del puntito (que
+  despues es el relleno) que mejor contrasta a la vez con el boton y con lo
+  que tiene atras; prefiere el turquesa si se distingue lo suficiente. El
+  texto con flecha que entra va en chocolate o crema, el que mas contraste
+  con ese relleno. Ej.: boton chocolate sobre el pie turquesa -> relleno
+  crema y texto chocolate (antes quedaba chocolate sobre chocolate).
 
   "Conocé / Conocer las tiendas" (Santiago, 2026-09-28: "subrayá el conocé
   las tiendas", todos): si es un boton, deja de serlo y pasa a link
@@ -35,9 +37,6 @@
             var p = m[1].split(',').map(function (x) { return parseFloat(x); });
             return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
         };
-        var parecidos = function (a, b) {
-            return a && b && Math.abs(a.r - b.r) + Math.abs(a.g - b.g) + Math.abs(a.b - b.b) < 60;
-        };
         var fondoDetras = function (el) {
             for (var p = el.parentElement; p; p = p.parentElement) {
                 var c = rgb(getComputedStyle(p).backgroundColor);
@@ -45,15 +44,27 @@
             }
             return null;
         };
+        var lum = function (c) {
+            var f = function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+            return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b);
+        };
+        var contraste = function (a, b) {
+            var x = lum(a), y = lum(b);
+            return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
+        };
+        var variable = function (nombre, porDefecto) {
+            var t = document.createElement('span');
+            t.style.color = 'var(' + nombre + ', ' + porDefecto + ')';
+            document.body.appendChild(t);
+            var c = rgb(getComputedStyle(t).color);
+            t.remove();
+            return c;
+        };
+        var css = function (c) { return 'rgb(' + c.r + ',' + c.g + ',' + c.b + ')'; };
         var armar = function () {
-            var acento = rgb('rgb(' + (function () {
-                var t = document.createElement('span');
-                t.style.color = 'var(--lu-acento)';
-                document.body.appendChild(t);
-                var v = getComputedStyle(t).color;
-                t.remove();
-                return (v.match(/\(([^)]+)\)/) || [0, '100,178,179'])[1];
-            })() + ')');
+            var acento = variable('--lu-acento', '#64b2b3');
+            var tinta = variable('--lu-tinta', '#2e1d21');
+            var papel = variable('--lu-papel', '#f5efe4');
 
             {# 1. "Conocé las tiendas": de boton a link subrayado #}
             Array.prototype.forEach.call(document.querySelectorAll('a.btn'), function (a) {
@@ -73,8 +84,13 @@
                 var texto = b.textContent.replace(/\s+/g, ' ').trim();
                 if (!texto) return;
                 var propio = rgb(getComputedStyle(b).backgroundColor);
-                if (propio && propio.a > 0.5 && parecidos(propio, acento)) b.classList.add('lu-ihb-turquesa');
-                if (parecidos(fondoDetras(b), acento)) b.classList.add('lu-ihb-sobre-turquesa');
+                var atras = fondoDetras(b) || papel;
+                var boton = propio && propio.a > 0.5 ? propio : atras;
+                var nota = function (c) { return Math.min(contraste(c, boton), contraste(c, atras)); };
+                var relleno = nota(acento) >= 1.8 ? acento : (nota(tinta) >= nota(papel) ? tinta : papel);
+                var letra = contraste(tinta, relleno) >= contraste(papel, relleno) ? tinta : papel;
+                b.style.setProperty('--lu-ihb-relleno', css(relleno));
+                b.style.setProperty('--lu-ihb-letra', css(letra));
                 b.classList.add('lu-ihb');
                 b.textContent = '';
                 var base = document.createElement('span');

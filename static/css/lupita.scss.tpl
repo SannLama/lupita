@@ -11204,32 +11204,20 @@ body .newsletter.lu-canal h3 {
     opacity: 1 !important;
 }
 
-/* Boton turquesa: el puntito en chocolate, si no no se ve */
-.lu-ihb-turquesa .lu-ihb-punto {
-    background-color: var(--lu-tinta);
+/* Los colores del puntito/relleno y del texto con flecha los elige el
+   script por contraste (--lu-ihb-relleno, --lu-ihb-letra); sin script,
+   turquesa y chocolate. */
+.btn.lu-ihb .lu-ihb-punto {
+    background-color: var(--lu-ihb-relleno, var(--lu-acento));
 }
 
-/* Boton sobre fondo turquesa (el pie): el relleno turquesa se perdia contra
-   el fondo; ahi llena en chocolate y el texto que entra va en crema. */
-.lu-ihb-sobre-turquesa .lu-ihb-punto {
-    background-color: var(--lu-tinta);
+.btn.lu-ihb .lu-ihb-capa {
+    color: var(--lu-ihb-letra, var(--lu-tinta));
 }
 
-.lu-ihb-sobre-turquesa.lu-ihb-turquesa .lu-ihb-punto {
-    background-color: var(--lu-papel);
-}
-
-.lu-ihb-sobre-turquesa .lu-ihb-capa {
-    color: var(--lu-papel);
-}
-
-.lu-ihb-sobre-turquesa.lu-ihb-turquesa .lu-ihb-capa {
-    color: var(--lu-tinta);
-}
-
-.btn.lu-ihb-sobre-turquesa:hover,
-.btn.lu-ihb-sobre-turquesa:focus-visible {
-    border-color: var(--lu-tinta);
+.btn.lu-ihb:hover,
+.btn.lu-ihb:focus-visible {
+    border-color: var(--lu-ihb-relleno, var(--lu-acento));
 }
 
 /* "Conocé las tiendas": link subrayado en vez de boton (Santiago,
