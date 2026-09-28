@@ -12719,3 +12719,9 @@ body .lu-arriba {
         z-index: 1;
     }
 }
+
+/* Franja Denimwear (la de arriba): la foto un poco mas arriba dentro del
+   marco (Santiago, 2026-09-28) */
+.lu-sandwich:first-of-type .lu-sandwich-media {
+    object-position: 50% 68%;
+}
