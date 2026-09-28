@@ -1667,8 +1667,9 @@ footer .lu-pie-contacto .contact-item svg {
 }
 
 /* padding y no margin: el reset de margenes de la lista del pie (con
-   !important, mas abajo) se comia la sangria del horario. */
-footer .lu-pie-contacto .lu-tienda-horario,
+   !important, mas abajo) se comia la sangria del horario.
+   (2026-09-28) El horario ya no lleva sangria: tiene su icono de reloj
+   y se alinea como las direcciones. */
 footer .lu-pie-contacto .lu-tiendas-pie {
     padding-left: calc(var(--lu-pie-icono) + var(--lu-pie-hueco));
 }
@@ -9976,6 +9977,44 @@ body .nube-slider-home .swiper-text .swiper-btn {
 
 body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
     color: var(--lu-papel);
+}
+
+/* Slide de la marca en celular (Santiago, 2026-09-28: "no se ve bien").
+   (1) El titulo "Ahi! Lupita · Kit n' Couch" iba en una sola linea
+   (nowrap, pedido del 24/9) y en 390px se salia de la pantalla: en celular
+   cada nombre va en su renglon, sin partirse, y el punto se oculta.
+   (2) La foto es la fachada apaisada (1400x788) y el cover al centro dejaba
+   el cartel "kit n'Couch" cortado en "kit". Se achica para que entren ~520px
+   de ancho de la foto, se corre a la derecha (donde esta el cartel) y abajo
+   funde al chocolate, donde cae el texto. Los numeros (788/520, 86%) son de
+   ESTA foto: si se cambia la imagen del slide, revisarlos. */
+.nube-slider-home .lu-marca-parte {
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    body .nube-slider-home .swiper-text .swiper-title.lu-titulo-marca {
+        white-space: normal;
+    }
+
+    .nube-slider-home .lu-marca-parte {
+        display: block;
+    }
+
+    .nube-slider-home .lu-marca-punto {
+        display: none;
+    }
+
+    .nube-slider-home .lu-slide-marca .slider-slide {
+        background: #241a17;
+    }
+
+    .nube-slider-home .lu-slide-marca .slider-image {
+        height: min(100%, calc(100vw * 788 / 520));
+        object-position: 86% 50%;
+        -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent);
+        mask-image: linear-gradient(to bottom, #000 72%, transparent);
+    }
 }
 
 /* Bajada del banner de promocion en renglones separados (el "|" del texto) */

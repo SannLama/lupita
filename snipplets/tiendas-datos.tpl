@@ -25,5 +25,9 @@
 	</li>
 {% endif %}
 {% if settings.lupita_horarios %}
-	<li class="{{ tiendas_item_clase }} lu-tienda-horario">{{ settings.lupita_horarios }}</li>
+	<li class="{{ tiendas_item_clase }} lu-tienda-horario">
+		{# Reloj al lado del horario, como el pin de las direcciones (Santiago, 2026-09-28) #}
+		{% if tiendas_iconos %}{% include "snipplets/svg/clock.tpl" with {svg_custom_class: "icon-inline icon-lg icon-w mx-2 svg-icon-text"} %}{% endif %}
+		{{ settings.lupita_horarios }}
+	</li>
 {% endif %}

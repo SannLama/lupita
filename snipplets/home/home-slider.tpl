@@ -13,7 +13,8 @@
 					{% set slider = settings.slider %}
 				{% endif %}
 				{% for slide in slider %}
-					<div class="swiper-slide slide-container">
+					{% set es_marca = slide.title and ('Lupita' in slide.title or 'Couch' in slide.title) %}
+					<div class="swiper-slide slide-container{% if es_marca %} lu-slide-marca{% endif %}">
 						{% set apply_lazy_load = 
 							settings.home_order_position_0 != 'slider' 
 							or not (
@@ -48,7 +49,12 @@
 								{% if has_text %}
 		                			<div class="swiper-text swiper-{{ slide.color }}">
 			                			{% if slide.title %}
-			                				{# El nombre de la marca va en turquesa, el resto en chocolate (Santiago, 2026-09-24) #}<div class="swiper-title h1{% if 'Lupita' in slide.title or 'Couch' in slide.title %} lu-titulo-marca{% endif %}">{{ slide.title }}</div>
+			                				{# El nombre de la marca va en turquesa, el resto en chocolate (Santiago, 2026-09-24) #}<div class="swiper-title h1{% if es_marca %} lu-titulo-marca{% endif %}">
+			                					{# En celular cada nombre va en su renglon: en una sola linea no entraba (Santiago, 2026-09-28) #}
+			                					{% if es_marca and '·' in slide.title %}
+			                						{% for parte in slide.title | split('·') %}<span class="lu-marca-parte">{{ parte | trim }}</span>{% if not loop.last %}<span class="lu-marca-punto"> · </span>{% endif %}{% endfor %}
+			                					{% else %}{{ slide.title }}{% endif %}
+			                				</div>
 			                			{% endif %}
 			                			{% if slide.description %}
 			                				<div class="swiper-description h5 font-weight-normal mt-3">{{ slide.description }}</div>
