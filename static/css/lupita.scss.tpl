@@ -12397,3 +12397,27 @@ body .js-home-sections-container > .section-informative-banners::before {
         margin: -22px 0 0 -22px;
     }
 }
+
+/* Banners de categorias en el celular apaisados, como en la compu (Santiago,
+   2026-09-28): antes cada uno ocupaba casi toda la pantalla (3/4 a lo ancho).
+   Ahora 16/10, uno debajo del otro, con titulo y boton un poco mas chicos. */
+@media (max-width: 767px) {
+    body .section-banners-home .textbanner-image {
+        aspect-ratio: 16 / 10;
+        height: auto;
+        padding-top: 0 !important;
+    }
+
+    body .section-banners-home .textbanner-image-background {
+        object-position: 50% 35%;
+    }
+
+    body .section-banners-home .textbanner-title {
+        font-size: clamp(1.9rem, 9vw, 2.6rem);
+    }
+
+    body .section-banners-home .textbanner-text .btn {
+        padding: 0.45rem 1.1rem;
+        font-size: 0.7rem;
+    }
+}
