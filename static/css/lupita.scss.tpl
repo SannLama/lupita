@@ -12075,7 +12075,7 @@ body .js-home-sections-container > .section-informative-banners {
   (antes margin-top -1.5rem) y queda en un solo renglon.
 ==============================================================================*/
 body .lu-promo .lu-promo-bajada {
-    margin-top: 0.75rem;
+    margin-top: 1.5rem;
     font-size: clamp(1.25rem, 2.2vw, 1.85rem);
     line-height: 1.25;
     white-space: nowrap;
