@@ -12529,10 +12529,12 @@ html {
 .btn-asesor::before {
     content: "";
     position: absolute;
-    inset: -4px;
+    inset: -5px;
     border-radius: 999px;
-    padding: 2px;
-    background: conic-gradient(from var(--lu-aro-giro), transparent 0deg, transparent 200deg, var(--lu-aro-color) 300deg, transparent 360deg);
+    padding: 3px;
+    background:
+        conic-gradient(from var(--lu-aro-giro), transparent 0deg, transparent 150deg, var(--lu-aro-color) 290deg, transparent 360deg),
+        color-mix(in srgb, var(--lu-aro-color) 25%, transparent);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
     mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
