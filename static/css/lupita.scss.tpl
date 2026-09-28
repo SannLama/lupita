@@ -12236,7 +12236,7 @@ body .js-home-sections-container > .section-informative-banners::before {
     top: 0;
     bottom: 0;
     left: 0;
-    width: 3.9vw;
+    width: 4.4vw;
     background-image: url("{{ 'images/encaje-borde.png' | static_url }}");
     background-repeat: repeat-y;
     background-size: 100% auto;
