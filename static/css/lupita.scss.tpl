@@ -12333,10 +12333,12 @@ body .js-home-sections-container > .section-informative-banners::before {
     content: "";
     position: absolute;
     top: 50%;
+    /* centrado en el corazon: el link incluye el contador, asi que el centro
+       es la mitad del icono (16px -> 8px; en celular 26px -> 13px) */
     left: 8px;
     width: 34px;
     height: 34px;
-    margin: -17px 0 0 -9px;
+    margin: -17px 0 0 -17px;
     border-radius: 50%;
     pointer-events: none;
 }
@@ -12383,5 +12385,15 @@ body .js-home-sections-container > .section-informative-banners::before {
 @media (prefers-reduced-motion: reduce) {
     .lu-favs-link:hover::after {
         animation: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .lu-favs-link::before,
+    .lu-favs-link::after {
+        left: 13px;
+        width: 44px;
+        height: 44px;
+        margin: -22px 0 0 -22px;
     }
 }
