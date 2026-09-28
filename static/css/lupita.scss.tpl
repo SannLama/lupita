@@ -12725,3 +12725,16 @@ body .lu-arriba {
 .lu-sandwich-denim .lu-sandwich-media {
     object-position: 50% 82%;
 }
+
+/* Botones de las 3 tarjetas verticales de categorias: mas aire adentro, porque
+   al pasar el mouse entra el texto con flecha (mas ancho) y quedaba pegado a
+   los bordes (Santiago, 2026-09-28) */
+body .section-banners-home .textbanner-text .btn.lu-ihb {
+    padding: 0.5rem 1.25rem;
+}
+
+@media (max-width: 767px) {
+    body .section-banners-home .textbanner-text .btn.lu-ihb {
+        padding: 0.4rem 0.8rem;
+    }
+}
