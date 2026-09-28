@@ -12231,18 +12231,20 @@ body .js-home-sections-container > .section-informative-banners {
 }
 
 body .js-home-sections-container > .section-informative-banners::before {
+    /* (mas tarde) La tira sale de la propia imagen de Probatelo (sus primeros
+       110 de 2208px, 4.98% del ancho): el encaje suelto que se probo antes
+       tenia otro dibujo y quedaba al reves. Se apoya por abajo, justo donde
+       arranca la imagen, y sigue hacia arriba. */
     content: "";
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
-    width: 4.4vw;
-    background-image: url("{{ 'images/encaje-borde.png' | static_url }}");
+    width: 4.98vw;
+    background-image: url("{{ 'images/encaje-probatelo.jpg' | static_url }}");
     background-repeat: repeat-y;
     background-size: 100% auto;
     background-position: left bottom;
-    /* Espejado: al derecho quedaba al reves que el de la imagen (Santiago) */
-    transform: scaleX(-1);
     pointer-events: none;
     z-index: 1;
 }
