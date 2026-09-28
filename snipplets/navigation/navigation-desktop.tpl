@@ -57,6 +57,13 @@
                                 {% for lu_nc in lu_nc_secciones %}
                                     <li><a class="lu-nav-desk-sublink" href="{{ store.url }}{{ lu_nc[1] }}">{{ lu_nc[0] }}</a></li>
                                 {% endfor %}
+                                {# Y todo lo de Accesorios (Santiago, 2026-09-28): sale de los
+                                   subitems del item "Accesorios" del Menu principal #}
+                                {% for lu_acc in navigation if 'accesorios' in lu_acc.name | lower %}
+                                    {% for lu_acc_sub in lu_acc.subitems %}
+                                        <li><a class="lu-nav-desk-sublink" href="{% if lu_acc_sub.url %}{{ lu_acc_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_acc_sub.name }}</a></li>
+                                    {% endfor %}
+                                {% endfor %}
                             </ul>
                         </div>
                     {% endif %}

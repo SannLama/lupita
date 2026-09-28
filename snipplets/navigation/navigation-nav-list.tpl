@@ -35,6 +35,13 @@
                         <a class="nav-list-link" href="{{ store.url }}{{ lu_nc[1] }}">{{ lu_nc[0] }}</a>
                     </li>
                 {% endfor %}
+                {% for lu_acc in lu_nl_cats if 'accesorios' in lu_acc.name | lower %}
+                    {% for lu_acc_sub in lu_acc.subitems %}
+                        <li class="nav-item">
+                            <a class="nav-list-link" href="{% if lu_acc_sub.url %}{{ lu_acc_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_acc_sub.name }}</a>
+                        </li>
+                    {% endfor %}
+                {% endfor %}
             </ul>
         </li>
     {% elseif item.subitems %}
