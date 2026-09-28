@@ -12505,3 +12505,64 @@ html {
         font-size: 0.66rem;
     }
 }
+
+/*============================================================================
+  #Marco con brillo que gira en los botones flotantes (Santiago, 2026-09-28)
+  Referencia: "Hover Border Gradient" de Aceternity (21st.dev). Un aro de
+  2px alrededor del boton con una luz que recorre el borde sin parar; al
+  pasar el mouse la luz se abre y rodea todo el boton. Cada boton lleva el
+  color del otro: WhatsApp (turquesa) con marco chocolate, asesor
+  (chocolate) con marco turquesa.
+==============================================================================*/
+@property --lu-aro-giro {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.btn-whatsapp,
+.btn-asesor {
+    overflow: visible;
+}
+
+.btn-whatsapp::before,
+.btn-asesor::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 999px;
+    padding: 2px;
+    background: conic-gradient(from var(--lu-aro-giro), transparent 0deg, transparent 200deg, var(--lu-aro-color) 300deg, transparent 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: lu-aro 2.6s linear infinite;
+    pointer-events: none;
+    transition: background 400ms ease;
+}
+
+.btn-whatsapp {
+    --lu-aro-color: var(--lu-tinta);
+}
+
+.btn-asesor {
+    --lu-aro-color: var(--lu-acento);
+}
+
+.btn-whatsapp:hover::before,
+.btn-asesor:hover::before,
+.btn-whatsapp:focus-visible::before,
+.btn-asesor:focus-visible::before {
+    background: conic-gradient(from var(--lu-aro-giro), var(--lu-aro-color) 0deg, color-mix(in srgb, var(--lu-aro-color) 45%, transparent) 180deg, var(--lu-aro-color) 360deg);
+}
+
+@keyframes lu-aro {
+    to { --lu-aro-giro: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-whatsapp::before,
+    .btn-asesor::before {
+        animation: none;
+    }
+}
