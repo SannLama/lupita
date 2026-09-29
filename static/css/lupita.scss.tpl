@@ -13050,17 +13050,20 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
     font-weight: 600;
 }
 
-/* Best Seller enmarcado en el color de la marca (Santiago, 2026-09-29:
-   "agrega un marco del color de la marca para diferenciar la seccion").
-   Borde turquesa con las esquinas de las cartas; centrado y angosto para
-   no pisar el encaje de la izquierda (4.53vw) ni en celular. */
-.lu-abanico-seccion > .container {
-    box-sizing: border-box;
-    width: min(64rem, calc(100% - 2 * (4.53vw + 1rem)));
-    max-width: none;
-    margin-left: auto;
-    margin-right: auto;
-    padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem) clamp(1.5rem, 3vw, 2.25rem);
-    border: 3px solid var(--lu-acento);
-    border-radius: 1.25rem;
+/* Best Seller: una linea turquesa donde empieza la seccion (Santiago,
+   2026-09-29: "un marco del color de la marca para diferenciar la seccion";
+   primero fue una caja con borde y la corrigio: "esa linea asi no, yo digo
+   una linea en el inicio" y despues "no arriba sino abajo de best seller").
+   Cierra la seccion, justo donde empieza Probatelo. Va del encaje (4.53vw)
+   al borde derecho, por encima de la tira (z-index 2). */
+body .js-home-sections-container > .lu-abanico-seccion::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 4.53vw;
+    right: 0;
+    height: 3px;
+    background-color: var(--lu-acento);
+    pointer-events: none;
+    z-index: 2;
 }
