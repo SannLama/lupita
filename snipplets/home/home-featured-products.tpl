@@ -32,7 +32,16 @@
                         <span class="lu-abanico-dato">
                             <span class="lu-abanico-nombre">{{ product.name }}</span>
                             {% if product.display_price %}
+                                {# Mismo formato que la grilla y el carrito (Santiago,
+                                   2026-09-29): tarjeta en gris, efectivo en turquesa
+                                   y las 6 cuotas. El descuento sale del mismo dato que
+                                   usa la ficha, no de un 20% fijo #}
+                                {% set lu_ab_desc = product.maxPaymentDiscount.value %}
                                 <span class="lu-abanico-precio">{{ product.price | money }}</span>
+                                {% if settings.payment_discount_price and lu_ab_desc > 0 %}
+                                    <span class="lu-abanico-efectivo">{{ (product.price * (100 - lu_ab_desc) / 100) | money }} {{ "con" | translate }} {{ product.maxPaymentDiscount.paymentProviderName }}</span>
+                                {% endif %}
+                                <span class="lu-abanico-cuotas">{{ "6 cuotas sin interés de" | translate }} <strong>{{ (product.price / 6) | money }}</strong></span>
                             {% endif %}
                         </span>
                     </a>

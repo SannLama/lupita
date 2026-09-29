@@ -11217,12 +11217,33 @@ body .newsletter.lu-canal h3 {
     line-height: 1.25;
 }
 
+/* Precio como en la grilla y el carrito (2026-09-29): tarjeta en gris,
+   efectivo en turquesa y las 6 cuotas abajo */
 .lu-abanico-precio {
     display: block;
-    margin-top: 0.15rem;
-    font-family: var(--lu-texto);
+    margin-top: 0.25rem;
+    font-family: var(--lu-micro);
     font-size: 0.85rem;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--lu-gris);
+}
+
+.lu-abanico-efectivo {
+    display: block;
+    font-family: var(--lu-texto);
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--lu-acento);
+}
+
+.lu-abanico-cuotas {
+    display: block;
+    margin-top: 0.1rem;
+    font-family: var(--lu-texto);
+    font-size: 0.75rem;
+    color: var(--lu-tinta);
 }
 
 .lu-abanico-nav {
