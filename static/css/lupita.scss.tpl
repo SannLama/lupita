@@ -12808,3 +12808,56 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
 .textbanner-image-background.lu-foto-night-out {
     object-position: 65% 50%;
 }
+
+/*============================================================================
+  #Desplegable de New collection en columnas (Santiago, 2026-09-29)
+  Una columna por categoria (Partes de arriba, Partes de abajo...) con todas
+  sus subcategorias debajo. El titulo de la columna va en turquesa y lleva a
+  la categoria; las subcategorias, en el peso normal del menu.
+==============================================================================*/
+.lu-nc-todo {
+    display: inline-block;
+    margin-bottom: 0.9rem;
+}
+
+.lu-nc-grupos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+    gap: 1.25rem 2rem;
+    margin: 0;
+    padding: 0 var(--lu-margen) 0 0;
+}
+
+.lu-nc-grupo {
+    min-width: 0;
+}
+
+.lu-nav-desk-sublink.lu-nc-titulo {
+    display: block;
+    margin-bottom: 0.55rem;
+    color: var(--lu-acento);
+}
+
+.lu-nc-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+}
+
+.lu-nav-desk-sublink.lu-nc-item {
+    font-weight: 400;
+    white-space: normal;
+}
+
+/* Celular: el titulo de cada grupo en negrita y sus subcategorias con sangria */
+.lu-nc-grupo-movil > .lu-nc-titulo {
+    font-weight: 700;
+    color: var(--lu-acento);
+}
+
+.lu-nc-items-movil {
+    margin: 0;
+    padding-left: 1rem;
+}

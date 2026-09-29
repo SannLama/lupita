@@ -1,7 +1,8 @@
-{# Para "New collection" (ver navigation-desktop.tpl): las categorias del
-   menu de primer nivel. En las subcategorias no hay "New collection", asi que
-   la lista solo se usa en la primera vuelta. #}
-{% set lu_nl_cats = navigation %}
+{# Para "New collection" (ver navigation-desktop.tpl): el menu elegido en
+   Diseno para su desplegable, o el Menu principal. En las subcategorias no
+   hay "New collection", asi que solo se usa en la primera vuelta. #}
+{% set lu_nc_fuente = settings.lupita_newcol_menu ? menus[settings.lupita_newcol_menu] : navigation %}
+{% set lu_nc_fuente = lu_nc_fuente ?: navigation %}
 {% for item in navigation if item.name | lower not in ['envíos', 'envios'] %}
     {% if 'new collection' in item.name | lower %}
         <li class="item-with-subitems" data-component="menu.item">
@@ -13,23 +14,32 @@
                     </span>
                 </a>
             </div>
-            <ul class="js-pages-accordion js-lu-ordenar list-subitems nav-list-accordion" style="display:none;">
+            <ul class="js-pages-accordion js-lu-grupos list-subitems nav-list-accordion" style="display:none;">
                 {% if item.url %}
                     <li class="nav-item">
                         <a class="nav-list-link" href="{{ item.url | setting_url }}"><strong>{{ 'Ver todo en' | translate }} {{ item.name }}</strong></a>
                     </li>
                 {% endif %}
-                {% for lu_nc_sub in item.subitems %}
-                    <li class="nav-item">
-                        <a class="nav-list-link" href="{% if lu_nc_sub.url %}{{ lu_nc_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_nc_sub.name }}</a>
-                    </li>
-                {% endfor %}
-                {% for lu_nc_rubro in lu_nl_cats if lu_nc_rubro.name != item.name %}
-                    {% for lu_nc_sub in lu_nc_rubro.subitems %}
-                        <li class="nav-item">
-                            <a class="nav-list-link" href="{% if lu_nc_sub.url %}{{ lu_nc_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_nc_sub.name }}</a>
+                {% for lu_g in lu_nc_fuente if lu_g.name != item.name and lu_g.name | lower not in ['envíos', 'envios'] %}
+                    {% if lu_g.isCategory and lu_g.category and lu_g.category.subcategories is not empty %}
+                        <li class="js-lu-grupo nav-item lu-nc-grupo-movil">
+                            <a class="js-lu-grupo-titulo nav-list-link lu-nc-titulo" href="{{ lu_g.category.url }}">{{ lu_g.name }}</a>
+                                <ul class="js-lu-grupo-items lu-nc-items-movil list-unstyled">
+                                    {% for lu_s in lu_g.category.subcategories %}
+                                        <li class="nav-item"><a class="nav-list-link" href="{{ lu_s.url }}">{{ lu_s.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
                         </li>
-                    {% endfor %}
+                    {% elseif lu_g.subitems %}
+                        <li class="js-lu-grupo nav-item lu-nc-grupo-movil">
+                            <a class="js-lu-grupo-titulo nav-list-link lu-nc-titulo" href="{% if lu_g.url %}{{ lu_g.url | setting_url }}{% else %}#{% endif %}">{{ lu_g.name }}</a>
+                            <ul class="js-lu-grupo-items lu-nc-items-movil list-unstyled">
+                                {% for lu_s in lu_g.subitems %}
+                                    <li class="nav-item"><a class="nav-list-link" href="{% if lu_s.url %}{{ lu_s.url | setting_url }}{% else %}#{% endif %}">{{ lu_s.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </li>

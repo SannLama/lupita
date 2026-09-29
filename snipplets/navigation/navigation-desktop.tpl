@@ -9,13 +9,16 @@
 ==============================================================================*/#}
 
 {% if navigation %}
-{# "New collection" despliega TODAS las subcategorias cargadas, en orden
-   alfabetico (Santiago, 2026-09-29: "que saque todas las subcategorias
-   ordenadas de lo que hay subido"). Salen de los rubros del Menu principal
-   (cada categoria del menu trae sus subcategorias sola), asi que cuando
-   suben o cambian categorias la lista se actualiza sin tocar el theme.
-   Antes era una lista escrita a mano con URLs que dejaron de existir.
-   El orden y los repetidos los resuelve ordenar-subcategorias.tpl. #}
+{# "New collection" (Santiago, 2026-09-29: "tendrian que estar todas las
+   partes de arriba como remeras y remerones y asi con todos"): una columna
+   por categoria del menu elegido en Diseno -> Menues -> "Desplegable de New
+   collection" (si no se elige, el Menu principal), con TODAS sus
+   subcategorias, que salen del arbol de categorias (category.subcategories)
+   y no de lo cargado a mano en el menu. Asi, cuando suben categorias nuevas,
+   aparecen solas. Orden alfabetico, sin repetidos y columnas con el mismo
+   nombre fusionadas: ordenar-subcategorias.tpl. #}
+{% set lu_nc_fuente = settings.lupita_newcol_menu ? menus[settings.lupita_newcol_menu] : navigation %}
+{% set lu_nc_fuente = lu_nc_fuente ?: navigation %}
     <nav class="lu-nav-desk" aria-label="{{ 'Menú principal' | translate }}">
         <ul class="lu-nav-desk-lista list-unstyled">
             {# Sin "Envíos" (Santiago, 2026-09-28: "sacá lo de envíos") #}
@@ -34,16 +37,29 @@
                         {% endif %}
                     </a>
                     {% if lu_nd_newcol %}
-                        <div class="lu-nav-desk-panel">
-                            <ul class="js-lu-ordenar lu-nav-desk-sub list-unstyled">
-                                <li><a class="lu-nav-desk-sublink lu-nav-desk-todo" href="{{ lu_nd_url }}">{{ 'Ver todo' | translate }}</a></li>
-                                {% for lu_nc_sub in item.subitems %}
-                                    <li><a class="lu-nav-desk-sublink" href="{% if lu_nc_sub.url %}{{ lu_nc_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_nc_sub.name }}</a></li>
-                                {% endfor %}
-                                {% for lu_nc_rubro in navigation if lu_nc_rubro.name != item.name %}
-                                    {% for lu_nc_sub in lu_nc_rubro.subitems %}
-                                        <li><a class="lu-nav-desk-sublink" href="{% if lu_nc_sub.url %}{{ lu_nc_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_nc_sub.name }}</a></li>
-                                    {% endfor %}
+                        <div class="lu-nav-desk-panel lu-nc-panel">
+                            <a class="lu-nav-desk-sublink lu-nav-desk-todo lu-nc-todo" href="{{ lu_nd_url }}">{{ 'Ver todo' | translate }}</a>
+                            <ul class="js-lu-grupos lu-nc-grupos list-unstyled">
+                                {% for lu_g in lu_nc_fuente if lu_g.name != item.name and lu_g.name | lower not in ['envíos', 'envios'] %}
+                                    {% if lu_g.isCategory and lu_g.category and lu_g.category.subcategories is not empty %}
+                                        <li class="js-lu-grupo lu-nc-grupo">
+                                            <a class="js-lu-grupo-titulo lu-nav-desk-sublink lu-nc-titulo" href="{{ lu_g.category.url }}">{{ lu_g.name }}</a>
+                                                <ul class="js-lu-grupo-items lu-nc-items list-unstyled">
+                                                    {% for lu_s in lu_g.category.subcategories %}
+                                                        <li><a class="lu-nav-desk-sublink lu-nc-item" href="{{ lu_s.url }}">{{ lu_s.name }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                        </li>
+                                    {% elseif lu_g.subitems %}
+                                        <li class="js-lu-grupo lu-nc-grupo">
+                                            <a class="js-lu-grupo-titulo lu-nav-desk-sublink lu-nc-titulo" href="{% if lu_g.url %}{{ lu_g.url | setting_url }}{% else %}#{% endif %}">{{ lu_g.name }}</a>
+                                            <ul class="js-lu-grupo-items lu-nc-items list-unstyled">
+                                                {% for lu_s in lu_g.subitems %}
+                                                    <li><a class="lu-nav-desk-sublink lu-nc-item" href="{% if lu_s.url %}{{ lu_s.url | setting_url }}{% else %}#{% endif %}">{{ lu_s.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>

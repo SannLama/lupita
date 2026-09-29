@@ -1657,6 +1657,9 @@ Pie de página
 	menu
 		name = footer_menu
 		description = ¿Qué menú vas a mostrar al final de la página?
+	menu
+		name = lupita_newcol_menu
+		description = Desplegable de "New collection": ¿qué menú lo arma? Cada categoría del menú es una columna con todas sus subcategorías (dejalo en el Menú principal si no creaste uno)
 	title
 		title = Medios de envío
 	checkbox_global
