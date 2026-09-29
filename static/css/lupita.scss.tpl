@@ -4361,7 +4361,7 @@ body:not(.template-product):not(.template-category) .page-header {
     line-height: 1.1;
     letter-spacing: -0.01em;
     text-transform: none;
-    color: #000000;
+    color: #2e1d21; /* marron de la marca, antes negro puro (Santiago, 2026-09-29) */
 }
 
 /* El h2 llega con .mt-2 de Bootstrap: en la misma linea que el logo lo
