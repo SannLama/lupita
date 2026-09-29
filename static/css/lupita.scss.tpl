@@ -13256,3 +13256,14 @@ body .js-item-name {
     font-weight: 400 !important;
     letter-spacing: 0.01em;
 }
+
+/* "Proximamente venta online" en la ficha/carrito: sin la pildora, solo el
+   texto en negrita y turquesa (Santiago, 2026-09-29) */
+body .lu-vidriera-compacto .lu-vidriera-rotulo {
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    color: var(--lu-acento) !important;
+    font-weight: 800 !important;
+}
