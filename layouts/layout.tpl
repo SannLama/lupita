@@ -228,6 +228,9 @@
         {# Precios redondeados al peso, sin centavos #}
         {% include "snipplets/sin-centavos.tpl" %}
 
+        {# Nombres de categorias con "&" en menus, migas y titulos #}
+        {% include "snipplets/categorias-ampersand.tpl" %}
+
         {# Google reCAPTCHA on register page #}
 
         {% if template == 'account.register' %}

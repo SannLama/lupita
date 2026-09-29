@@ -13242,9 +13242,9 @@ body .nav-primary .nav-list .list-subitems .lu-nc-grupo-movil > .lu-nc-titulo {
     }
 }
 
-/* Nombres de producto en Against, la letra de las cifras de medios de pago
-   (Santiago, 2026-09-29). Listado, Best Seller, ficha, wishlist y compra
-   rapida. Un solo peso: sin negrita. */
+/* Nombres de producto en Lora (Santiago, 2026-09-29: primero pidio Against,
+   despues "en los productos pone la lora"). Listado, Best Seller, ficha,
+   wishlist y compra rapida. */
 body .js-item-name.item-name,
 body .lu-abanico-nombre,
 body #single-product .page-header h1,
@@ -13252,7 +13252,7 @@ body #single-product h1.js-product-name,
 body .lu-favs-nombre,
 body .lu-fav-aviso-nombre,
 body .js-item-name {
-    font-family: "Against", var(--lu-sub) !important;
+    font-family: var(--lu-sub) !important;
     font-weight: 400 !important;
     letter-spacing: 0.01em;
 }
