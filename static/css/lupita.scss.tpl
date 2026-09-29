@@ -13268,3 +13268,32 @@ body .lu-vidriera-compacto .lu-vidriera-rotulo {
     color: var(--lu-acento) !important;
     font-weight: 800 !important;
 }
+
+/* Ficha: nombre, precio con tarjeta y precio en efectivo a la misma
+   distancia, 10px (Santiago, 2026-09-29: la tarjeta estaba pegada al
+   efectivo y lejos del nombre) */
+#single-product h1.js-product-name {
+    margin-bottom: 0 !important;
+}
+
+#single-product .page-header {
+    margin-bottom: 10px !important;
+}
+
+#single-product .price-container > .d-inline-block.mb-2 {
+    margin-bottom: 0 !important;
+}
+
+#single-product .price-container .payment-discount-price-product-container {
+    margin-top: 10px !important;
+}
+
+/* Home: menos aire entre la franja de 3 cajas y Best Seller (Santiago,
+   2026-09-29: "acorta el espacio"). Era ~224px entre el texto y el titulo. */
+body .js-home-sections-container > .section-informative-banners {
+    padding-bottom: 24px;
+}
+
+body .js-home-sections-container > .lu-abanico-seccion {
+    padding-top: 40px;
+}
