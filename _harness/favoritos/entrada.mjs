@@ -11,7 +11,32 @@ let temporizador = 0
 
 function datosDe(boton) {
   const d = boton.dataset
-  return { id: d.favId, nombre: d.favNombre || '', url: d.favUrl || '', imagen: d.favImagen || '', precio: d.favPrecio || '', variante: '' }
+  return {
+    id: d.favId, nombre: d.favNombre || '', url: d.favUrl || '', imagen: d.favImagen || '', precio: d.favPrecio || '', variante: '',
+    num: parseFloat(d.favPrecioNum) || 0, desc: parseFloat(d.favDesc) || 0,
+  }
+}
+
+/* En la ficha el precio puede cambiar con la variante: se toma el que se ve */
+function precioDeLaFicha() {
+  const el = document.querySelector('#single-product #price_display')
+  return el ? parseFloat(el.textContent.replace(/[^\d,]/g, '').replace(',', '.')) || 0 : 0
+}
+
+const pesos = (n) => '$' + Math.round(n).toLocaleString('es-AR')
+
+/* Los precios como en el carrito: tarjeta en gris, efectivo en turquesa y
+   las 6 cuotas. Las prendas guardadas antes de esto solo traen el texto. */
+function precios(p) {
+  const caja = elemento('div', 'lu-favs-precios')
+  if (!p.num) {
+    if (p.precio) caja.appendChild(elemento('span', 'lu-favs-precio', p.precio))
+    return caja
+  }
+  caja.appendChild(elemento('span', 'lu-favs-tarjeta', `${pesos(p.num)} con tarjeta`))
+  if (p.desc) caja.appendChild(elemento('span', 'lu-favs-efectivo', `${pesos(p.num * (100 - p.desc) / 100)} con Efectivo`))
+  caja.appendChild(elemento('span', 'lu-favs-cuotas', `6 cuotas sin interés de ${pesos(p.num / 6)}`))
+  return caja
 }
 
 /* Ficha: "Talle M / Negro" con lo elegido en el formulario al momento de guardar */
@@ -66,7 +91,7 @@ function pintar(lista) {
       nombre.href = p.url
       info.appendChild(nombre)
       if (p.variante) info.appendChild(elemento('span', 'lu-favs-variante', p.variante))
-      if (p.precio) info.appendChild(elemento('span', 'lu-favs-precio', p.precio))
+      info.appendChild(precios(p))
       const sacar = elemento('button', 'js-favs-quitar lu-favs-quitar', '×')
       sacar.type = 'button'
       sacar.dataset.favId = p.id
@@ -86,27 +111,43 @@ function pintar(lista) {
   }
 }
 
-function avisar() {
+function cerrarAviso() {
   const aviso = document.querySelector('.js-fav-aviso')
   if (!aviso) return
+  clearTimeout(temporizador)
+  aviso.classList.remove('lu-fav-aviso-visible')
+  setTimeout(() => { aviso.hidden = true }, 250)
+}
+
+function avisar(prenda) {
+  const aviso = document.querySelector('.js-fav-aviso')
+  if (!aviso) return
+  const img = aviso.querySelector('.js-fav-aviso-img')
+  if (img) { img.hidden = !prenda.imagen; if (prenda.imagen) img.src = prenda.imagen }
+  const nombre = aviso.querySelector('.js-fav-aviso-nombre')
+  if (nombre) nombre.textContent = prenda.nombre
+  const variante = aviso.querySelector('.js-fav-aviso-variante')
+  if (variante) variante.textContent = prenda.variante || ''
+  const caja = aviso.querySelector('.js-fav-aviso-precios')
+  if (caja) { caja.textContent = ''; caja.appendChild(precios(prenda)) }
   aviso.hidden = false
   void aviso.offsetWidth /* reflow: sin esto la entrada no anima */
   aviso.classList.add('lu-fav-aviso-visible')
   clearTimeout(temporizador)
-  temporizador = setTimeout(() => {
-    aviso.classList.remove('lu-fav-aviso-visible')
-    setTimeout(() => { aviso.hidden = true }, 250)
-  }, 3500)
+  temporizador = setTimeout(cerrarAviso, 5000)
 }
 
 function alTocarCorazon(boton) {
   if (!boton.dataset.favId) return
   const prenda = datosDe(boton)
-  if (boton.classList.contains('lu-fav-ficha')) prenda.variante = varianteElegida(boton)
+  if (boton.classList.contains('lu-fav-ficha')) {
+    prenda.variante = varianteElegida(boton)
+    prenda.num = precioDeLaFicha() || prenda.num
+  }
   const r = alternar(leer(almacen), prenda)
   guardar(almacen, r.lista)
   pintar(r.lista)
-  if (r.guardada) avisar()
+  if (r.guardada) avisar(prenda)
 }
 
 /* Compra rapida: el modal nace vacio; se le copian los datos de la tarjeta */
@@ -115,7 +156,7 @@ function alAbrirCompraRapida(disparador) {
   const origen = tarjeta && tarjeta.querySelector('.js-fav')
   const destino = document.querySelector('.lu-fav-rapida')
   if (!origen || !destino) return
-  ;['favId', 'favNombre', 'favUrl', 'favImagen', 'favPrecio'].forEach((k) => { destino.dataset[k] = origen.dataset[k] || '' })
+  ;['favId', 'favNombre', 'favUrl', 'favImagen', 'favPrecio', 'favPrecioNum', 'favDesc'].forEach((k) => { destino.dataset[k] = origen.dataset[k] || '' })
   marcar(destino, contiene(leer(almacen), destino.dataset.favId))
 }
 
@@ -133,6 +174,8 @@ function iniciar() {
       alTocarCorazon(corazon)
       return
     }
+    if (e.target.closest('.js-fav-aviso-cerrar')) { cerrarAviso(); return }
+    if (e.target.closest('.js-fav-aviso .js-modal-open')) cerrarAviso()
     const sacar = e.target.closest('.js-favs-quitar')
     if (sacar) {
       const lista = quitar(leer(almacen), sacar.dataset.favId)

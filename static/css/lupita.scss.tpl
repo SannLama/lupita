@@ -12940,3 +12940,112 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
 #installments-modal img[data-src*="cabal"] {
     display: none !important;
 }
+
+/*============================================================================
+  #Wishlist con precios como el carrito (Santiago, 2026-09-29)
+  En la lista y en el aviso al guardar: con tarjeta en gris, con Efectivo
+  en turquesa y las 6 cuotas. El aviso pasa de la franja de tinta a una
+  tarjeta como la notificacion del carrito: prenda con foto y precios.
+==============================================================================*/
+.lu-favs-precios {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    margin-top: 0.15rem;
+    font-family: var(--lu-texto);
+}
+
+.lu-favs-tarjeta {
+    font-size: 0.8rem;
+    color: var(--lu-gris);
+}
+
+.lu-favs-efectivo {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--lu-acento);
+}
+
+.lu-favs-cuotas {
+    font-size: 0.75rem;
+    color: var(--lu-tinta);
+}
+
+.lu-fav-aviso {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    width: 22rem;
+    padding: 1rem 1.1rem;
+    background-color: var(--lu-papel);
+    color: var(--lu-tinta);
+    border: 1px solid var(--lu-linea);
+    border-top: 3px solid var(--lu-acento);
+    border-radius: var(--lu-radio-chico, 0.75rem);
+    box-shadow: 0 18px 40px -18px rgba(46, 29, 33, 0.45);
+}
+
+.lu-fav-aviso-cabeza {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.95rem;
+}
+
+.lu-fav-aviso-cerrar {
+    border: 0;
+    background: none;
+    padding: 0 0.25rem;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--lu-gris);
+    cursor: pointer;
+}
+
+.lu-fav-aviso-cerrar:hover {
+    color: var(--lu-tinta);
+}
+
+.lu-fav-aviso-prenda {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+}
+
+.lu-fav-aviso-img {
+    flex: none;
+    width: 4.5rem;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 0.4rem;
+}
+
+.lu-fav-aviso-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.lu-fav-aviso-nombre {
+    font-size: 0.92rem;
+    line-height: 1.3;
+}
+
+.lu-fav-aviso-pie {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--lu-linea);
+    font-size: 0.8rem;
+    color: var(--lu-gris);
+}
+
+.lu-fav-aviso .lu-fav-aviso-link {
+    color: var(--lu-tinta);
+    font-weight: 600;
+}

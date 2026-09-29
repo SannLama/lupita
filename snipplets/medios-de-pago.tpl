@@ -43,7 +43,7 @@
                     <script type="text/javascript">
                         (function () {
                             var lista = document.currentScript.previousElementSibling;
-                            var base = {{ lu_precio }};
+                            var base = {{ lu_precio / 100 }};
                             function pesos(n) { return '$' + Math.round(n).toLocaleString('es-AR'); }
                             function precio() {
                                 var el = document.querySelector('#single-product #price_display');

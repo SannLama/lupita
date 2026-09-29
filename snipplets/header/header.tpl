@@ -87,9 +87,25 @@
     {% endblock %}
 {% endembed %}
 
+{# Aviso al guardar: como el del carrito, con la prenda y sus precios
+   (Santiago, 2026-09-29). Lo llena lupita-favoritos. #}
 <div class="js-fav-aviso lu-fav-aviso" role="status" aria-live="polite" hidden>
-    <span>{{ 'Guardada. Probátela en cualquiera de nuestras tiendas' | translate }}</span>
-    <a href="#" class="js-modal-open lu-fav-aviso-link" data-toggle="#modal-favoritos">{{ 'Ver favoritos' | translate }}</a>
+    <div class="lu-fav-aviso-cabeza">
+        <strong>{{ '¡Guardada en tu wishlist!' | translate }}</strong>
+        <button type="button" class="js-fav-aviso-cerrar lu-fav-aviso-cerrar" aria-label="{{ 'Cerrar' | translate }}">&times;</button>
+    </div>
+    <div class="lu-fav-aviso-prenda">
+        <img class="js-fav-aviso-img lu-fav-aviso-img" alt="" hidden>
+        <div class="lu-fav-aviso-info">
+            <span class="js-fav-aviso-nombre lu-fav-aviso-nombre"></span>
+            <span class="js-fav-aviso-variante lu-favs-variante"></span>
+            <div class="js-fav-aviso-precios"></div>
+        </div>
+    </div>
+    <div class="lu-fav-aviso-pie">
+        <span>{{ 'Probátela en cualquiera de nuestras tiendas' | translate }}</span>
+        <a href="#" class="js-modal-open lu-fav-aviso-link" data-toggle="#modal-favoritos">{{ 'Ver favoritos' | translate }}</a>
+    </div>
 </div>
 
 {% if not store.is_catalog and settings.ajax_cart and template != 'cart' %}           

@@ -95,3 +95,12 @@ test('urlWhatsApp agrega el texto con ? o con & segun el link', () => {
   assert.equal(urlWhatsApp('https://api.whatsapp.com/send?phone=549110', [vestido]), `https://api.whatsapp.com/send?phone=549110&text=${texto}`)
   assert.equal(urlWhatsApp('', [vestido]), '')
 })
+
+test('alternar con otra variante actualiza tambien el precio y el descuento', () => {
+  const guardada = { id: '9', nombre: 'Jean', variante: 'Talle 24', num: 97112, desc: 20 }
+  const r = alternar([guardada], { id: '9', nombre: 'Jean', variante: 'Talle 26', num: 99000, desc: 0 })
+  assert.equal(r.guardada, true)
+  assert.equal(r.lista[0].variante, 'Talle 26')
+  assert.equal(r.lista[0].num, 99000)
+  assert.equal(r.lista[0].desc, 20) /* sin dato nuevo, conserva el que tenia */
+})

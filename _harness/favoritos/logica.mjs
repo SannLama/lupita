@@ -45,7 +45,7 @@ export function alternar(lista, prenda) {
   const actual = lista.find((p) => mismo(p.id, prenda.id))
   if (actual) {
     if (prenda.variante && prenda.variante !== actual.variante) {
-      return { lista: lista.map((p) => (mismo(p.id, prenda.id) ? { ...p, variante: prenda.variante } : p)), guardada: true }
+      return { lista: lista.map((p) => (mismo(p.id, prenda.id) ? { ...p, variante: prenda.variante, num: prenda.num || p.num, desc: prenda.desc || p.desc } : p)), guardada: true }
     }
     return { lista: quitar(lista, prenda.id), guardada: false }
   }
