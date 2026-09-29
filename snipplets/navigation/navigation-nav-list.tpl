@@ -1,20 +1,9 @@
-{# Secciones de "New collection" (Santiago, 2026-09-28: "que te lleve a
-   partes de arriba, partes de abajo, sweaters"): son las subcategorias de
-   la categoria SS 27, que es a donde apunta el item del menu. El item del
-   Menu principal no las trae (no tiene subitems cargados), por eso van aca.
-   Si cambian las subcategorias en el panel, actualizar esta lista. #}
-{% set lu_nc_secciones = [
-    ['Partes de arriba', '/denim-wear-1ifcg/pantalon-denim/partes-de-arriba-xpdzu/'],
-    ['Partes de abajo', '/denim-wear-1ifcg/pantalon-denim/partes-de-abajo-1yr44/'],
-    ['Hoodies y sweaters', '/denim-wear-1ifcg/pantalon-denim/hoodies-y-sweaters-1lv3x/'],
-    ['Bikinis', '/denim-wear-1ifcg/pantalon-denim/bikinis-1upjt/']
-] %}
 {# Para "New collection" (ver navigation-desktop.tpl): las categorias del
    menu de primer nivel. En las subcategorias no hay "New collection", asi que
    la lista solo se usa en la primera vuelta. #}
 {% set lu_nl_cats = navigation %}
 {% for item in navigation if item.name | lower not in ['envíos', 'envios'] %}
-    {% if not item.subitems and 'new collection' in item.name | lower %}
+    {% if 'new collection' in item.name | lower %}
         <li class="item-with-subitems" data-component="menu.item">
             <div class="js-nav-list-toggle-accordion">
                 <a class="js-toggle-page-accordion nav-list-link" href="#">
@@ -24,21 +13,21 @@
                     </span>
                 </a>
             </div>
-            <ul class="js-pages-accordion list-subitems nav-list-accordion" style="display:none;">
+            <ul class="js-pages-accordion js-lu-ordenar list-subitems nav-list-accordion" style="display:none;">
                 {% if item.url %}
                     <li class="nav-item">
                         <a class="nav-list-link" href="{{ item.url | setting_url }}"><strong>{{ 'Ver todo en' | translate }} {{ item.name }}</strong></a>
                     </li>
                 {% endif %}
-                {% for lu_nc in lu_nc_secciones %}
+                {% for lu_nc_sub in item.subitems %}
                     <li class="nav-item">
-                        <a class="nav-list-link" href="{{ store.url }}{{ lu_nc[1] }}">{{ lu_nc[0] }}</a>
+                        <a class="nav-list-link" href="{% if lu_nc_sub.url %}{{ lu_nc_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_nc_sub.name }}</a>
                     </li>
                 {% endfor %}
-                {% for lu_acc in lu_nl_cats if 'accesorios' in lu_acc.name | lower %}
-                    {% for lu_acc_sub in lu_acc.subitems %}
+                {% for lu_nc_rubro in lu_nl_cats if lu_nc_rubro.name != item.name %}
+                    {% for lu_nc_sub in lu_nc_rubro.subitems %}
                         <li class="nav-item">
-                            <a class="nav-list-link" href="{% if lu_acc_sub.url %}{{ lu_acc_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_acc_sub.name }}</a>
+                            <a class="nav-list-link" href="{% if lu_nc_sub.url %}{{ lu_nc_sub.url | setting_url }}{% else %}#{% endif %}">{{ lu_nc_sub.name }}</a>
                         </li>
                     {% endfor %}
                 {% endfor %}
