@@ -12283,6 +12283,35 @@ body .js-home-sections-container > .section-informative-banners::before {
     background-image: url("{{ 'images/encaje-probatelo-2.jpg' | static_url }}");
     background-repeat: repeat-y;
     background-size: 100% auto;
+    /* --lu-encaje-desfase = alto del abanico (Best Seller) que ahora queda
+       entre esta franja y Probatelo: corre el dibujo para que empalme con
+       el de abajo. Lo pone el script de home-featured-products.tpl */
+    background-position: left 0 bottom calc(-1 * var(--lu-encaje-desfase, 0px));
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* El encaje sigue por el abanico de Best Seller (Santiago, 2026-09-29:
+   "segui el encaje"): la seccion quedo entre la franja de arriba y la
+   imagen de Probatelo y cortaba la tira. Misma tira, apoyada abajo donde
+   arranca la imagen; el margen de abajo pasa a relleno para que no quede
+   un hueco sin encaje. */
+body .js-home-sections-container > .lu-abanico-seccion {
+    position: relative;
+    margin-bottom: 0;
+    padding-bottom: calc(64px + 70px);
+}
+
+body .js-home-sections-container > .lu-abanico-seccion::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4.53vw;
+    background-image: url("{{ 'images/encaje-probatelo-2.jpg' | static_url }}");
+    background-repeat: repeat-y;
+    background-size: 100% auto;
     background-position: left bottom;
     pointer-events: none;
     z-index: 1;

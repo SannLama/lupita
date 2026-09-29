@@ -59,6 +59,17 @@
         </div>
         <script>
             (function () {
+                /* Encaje continuo: la franja de arriba corre su tira lo que
+                   mide esta seccion, asi empalma con la de aca (ver CSS) */
+                var sec = document.querySelector('.lu-abanico-seccion');
+                var arriba = sec && sec.previousElementSibling;
+                if (!arriba || !arriba.classList.contains('section-informative-banners')) return;
+                function desfase() { arriba.style.setProperty('--lu-encaje-desfase', sec.offsetHeight + 'px'); }
+                desfase();
+                if (window.ResizeObserver) new ResizeObserver(desfase).observe(sec);
+                else window.addEventListener('resize', desfase);
+            })();
+            (function () {
                 var cont = document.querySelector('.js-lu-abanico');
                 if (!cont) return;
                 var cartas = Array.prototype.slice.call(cont.querySelectorAll('.js-lu-abanico-carta'));
