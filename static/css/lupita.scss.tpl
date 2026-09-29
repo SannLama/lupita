@@ -13098,3 +13098,18 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
         font-size: 0.9rem;
     }
 }
+
+/* Ventana de medios de pago: el precio lleno tachado al lado del de
+   efectivo (lo agrega product-payment-details.tpl) */
+#installments-modal .lu-efectivo-lleno {
+    margin-left: 0.35rem;
+    font-size: 0.85em;
+    color: var(--lu-gris);
+    text-decoration: line-through;
+}
+
+#installments-modal .lu-efectivo-off {
+    margin-left: 0.4rem;
+    font-weight: 700;
+    color: var(--lu-acento);
+}
