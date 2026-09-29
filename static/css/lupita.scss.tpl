@@ -12904,3 +12904,26 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
 .lu-nav-desk-sublink.lu-nc-item {
     font-size: 0.68rem;
 }
+
+/*============================================================================
+  #Ficha: que dice cada precio (Santiago, 2026-09-29)
+  El gris es el precio con tarjeta: lo dice. Va por ::after y no en el HTML
+  porque Tiendanube reescribe el texto de #price_display al cambiar de
+  variante. En la lista de medios de pago, cada renglon con su precio; el
+  de efectivo, entero en el color de la marca.
+==============================================================================*/
+#single-product .js-price-display::after {
+    content: " con tarjeta";
+    font-weight: 400;
+}
+
+.lu-pagos-compacto .lu-pagos-detalle {
+    font-family: var(--lu-texto);
+    color: var(--lu-tinta);
+}
+
+.lu-pagos-compacto .lu-pagos-efectivo .lu-pagos-cifra,
+.lu-pagos-compacto .lu-pagos-efectivo .lu-pagos-detalle {
+    color: var(--lu-acento);
+    font-weight: 700;
+}

@@ -30,7 +30,7 @@
 
 {# Medios de pago de Lupita, justo debajo del precio: donde se decide #}
 {% include 'snipplets/vidriera-virtual.tpl' with {lu_vv_tamano: 'compacto'} %}
-{% include 'snipplets/medios-de-pago.tpl' with {tamano: 'compacto'} %}
+{% include 'snipplets/medios-de-pago.tpl' with {tamano: 'compacto', lu_precio: product.display_price ? product.price : false} %}
 
 {{ component('subscriptions/subscription-price', {
     subscription_classes: {
@@ -300,7 +300,8 @@
 
 {# Product share #}
 
-{% include 'snipplets/social/social-share.tpl' %}
+{# Sin "Compartir" (Santiago, 2026-09-29: "lo de compartir sacalo") #}
+{% if false %}{% include 'snipplets/social/social-share.tpl' %}{% endif %}
 
 {# Product description #}
 
