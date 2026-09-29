@@ -134,13 +134,10 @@
             <a href="{{ product_url_with_selected_variant }}" title="{{ product.name }}" class="item-link">
                 <div class="js-item-name item-name mb-1" data-store="product-item-name-{{ product.id }}">{{ product.name }}</div>
                 {% if product.display_price %}
-                    {# Mismo formato que el total del carrito (pedido de Santiago,
-                       2026-09-16): precio con tarjeta chico, efectivo grande en
-                       turquesa y las 6 cuotas con el valor de cada una #}
+                    {# Mismo formato que la ficha de producto (Santiago, 2026-09-29):
+                       precio con tarjeta en gris sin rotulo, y abajo el efectivo
+                       en turquesa en un solo renglon. Antes decia "Con tarjeta:" #}
                     <div class="item-price-container mb-1 {% if settings.payment_discount_price and not reduced_item %}lu-tarjeta{% endif %}" data-store="product-item-price-{{ product.id }}">
-                        {% if settings.payment_discount_price and not reduced_item %}
-                            <span class="lu-tarjeta-rotulo">{{ "Con tarjeta" | translate }}:</span>
-                        {% endif %}
                         {% if not reduced_item %}
                             <span class="js-compare-price-display price-compare" {% if not product.compare_at_price or not product.display_price %}style="display:none;"{% else %}style="display:inline-block;"{% endif %}>
                                 {{ product.compare_at_price | money }}

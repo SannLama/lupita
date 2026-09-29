@@ -597,7 +597,7 @@ hr,
 
 .lu-efectivo-item.payment-discount-price-product-container,
 .lu-efectivo-item.payment-discount-price-product-container * {
-    font-size: clamp(1.15rem, 2.4vw, 1.5rem) !important;
+    font-size: clamp(1rem, 1.6vw, 1.35rem) !important;
 }
 
 /* El precio viejo y el nuevo son un solo bloque: sin el margen de parrafo que
@@ -6603,32 +6603,37 @@ body #modal-cart .js-cart-total-container .h2.lu-tarjeta {
     color: var(--lu-tinta);
 }
 
-/* Lo mismo en la tarjeta de producto de la grilla (2026-09-16), a escala de
-   una columna angosta: tarjeta chica y apagada, efectivo grande en turquesa,
-   y abajo las 6 cuotas con el valor de cada una. */
-.item-price-container.lu-tarjeta {
-    opacity: 0.6;
+/* La tarjeta de la grilla copia la ficha de producto (Santiago, 2026-09-29):
+   precio con tarjeta en gris y negrita, sin rotulo "Con tarjeta:", y debajo
+   "$X con Efectivo" en turquesa en UN renglon (el display:block de
+   .lu-efectivo-precio, pensado para el carrito, mandaba "con Efectivo"
+   abajo). A escala de una columna angosta; en celular puede partir entre
+   la cifra y "con Efectivo", nunca adentro de la cifra. */
+.item-price-container.lu-tarjeta .item-price,
+.item-price-container.lu-tarjeta .item-price-compare {
+    font-family: var(--lu-micro);
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    /* esta adentro del <a> de la tarjeta: sin esto toma el azul del link */
+    color: var(--lu-gris);
 }
 
-.item-price-container.lu-tarjeta .lu-tarjeta-rotulo,
-.item-price-container.lu-tarjeta .item-price,
-.item-price-container.lu-tarjeta .price-compare,
-.item-price-container.lu-tarjeta .item-price-compare {
-    font-family: var(--lu-texto);
+.item-price-container.lu-tarjeta .price-compare {
+    font-family: var(--lu-micro);
     font-size: 0.8rem;
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-    /* esta adentro del <a> de la tarjeta: sin esto toma el azul del link */
-    color: var(--lu-tinta);
+    text-decoration: line-through;
+    color: var(--lu-gris);
 }
 
 .lu-efectivo.lu-efectivo-item {
     margin: 0.15rem 0 0;
+    line-height: 1.1;
 }
 
 .lu-efectivo.lu-efectivo-item .lu-efectivo-precio {
-    font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+    display: inline;
     white-space: nowrap;
 }
 
