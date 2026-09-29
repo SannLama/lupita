@@ -13297,3 +13297,18 @@ body .js-home-sections-container > .section-informative-banners {
 body .js-home-sections-container > .lu-abanico-seccion {
     padding-top: 40px;
 }
+
+/* Carrito vacio: "Conoce nuestras tiendas" a la altura del texto del boton
+   de WhatsApp (Santiago, 2026-09-29: "no esta centrado"). El link quedaba
+   pegado arriba de la fila. */
+.lu-sin-carrito-acciones {
+    align-items: center;
+}
+
+.lu-sin-carrito-acciones .lu-link-tiendas {
+    display: inline-flex;
+    align-items: center;
+    height: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+}
