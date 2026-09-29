@@ -14,7 +14,7 @@
     {% set lu_vv_tamano = lu_vv_tamano | default('grande') %}
     {% set lu_vv_rotulo = settings.lupita_vidriera_rotulo ?: 'Próximamente venta online' %}
     {% set lu_vv_titulo = settings.lupita_vidriera_titulo ?: '¿Qué es una vidriera virtual?' %}
-    {% set lu_vv_texto = settings.lupita_vidriera_texto ?: 'Es nuestra tienda abierta en la web: recorré las prendas, mirá precios y talles y guardalas en la wishlist. Próximamente venta online; mientras tanto, la compra la terminás en cualquiera de nuestras tres tiendas o escribiéndonos por WhatsApp.' %}
+    {% set lu_vv_texto = settings.lupita_vidriera_texto ?: 'Es nuestra tienda abierta en la web: próximamente venta online. Recorré, mirá las prendas y guardá tus favoritos en tu wishlist.' %}
 
     {% if lu_vv_tamano == 'compacto' %}
         <p class="lu-vidriera lu-vidriera-compacto" data-store="lupita-vidriera">
