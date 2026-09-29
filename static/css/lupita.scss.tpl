@@ -13049,21 +13049,3 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
     color: var(--lu-tinta);
     font-weight: 600;
 }
-
-/* Best Seller: una linea turquesa donde empieza la seccion (Santiago,
-   2026-09-29: "un marco del color de la marca para diferenciar la seccion";
-   primero fue una caja con borde y la corrigio: "esa linea asi no, yo digo
-   una linea en el inicio" y despues "no arriba sino abajo de best seller").
-   Cierra la seccion, justo donde empieza Probatelo. Va del encaje (4.53vw)
-   al borde derecho, por encima de la tira (z-index 2). */
-body .js-home-sections-container > .lu-abanico-seccion::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 4.53vw;
-    right: 0;
-    height: 3px;
-    background-color: var(--lu-acento);
-    pointer-events: none;
-    z-index: 2;
-}
