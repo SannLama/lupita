@@ -12927,3 +12927,16 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
     color: var(--lu-acento);
     font-weight: 700;
 }
+
+/* "Ver medios de pago" de la ficha (Santiago, 2026-09-29: "no se acepta
+   naranja x ni cabal. Solamente tarjetas bancarizadas y American Express").
+   La ventana es un componente nativo que lista lo que habilita Mercado
+   Pago: no se puede editar su contenido, asi que se ocultan esos logos por
+   el nombre del archivo (src, o data-src mientras el lazyload no los carga).
+   Cabal cubre tambien Cabal Debito. */
+#installments-modal img[src*="tarjeta-naranja"],
+#installments-modal img[data-src*="tarjeta-naranja"],
+#installments-modal img[src*="cabal"],
+#installments-modal img[data-src*="cabal"] {
+    display: none !important;
+}

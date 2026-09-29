@@ -77,6 +77,10 @@
         {% set hideDiscountContainer = not (hasDiscount and product.showMaxPaymentDiscount) %}
         {% set hideDiscountDisclaimer = not product.showMaxPaymentDiscountNotCombinableDisclaimer %}
 
+        {# Sin estos dos renglones (Santiago, 2026-09-29: "sacalo"): repetian lo
+           que ya dice la lista de medios de pago de arriba, con precio
+           ("20% off en efectivo: $X", "6 cuotas sin interes de $X"). #}
+        {% if false %}
         <div class="js-product-discount-container text-center text-md-left mb-2" {% if hideDiscountContainer %}style="display: none;"{% endif %}>
             <span><strong class="text-accent">{{ product.maxPaymentDiscount.value }}% {{'de descuento' | translate }}</strong> {{'abonando con' | translate }} {{ product.maxPaymentDiscount.paymentProviderName }}</span>
             <div class="js-product-discount-disclaimer font-small mt-1" {% if hideDiscountDisclaimer %}style="display: none;"{% endif %}>
@@ -92,6 +96,7 @@
            cambiar de variante #}
         {% if product.display_price %}
             <div class="product-detail-installments lu-cuotas-ficha text-center text-md-left mb-2 font-weight-bold">{{ "6 cuotas sin interés de" | translate }} <span class="js-lu-cuotas-valor">{{ (product.price / 6) | money }}</span></div>
+        {% endif %}
         {% endif %}
 
         <div class="form-row align-items-center align-items-start-md mb-4">
