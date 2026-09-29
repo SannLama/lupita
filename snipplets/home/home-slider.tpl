@@ -23,7 +23,9 @@
 							{% set lu_despues = true %}
 						{% endif %}
 					{% endfor %}
-					{% if not lu_despues %}
+					{# Ni slides sueltos sin titulo ni texto (2026-09-29): uno se colo al
+					   intentar reemplazar la foto de Night out desde el panel #}
+					{% if not lu_despues and (slide.title or slide.description) %}
 						{% set slider_limpio = slider_limpio | merge([slide]) %}
 					{% endif %}
 				{% endfor %}
@@ -46,6 +48,13 @@
 						{% else %}
 							{% set slide_src = slide.image | static_url | settings_image_url('large') %}
 						{% endif %}
+						{# Foto fija para Night out (Santiago, 2026-09-29): va por codigo y no
+						   por el panel (el reemplazo en el panel quedo trabado). 1920x1080. #}
+						{% set lu_foto_fija = slide.title and 'night out' in slide.title | lower %}
+						{% if lu_foto_fija %}
+							{% set lu_fija_url = 'images/night-out-carrusel.jpg' | static_url %}
+							{% if not apply_lazy_load %}{% set slide_src = lu_fija_url %}{% endif %}
+						{% endif %}
 
 						{% if slide.link %}
 							<a href="{{ slide.link | setting_url }}" aria-label="{{ 'Carrusel' | translate }} {{ loop.index }}">
@@ -54,9 +63,9 @@
 							<div class="slider-slide">
 								<img 
 									{% if not apply_lazy_load %}fetchpriority="high"{% endif %}
-									{% if slide.width and slide.height %} width="{{ slide.width }}" height="{{ slide.height }}" {% endif %}
+									{% if lu_foto_fija %} width="1920" height="1080" {% elseif slide.width and slide.height %} width="{{ slide.width }}" height="{{ slide.height }}" {% endif %}
 									{% if apply_lazy_load %}data-{% endif %}src="{{ slide_src }}"
-									{% if apply_lazy_load %}data-{% endif %}srcset="{{ slide.image | static_url | settings_image_url('xlarge') }} 1400w, {{ slide.image | static_url | settings_image_url('1080p') }} 1920w" 
+									{% if lu_foto_fija %}{% if apply_lazy_load %}data-{% endif %}srcset="{{ lu_fija_url }} 1920w"{% else %}{% if apply_lazy_load %}data-{% endif %}srcset="{{ slide.image | static_url | settings_image_url('xlarge') }} 1400w, {{ slide.image | static_url | settings_image_url('1080p') }} 1920w"{% endif %} 
 									class="slider-image {% if apply_lazy_load %}swiper-lazy fade-in{% endif %}" 
 									alt="{{ 'Carrusel' | translate }} {{ loop.index }}"
 								/>
