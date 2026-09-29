@@ -13049,3 +13049,18 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
     color: var(--lu-tinta);
     font-weight: 600;
 }
+
+/* Best Seller enmarcado en el color de la marca (Santiago, 2026-09-29:
+   "agrega un marco del color de la marca para diferenciar la seccion").
+   Borde turquesa con las esquinas de las cartas; centrado y angosto para
+   no pisar el encaje de la izquierda (4.53vw) ni en celular. */
+.lu-abanico-seccion > .container {
+    box-sizing: border-box;
+    width: min(64rem, calc(100% - 2 * (4.53vw + 1rem)));
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem) clamp(1.5rem, 3vw, 2.25rem);
+    border: 3px solid var(--lu-acento);
+    border-radius: 1.25rem;
+}
