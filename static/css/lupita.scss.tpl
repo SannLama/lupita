@@ -13241,3 +13241,18 @@ body .nav-primary .nav-list .list-subitems .lu-nc-grupo-movil > .lu-nc-titulo {
         transform: none !important;
     }
 }
+
+/* Nombres de producto en Against, la letra de las cifras de medios de pago
+   (Santiago, 2026-09-29). Listado, Best Seller, ficha, wishlist y compra
+   rapida. Un solo peso: sin negrita. */
+body .js-item-name.item-name,
+body .lu-abanico-nombre,
+body #single-product .page-header h1,
+body #single-product h1.js-product-name,
+body .lu-favs-nombre,
+body .lu-fav-aviso-nombre,
+body .js-item-name {
+    font-family: "Against", var(--lu-sub) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.01em;
+}
