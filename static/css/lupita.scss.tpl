@@ -13076,3 +13076,23 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
     font-weight: 400;
     letter-spacing: 0.01em;
 }
+
+/* Ficha en compu: letra un poco mas grande en la zona de precios (Santiago,
+   2026-09-29: "hace un poco mas grande la tipografia en el apartado del
+   producto en la web pc"). Lista de medios de pago, renglon de vidriera
+   virtual y "Ver medios de pago"; en celular queda como estaba. */
+@media (min-width: 992px) {
+    #single-product .lu-pagos-compacto .lu-pagos-item {
+        font-size: 1.05rem;
+        padding: 0.75rem 0;
+    }
+
+    #single-product .lu-vidriera-compacto {
+        font-size: 0.95rem;
+    }
+
+    #single-product .js-product-payments-container .btn-link,
+    #single-product .js-product-payments-container a {
+        font-size: 0.9rem;
+    }
+}
