@@ -23,8 +23,11 @@
 </section>
 
 <section class="lu-probatelo-img" data-store="home-image-text-module">
-    <img src="{{ 'images/probatelo-diseno.jpg' | static_url }}" width="2208" height="1440" loading="lazy"
-        alt="Probátelo en las tiendas. Contá con nosotros y dejá la elección de tus looks en nuestras manos. Guardá en la wishlist lo que te guste y vení a probártelo a cualquiera de nuestras tiendas. Lomitas y Banfield: accedé a un 20% de descuento abonando en efectivo o hasta 6 cuotas sin interés con tarjetas bancarizadas y American Express. Foto de nuestra tienda de Belgrano 1470, Banfield.">
+    {# Diseno nuevo (Santiago, 2026-09-29): 16:9, con un cuadrado marron a la
+       derecha (desde el 47.24% del ancho) donde pasan las fotos de las tiendas.
+       Original 7680x4320, servido a 2560x1440. #}
+    <img src="{{ 'images/probatelo-diseno-2.jpg' | static_url }}" width="2560" height="1440" loading="lazy"
+        alt="Probátelo en las tiendas. Contá con nosotros y dejá la elección de tus looks en nuestras manos. Guardá en la wishlist lo que te guste y vení a probártelo a cualquiera de nuestras tiendas. Lomitas y Banfield: accedé a un 20% de descuento abonando en efectivo o hasta 6 cuotas sin interés con tarjetas bancarizadas y American Express.">
     <a class="lu-probatelo-img-link" href="{{ store.url }}/locales/">{{ 'Conocé nuestras tiendas' | translate }}</a>
 
     {# Las 3 tiendas pasando como slide sobre la mitad derecha de la imagen
@@ -34,12 +37,12 @@
        reducido queda en la primera. #}
     <div class="lu-locales js-lu-locales" aria-label="{{ 'Nuestras tiendas' | translate }}">
         {% for local in [
-            ['local-banfield.jpg', 'Belgrano 1470 - Banfield'],
-            ['local-espana.jpg', 'España 137 - Lomas de Zamora'],
-            ['local-esquina.jpg', 'España 202 y Loria - Lomas de Zamora']
+            ['local-banfield-2.jpg', 'Belgrano 1470 - Banfield'],
+            ['local-espana-2.jpg', 'España 137 - Lomas de Zamora'],
+            ['local-esquina-2.jpg', 'España 202 y Loria - Lomas de Zamora']
         ] %}
             <figure class="lu-local{% if loop.first %} is-activo{% endif %}">
-                <img src="{{ ('images/' ~ local[0]) | static_url }}" alt="{{ 'Tienda de' | translate }} {{ local[1] }}" loading="lazy" width="1168" height="1440">
+                <img src="{{ ('images/' ~ local[0]) | static_url }}" alt="{{ 'Tienda de' | translate }} {{ local[1] }}" loading="lazy" width="810" height="1080">
                 <figcaption>{{ local[1] }}</figcaption>
             </figure>
         {% endfor %}

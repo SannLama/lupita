@@ -13113,3 +13113,31 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
     font-weight: 700;
     color: var(--lu-acento);
 }
+
+/*============================================================================
+  #Probatelo, diseno nuevo (Santiago, 2026-09-29)
+  probatelo-diseno-2.jpg: 16:9 con cuadrado marron desde el 47.24% del ancho,
+  donde pasan las fotos nuevas de las tiendas (810x1080, sin texto encima: la
+  direccion va en el pie de las tres). Texto del diseno: 11.46% a 38% de ancho,
+  termina al 65.6% del alto -> el link va debajo. El encaje del diseno ocupa el
+  5.21% del ancho: la tira que sigue hacia arriba (franja de 3 cajas y Best
+  Seller) se recorto del mismo diseno, encaje-probatelo-3.jpg.
+==============================================================================*/
+.lu-locales {
+    left: 47.24%;
+}
+
+.lu-local:first-child figcaption {
+    visibility: visible;
+}
+
+.lu-probatelo-img-link {
+    left: 11.46%;
+    top: 69.5%;
+}
+
+body .js-home-sections-container > .section-informative-banners::before,
+body .js-home-sections-container > .lu-abanico-seccion::before {
+    width: 5.21vw;
+    background-image: url("{{ 'images/encaje-probatelo-3.jpg' | static_url }}");
+}
