@@ -553,7 +553,8 @@ hr,
 #single-product .js-price-display {
     font-family: var(--lu-micro);
     font-weight: 700;
-    font-size: clamp(1rem, 2vw, 1.3rem);
+    /* un poco mas chico (Santiago, 2026-09-29): antes clamp(1rem, 2vw, 1.3rem) */
+    font-size: clamp(0.95rem, 1.7vw, 1.15rem);
     letter-spacing: 0.02em;
     color: var(--lu-gris);
 }
@@ -597,7 +598,8 @@ hr,
 
 #single-product .payment-discount-price-product-container,
 #single-product .payment-discount-price-product-container * {
-    font-size: clamp(1.6rem, 3.2vw, 2.2rem) !important;
+    /* un poco mas chico (Santiago, 2026-09-29): antes clamp(1.6rem, 3.2vw, 2.2rem) */
+    font-size: clamp(1.4rem, 2.6vw, 1.85rem) !important;
 }
 
 .lu-efectivo-item.payment-discount-price-product-container,
