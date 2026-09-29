@@ -13139,7 +13139,7 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
 body .js-home-sections-container > .section-informative-banners::before,
 body .js-home-sections-container > .lu-abanico-seccion::before {
     width: 5.21vw;
-    background-image: url("{{ 'images/encaje-probatelo-3.jpg' | static_url }}");
+    background-image: url("{{ 'images/encaje-probatelo-4.jpg' | static_url }}");
 }
 
 /* New collection en el menu de celular, legible (Santiago, 2026-09-29:

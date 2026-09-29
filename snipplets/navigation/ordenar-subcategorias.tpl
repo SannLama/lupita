@@ -20,13 +20,13 @@
             if (/^\S{1,3}\.\S{1,3}$/.test(t.trim())) return t.trim();
             return t.replace(/\s*\.\s*$/, '')
                 .replace(/\s*\.\s*/g, ' y ')
-                .replace(/\s+Y\s+/g, ' y ')
+                .replace(/\s+[Yy]\s+/g, ' & ')
                 .replace(/\s+/g, ' ')
                 .trim();
         }
         function clave(t) {
             return prolijo(t).toLowerCase().split(' ')
-                .filter(function (p) { return p && p !== 'y'; })
+                .filter(function (p) { return p && p !== 'y' && p !== '&'; })
                 .map(function (p) { return p.slice(0, 4); })
                 .join(' ');
         }
@@ -42,6 +42,11 @@
                     if (otra && !lista) { destino.appendChild(otra); }
                     else if (otra) { while (otra.firstChild) lista.appendChild(otra.firstChild); }
                     g.remove();
+                });
+                // "y" -> "&" tambien en los titulos de grupo (Santiago, 2026-09-29)
+                cont.querySelectorAll('.js-lu-grupo-titulo').forEach(function (t) {
+                    var n = t.textContent.replace(/\s+[Yy]\s+/g, ' & ');
+                    if (n !== t.textContent) t.textContent = n;
                 });
                 // Night out y Vestidos: solo "Ver todo" (Santiago, 2026-09-29)
                 Array.prototype.slice.call(cont.querySelectorAll(':scope > .js-lu-grupo')).forEach(function (g) {
