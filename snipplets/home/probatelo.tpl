@@ -30,8 +30,8 @@
     {# Las 3 tiendas pasando como slide sobre la mitad derecha de la imagen
        (Santiago, 2026-09-28). Arranca en el x=1040 de 2208 de la imagen, donde
        empieza su foto. Las fotos de Lomas estan llevadas al tono y grano de la
-       de Banfield del diseno. Cambia cada 4.5 s con fundido; se frena con el
-       mouse encima y con movimiento reducido queda en la primera. #}
+       de Banfield del diseno. Cambia cada 4 s con fundido; con movimiento
+       reducido queda en la primera. #}
     <div class="lu-locales js-lu-locales" aria-label="{{ 'Nuestras tiendas' | translate }}">
         {% for local in [
             ['local-banfield.jpg', 'Belgrano 1470 - Banfield'],
@@ -48,20 +48,36 @@
         </div>
     </div>
     <script>
+        {# Sin frenos largos (Santiago, 2026-09-29: "que no se pausen por mucho
+           tiempo cuando llegan al final"): antes se detenia con el mouse encima
+           (sin tope: si el cursor quedaba apoyado, no avanzaba mas) y las fotos
+           2 y 3 eran lazy e invisibles, asi que la primera vuelta esperaba a que
+           bajaran. Ahora las tres se precargan cuando la seccion se acerca, y
+           si la siguiente todavia no esta lista espera solo lo que falte. #}
         (function () {
             var c = document.querySelector('.js-lu-locales');
             if (!c) return;
             var fs = c.querySelectorAll('.lu-local'), ps = c.querySelectorAll('.lu-locales-puntos span');
+            var imgs = c.querySelectorAll('img');
+            var precargar = function () { imgs.forEach(function (im) { im.loading = 'eager'; }); };
+            if ('IntersectionObserver' in window) {
+                var io = new IntersectionObserver(function (e) {
+                    if (e[0].isIntersecting) { precargar(); io.disconnect(); }
+                }, { rootMargin: '800px 0px' });
+                io.observe(c);
+            } else { precargar(); }
             if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-            var i = 0, quieto = false;
-            c.addEventListener('mouseenter', function () { quieto = true; });
-            c.addEventListener('mouseleave', function () { quieto = false; });
-            setInterval(function () {
-                if (quieto || document.hidden) return;
+            var i = 0;
+            var lista = function (n) { var im = fs[n].querySelector('img'); return !im || (im.complete && im.naturalWidth > 0); };
+            var avanzar = function () {
+                var sig = (i + 1) % fs.length;
+                if (document.hidden || !lista(sig)) { setTimeout(avanzar, 300); return; }
                 fs[i].classList.remove('is-activo'); ps[i].classList.remove('is-activo');
-                i = (i + 1) % fs.length;
+                i = sig;
                 fs[i].classList.add('is-activo'); ps[i].classList.add('is-activo');
-            }, 4500);
+                setTimeout(avanzar, 4000);
+            };
+            setTimeout(avanzar, 4000);
         })();
     </script>
 </section>
