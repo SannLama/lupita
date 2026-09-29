@@ -12861,3 +12861,46 @@ body .section-banners-home .textbanner-text .btn.lu-ihb {
     margin: 0;
     padding-left: 1rem;
 }
+
+/* New collection mas compacto (Santiago, 2026-09-29: "no se puede bajar,
+   que no quede tan grande"): las columnas se reparten como en una revista
+   (column-count) en vez de filas de grilla donde la columna mas larga
+   estiraba toda la fila; letra y aire mas chicos; y un tope de alto con
+   scroll propio por si en una pantalla baja igual no entra. */
+@media (min-width: 992px) {
+    .lu-nav-desk-panel.lu-nc-panel {
+        max-height: calc(100vh - 7rem);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding-top: 0.8rem;
+        padding-bottom: 0.9rem;
+    }
+}
+
+.lu-nc-todo {
+    margin-bottom: 0.6rem;
+}
+
+.lu-nc-grupos {
+    display: block;
+    column-width: 10rem;
+    column-count: 5;
+    column-gap: 2rem;
+}
+
+.lu-nc-grupo {
+    break-inside: avoid;
+    padding-bottom: 0.9rem;
+}
+
+.lu-nav-desk-sublink.lu-nc-titulo {
+    margin-bottom: 0.35rem;
+}
+
+.lu-nc-items {
+    gap: 0.28rem;
+}
+
+.lu-nav-desk-sublink.lu-nc-item {
+    font-size: 0.68rem;
+}
