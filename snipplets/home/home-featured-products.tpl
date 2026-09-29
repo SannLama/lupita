@@ -146,16 +146,31 @@
                     for (var p = 0; p < puntos.length; p++) puntos[p].classList.toggle('activo', p === centro);
                 };
                 var listo = false;
+                {# Soltar al salir de la CARTA, no del contenedor (Santiago, 2026-09-29:
+                   "cuando saco el mouse sigue estando la animacion"): el contenedor
+                   mide hasta 80rem y con pocas cartas el mouse salia de la carta
+                   sin salir de el. La pausa corta evita que al pasar de una carta
+                   a la vecina el abanico vuelva y rebote. #}
+                var soltarT = null;
+                var soltar = function () {
+                    clearTimeout(soltarT);
+                    soltarT = setTimeout(function () {
+                        if (listo && activo !== null) { activo = null; dibujar(); }
+                    }, 90);
+                };
                 cartas.forEach(function (el) {
                     var enfocar = function () {
+                        clearTimeout(soltarT);
                         if (!listo || el.classList.contains('lu-abanico-fuera')) return;
                         var s = Number(el.dataset.slot);
                         if (activo !== s) { activo = s; dibujar(); }
                     };
                     el.addEventListener('mouseenter', enfocar);
                     el.addEventListener('focus', enfocar);
+                    el.addEventListener('mouseleave', soltar);
+                    el.addEventListener('blur', function () { if (!el.matches(':hover')) soltar(); });
                 });
-                cont.addEventListener('mouseleave', function () { if (listo && activo !== null) { activo = null; dibujar(); } });
+                cont.addEventListener('mouseleave', soltar);
                 window.addEventListener('resize', function () { if (listo) dibujar(); });
 
                 if (paginar) {
