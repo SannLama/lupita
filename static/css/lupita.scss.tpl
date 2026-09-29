@@ -13141,3 +13141,44 @@ body .js-home-sections-container > .lu-abanico-seccion::before {
     width: 5.21vw;
     background-image: url("{{ 'images/encaje-probatelo-3.jpg' | static_url }}");
 }
+
+/* New collection en el menu de celular, legible (Santiago, 2026-09-29:
+   "ordenar el menu en la version mobile para que cuando abra el new
+   collection sea todo mas legible"). Antes titulos de grupo y subcategorias
+   tenian el mismo formato (un renglon con linea cada uno) y era una lista
+   larga y pareja. Ahora: titulo de grupo en turquesa, versal chica; debajo
+   las subcategorias en dos columnas sin lineas; una linea entre grupos. */
+body .nav-primary .nav-list .list-subitems .lu-nc-grupo-movil {
+    padding: 0.9rem 1.25rem 0.8rem 2.5rem;
+    border-bottom: 1px solid var(--lu-linea);
+}
+
+body .nav-primary .nav-list .list-subitems .lu-nc-grupo-movil > .lu-nc-titulo {
+    padding: 0 0 0.45rem;
+    border: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--lu-acento);
+}
+
+body .nav-primary .nav-list .list-subitems .lu-nc-items-movil {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+body .nav-primary .nav-list .list-subitems .lu-nc-items-movil .nav-list-link {
+    padding: 0.4rem 0;
+    border: 0;
+    font-size: 0.9rem;
+    line-height: 1.25;
+}
+
+body .nav-primary .nav-list .list-subitems .lu-nc-items-movil .nav-list-link:hover {
+    background-color: transparent;
+    color: var(--lu-acento);
+}
