@@ -598,8 +598,9 @@ hr,
 
 #single-product .payment-discount-price-product-container,
 #single-product .payment-discount-price-product-container * {
-    /* un poco mas chico (Santiago, 2026-09-29): antes clamp(1.6rem, 3.2vw, 2.2rem) */
-    font-size: clamp(1.4rem, 2.6vw, 1.85rem) !important;
+    /* un poco mas grande que el precio con tarjeta y mas chico que el nombre
+       (Santiago, 2026-09-29). Antes clamp(1.4rem, 2.6vw, 1.85rem) */
+    font-size: clamp(1.15rem, 1.9vw, 1.45rem) !important;
 }
 
 .lu-efectivo-item.payment-discount-price-product-container,
