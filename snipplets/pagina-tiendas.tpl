@@ -13,10 +13,14 @@
 ==============================================================================*/#}
 
 {% set lu_ts = [
-	['tienda-1.jpg', settings.lupita_tienda_1_nombre, settings.lupita_tienda_1, settings.lupita_tienda_1_horario, settings.lupita_tienda_1_maps],
-	['tienda-2.jpg', settings.lupita_tienda_2_nombre, settings.lupita_tienda_2, settings.lupita_tienda_2_horario, settings.lupita_tienda_2_maps],
-	['tienda-3.jpg', settings.lupita_tienda_3_nombre, settings.lupita_tienda_3, settings.lupita_tienda_3_horario, settings.lupita_tienda_3_maps]
+	['tienda-1.jpg', settings.lupita_tienda_1_nombre, settings.lupita_tienda_1, settings.lupita_tienda_1_horario, settings.lupita_tienda_1_maps, 'local-espana-2.jpg'],
+	['tienda-2.jpg', settings.lupita_tienda_2_nombre, settings.lupita_tienda_2, settings.lupita_tienda_2_horario, settings.lupita_tienda_2_maps, 'local-esquina-2.jpg'],
+	['tienda-3.jpg', settings.lupita_tienda_3_nombre, settings.lupita_tienda_3, settings.lupita_tienda_3_horario, settings.lupita_tienda_3_maps, 'local-banfield-2.jpg']
 ] %}
+{# Fotos de las tiendas fijas en el theme (Santiago, 2026-09-29): las mismas
+   de Probatelo (static/images/local-*-2.jpg). Van por codigo y no por el
+   panel para no depender de "Publicar cambios"; si algun dia se quiere volver
+   a las del panel, usar lu_t[0] | has_custom_image como antes. #}
 {% set lu_ts_wa = store.whatsapp %}
 
 <section class="lu-tiendas-pag" data-store="page-tiendas">
@@ -28,11 +32,11 @@
 
 		<ul class="lu-tiendas-grilla list-unstyled">
 			{% for lu_t in lu_ts if lu_t[2] %}
-				{% set lu_t_foto = lu_t[0] | has_custom_image %}
+				{% set lu_t_foto = true %}
 				<li class="lu-tienda-card">
 					<figure class="lu-tienda-foto{% if not lu_t_foto %} lu-tienda-foto-vacia{% endif %}">
 						{% if lu_t_foto %}
-							<img class="lazyload" src="{{ 'images/empty-placeholder.png' | static_url }}" data-src="{{ lu_t[0] | static_url | settings_image_url('large') }}" alt="{{ lu_t[1] ?: lu_t[2] }}">
+							<img src="{{ ('images/' ~ lu_t[5]) | static_url }}" width="810" height="1080" loading="lazy" alt="{{ 'Tienda de' | translate }} {{ lu_t[1] ?: lu_t[2] }}">
 						{% else %}
 							{% include "snipplets/svg/logo-lupita.tpl" with {svg_custom_class: 'lu-tienda-logo'} %}
 						{% endif %}
