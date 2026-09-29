@@ -13182,3 +13182,62 @@ body .nav-primary .nav-list .list-subitems .lu-nc-items-movil .nav-list-link:hov
     background-color: transparent;
     color: var(--lu-acento);
 }
+
+/* New collection: titulos de cada categoria en negrita (Santiago, 2026-09-29) */
+body .lu-nav-desk-sublink.lu-nc-titulo,
+body .nav-primary .nav-list .list-subitems .lu-nc-grupo-movil > .lu-nc-titulo {
+    font-weight: 800 !important;
+}
+
+/*============================================================================
+  #Best Seller en una hilera (Santiago, 2026-09-29: "que los productos esten
+  todos en una hilera y que hagan la animacion de ir para arriba solamente").
+  Sin abanico: las cartas en fila, derechas, todas con nombre y precios, y al
+  pasar el mouse solo suben. El script del abanico sigue poniendo transform en
+  linea: se anula con !important. Si no entran, la fila se desliza de costado.
+==============================================================================*/
+.lu-abanico {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 2.5vw, 2rem);
+    height: auto;
+    padding: 1rem 0 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.lu-abanico::-webkit-scrollbar {
+    display: none;
+}
+
+.lu-abanico .lu-abanico-carta {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    flex: 0 0 var(--lu-carta);
+    transform: none !important;
+    opacity: 1 !important;
+    z-index: auto !important;
+    scroll-snap-align: center;
+    transition: transform 300ms cubic-bezier(0.34, 1.45, 0.64, 1) !important;
+}
+
+.lu-abanico .lu-abanico-carta:hover,
+.lu-abanico .lu-abanico-carta:focus-visible {
+    transform: translateY(-0.9rem) !important;
+}
+
+.lu-abanico .lu-abanico-dato {
+    opacity: 1;
+}
+
+.lu-abanico-nav {
+    display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lu-abanico .lu-abanico-carta:hover {
+        transform: none !important;
+    }
+}

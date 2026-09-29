@@ -15,7 +15,8 @@
     (function () {
         function texto(el) { return el ? el.textContent.replace(/\s+/g, ' ').trim() : ''; }
         function prolijo(t) {
-            // "Sa.Le" (sale) es una abreviatura, no dos palabras: se deja igual
+            // "Sa.Le" es la marca del sale: se escribe SA!LE (Santiago, 2026-09-29)
+            if (/^sa\s*\.\s*le$/i.test(t.trim())) return 'SA!LE';
             if (/^\S{1,3}\.\S{1,3}$/.test(t.trim())) return t.trim();
             return t.replace(/\s*\.\s*$/, '')
                 .replace(/\s*\.\s*/g, ' y ')
@@ -42,7 +43,23 @@
                     else if (otra) { while (otra.firstChild) lista.appendChild(otra.firstChild); }
                     g.remove();
                 });
-                cont.querySelectorAll('.js-lu-grupo-items').forEach(function (ul) {
+                // Night out y Vestidos: solo "Ver todo" (Santiago, 2026-09-29)
+                Array.prototype.slice.call(cont.querySelectorAll(':scope > .js-lu-grupo')).forEach(function (g) {
+                    var tit = g.querySelector('.js-lu-grupo-titulo');
+                    var ul = g.querySelector('.js-lu-grupo-items');
+                    if (!tit || !ul || !/night out|vestidos/i.test(texto(tit))) return;
+                    // "Vestidos, catsuits y sets" -> "Vestidos" (Santiago, 2026-09-29)
+                    if (/vestidos/i.test(texto(tit))) tit.textContent = 'Vestidos';
+                    var li = ul.firstElementChild ? ul.firstElementChild.cloneNode(true) : document.createElement('li');
+                    var a = li.querySelector('a') || li.appendChild(document.createElement('a'));
+                    a.href = tit.getAttribute('href');
+                    a.textContent = 'Ver todo';
+                    a.classList.add('lu-nc-ver-todo');
+                    ul.textContent = '';
+                    ul.appendChild(li);
+                    ul.setAttribute('data-lu-fijo', '1');
+                });
+                cont.querySelectorAll('.js-lu-grupo-items:not([data-lu-fijo])').forEach(function (ul) {
                     var vistos = {};
                     // entre repetidos gana la carga escrita con "Y" (sin typos)
                     var items = Array.prototype.slice.call(ul.children).sort(function (a, b) {
