@@ -45,7 +45,7 @@
                 {% elseif banner == 'banner_03' %}
                     {# Foto nueva de Night Out (Santiago, 2026-09-28), apaisada: se encuadra
                        sobre la modelo con .lu-foto-night-out #}
-                    {% set lu_foto_theme = 'images/night-out-2.jpg' %}
+                    {% set lu_foto_theme = 'images/night-out-3.jpg' %}
                 {% endif %}
                 {% set has_banner_text =  banner_title or banner_description or banner_button_text %}
 
