@@ -225,6 +225,9 @@
         {# Titulo al salir de la pestaña: "¡No te vayas!" mientras esta afuera #}
         {% include "snipplets/titulo-al-salir.tpl" %}
 
+        {# Precios redondeados al peso, sin centavos #}
+        {% include "snipplets/sin-centavos.tpl" %}
+
         {# Google reCAPTCHA on register page #}
 
         {% if template == 'account.register' %}

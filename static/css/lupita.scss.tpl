@@ -6641,6 +6641,12 @@ body #modal-cart .js-cart-total-container .h2.lu-tarjeta {
     font-size: 0.8rem;
 }
 
+/* Las 6 cuotas de la ficha (reemplazan al componente nativo, que iba en
+   turquesa): mismo color que tenia */
+#single-product .lu-cuotas-ficha {
+    color: var(--lu-acento);
+}
+
 .item-installments.lu-cuotas {
     font-family: var(--lu-texto);
     font-size: 0.78rem;
@@ -11139,6 +11145,9 @@ body .newsletter.lu-canal h3 {
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     line-height: 1.1;
     text-align: center;
+    /* En el color de la marca (Santiago, 2026-09-29: "marron o de la
+       marca"): acompana al precio en efectivo de la carta y a Probatelo */
+    color: var(--lu-acento);
 }
 
 .lu-abanico {

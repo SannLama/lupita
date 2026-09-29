@@ -86,11 +86,12 @@
 
         {# Installments #}
 
-        {% if show_payments_info %}
-            {% set max_installments_without_interests = product.get_max_installments(false) %}
-            {% set installments_without_interests = max_installments_without_interests and max_installments_without_interests.installment > 1 %}
-            {% set installment_text_weigth = installments_without_interests ? 'font-weight-bold' : '' %}
-            {{ component('installments', {'location' : 'product_detail', container_classes: { installment: "product-detail-installments text-center text-md-left mb-2 " ~ installment_text_weigth}}) }}
+        {# Siempre 6 cuotas sin interes, como la grilla y el home (Santiago,
+           2026-09-29). El componente nativo mostraba lo que informa el medio
+           de pago (3 cuotas). El valor lo recalcula sin-centavos.tpl al
+           cambiar de variante #}
+        {% if product.display_price %}
+            <div class="product-detail-installments lu-cuotas-ficha text-center text-md-left mb-2 font-weight-bold">{{ "6 cuotas sin interés de" | translate }} <span class="js-lu-cuotas-valor">{{ (product.price / 6) | money }}</span></div>
         {% endif %}
 
         <div class="form-row align-items-center align-items-start-md mb-4">
